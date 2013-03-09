@@ -6,3 +6,11 @@ SOURCES += \
     ../sprite_nodes/CCAnimationCache.cpp \
     ../sprite_nodes/CCAnimation.cpp
 
+HEADERS += \
+    ../sprite_nodes/CCSpriteFrameCache.h \
+    ../sprite_nodes/CCSpriteFrame.h \
+    ../sprite_nodes/CCSpriteBatchNode.h \
+    ../sprite_nodes/CCSprite.h \
+    ../sprite_nodes/CCAnimationCache.h \
+    ../sprite_nodes/CCAnimation.h
+
