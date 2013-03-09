@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #ifndef __CC_APPLICATION_MAC_QT_H__
-#define __CC_APPLICATION_MAC-QT_H__
+#define __CC_APPLICATION_MAC_QT_H__
 
 #include "platform/CCCommon.h"
 #include "platform/CCApplicationProtocol.h"

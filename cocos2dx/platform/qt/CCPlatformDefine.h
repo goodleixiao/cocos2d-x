@@ -7,7 +7,7 @@
 #if defined(_USRDLL)
     #define CC_DLL  Q_DECL_EXPORT
 #else
-    #define CC_DLL Q_DECL_IMPORT
+    #define CC_DLL  //Q_DECL_IMPORT
 #endif
 
 #if CC_DISABLE_ASSERT > 0

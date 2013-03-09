@@ -4,3 +4,9 @@ SOURCES += \
     ../textures/CCTextureAtlas.cpp \
     ../textures/CCTexture2D.cpp
 
+HEADERS += \
+    ../textures/CCTexturePVR.h \
+    ../textures/CCTextureCache.h \
+    ../textures/CCTextureAtlas.h \
+    ../textures/CCTexture2D.h
+

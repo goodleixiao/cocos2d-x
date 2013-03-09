@@ -13,7 +13,6 @@ include(actions.pri)
 include(base_nodes.pri)
 include(cocoa.pri)
 include(effects.pri)
-include(extensions.pri)
 include(keypad_dispatcher.pri)
 include(label_nodes.pri)
 include(layers_scenes_transitions_nodes.pri)
@@ -28,7 +27,7 @@ include(text_input_node.pri)
 include(textures.pri)
 include(tileMap_parallax_nodes.pri)
 include(touch_dispatcher.pri)
-
+include(kazmath.pri)
 win32 {
     TARGET = libcocos2d
 
@@ -58,7 +57,7 @@ unix {
 
     INCLUDEPATH += /usr/local/include \
             /usr/include/libxml2 \
-            ../../cocos2dx
+            ../cocos2dx
 
     LIBS += -L/usr/local/lib/ -lpng
     LIBS += -L/usr/local/lib/ -ljpeg
@@ -72,6 +71,8 @@ DEFINES += _USRDLL
 DEFINES += __QT__
 DEFINES += TARGET_MAC_QT
 INCLUDEPATH += ../platform \
+        ../platform/qt \
+        ../kazmath/include \
         ../include \
         ..
 
