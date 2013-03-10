@@ -21,17 +21,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include <Foundation/Foundation.h>
-#include <Cocoa/Cocoa.h>
+#include <QImage>
+#include <QPainter>
+#include <QFontDatabase>
+#include <QFont>
+#include <QMap>
 #include "CCDirector.h"
 #include "ccMacros.h"
 #include "CCImage.h"
 #include "CCFileUtils.h"
-#include "CCTexture2D.h"
+#include "textures/CCTexture2D.h"
 #include <string>
 #include <sys/stat.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <vector>
+#include <sstream>
 
 typedef struct
 {
@@ -84,205 +89,205 @@ typedef enum {
     
 } CCTexture2DPixelFormat;
 
-static bool _initPremultipliedATextureWithImage(CGImageRef image, NSUInteger POTWide, NSUInteger POTHigh, tImageInfo *pImageInfo)
-{
-    NSUInteger            i;
-    CGContextRef        context = nil;
-    unsigned char*        data = nil;;
-    CGColorSpaceRef        colorSpace;
-    unsigned char*        tempData;
-    unsigned int*        inPixel32;
-    unsigned short*        outPixel16;
-    bool                hasAlpha;
-    CGImageAlphaInfo    info;
-    CGSize                imageSize;
-    CCTexture2DPixelFormat    pixelFormat;
+//static bool _initPremultipliedATextureWithImage(CGImageRef image, NSUInteger POTWide, NSUInteger POTHigh, tImageInfo *pImageInfo)
+//{
+//    NSUInteger            i;
+//    CGContextRef        context = nil;
+//    unsigned char*        data = nil;;
+//    CGColorSpaceRef        colorSpace;
+//    unsigned char*        tempData;
+//    unsigned int*        inPixel32;
+//    unsigned short*        outPixel16;
+//    bool                hasAlpha;
+//    CGImageAlphaInfo    info;
+//    CGSize                imageSize;
+//    CCTexture2DPixelFormat    pixelFormat;
     
-    info = CGImageGetAlphaInfo(image);
-    hasAlpha = ((info == kCGImageAlphaPremultipliedLast) || (info == kCGImageAlphaPremultipliedFirst) || (info == kCGImageAlphaLast) || (info == kCGImageAlphaFirst) ? YES : NO);
+//    info = CGImageGetAlphaInfo(image);
+//    hasAlpha = ((info == kCGImageAlphaPremultipliedLast) || (info == kCGImageAlphaPremultipliedFirst) || (info == kCGImageAlphaLast) || (info == kCGImageAlphaFirst) ? YES : NO);
     
-    size_t bpp = CGImageGetBitsPerComponent(image);
-    colorSpace = CGImageGetColorSpace(image);
+//    size_t bpp = CGImageGetBitsPerComponent(image);
+//    colorSpace = CGImageGetColorSpace(image);
     
-    if(colorSpace) 
-    {
-        if(hasAlpha || bpp >= 8)
-        {
-            pixelFormat = kCCTexture2DPixelFormat_Default;
-        }
-        else 
-        {
-            pixelFormat = kCCTexture2DPixelFormat_RGB565;
-        }
-    } 
-    else  
-    {
-        // NOTE: No colorspace means a mask image
-        pixelFormat = kCCTexture2DPixelFormat_A8;
-    }
+//    if(colorSpace)
+//    {
+//        if(hasAlpha || bpp >= 8)
+//        {
+//            pixelFormat = kCCTexture2DPixelFormat_Default;
+//        }
+//        else
+//        {
+//            pixelFormat = kCCTexture2DPixelFormat_RGB565;
+//        }
+//    }
+//    else
+//    {
+//        // NOTE: No colorspace means a mask image
+//        pixelFormat = kCCTexture2DPixelFormat_A8;
+//    }
     
-    imageSize.width = CGImageGetWidth(image);
-    imageSize.height = CGImageGetHeight(image);
+//    imageSize.width = CGImageGetWidth(image);
+//    imageSize.height = CGImageGetHeight(image);
     
-    // Create the bitmap graphics context
+//    // Create the bitmap graphics context
     
-    switch(pixelFormat) 
-    {      
-        case kCCTexture2DPixelFormat_RGBA8888:
-        case kCCTexture2DPixelFormat_RGBA4444:
-        case kCCTexture2DPixelFormat_RGB5A1:
-            colorSpace = CGColorSpaceCreateDeviceRGB();
-            data = new unsigned char[POTHigh * POTWide * 4];
-            info = hasAlpha ? kCGImageAlphaPremultipliedLast : kCGImageAlphaNoneSkipLast; 
-            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, 4 * POTWide, colorSpace, info | kCGBitmapByteOrder32Big);                
-            CGColorSpaceRelease(colorSpace);
-            break;
+//    switch(pixelFormat)
+//    {
+//        case kCCTexture2DPixelFormat_RGBA8888:
+//        case kCCTexture2DPixelFormat_RGBA4444:
+//        case kCCTexture2DPixelFormat_RGB5A1:
+//            colorSpace = CGColorSpaceCreateDeviceRGB();
+//            data = new unsigned char[POTHigh * POTWide * 4];
+//            info = hasAlpha ? kCGImageAlphaPremultipliedLast : kCGImageAlphaNoneSkipLast;
+//            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, 4 * POTWide, colorSpace, info | kCGBitmapByteOrder32Big);
+//            CGColorSpaceRelease(colorSpace);
+//            break;
             
-        case kCCTexture2DPixelFormat_RGB565:
-            colorSpace = CGColorSpaceCreateDeviceRGB();
-            data = new unsigned char[POTHigh * POTWide * 4];
-            info = kCGImageAlphaNoneSkipLast;
-            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, 4 * POTWide, colorSpace, info | kCGBitmapByteOrder32Big);
-            CGColorSpaceRelease(colorSpace);
-            break;
-        case kCCTexture2DPixelFormat_A8:
-            data = new unsigned char[POTHigh * POTWide];
-            info = kCGImageAlphaOnly; 
-            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, POTWide, NULL, info);
-            break;            
-        default:
-            return false;
-    }
+//        case kCCTexture2DPixelFormat_RGB565:
+//            colorSpace = CGColorSpaceCreateDeviceRGB();
+//            data = new unsigned char[POTHigh * POTWide * 4];
+//            info = kCGImageAlphaNoneSkipLast;
+//            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, 4 * POTWide, colorSpace, info | kCGBitmapByteOrder32Big);
+//            CGColorSpaceRelease(colorSpace);
+//            break;
+//        case kCCTexture2DPixelFormat_A8:
+//            data = new unsigned char[POTHigh * POTWide];
+//            info = kCGImageAlphaOnly;
+//            context = CGBitmapContextCreate(data, POTWide, POTHigh, 8, POTWide, NULL, info);
+//            break;
+//        default:
+//            return false;
+//    }
     
-    CGRect rect;
-    rect.size.width = POTWide;
-    rect.size.height = POTHigh;
-    rect.origin.x = 0;
-    rect.origin.y = 0;
+//    CGRect rect;
+//    rect.size.width = POTWide;
+//    rect.size.height = POTHigh;
+//    rect.origin.x = 0;
+//    rect.origin.y = 0;
     
-    CGContextClearRect(context, rect);
-    CGContextTranslateCTM(context, 0, 0);
-    CGContextDrawImage(context, rect, image);
+//    CGContextClearRect(context, rect);
+//    CGContextTranslateCTM(context, 0, 0);
+//    CGContextDrawImage(context, rect, image);
     
-    // Repack the pixel data into the right format
+//    // Repack the pixel data into the right format
     
-    if(pixelFormat == kCCTexture2DPixelFormat_RGB565) 
-    {
-        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
-        tempData = new unsigned char[POTHigh * POTWide * 2];
-        inPixel32 = (unsigned int*)data;
-        outPixel16 = (unsigned short*)tempData;
-        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
-        {
-            *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);
-        }
+//    if(pixelFormat == kCCTexture2DPixelFormat_RGB565)
+//    {
+//        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
+//        tempData = new unsigned char[POTHigh * POTWide * 2];
+//        inPixel32 = (unsigned int*)data;
+//        outPixel16 = (unsigned short*)tempData;
+//        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
+//        {
+//            *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);
+//        }
 
-        delete[] data;
-        data = tempData;
+//        delete[] data;
+//        data = tempData;
         
-    }
-    else if (pixelFormat == kCCTexture2DPixelFormat_RGBA4444) 
-    {
-        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRGGGGBBBBAAAA"
-        tempData = new unsigned char[POTHigh * POTWide * 2];
-        inPixel32 = (unsigned int*)data;
-        outPixel16 = (unsigned short*)tempData;
-        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
-        {
-            *outPixel16++ = 
-            ((((*inPixel32 >> 0) & 0xFF) >> 4) << 12) | // R
-            ((((*inPixel32 >> 8) & 0xFF) >> 4) << 8) | // G
-            ((((*inPixel32 >> 16) & 0xFF) >> 4) << 4) | // B
-            ((((*inPixel32 >> 24) & 0xFF) >> 4) << 0); // A
-        }       
+//    }
+//    else if (pixelFormat == kCCTexture2DPixelFormat_RGBA4444)
+//    {
+//        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRGGGGBBBBAAAA"
+//        tempData = new unsigned char[POTHigh * POTWide * 2];
+//        inPixel32 = (unsigned int*)data;
+//        outPixel16 = (unsigned short*)tempData;
+//        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
+//        {
+//            *outPixel16++ =
+//            ((((*inPixel32 >> 0) & 0xFF) >> 4) << 12) | // R
+//            ((((*inPixel32 >> 8) & 0xFF) >> 4) << 8) | // G
+//            ((((*inPixel32 >> 16) & 0xFF) >> 4) << 4) | // B
+//            ((((*inPixel32 >> 24) & 0xFF) >> 4) << 0); // A
+//        }
         
-        delete[] data;
-        data = tempData;
+//        delete[] data;
+//        data = tempData;
         
-    }
-    else if (pixelFormat == kCCTexture2DPixelFormat_RGB5A1) 
-    {
-        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGBBBBBA"
-        tempData = new unsigned char[POTHigh * POTWide * 2];
-        inPixel32 = (unsigned int*)data;
-        outPixel16 = (unsigned short*)tempData;
-        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
-        {
-            *outPixel16++ = 
-            ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | // R
-            ((((*inPixel32 >> 8) & 0xFF) >> 3) << 6) | // G
-            ((((*inPixel32 >> 16) & 0xFF) >> 3) << 1) | // B
-            ((((*inPixel32 >> 24) & 0xFF) >> 7) << 0); // A
-        }
+//    }
+//    else if (pixelFormat == kCCTexture2DPixelFormat_RGB5A1)
+//    {
+//        //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGBBBBBA"
+//        tempData = new unsigned char[POTHigh * POTWide * 2];
+//        inPixel32 = (unsigned int*)data;
+//        outPixel16 = (unsigned short*)tempData;
+//        for(i = 0; i < POTWide * POTHigh; ++i, ++inPixel32)
+//        {
+//            *outPixel16++ =
+//            ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | // R
+//            ((((*inPixel32 >> 8) & 0xFF) >> 3) << 6) | // G
+//            ((((*inPixel32 >> 16) & 0xFF) >> 3) << 1) | // B
+//            ((((*inPixel32 >> 24) & 0xFF) >> 7) << 0); // A
+//        }
                 
-        delete[] data;
-        data = tempData;
-    }
+//        delete[] data;
+//        data = tempData;
+//    }
     
-    // should be after calling super init
-    pImageInfo->isPremultipliedAlpha = true;
-    pImageInfo->hasAlpha = true;
-    pImageInfo->bitsPerComponent = bpp;
-    pImageInfo->width = POTWide;
-    pImageInfo->height = POTHigh;
+//    // should be after calling super init
+//    pImageInfo->isPremultipliedAlpha = true;
+//    pImageInfo->hasAlpha = true;
+//    pImageInfo->bitsPerComponent = bpp;
+//    pImageInfo->width = POTWide;
+//    pImageInfo->height = POTHigh;
     
-    if (pImageInfo->data)
-    {
-        delete [] pImageInfo->data;
-    }
-    pImageInfo->data = data;
+//    if (pImageInfo->data)
+//    {
+//        delete [] pImageInfo->data;
+//    }
+//    pImageInfo->data = data;
     
-    CGContextRelease(context);
-    return true;
-}
-// TODO: rename _initWithImage, it also makes a draw call.
-static bool _initWithImage(CGImageRef CGImage, tImageInfo *pImageinfo, double scaleX, double scaleY)
-{
-    NSUInteger POTWide, POTHigh;
+//    CGContextRelease(context);
+//    return true;
+//}
+//// TODO: rename _initWithImage, it also makes a draw call.
+//static bool _initWithImage(CGImageRef CGImage, tImageInfo *pImageinfo, double scaleX, double scaleY)
+//{
+//    NSUInteger POTWide, POTHigh;
     
-    if(CGImage == NULL) 
-    {
-        return false;
-    }
+//    if(CGImage == NULL)
+//    {
+//        return false;
+//    }
     
-	//if (cocos2d::CCImage::getIsScaleEnabled())
-	if( cocos2d::CCDirector::sharedDirector()->getContentScaleFactor() > 1.0f )
-	{
-		POTWide = CGImageGetWidth(CGImage) * scaleX;
-		POTHigh = CGImageGetHeight(CGImage) * scaleY;
-	}
-	else 
-	{
-		POTWide = CGImageGetWidth(CGImage);
-		POTHigh = CGImageGetHeight(CGImage);
-	}
+//	//if (cocos2d::CCImage::getIsScaleEnabled())
+//	if( cocos2d::CCDirector::sharedDirector()->getContentScaleFactor() > 1.0f )
+//	{
+//		POTWide = CGImageGetWidth(CGImage) * scaleX;
+//		POTHigh = CGImageGetHeight(CGImage) * scaleY;
+//	}
+//	else
+//	{
+//		POTWide = CGImageGetWidth(CGImage);
+//		POTHigh = CGImageGetHeight(CGImage);
+//	}
 
     
-    // load and draw image
-    return _initPremultipliedATextureWithImage(CGImage, POTWide, POTHigh, pImageinfo);
-}
+//    // load and draw image
+//    return _initPremultipliedATextureWithImage(CGImage, POTWide, POTHigh, pImageinfo);
+//}
 
 static bool _initWithFile(const char* path, tImageInfo *pImageinfo)
 {
-    CGImageRef                CGImage;    
-    NSImage                    *jpg;
+//    CGImageRef                CGImage;
+//    NSImage                    *jpg;
     //NSImage                    *png;
     bool            ret;
     
     // convert jpg to png before loading the texture
     
-    NSString *fullPath = [NSString stringWithUTF8String:path];
-    jpg = [[NSImage alloc] initWithContentsOfFile: fullPath];
-    //png = [[NSImage alloc] initWithData:UIImagePNGRepresentation(jpg)];
-    CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)[jpg TIFFRepresentation], NULL);
-    CGImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+//    NSString *fullPath = [NSString stringWithUTF8String:path];
+//    jpg = [[NSImage alloc] initWithContentsOfFile: fullPath];
+//    //png = [[NSImage alloc] initWithData:UIImagePNGRepresentation(jpg)];
+//    CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)[jpg TIFFRepresentation], NULL);
+//    CGImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
     
-    ret = _initWithImage(CGImage, pImageinfo, 1.0, 1.0);
+//    ret = _initWithImage(CGImage, pImageinfo, 1.0, 1.0);
     
-    //[png release];
-    [jpg release];
-    if (CGImage) CFRelease(CGImage);
-    if (source) CFRelease(source);
+//    //[png release];
+//    [jpg release];
+//    if (CGImage) CFRelease(CGImage);
+//    if (source) CFRelease(source);
   
     return ret;
 }
@@ -294,16 +299,16 @@ static bool _initWithData(void * pBuffer, int length, tImageInfo *pImageinfo, do
     
     if (pBuffer) 
     {
-        CGImageRef CGImage;
-        NSData *data;
+//        CGImageRef CGImage;
+//        NSData *data;
         
-        data = [NSData dataWithBytes:pBuffer length:length];
-		CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data, NULL);
-        CGImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+//        data = [NSData dataWithBytes:pBuffer length:length];
+//		CGImageSourceRef source = CGImageSourceCreateWithData((CFDataRef)data, NULL);
+//        CGImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
         
-        ret = _initWithImage(CGImage, pImageinfo, scaleX, scaleY);
-        if (CGImage) CFRelease(CGImage);
-        if (source) CFRelease(source);
+//        ret = _initWithImage(CGImage, pImageinfo, scaleX, scaleY);
+//        if (CGImage) CFRelease(CGImage);
+//        if (source) CFRelease(source);
     }
     return ret;
 }
@@ -311,28 +316,6 @@ static bool _initWithData(void * pBuffer, int length, tImageInfo *pImageinfo, do
 static bool _isValidFontName(const char *fontName)
 {
     bool ret = false;
-#if 0 
-    NSString *fontNameNS = [NSString stringWithUTF8String:fontName];
-    
-    for (NSString *familiName in [NSFont familyNames]) 
-    {
-        if ([familiName isEqualToString:fontNameNS]) 
-        {
-            ret = true;
-            goto out;
-        }
-        
-        for(NSString *font in [NSFont fontNamesForFamilyName: familiName])
-        {
-            if ([font isEqualToString: fontNameNS])
-            {
-                ret = true;
-                goto out;
-            }
-        }
-    }
-#endif
-    out:
     return ret;
 }
 
@@ -344,143 +327,197 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
 	CCAssert(pInfo, "Invalid pInfo");
 	
 	do {
-		NSString * string  = [NSString stringWithUTF8String:pText];
-		//string = [NSString stringWithFormat:@"d\r\nhello world hello kitty Hello what %@", string];
-		
-		// font
-		NSFont *font = [[NSFontManager sharedFontManager]
-						 fontWithFamily:[NSString stringWithUTF8String:pFontName]
-						traits:NSUnboldFontMask | NSUnitalicFontMask
-						 weight:0
-						 size:nSize];
-		
-		if (font == nil) {
-			font = [[NSFontManager sharedFontManager]
-					fontWithFamily:@"Arial"
-					traits:NSUnboldFontMask | NSUnitalicFontMask
-					weight:0
-					size:nSize];
-		}
-		CC_BREAK_IF(!font);
-		
-		// color
-		NSColor* foregroundColor;
-		if (pStrokeColor) {
-			foregroundColor = [NSColor colorWithDeviceRed:pStrokeColor->r/255.0 green:pStrokeColor->g/255.0 blue:pStrokeColor->b/255.0 alpha:1];
-		} else {
-			foregroundColor = [NSColor whiteColor];
-		}
-		
-		
-		// alignment, linebreak
-		unsigned uHoriFlag = eAlign & 0x0f;
-		unsigned uVertFlag = (eAlign & 0xf0) >> 4;
-		NSTextAlignment align = (2 == uHoriFlag) ? NSRightTextAlignment
-			: (3 == uHoriFlag) ? NSCenterTextAlignment
-			: NSLeftTextAlignment;
-		
-		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-		[paragraphStyle setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
-		[paragraphStyle setLineBreakMode:NSLineBreakByCharWrapping];
-		[paragraphStyle setAlignment:align];
+        QString fontPath(CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pFontName));
 
-		// attribute
-		NSDictionary* tokenAttributesDict = [NSDictionary dictionaryWithObjectsAndKeys:
-											 foregroundColor,NSForegroundColorAttributeName,
-											 font, NSFontAttributeName,
-											 paragraphStyle, NSParagraphStyleAttributeName, nil];
+        QString fontFamily = pFontName;
+        QString fontStyle = "Normal";
 
-		// linebreak
-		if (pInfo->width > 0) {
-			if ([string sizeWithAttributes:tokenAttributesDict].width > pInfo->width) {
-				NSMutableString *lineBreak = [[[NSMutableString alloc] init] autorelease];
-				NSUInteger length = [string length];
-				NSRange range = NSMakeRange(0, 1);
-				NSUInteger width = 0;
-				for (NSUInteger i = 0; i < length; i++) {
-					range.location = i;
-					[lineBreak appendString:[string substringWithRange:range]];
-					width = [lineBreak sizeWithAttributes:tokenAttributesDict].width;
-					if (width > pInfo->width) {
-						[lineBreak insertString:@"\r\n" atIndex:[lineBreak length] - 1];
-					}
-				}
-				string = lineBreak;
-			}
-		}
+        bool fontLoaded = false;
 
-		NSAttributedString *stringWithAttributes =[[[NSAttributedString alloc] initWithString:string
-										 attributes:tokenAttributesDict] autorelease];
-				
-		NSSize realDimensions = [stringWithAttributes size];
-		// Mac crashes if the width or height is 0
-		CC_BREAK_IF(realDimensions.width <= 0 || realDimensions.height <= 0);
-				
-		CGSize dimensions = CGSizeMake(pInfo->width, pInfo->height);
-		
-	
-		if(dimensions.width <= 0 && dimensions.height <= 0) {
-			dimensions.width = realDimensions.width;
-			dimensions.height = realDimensions.height;
-		} else if (dimensions.height <= 0) {
-			dimensions.height = realDimensions.height;
-		}
+        // try to load .ttf font first
+        if(!fontPath.endsWith(".ttf"))
+        {
+            QString fontPathTTF(fontPath);
+            fontPathTTF.append(".ttf");
 
-		NSUInteger POTWide = (NSUInteger)dimensions.width;
-		NSUInteger POTHigh = (NSUInteger)(MAX(dimensions.height, realDimensions.height));
-		unsigned char*			data;
-		//Alignment
-			
-		CGFloat xPadding = 0;
-		switch (align) {
-			case NSLeftTextAlignment: xPadding = 0; break;
-			case NSCenterTextAlignment: xPadding = (dimensions.width-realDimensions.width)/2.0f; break;
-			case NSRightTextAlignment: xPadding = dimensions.width-realDimensions.width; break;
-			default: break;
-		}
+            // font already loaded?
+            QMap<QString, QString>::iterator fontIter = loadedFontMap.find(fontPathTTF);
+            if(fontIter == loadedFontMap.end())
+            {
+                int fontID = QFontDatabase::addApplicationFont(fontPathTTF);
+                if(fontID != -1)
+                {
+                    QStringList familyList = QFontDatabase::applicationFontFamilies(fontID);
+
+                    if(familyList.size() > 0)
+                        fontFamily = familyList.at(0);
+
+                    loadedFontMap.insert(fontPathTTF, fontFamily);
+                    fontLoaded = true;
+                }
+
+                //loadedFontMap.insert(fontPathTTF, fontFamily);
+            }
+        }
+
+        if(!fontLoaded)
+        {
+            // font already loaded?
+            QMap<QString, QString>::iterator fontIter = loadedFontMap.find(fontPath);
+            if(fontIter == loadedFontMap.end())
+            {
+                int fontID = QFontDatabase::addApplicationFont(fontPath);
+                if(fontID != -1)
+                {
+                    QStringList familyList = QFontDatabase::applicationFontFamilies(fontID);
+
+                    if(familyList.size() > 0)
+                        fontFamily = familyList.at(0);
+                }
+
+                loadedFontMap.insert(fontPath, fontFamily);
+            }
+            else
+            {
+                fontFamily = fontIter.value();
+            }
+        }
+
+        CC_BREAK_IF(!fontFamily);
+
+        int m_nWidth = 0;
+        int m_nHeight = 0;
+        bool m_bHasAlpha = true;
+        bool m_bPreMulti = false;
+        unsigned char * m_pData = NULL;
+        int m_nBitsPerComponent = 0;
+
+        int nWidth = pInfo->width;
+        int nHeight = pInfo->height;
 		
-		CGFloat yPadding = (1 == uVertFlag || realDimensions.height >= dimensions.height) ? 0	// align to top
-		: (2 == uVertFlag) ? dimensions.height - realDimensions.height							// align to bottom
-		: (dimensions.height - realDimensions.height) / 2.0f;									// align to center
-		
-		
-		NSRect textRect = NSMakeRect(xPadding, POTHigh - dimensions.height + yPadding, realDimensions.width, realDimensions.height);
-		//Disable antialias
-		
-		[[NSGraphicsContext currentContext] setShouldAntialias:NO];	
-		
-		NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(POTWide, POTHigh)];
-		[image lockFocus];	
-		
-		//[stringWithAttributes drawAtPoint:NSMakePoint(xPadding, offsetY)]; // draw at offset position	
-		[stringWithAttributes drawInRect:textRect];
-		//[stringWithAttributes drawInRect:textRect withAttributes:tokenAttributesDict];
-		NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect (0.0f, 0.0f, POTWide, POTHigh)];
-		[image unlockFocus];
-		
-		data = (unsigned char*) [bitmap bitmapData];  //Use the same buffer to improve the performance.
-		
-		NSUInteger textureSize = POTWide*POTHigh*4;
+        QFontDatabase fd;
+        QFont f = fd.font(fontFamily, fontStyle, nSize);
+        f.setPixelSize(nSize);
+
+        QFontMetrics fm(f);
+
+        if (nWidth)
+        {
+            m_nWidth = (short)nWidth;
+        }
+        else
+        {
+            m_nWidth = fm.width(QString(pText));
+        }
+
+        if (nHeight)
+        {
+            m_nHeight = (short)nHeight;
+        }
+        else
+        {
+            m_nHeight = fm.height();
+        }
+
+        m_bHasAlpha = true;
+        m_bPreMulti = false;
+        m_pData = new unsigned char[m_nWidth * m_nHeight * 4];
+        memset(m_pData, 0, m_nWidth * m_nHeight * 4);
+        m_nBitsPerComponent = 8;
+
+        QImage image(m_pData, m_nWidth, m_nHeight, QImage::Format_ARGB32_Premultiplied);
+        QPainter painter(&image);
+        painter.setFont(f);
+        painter.setPen(Qt::white);
+
+        int flags = 0;
+        switch (eAlignMask)
+        {
+        case kAlignCenter: // Horizontal center and vertical center.
+            flags |= Qt::AlignHCenter;
+            flags |= Qt::AlignVCenter;
+            break;
+        case kAlignTop: // Horizontal center and vertical top.
+            flags |= Qt::AlignHCenter;
+            flags |= Qt::AlignTop;
+            break;
+        case kAlignTopRight: // Horizontal right and vertical top.
+            flags |= Qt::AlignRight;
+            flags |= Qt::AlignTop;
+            break;
+        case kAlignRight: // Horizontal right and vertical center.
+            flags |= Qt::AlignRight;
+            flags |= Qt::AlignVCenter;
+            break;
+        case kAlignBottomRight: // Horizontal right and vertical bottom.
+            flags |= Qt::AlignRight;
+            flags |= Qt::AlignBottom;
+            break;
+        case kAlignBottom: // Horizontal center and vertical bottom.
+            flags |= Qt::AlignHCenter;
+            flags |= Qt::AlignBottom;
+            break;
+        case kAlignBottomLeft: // Horizontal left and vertical bottom.
+            flags |= Qt::AlignLeft;
+            flags |= Qt::AlignBottom;
+            break;
+        case kAlignLeft: // Horizontal left and vertical center.
+            flags |= Qt::AlignLeft;
+            flags |= Qt::AlignVCenter;
+            break;
+        case kAlignTopLeft: // Horizontal left and vertical top.
+            flags |= Qt::AlignLeft;
+            flags |= Qt::AlignTop;
+            break;
+        }
+
+        painter.drawText(QRect(0, 0, m_nWidth, m_nHeight), flags, QString(pText));
+        painter.end();
+
 		
 		unsigned char* dataNew = new unsigned char[textureSize];
 		if (dataNew) {
 			memcpy(dataNew, data, textureSize);
 			// output params
-			pInfo->width = POTWide;
-			pInfo->height = POTHigh;
-			pInfo->data = dataNew;
-			pInfo->hasAlpha = true;
-			pInfo->isPremultipliedAlpha = true;
-			pInfo->bitsPerComponent = 8;
+            pInfo->width = m_nWidth;
+            pInfo->height = m_nHeight;
+            pInfo->data = m_pData;
+            pInfo->hasAlpha = m_bHasAlpha;
+            pInfo->isPremultipliedAlpha = m_bPreMulti;
+            pInfo->bitsPerComponent = m_nBitsPerComponent;
 			bRet = true;
 		}
-		[bitmap release];
-		[image release];
 	} while (0);
     return bRet;
 }
 
 NS_CC_BEGIN
+
+// TODO: Get rid of this function
+static int getBitsPerComponent(const QImage::Format fmt)
+{
+    switch(fmt)
+    {
+    case QImage::Format_Mono: return 1;
+    case QImage::Format_MonoLSB: return 1;
+    case QImage::Format_Indexed8: return 8;
+    case QImage::Format_RGB32: return 8;
+    case QImage::Format_ARGB32: return 8;
+    case QImage::Format_ARGB32_Premultiplied: return 8;
+    case QImage::Format_RGB16: return 5;
+    case QImage::Format_ARGB8565_Premultiplied: return 8;
+    case QImage::Format_RGB666: return 6;
+    case QImage::Format_ARGB6666_Premultiplied: return 6;
+    case QImage::Format_RGB555: return 5;
+    case QImage::Format_ARGB8555_Premultiplied: return 5;
+    case QImage::Format_RGB888: return 8;
+    case QImage::Format_RGB444: return 4;
+    case QImage::Format_ARGB4444_Premultiplied: return 4;
+    default:
+        CCLOGERROR("Unknown QImage::Format %d", fmt);
+        return 0;
+    }
+}
 
 static bool m_bEnabledScale = true;
 
@@ -868,12 +905,109 @@ bool CCImage::initWithString(
     return true;
 }
 
+
+bool CCImage::_initWithJpgData(void * data, int nSize)
+{
+    QImage image;
+
+    bool bRet = image.loadFromData((const uchar*)data, nSize, "JPG");
+    if (!bRet)
+        return false;
+
+    // TODO: Better/faster conversion
+    QImage convertedImg = image.convertToFormat(
+                QImage::Format_ARGB32_Premultiplied);
+    convertedImg = convertedImg.rgbSwapped();
+
+    m_bPreMulti = true;
+    m_bHasAlpha = convertedImg.hasAlphaChannel();
+    m_nBitsPerComponent = cocos2d::getBitsPerComponent(convertedImg.format());
+    m_nHeight = (short)convertedImg.height();
+    m_nWidth = (short)convertedImg.width();
+    m_pData  = new unsigned char[convertedImg.byteCount()];
+    memcpy(m_pData, convertedImg.bits(), convertedImg.byteCount());
+
+    return bRet;
+}
+
+bool CCImage::_initWithPngData(void * pData, int nDatalen)
+{
+    QImage image;
+
+    bool bRet = image.loadFromData((const uchar*)pData, nDatalen, "PNG");
+    if (!bRet)
+        return false;
+
+    // TODO: Better/faster conversion
+    QImage convertedImg = image.convertToFormat(
+                QImage::Format_ARGB32_Premultiplied);
+    convertedImg = convertedImg.rgbSwapped();
+
+    m_bPreMulti = true;
+    m_bHasAlpha = convertedImg.hasAlphaChannel();
+    m_nBitsPerComponent = cocos2d::getBitsPerComponent(convertedImg.format());
+    m_nHeight = (short)convertedImg.height();
+    m_nWidth = (short)convertedImg.width();
+    m_pData  = new unsigned char[convertedImg.byteCount()];
+    memcpy(m_pData, convertedImg.bits(), convertedImg.byteCount());
+
+    return bRet;
+}
+
+bool CCImage::_initWithTiffData(void* pData, int nDatalen)
+{
+    QImage image;
+
+    bool bRet = image.loadFromData((const uchar*)pData, nDatalen, "TIFF");
+    if (!bRet)
+        return false;
+
+    // TODO: Better/faster conversion
+    QImage convertedImg = image.convertToFormat(
+                QImage::Format_ARGB32_Premultiplied);
+    convertedImg = convertedImg.rgbSwapped();
+
+    m_bPreMulti = true;
+    m_bHasAlpha = convertedImg.hasAlphaChannel();
+    m_nBitsPerComponent = cocos2d::getBitsPerComponent(convertedImg.format());
+    m_nHeight = (short)convertedImg.height();
+    m_nWidth = (short)convertedImg.width();
+    m_pData  = new unsigned char[convertedImg.byteCount()];
+    memcpy(m_pData, convertedImg.bits(), convertedImg.byteCount());
+
+    return bRet;
+}
+
 bool CCImage::saveToFile(const char *pszFilePath, bool bIsToRGB)
 {
 	assert(false);
 	return false;
 }
 
+bool CCImage::_saveImageToPNG(const char *pszFilePath, bool bIsToRGB)
+{
+    QImage image(m_pData, m_nWidth, m_nHeight, QImage::Format_ARGB32);
+
+    if(bIsToRGB)
+        image = image.convertToFormat(QImage::Format_RGB32);
+
+    image = image.rgbSwapped();
+
+    bool bRet = image.save(pszFilePath, "PNG");
+
+    return bRet;
+}
+
+bool CCImage::_saveImageToJPG(const char *pszFilePath)
+{
+    QImage image(m_pData, m_nWidth, m_nHeight, QImage::Format_ARGB32);
+
+    image = image.rgbSwapped();
+
+    bool bRet = image.save(pszFilePath, "JPG");
+
+    return bRet;
+}
 
 
 NS_CC_END
