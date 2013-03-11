@@ -38,6 +38,9 @@ THE SOFTWARE.
 #include <vector>
 #include <sstream>
 
+#define __CC_PLATFORM_IMAGE_CPP__
+#include "CCImageCommon_cpp.h"
+
 
 QMap<QString, QString> loadedFontMap;
 
@@ -586,82 +589,6 @@ bool isFileExists(const char* szFilePath)
 	return true;
 }
 
-CCImage::CCImage()
-: m_nWidth(0)
-, m_nHeight(0)
-, m_nBitsPerComponent(0)
-, m_pData(0)
-, m_bHasAlpha(false)
-, m_bPreMulti(false)
-{
-    
-}
-
-CCImage::~CCImage()
-{
-    CC_SAFE_DELETE_ARRAY(m_pData);
-}
-
-bool CCImage::initWithImageFile(const char * strPath, EImageFormat eImgFmt/* = eFmtPng*/)
-{
- 	std::string strTemp = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(strPath);
-	if (m_bEnabledScale)
-	{
-		if (!isFileExists(strTemp.c_str()))
-		{
-			if (strTemp.rfind("@2x") == std::string::npos)
-			{
-				int t = strTemp.rfind(".");
-				if (t != std::string::npos)
-				{
-					strTemp.insert(t, "@2x");
-				}
-/*				CCSize size = CCDirector::sharedDirector()->getWinSize();		
-	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-				m_dScaleX = size.width/800.0f;
-				m_dScaleY = size.height/480.0f;
-	#else
-				m_dScaleX = size.width/960.0f;
-				m_dScaleY = size.height/640.0f;
-				
-	#endif
-*/
-			}
-		}    
-		else
-		{
-//			m_dScaleX = 1.0;
-//			m_dScaleY = 1.0;
-		}
-	}
-	
-//	CCFileData tempData(strTemp.c_str(), "rb");			
-//	return initWithImageData(tempData.getBuffer(), tempData.getSize(), eImgFmt);
-
-	unsigned long fileSize = 0;
-	unsigned char* pFileData = CCFileUtils::sharedFileUtils()->getFileData(strTemp.c_str(), "rb", &fileSize);
-	bool ret = initWithImageData(pFileData, fileSize, eImgFmt);
-	free(pFileData);
-	return ret;
-}
-
-bool CCImage::initWithImageFileThreadSafe(const char *fullpath, EImageFormat imageType)
-{
-    /*
-     * CCFileUtils::fullPathFromRelativePath() is not thread-safe, it use autorelease().
-     */
-    bool bRet = false;
-    unsigned long nSize = 0;
-    unsigned char* pBuffer = CCFileUtils::sharedFileUtils()->getFileData(fullpath, "rb", &nSize);
-    if (pBuffer != NULL && nSize > 0)
-    {
-        bRet = initWithImageData(pBuffer, nSize, imageType);
-    }
-    CC_SAFE_DELETE_ARRAY(pBuffer);
-    return bRet;
-}
-
-
 
 /*
 // please uncomment this and integrate it somehow if you know what your doing, thanks
@@ -844,40 +771,40 @@ bool CCImage::potImageData(unsigned int POTWide, unsigned int POTHigh)
 */
 
 //bool CCImage::initWithImageData(void * pData, int nDataLen, EImageFormat eFmt/* = eSrcFmtPng*/)
-bool CCImage::initWithImageData(void * pData, 
-                           int nDataLen, 
-                           EImageFormat eFmt,
-                           int nWidth,
-                           int nHeight,
-                           int nBitsPerComponent)
-{
-    bool bRet = false;
-    tImageInfo info = {0};
-    do 
-    {
-        CC_BREAK_IF(! pData || nDataLen <= 0);
-        bRet = _initWithData(pData, nDataLen, &info, 1.0f, 1.0f);//m_dScaleX, m_dScaleY);
-    } while (0);
+//bool CCImage::initWithImageData(void * pData,
+//                           int nDataLen,
+//                           EImageFormat eFmt,
+//                           int nWidth,
+//                           int nHeight,
+//                           int nBitsPerComponent)
+//{
+//    bool bRet = false;
+//    tImageInfo info = {0};
+//    do
+//    {
+//        CC_BREAK_IF(! pData || nDataLen <= 0);
+//        bRet = _initWithData(pData, nDataLen, &info, 1.0f, 1.0f);//m_dScaleX, m_dScaleY);
+//    } while (0);
 	
-    if (bRet)
-    {
-        m_nHeight = (short)info.height;
-        m_nWidth = (short)info.width;
-        m_nBitsPerComponent = info.bitsPerComponent;
-		if (eFmt == kFmtJpg)
-		{
-			m_bHasAlpha = true;
-			m_bPreMulti = false;
-		}
-		else
-		{
-			m_bHasAlpha = info.hasAlpha;
-			m_bPreMulti = info.isPremultipliedAlpha;
-		}
-        m_pData = info.data;
-    }
-    return bRet;
-}
+//    if (bRet)
+//    {
+//        m_nHeight = (short)info.height;
+//        m_nWidth = (short)info.width;
+//        m_nBitsPerComponent = info.bitsPerComponent;
+//		if (eFmt == kFmtJpg)
+//		{
+//			m_bHasAlpha = true;
+//			m_bPreMulti = false;
+//		}
+//		else
+//		{
+//			m_bHasAlpha = info.hasAlpha;
+//			m_bPreMulti = info.isPremultipliedAlpha;
+//		}
+//        m_pData = info.data;
+//    }
+//    return bRet;
+//}
 
 bool CCImage::initWithString(
 	const char *    pText, 
@@ -981,11 +908,7 @@ bool CCImage::_initWithTiffData(void* pData, int nDatalen)
     return bRet;
 }
 
-bool CCImage::saveToFile(const char *pszFilePath, bool bIsToRGB)
-{
-	assert(false);
-	return false;
-}
+
 
 bool CCImage::_saveImageToPNG(const char *pszFilePath, bool bIsToRGB)
 {

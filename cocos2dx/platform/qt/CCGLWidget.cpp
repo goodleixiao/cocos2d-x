@@ -1,7 +1,8 @@
 #include "CCGLWidget.h"
 #include <QtCore/QTimer>
 
-GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent)
+    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
   , mouseMoveFunc(NULL)
   , mousePressFunc(NULL)
   , mouseReleaseFunc(NULL)

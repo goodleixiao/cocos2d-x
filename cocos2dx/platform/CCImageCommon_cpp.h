@@ -30,14 +30,17 @@ THE SOFTWARE.
 #include "CCCommon.h"
 #include "CCStdC.h"
 #include "CCFileUtils.h"
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 #include "png.h"
 #include "jpeglib.h"
 #include "tiffio.h"
+#endif //(CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 #include <string>
 #include <ctype.h>
 
 NS_CC_BEGIN
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 // premultiply alpha, or the effect will wrong when want to use other pixel format in CCTexture2D,
 // such as RGB888, RGB5A1
 #define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va) \
@@ -69,6 +72,7 @@ static void pngReadCallback(png_structp png_ptr, png_bytep data, png_size_t leng
         png_error(png_ptr, "pngReaderCallback failed");
     }
 }
+#endif //(CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 
 //////////////////////////////////////////////////////////////////////////
 // Implement CCImage
@@ -197,6 +201,7 @@ bool CCImage::initWithImageData(void * pData,
     return bRet;
 }
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 bool CCImage::_initWithJpgData(void * data, int nSize)
 {
     /* these are standard libjpeg structures for reading(decompression) */
@@ -572,6 +577,7 @@ bool CCImage::_initWithTiffData(void* pData, int nDataLen)
     } while (0);
     return bRet;
 }
+#endif //(CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 
 bool CCImage::_initWithRawData(void * pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent)
 {
@@ -633,6 +639,7 @@ bool CCImage::saveToFile(const char *pszFilePath, bool bIsToRGB)
     return bRet;
 }
 
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 bool CCImage::_saveImageToPNG(const char * pszFilePath, bool bIsToRGB)
 {
     bool bRet = false;
@@ -850,6 +857,8 @@ bool CCImage::_saveImageToJPG(const char * pszFilePath)
     } while (0);
     return bRet;
 }
+
+#endif //(CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 
 NS_CC_END
 

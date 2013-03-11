@@ -27,12 +27,15 @@
 
 #include "platform/CCCommon.h"
 #include "platform/CCEGLViewProtocol.h"
+#include "CCGLWidget.h"
+#include <QMouseEvent>
 
 NS_CC_BEGIN
 
 class CCSet;
 class CCTouch;
 class CCSize;
+
 
 class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
@@ -43,6 +46,7 @@ public:
     
     virtual bool isOpenGLReady(void);
     virtual bool setContentScaleFactor(float contentScaleFactor);
+    virtual bool canSetContentScaleFactor();
     virtual void end();
     virtual void swapBuffers(void);
     /**
@@ -53,11 +57,56 @@ public:
     
     virtual void setIMEKeyboardState(bool bOpen);
 	virtual void setMultiTouchMask(bool mask);
-    
+
+public:
+    // Create opengl window
+    bool Create(int iWidth, int iHeight);
+
+    // Set openGL window
+    bool SetWindow(GLWidget *window);
+
+//    CCSize getSize();
+//	bool isOpenGLReady();
+    void release();
+    void setTouchDelegate(EGLTouchDelegate * pDelegate);
+//	void swapBuffers();
+
+
+    float getMainScreenScale() { return 1.0f; }
+
+    int setDeviceOrientation(int eOritation);
+
+//	void setIMEKeyboardState(bool bOpen);
+
+    void mouseMove(QMouseEvent *event);
+    void mousePress(QMouseEvent *event);
+    void mouseRelease(QMouseEvent *event);
+
 private:
     static CCEGLView* s_sharedView;
     
     CCEGLView(void);
+
+    bool m_bCaptured;
+    bool m_bOrientationReverted;
+    bool m_bOrientationInitVertical;
+    CCSet * m_pSet;
+    CCTouch * m_pTouch;
+
+    //store current mouse point for moving, valid if and only if the mouse pressed
+    CCPoint m_mousePoint;
+
+    EGLTouchDelegate * m_pDelegate;
+
+//   CCSize m_sSizeInPoint;
+    CCRect m_rcViewPort;
+
+    bool bIsInit;
+    int m_eInitOrientation;
+    float m_fScreenScaleFactor;
+
+    GLWidget* m_window;
+    bool m_bIsSubWindow;
 };
 
 NS_CC_END   // end of namespace   cocos2d

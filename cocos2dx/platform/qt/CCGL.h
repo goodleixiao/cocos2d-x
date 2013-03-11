@@ -25,8 +25,11 @@ THE SOFTWARE.
 #ifndef __CCGL_H__
 #define __CCGL_H__
 
+#include <QtOpenGL>
+
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
+#import <OpenGL/glu.h>
 
 #define CC_GL_DEPTH24_STENCIL8      -1
 

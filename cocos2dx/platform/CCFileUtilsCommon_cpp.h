@@ -36,9 +36,11 @@ THE SOFTWARE.
 #include "support/zip_support/unzip.h"
 
 #include <stack>
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
+#endif // (CC_TARGET_PLATFORM != CC_PLATFORM_QT)
 
 NS_CC_BEGIN
 

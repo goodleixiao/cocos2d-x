@@ -27,7 +27,8 @@
 
 #include "cocoa/CCGeometry.h"
 #include "CCDirector.h"
-#import "CCDirectorCaller.h"
+#include "CCDirectorCaller.h"
+#include "CCEGLView.h"
 
 NS_CC_BEGIN
 
@@ -58,13 +59,16 @@ CCApplication::~CCApplication()
 
 int CCApplication::run()
 {
+    // Make sure the view is initialized
+    CCEGLView* view = CCEGLView::sharedOpenGLView();
+
     if (/*initInstance() &&*/ applicationDidFinishLaunching()) 
     {
 
         CCDirectorCaller::sharedDirectorCaller()->startMainLoop();
         //[[CCDirectorCaller sharedDirectorCaller] startMainLoop];
     }
-    return 0;
+    return exec();
 }
 
 void CCApplication::setAnimationInterval(double interval)
@@ -133,6 +137,7 @@ void CCApplication::setResourceRootPath(const std::string& rootResDir)
     {
         m_resourceRootPath += '/';
     }
+    CCLOG("resource root path [ %s]",m_resourceRootPath.c_str());
 }
 
 const std::string& CCApplication::getResourceRootPath(void)
