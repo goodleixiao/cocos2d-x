@@ -21,12 +21,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#import <Foundation/Foundation.h>
+
 #import "CCDirectorCaller.h"
 #import "CCDirector.h"
-#import "EAGLView.h"
-#import "CCEventDispatcher.h"
-#include "CCAutoreleasePool.h"
+#include "cocoa/CCAutoreleasePool.h"
 
 //public:
 //    void startMainLoop();
@@ -42,7 +40,8 @@
 //    QTimer *m_timer;
 
 //protected:
-//    static CCDirectorCaller *sm_pSharedDirectorCaller;\
+
+CCDirectorCaller * CCDirectorCaller::sm_pSharedDirectorCaller = 0;
 
 CCDirectorCaller::CCDirectorCaller():
     m_timer(NULL)
@@ -59,10 +58,10 @@ CCDirectorCaller::~CCDirectorCaller()
     CC_SAFE_DELETE(m_timer);
 }
 
-CCDirectorCaller& CCDirectorCaller::sharedDirectorCaller()
+CCDirectorCaller* CCDirectorCaller::sharedDirectorCaller()
 {
     CCAssert(sm_pSharedDirectorCaller, "sm_pSharedDirectorCaller not set");
-    return  *sm_pSharedDirectorCaller;
+    return  sm_pSharedDirectorCaller;
 }
 
 void CCDirectorCaller::startMainLoop()

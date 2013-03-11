@@ -22,19 +22,18 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#import <Foundation/Foundation.h>
 
 #include <string>
 #include <stack>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
-#include "CCString.h"
+#include "cocoa/CCString.h"
 #include "CCFileUtils.h"
 #include "CCDirector.h"
 #include "CCApplication.h"
 #include "CCSAXParser.h"
-#include "CCDictionary.h"
+#include "cocoa/CCDictionary.h"
 #include "support/zip_support/unzip.h"
 
 #define MAX_PATH 260
@@ -302,9 +301,10 @@ std::string CCFileUtils::getWriteablePath()
 //    strRet.append("/");
 //    return strRet;
 
-    // Return current resource path.
-    // TODO: this will not work when using Qt resources
-    return s_strResourcePath;
+//    // Return current resource path.
+//    // TODO: this will not work when using Qt resources
+//    return s_strResourcePath;
+    return m_obDirectory;
 }
 
 unsigned char* CCFileUtils::getFileDataFromZip(const char* pszZipFilePath, const char* pszFileName, unsigned long * pSize)

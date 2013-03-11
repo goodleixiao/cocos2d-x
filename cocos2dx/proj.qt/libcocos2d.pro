@@ -4,10 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl xml
 
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib qt
 
 include(actions.pri)
 include(base_nodes.pri)
@@ -28,6 +28,8 @@ include(textures.pri)
 include(tileMap_parallax_nodes.pri)
 include(touch_dispatcher.pri)
 include(kazmath.pri)
+include(shaders.pri)
+
 win32 {
     TARGET = libcocos2d
 
@@ -67,23 +69,52 @@ unix {
     LIBS += -L/usr/local/lib/ -lcurl
 }
 
-DEFINES += _USRDLL
+#DEFINES += _USRDLL
 DEFINES += __QT__
 DEFINES += TARGET_MAC_QT
-INCLUDEPATH += ../platform \
-        ../platform/qt \
-        ../kazmath/include \
-        ../include \
-        ..
+DEFINES += USE_FILE32API
+DEFINES += COCOS2D_DEBUG=1
+DEFINES += COCOS2D_LIBRARY
+
+#INCLUDEPATH += ../platform \
+#        ../platform/qt \
+#        ../kazmath/include \
+#        ../include \
+#        ..
+
+INCLUDEPATH += \
+    $$PWD/../include \
+    $$PWD/../platform/qt \
+    $$PWD/../platform \
+    $$PWD/../support \
+    $$PWD/../cocoa \
+    $$PWD/../kazmath/include \
+    $$PWD/../actions \
+    $$PWD/../base_nodes \
+    $$PWD/../effects \
+    $$PWD/../label_nodes \
+    $$PWD/../sprite_nodes \
+    $$PWD/../script_support \
+    $$PWD/../shaders \
+    $$PWD/../textures \
+    $$PWD/../touch_dispatcher \
+    $$PWD/../menu_nodes \
+    $$PWD/../misc_nodes \
+    $$PWD/../keypad_dispatcher \
+    $$PWD/../layers_scenes_transitions_nodes \
+    $$PWD/../particle_nodes \
+    $$PWD/../tileMap_parallax_nodes \
+    $$PWD/../text_input_node \
+    $$PWD/../
 
 CONFIG(debug, debug|release) {
     OBJECTS_DIR = debug/
-    DESTDIR = ../../Debug.qt
+    DESTDIR = ../Debug.qt
 }
 
 CONFIG(release, debug|release) {
     OBJECTS_DIR = release/
-    DESTDIR = ../../Release.qt
+    DESTDIR = ../Release.qt
 }
 
 unix:!symbian {

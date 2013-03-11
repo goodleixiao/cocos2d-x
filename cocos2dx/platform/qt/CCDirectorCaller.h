@@ -45,7 +45,7 @@ public:
     void end();
     void setAnimationInterval(double interval);
 
-    static CCDirectorCaller& sharedDirectorCaller();
+    static CCDirectorCaller* sharedDirectorCaller();
 
 public slots:
     void timerUpdate();

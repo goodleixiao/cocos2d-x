@@ -34,7 +34,7 @@ NS_CC_BEGIN
 
 class CC_DLL CCApplication : public QApplication,  public CCApplicationProtocol
 {
-    Q_OBJECT
+
 public:
     CCApplication();
     CCApplication(int& argc, char** argv);

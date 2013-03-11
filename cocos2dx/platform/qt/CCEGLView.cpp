@@ -22,11 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCEGLView.h"
-#include "EAGLView.h"
 #include "CCDirectorCaller.h"
-#include "CCSet.h"
-#include "CCTouch.h"
-#include "CCTouchDispatcher.h"
+#include "cocoa/CCSet.h"
+#include "touch_dispatcher/CCTouch.h"
+#include "touch_dispatcher/CCTouchDispatcher.h"
 
 NS_CC_BEGIN
 
@@ -53,7 +52,7 @@ CCEGLView::~CCEGLView(void)
 
 bool CCEGLView::isOpenGLReady(void)
 {
-    return [EAGLView sharedEGLView] != NULL;
+    //return [EAGLView sharedEGLView] != NULL;
 }
 
 bool CCEGLView::setContentScaleFactor(float contentScaleFactor)
@@ -63,49 +62,50 @@ bool CCEGLView::setContentScaleFactor(float contentScaleFactor)
 
 void CCEGLView::end(void)
 {
-    [[CCDirectorCaller sharedDirectorCaller] end];
+    CCDirectorCaller::sharedDirectorCaller()->end();
+
     
     // destroy EAGLView
-    [[EAGLView sharedEGLView] removeFromSuperview];
+//    [[EAGLView sharedEGLView] removeFromSuperview];
     
     delete this;
 }
 
 void CCEGLView::swapBuffers()
 {
-	[[EAGLView sharedEGLView] swapBuffers];
+//	[[EAGLView sharedEGLView] swapBuffers];
 }
 
 void CCEGLView::setIMEKeyboardState(bool bOpen)
 {
-    if (bOpen)
-    {
-        [[EAGLView sharedEGLView] becomeFirstResponder];
-    }
-    else
-    {
-        [[EAGLView sharedEGLView] resignFirstResponder];
-    }
+//    if (bOpen)
+//    {
+//        [[EAGLView sharedEGLView] becomeFirstResponder];
+//    }
+//    else
+//    {
+//        [[EAGLView sharedEGLView] resignFirstResponder];
+//    }
 }
 
 void CCEGLView::setViewPortInPoints(float x , float y , float w , float h)
 {
-    float frameZoomFactor = [[EAGLView sharedEGLView] frameZoomFactor];
+//    float frameZoomFactor = [[EAGLView sharedEGLView] frameZoomFactor];
     
-    glViewport((GLint)(x * m_fScaleX * frameZoomFactor + m_obViewPortRect.origin.x * frameZoomFactor),
-               (GLint)(y * m_fScaleY * frameZoomFactor + m_obViewPortRect.origin.y * frameZoomFactor),
-               (GLsizei)(w * m_fScaleX * frameZoomFactor),
-               (GLsizei)(h * m_fScaleY * frameZoomFactor));
+//    glViewport((GLint)(x * m_fScaleX * frameZoomFactor + m_obViewPortRect.origin.x * frameZoomFactor),
+//               (GLint)(y * m_fScaleY * frameZoomFactor + m_obViewPortRect.origin.y * frameZoomFactor),
+//               (GLsizei)(w * m_fScaleX * frameZoomFactor),
+//               (GLsizei)(h * m_fScaleY * frameZoomFactor));
 }
 
 void CCEGLView::setScissorInPoints(float x , float y , float w , float h)
 {
-    float frameZoomFactor = [[EAGLView sharedEGLView] frameZoomFactor];
+//    float frameZoomFactor = [[EAGLView sharedEGLView] frameZoomFactor];
     
-    glScissor((GLint)(x * m_fScaleX * frameZoomFactor + m_obViewPortRect.origin.x * frameZoomFactor),
-              (GLint)(y * m_fScaleY * frameZoomFactor + m_obViewPortRect.origin.y * frameZoomFactor),
-              (GLsizei)(w * m_fScaleX * frameZoomFactor),
-              (GLsizei)(h * m_fScaleY * frameZoomFactor));
+//    glScissor((GLint)(x * m_fScaleX * frameZoomFactor + m_obViewPortRect.origin.x * frameZoomFactor),
+//              (GLint)(y * m_fScaleY * frameZoomFactor + m_obViewPortRect.origin.y * frameZoomFactor),
+//              (GLsizei)(w * m_fScaleX * frameZoomFactor),
+//              (GLsizei)(h * m_fScaleY * frameZoomFactor));
 }
 
 void CCEGLView::setMultiTouchMask(bool mask)

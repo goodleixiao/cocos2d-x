@@ -38,6 +38,9 @@ THE SOFTWARE.
 #include <vector>
 #include <sstream>
 
+
+QMap<QString, QString> loadedFontMap;
+
 typedef struct
 {
     unsigned int height;
@@ -327,7 +330,7 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
 	CCAssert(pInfo, "Invalid pInfo");
 	
 	do {
-        QString fontPath(CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pFontName));
+        QString fontPath(cocos2d::CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pFontName));
 
         QString fontFamily = pFontName;
         QString fontStyle = "Normal";
@@ -383,7 +386,7 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
             }
         }
 
-        CC_BREAK_IF(!fontFamily);
+       // CC_BREAK_IF(!fontFamily);
 
         int m_nWidth = 0;
         int m_nHeight = 0;
@@ -431,41 +434,41 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         painter.setPen(Qt::white);
 
         int flags = 0;
-        switch (eAlignMask)
+        switch (eAlign)
         {
-        case kAlignCenter: // Horizontal center and vertical center.
+        case cocos2d::CCImage::kAlignCenter: // Horizontal center and vertical center.
             flags |= Qt::AlignHCenter;
             flags |= Qt::AlignVCenter;
             break;
-        case kAlignTop: // Horizontal center and vertical top.
+        case cocos2d::CCImage::kAlignTop: // Horizontal center and vertical top.
             flags |= Qt::AlignHCenter;
             flags |= Qt::AlignTop;
             break;
-        case kAlignTopRight: // Horizontal right and vertical top.
+        case cocos2d::CCImage::kAlignTopRight: // Horizontal right and vertical top.
             flags |= Qt::AlignRight;
             flags |= Qt::AlignTop;
             break;
-        case kAlignRight: // Horizontal right and vertical center.
+        case cocos2d::CCImage::kAlignRight: // Horizontal right and vertical center.
             flags |= Qt::AlignRight;
             flags |= Qt::AlignVCenter;
             break;
-        case kAlignBottomRight: // Horizontal right and vertical bottom.
+        case cocos2d::CCImage::kAlignBottomRight: // Horizontal right and vertical bottom.
             flags |= Qt::AlignRight;
             flags |= Qt::AlignBottom;
             break;
-        case kAlignBottom: // Horizontal center and vertical bottom.
+        case cocos2d::CCImage::kAlignBottom: // Horizontal center and vertical bottom.
             flags |= Qt::AlignHCenter;
             flags |= Qt::AlignBottom;
             break;
-        case kAlignBottomLeft: // Horizontal left and vertical bottom.
+        case cocos2d::CCImage::kAlignBottomLeft: // Horizontal left and vertical bottom.
             flags |= Qt::AlignLeft;
             flags |= Qt::AlignBottom;
             break;
-        case kAlignLeft: // Horizontal left and vertical center.
+        case cocos2d::CCImage::kAlignLeft: // Horizontal left and vertical center.
             flags |= Qt::AlignLeft;
             flags |= Qt::AlignVCenter;
             break;
-        case kAlignTopLeft: // Horizontal left and vertical top.
+        case cocos2d::CCImage::kAlignTopLeft: // Horizontal left and vertical top.
             flags |= Qt::AlignLeft;
             flags |= Qt::AlignTop;
             break;
@@ -475,9 +478,9 @@ static bool _initWithString(const char * pText, cocos2d::CCImage::ETextAlign eAl
         painter.end();
 
 		
-		unsigned char* dataNew = new unsigned char[textureSize];
-		if (dataNew) {
-			memcpy(dataNew, data, textureSize);
+//		unsigned char* dataNew = new unsigned char[textureSize];
+        if (m_pData) {
+//			memcpy(dataNew, data, textureSize);
 			// output params
             pInfo->width = m_nWidth;
             pInfo->height = m_nHeight;

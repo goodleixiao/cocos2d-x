@@ -25,7 +25,7 @@
 #import "CCApplication.h"
 #include <algorithm>
 
-#include "CCGeometry.h"
+#include "cocoa/CCGeometry.h"
 #include "CCDirector.h"
 #import "CCDirectorCaller.h"
 
@@ -33,7 +33,11 @@ NS_CC_BEGIN
 
 CCApplication* CCApplication::sm_pSharedApplication = 0;
 
-CCApplication::CCApplication()
+int tmpArgc = 1;
+char* tmpArgv[] = {"", NULL};
+
+CCApplication::CCApplication():
+    QApplication(tmpArgc,tmpArgv)
 {
     CCAssert(! sm_pSharedApplication, "sm_pSharedApplication already exist");
     sm_pSharedApplication = this;
@@ -119,7 +123,6 @@ ccLanguageType CCApplication::getCurrentLanguage()
 
     return kLanguageEnglish;
     
-    return ret;
 }
 
 void CCApplication::setResourceRootPath(const std::string& rootResDir)
