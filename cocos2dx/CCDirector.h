@@ -41,28 +41,35 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup base_nodes
+ * @addtogroup base_nodes	基本节点
  * @{
  */
 
 /** @typedef ccDirectorProjection
  Possible OpenGL projections used by director
  */
+// 可能用到opengl投影
+
 typedef enum {
     /// sets a 2D projection (orthogonal projection)
+    /// 设置2D投影（正交投影）
     kCCDirectorProjection2D,
     
     /// sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
+    /// 设置3D投影，参数为fovy=60, znear=0.5f , zfar=1500
     kCCDirectorProjection3D,
     
     /// it calls "updateProjection" on the projection delegate.
+    /// 调用更新投影
     kCCDirectorProjectionCustom,
     
     /// Default projection is 3D projection
+    /// 设置默认投影为3D投影
     kCCDirectorProjectionDefault = kCCDirectorProjection3D,
 } ccDirectorProjection;
 
 /* Forward declarations. */
+// 预先声明
 class CCLabelAtlas;
 class CCScene;
 class CCEGLView;
