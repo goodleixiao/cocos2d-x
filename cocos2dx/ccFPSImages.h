@@ -29,7 +29,7 @@ extern unsigned char cc_fps_images_ipadhd_png[];
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+//FPS图片的大小，兼容hd,ipadhd
 unsigned int cc_fps_images_len(void);
 unsigned int cc_fps_images_hd_len(void);
 unsigned int cc_fps_images_ipadhd_len(void);
