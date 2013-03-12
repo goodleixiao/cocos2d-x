@@ -38,7 +38,7 @@ class TypeInfo
 public:
 	virtual long getClassTypeInfo() = 0;
 };
-
+//! 从字符来获取哈希值
 static inline unsigned int getHashCodeByString(const char *key)
 {
 	unsigned int len = strlen(key);
