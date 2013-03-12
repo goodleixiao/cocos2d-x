@@ -37,30 +37,34 @@ using namespace std;
 NS_CC_BEGIN
 
 // data structures
+// 数据结构
 
 // A list double-linked list used for "updates with priority"
+// 使用双链表更新
 typedef struct _listEntry
 {
     struct _listEntry   *prev, *next;
-    CCObject            *target;        // not retained (retained by hashUpdateEntry)
+    CCObject            *target;        // not retained (retained by hashUpdateEntry) 不在存在（保留在哈希值里）
     int                 priority;
     bool                paused;
     bool                markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
+    					   // 标记删除
 } tListEntry;
 
 typedef struct _hashUpdateEntry
 {
-    tListEntry          **list;        // Which list does it belong to ?
-    tListEntry          *entry;        // entry in the list
-    CCObject            *target;        // hash key (retained)
+    tListEntry          **list;        // Which list does it belong to ? 	链表属于谁
+    tListEntry          *entry;        // entry in the list			进入链表
+    CCObject            *target;        // hash key (retained)			对应哈希值(保留)
     UT_hash_handle      hh;
 } tHashUpdateEntry;
 
 // Hash Element used for "selectors with interval"
+// 哈希值元素用于选择器的时间间隔
 typedef struct _hashSelectorEntry
 {
     ccArray             *timers;
-    CCObject            *target;    // hash key (retained)
+    CCObject            *target;    // hash key (retained)			对应哈希值(保留)
     unsigned int        timerIndex;
     CCTimer             *currentTimer;
     bool                currentTimerSalvaged;
@@ -69,6 +73,7 @@ typedef struct _hashSelectorEntry
 } tHashTimerEntry;
 
 // implementation CCTimer
+// 实现计数器
 
 CCTimer::CCTimer()
 : m_pTarget(NULL)
@@ -151,7 +156,7 @@ void CCTimer::update(float dt)
     else
     {
         if (m_bRunForever && !m_bUseDelay)
-        {//standard timer usage
+        {//standard timer usage			标准计数器使用
             m_fElapsed += dt;
             if (m_fElapsed >= m_fInterval)
             {
@@ -168,7 +173,7 @@ void CCTimer::update(float dt)
             }
         }    
         else
-        {//advanced usage
+        {//advanced usage			高级使用
             m_fElapsed += dt;
             if (m_bUseDelay)
             {
@@ -210,7 +215,7 @@ void CCTimer::update(float dt)
             }
 
             if (!m_bRunForever && m_uTimesExecuted > m_uRepeat)
-            {    //unschedule timer
+            {    //unschedule timer		取消计数器
                 CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(m_pfnSelector, m_pTarget);
             }
         }
@@ -233,6 +238,7 @@ SEL_SCHEDULE CCTimer::getSelector() const
 }
 
 // implementation of CCScheduler
+// 实现调度
 
 CCScheduler::CCScheduler(void)
 : m_fTimeScale(1.0f)
@@ -288,6 +294,7 @@ void CCScheduler::scheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget, 
         HASH_ADD_INT(m_pHashForTimers, target, pElement);
 
         // Is this the 1st element ? Then set the pause level to all the selectors of this target
+        // 是否是一个元素
         pElement->paused = bPaused;
     }
     else
@@ -324,6 +331,7 @@ void CCScheduler::scheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget, 
 void CCScheduler::unscheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget)
 {
     // explicity handle nil arguments when removing an object
+    // 明确处理空参数，当移除一个对象
     if (pTarget == 0 || pfnSelector == 0)
     {
         return;
@@ -352,6 +360,7 @@ void CCScheduler::unscheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget
                 ccArrayRemoveObjectAtIndex(pElement->timers, i, true);
 
                 // update timerIndex in case we are in tick:, looping over the actions
+                // 更新计数索引
                 if (pElement->timerIndex >= i)
                 {
                     pElement->timerIndex--;
@@ -385,7 +394,7 @@ void CCScheduler::priorityIn(tListEntry **ppList, CCObject *pTarget, int nPriori
     pListElement->next = pListElement->prev = NULL;
     pListElement->markedForDeletion = false;
 
-    // empty list ?
+    // empty list ?	空链表
     if (! *ppList)
     {
         DL_APPEND(*ppList, pListElement);
@@ -417,6 +426,7 @@ void CCScheduler::priorityIn(tListEntry **ppList, CCObject *pTarget, int nPriori
         }
 
         // Not added? priority has the higher value. Append it.
+        // 优先级高。追加
         if (! bAdded)
         {
             DL_APPEND(*ppList, pListElement);
@@ -424,6 +434,7 @@ void CCScheduler::priorityIn(tListEntry **ppList, CCObject *pTarget, int nPriori
     }
 
     // update hash entry for quick access
+    // 更新哈希值为快速访问
     tHashUpdateEntry *pHashElement = (tHashUpdateEntry *)calloc(sizeof(*pHashElement), 1);
     pHashElement->target = pTarget;
     pTarget->retain();
@@ -443,6 +454,7 @@ void CCScheduler::appendIn(_listEntry **ppList, CCObject *pTarget, bool bPaused)
     DL_APPEND(*ppList, pListElement);
 
     // update hash entry for quicker access
+    // 更新哈希值为快速访问
     tHashUpdateEntry *pHashElement = (tHashUpdateEntry *)calloc(sizeof(*pHashElement), 1);
     pHashElement->target = pTarget;
     pTarget->retain();
@@ -462,6 +474,7 @@ void CCScheduler::scheduleUpdateForTarget(CCObject *pTarget, int nPriority, bool
         CCAssert(pHashElement->entry->markedForDeletion,"");
 #endif
         // TODO: check if priority has changed!
+        // 检测：优先级是否改变
 
         pHashElement->entry->markedForDeletion = false;
         return;
@@ -469,6 +482,7 @@ void CCScheduler::scheduleUpdateForTarget(CCObject *pTarget, int nPriority, bool
 
     // most of the updates are going to be 0, that's way there
     // is an special list for updates with priority 0
+    // 大多数更新都指向0,优先级为0
     if (nPriority == 0)
     {
         appendIn(&m_pUpdates0List, pTarget, bPaused);
@@ -479,7 +493,7 @@ void CCScheduler::scheduleUpdateForTarget(CCObject *pTarget, int nPriority, bool
     }
     else
     {
-        // priority > 0
+        // priority > 0		优先级大于0
         priorityIn(&m_pUpdatesPosList, pTarget, nPriority, bPaused);
     }
 }
@@ -492,16 +506,19 @@ void CCScheduler::removeUpdateFromHash(struct _listEntry *entry)
     if (element)
     {
         // list entry
+        // 链表条目
         DL_DELETE(*element->list, element->entry);
         free(element->entry);
 
         // hash entry
+        // 哈希值条目
         CCObject* pTarget = element->target;
         HASH_DEL(m_pHashForUpdates, element);
         free(element);
 
         // target#release should be the last one to prevent
         // a possible double-free. eg: If the [target dealloc] might want to remove it itself from there
+        // 目标释放；可能两次释放；如： 假如[target dealloc]可能要移除本身；
         pTarget->release();
     }
 }
@@ -536,18 +553,21 @@ void CCScheduler::unscheduleAll(void)
 void CCScheduler::unscheduleAllWithMinPriority(int nMinPriority)
 {
     // Custom Selectors
+    // 自定义选择器
     tHashTimerEntry *pElement = NULL;
     tHashTimerEntry *pNextElement = NULL;
     for (pElement = m_pHashForTimers; pElement != NULL;)
     {
-        // pElement may be removed in unscheduleAllSelectorsForTarget
+        // pElement may be removed in unscheduleAllSelectorsForTarget	
+        // 元素可能被移除在unscheduleAllSelectorsForTarget调用时
         pNextElement = (tHashTimerEntry *)pElement->hh.next;
         unscheduleAllForTarget(pElement->target);
 
         pElement = pNextElement;
     }
 
-    // Updates selectors
+    // Updates selectors	
+    // 更新选择器
     tListEntry *pEntry, *pTmp;
     if(nMinPriority < 0) 
     {
@@ -585,12 +605,14 @@ void CCScheduler::unscheduleAllWithMinPriority(int nMinPriority)
 void CCScheduler::unscheduleAllForTarget(CCObject *pTarget)
 {
     // explicit NULL handling
+    // 明确无处理
     if (pTarget == NULL)
     {
         return;
     }
 
     // Custom Selectors
+    // 自定义选择器
     tHashTimerEntry *pElement = NULL;
     HASH_FIND_INT(m_pHashForTimers, &pTarget, pElement);
 
@@ -615,6 +637,7 @@ void CCScheduler::unscheduleAllForTarget(CCObject *pTarget)
     }
 
     // update selector
+    // 更新选择器
     unscheduleUpdateForTarget(pTarget);
 }
 
@@ -648,6 +671,7 @@ void CCScheduler::resumeTarget(CCObject *pTarget)
     CCAssert(pTarget != NULL, "");
 
     // custom selectors
+    // 自定义
     tHashTimerEntry *pElement = NULL;
     HASH_FIND_INT(m_pHashForTimers, &pTarget, pElement);
     if (pElement)
@@ -656,6 +680,7 @@ void CCScheduler::resumeTarget(CCObject *pTarget)
     }
 
     // update selector
+    // 更新
     tHashUpdateEntry *pElementUpdate = NULL;
     HASH_FIND_INT(m_pHashForUpdates, &pTarget, pElementUpdate);
     if (pElementUpdate)
@@ -670,6 +695,7 @@ void CCScheduler::pauseTarget(CCObject *pTarget)
     CCAssert(pTarget != NULL, "");
 
     // custom selectors
+    // 自定义
     tHashTimerEntry *pElement = NULL;
     HASH_FIND_INT(m_pHashForTimers, &pTarget, pElement);
     if (pElement)
@@ -678,6 +704,7 @@ void CCScheduler::pauseTarget(CCObject *pTarget)
     }
 
     // update selector
+    // 更新
     tHashUpdateEntry *pElementUpdate = NULL;
     HASH_FIND_INT(m_pHashForUpdates, &pTarget, pElementUpdate);
     if (pElementUpdate)
@@ -692,6 +719,7 @@ bool CCScheduler::isTargetPaused(CCObject *pTarget)
     CCAssert( pTarget != NULL, "target must be non nil" );
 
     // Custom selectors
+    // 自定义
     tHashTimerEntry *pElement = NULL;
     HASH_FIND_INT(m_pHashForTimers, &pTarget, pElement);
     if( pElement )
@@ -700,6 +728,7 @@ bool CCScheduler::isTargetPaused(CCObject *pTarget)
     }
     
     // We should check update selectors if target does not have custom selectors
+    // 不是自定义检测更新选择器
 	tHashUpdateEntry *elementUpdate = NULL;
 	HASH_FIND_INT(m_pHashForUpdates, &pTarget, elementUpdate);
 	if ( elementUpdate )
@@ -707,7 +736,7 @@ bool CCScheduler::isTargetPaused(CCObject *pTarget)
 		return elementUpdate->entry->paused;
     }
     
-    return false;  // should never get here
+    return false;  // should never get here	绝不要执行到这里
 }
 
 CCSet* CCScheduler::pauseAllTargets()
@@ -717,10 +746,11 @@ CCSet* CCScheduler::pauseAllTargets()
 
 CCSet* CCScheduler::pauseAllTargetsWithMinPriority(int nMinPriority)
 {
-    CCSet* idsWithSelectors = new CCSet();// setWithCapacity:50];
+    CCSet* idsWithSelectors = new CCSet();// setWithCapacity:50];	设置容量
     idsWithSelectors->autorelease();
 
     // Custom Selectors
+    // 自定义
     for(tHashTimerEntry *element = m_pHashForTimers; element != NULL;
         element = (tHashTimerEntry*)element->hh.next)
     {
@@ -729,6 +759,7 @@ CCSet* CCScheduler::pauseAllTargetsWithMinPriority(int nMinPriority)
     }
 
     // Updates selectors
+    // 更新
     tListEntry *entry, *tmp;
     if(nMinPriority < 0) 
     {
@@ -773,6 +804,7 @@ void CCScheduler::resumeTargets(CCSet* pTargetsToResume)
 }
 
 // main loop
+// 主运行回路
 void CCScheduler::update(float dt)
 {
     m_bUpdateHashLocked = true;
@@ -783,11 +815,13 @@ void CCScheduler::update(float dt)
     }
 
     // Iterate over all the Updates' selectors
+    // 遍历所有更新选择器
     tListEntry *pEntry, *pTmp;
 
     CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
 
     // updates with priority < 0
+    // 更新 优先级小于0时
     DL_FOREACH_SAFE(m_pUpdatesNegList, pEntry, pTmp)
     {
         if ((! pEntry->paused) && (! pEntry->markedForDeletion))
@@ -802,6 +836,7 @@ void CCScheduler::update(float dt)
     }
 
     // updates with priority == 0
+    // 优先级等于0 更新
     DL_FOREACH_SAFE(m_pUpdates0List, pEntry, pTmp)
     {
         if ((! pEntry->paused) && (! pEntry->markedForDeletion))
@@ -816,6 +851,7 @@ void CCScheduler::update(float dt)
     }
 
     // updates with priority > 0
+    // 优先级大于0 更新
     DL_FOREACH_SAFE(m_pUpdatesPosList, pEntry, pTmp)
     {
         if ((! pEntry->paused) && (! pEntry->markedForDeletion))
@@ -830,6 +866,7 @@ void CCScheduler::update(float dt)
     }
 
     // Iterate over all the custom selectors
+    // 遍历所有自定义选择器
     for (tHashTimerEntry *elt = m_pHashForTimers; elt != NULL; )
     {
         m_pCurrentTarget = elt;
@@ -838,6 +875,7 @@ void CCScheduler::update(float dt)
         if (! m_pCurrentTarget->paused)
         {
             // The 'timers' array may change while inside this loop
+            // 计数数组可能在循环回路中改变
             for (elt->timerIndex = 0; elt->timerIndex < elt->timers->num; ++(elt->timerIndex))
             {
                 elt->currentTimer = (CCTimer*)(elt->timers->arr[elt->timerIndex]);
@@ -850,6 +888,7 @@ void CCScheduler::update(float dt)
                     // The currentTimer told the remove itself. To prevent the timer from
                     // accidentally deallocating itself before finishing its step, we retained
                     // it. Now that step is done, it's safe to release it.
+                    // 当前计数器告诉自己；完成这一步要释放自己
                     elt->currentTimer->release();
                 }
 
@@ -859,9 +898,11 @@ void CCScheduler::update(float dt)
 
         // elt, at this moment, is still valid
         // so it is safe to ask this here (issue #490)
+        // 当前有效；是否安全
         elt = (tHashTimerEntry *)elt->hh.next;
 
         // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
+        // 仅在没有动作在周期内被调度时，删除
         if (m_bCurrentTargetSalvaged && m_pCurrentTarget->timers->num == 0)
         {
             removeHashElement(m_pCurrentTarget);
@@ -869,6 +910,7 @@ void CCScheduler::update(float dt)
     }
 
     // Iterate over all the script callbacks
+    // 遍历所有回调脚本
     if (m_pScriptHandlerEntries)
     {
         for (int i = m_pScriptHandlerEntries->count() - 1; i >= 0; i--)
@@ -887,6 +929,7 @@ void CCScheduler::update(float dt)
 
     // delete all updates that are marked for deletion
     // updates with priority < 0
+    // 删除所有被标记要删除的更新 优先级小于0时
     DL_FOREACH_SAFE(m_pUpdatesNegList, pEntry, pTmp)
     {
         if (pEntry->markedForDeletion)
@@ -896,6 +939,7 @@ void CCScheduler::update(float dt)
     }
 
     // updates with priority == 0
+    // 优先级等于0时
     DL_FOREACH_SAFE(m_pUpdates0List, pEntry, pTmp)
     {
         if (pEntry->markedForDeletion)
@@ -905,6 +949,7 @@ void CCScheduler::update(float dt)
     }
 
     // updates with priority > 0
+    // 优先级大于0时
     DL_FOREACH_SAFE(m_pUpdatesPosList, pEntry, pTmp)
     {
         if (pEntry->markedForDeletion)
