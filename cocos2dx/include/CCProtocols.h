@@ -35,6 +35,7 @@ NS_CC_BEGIN
 /**
  * RGBA protocol that affects CCNode's color and opacity
  */
+//! RGBA协议：影响节点颜色和透明度
 class CC_DLL CCRGBAProtocol
 {
 public:
@@ -43,6 +44,7 @@ public:
      *
      * @param color Example: ccc3(255,100,0) means R=255, G=100, B=0
      */
+     //! 设置颜色值
     virtual void setColor(const ccColor3B& color) = 0;
 
     /**
@@ -50,6 +52,7 @@ public:
      *
      * @return The ccColor3B contains R,G,B bytes.
      */
+     //! 返回当前颜色值
     virtual const ccColor3B& getColor(void) = 0;
     
     /**
@@ -57,6 +60,7 @@ public:
      *
      * @return The ccColor3B contains R,G,B bytes.
      */
+     //! 返回当前显示颜色值
     virtual const ccColor3B& getDisplayedColor(void) = 0;
     
     /**
@@ -64,6 +68,7 @@ public:
      *
      * @return  The opacity of sprite, from 0 ~ 255
      */
+     //! 返回显示透明度值
     virtual GLubyte getDisplayedOpacity(void) = 0;
     /**
      * Returns the opacity.
@@ -73,6 +78,7 @@ public:
      *
      * @return  The opacity of sprite, from 0 ~ 255
      */
+     //! 返回透明度值
     virtual GLubyte getOpacity(void) = 0;
 
     /**
@@ -80,6 +86,7 @@ public:
      *
      * @param   value   Goes from 0 to 255, where 255 means fully opaque and 0 means fully transparent.
      */
+     //! 设置透明度
     virtual void setOpacity(GLubyte opacity) = 0;
 
     // optional
@@ -92,6 +99,7 @@ public:
      * @param   bValue  true then the opacity will be applied as: glColor(R,G,B,opacity);
      *                  false then the opacity will be applied as: glColor(opacity, opacity, opacity, opacity);
      */
+     //! 透明度影响颜色值
     virtual void setOpacityModifyRGB(bool bValue) = 0;
 
     /**
@@ -100,28 +108,33 @@ public:
      *
      * @return  Returns opacity modify flag.
      */
+     //! 透明度影响颜色值
     virtual bool isOpacityModifyRGB(void) = 0;
     
     /**
      *  whether or not color should be propagated to its children.
      */
+     //! 颜色值是否传给子对象
     virtual bool isCascadeColorEnabled(void) = 0;
     virtual void setCascadeColorEnabled(bool cascadeColorEnabled) = 0;
     
     /** 
      *  recursive method that updates display color 
      */
+     //! 更新显示颜色
     virtual void updateDisplayedColor(const ccColor3B& color) = 0;
     
     /** 
      *  whether or not opacity should be propagated to its children.
      */
+     //! 透明度是否传给子对象
     virtual bool isCascadeOpacityEnabled(void) = 0;
     virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) = 0;
     
     /**
      *  recursive method that updates the displayed opacity.
      */
+     //! 递归方法更新透明度
     virtual void updateDisplayedOpacity(GLubyte opacity) = 0;
 };
 
@@ -130,6 +143,7 @@ public:
  * Please refer to glBlendFunc in OpenGL ES Manual
  * http://www.khronos.org/opengles/sdk/docs/man/xhtml/glBlendFunc.xml for more details.
  */
+//! 指定混合功能访问glBlendFunc，可以参考上面链接
 class CC_DLL CCBlendProtocol
 {
 public:
@@ -140,6 +154,7 @@ public:
      *                  e.g. {GL_ONE, GL_ONE}, {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA}.
      *
      */
+     //! 设置原混合功能
     virtual void setBlendFunc(ccBlendFunc blendFunc) = 0;
 
     /**
@@ -147,6 +162,7 @@ public:
      * 
      * @return A ccBlendFunc structure with source and destination factor which specified pixel arithmetic.
      */
+     //! 返回当前混合功能
     virtual ccBlendFunc getBlendFunc(void) = 0;
 };
 
@@ -159,6 +175,7 @@ public:
  *   src=GL_SRC_ALPHA dst= GL_ONE_MINUS_SRC_ALPHA
  * But you can change the blending function at any time.
  */
+//! 节点对象使用纹理呈现图片；纹理具有混合功能；可以随时改变
 class CC_DLL CCTextureProtocol : public CCBlendProtocol
 {
 public:
@@ -167,6 +184,7 @@ public:
      *
      * @return  The texture that is currenlty being used.
      */
+     //! 返回当前纹理
     virtual CCTexture2D* getTexture(void) = 0;
 
     /**
@@ -174,12 +192,14 @@ public:
      *
      * @param   texture A valid CCTexture2D object, which will be applied to this sprite object.
      */
+     //! 设置新纹理。对象呗保持；一个纹理对象是有效的，会被附加到精灵对象上
     virtual void setTexture(CCTexture2D *texture) = 0;
 };
 
 /**
  * Common interface for Labels
  */
+//! 通用标签接口
 class CC_DLL CCLabelProtocol
 {
 public:
@@ -188,6 +208,7 @@ public:
      *
      * @param A null terminated string 
      */
+     //! 使用字符串设置一个新的标签
     virtual void setString(const char *label) = 0;
 
     /** 
@@ -195,18 +216,21 @@ public:
      *
      * @return The string that is currently being used in this label
      */
+     //! 返回使用的标签的字符串
     virtual const char* getString(void) = 0;
 };
 
 /** 
  * OpenGL projection protocol 
  */
+//! opengl投影协议
 class CC_DLL CCDirectorDelegate
 {
 public:
     /** 
      * Will be called by CCDirector when the projection is updated, and "custom" projection is used
      */
+     //! 自定义投影更新时使用
     virtual void updateProjection(void) = 0;
 };
 
