@@ -44,6 +44,7 @@ THE SOFTWARE.
  
  @since v2.1
  */
+//! 启用堆叠动作：默认为启用；启用则是运行之和，禁用则是最后的运动有效
 #ifndef CC_ENABLE_STACKABLE_ACTIONS
 #define CC_ENABLE_STACKABLE_ACTIONS 1
 #endif
