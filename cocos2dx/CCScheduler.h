@@ -33,14 +33,16 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup global
+ * @addtogroup global       全局
  * @{
  */
 
 // Priority level reserved for system services.
+// 为系统服务定义优先级
 #define kCCPrioritySystem INT_MIN
 
 // Minimum priority level for user scheduling.
+// 用户调度最小优先级
 #define kCCPriorityNonSystemMin (kCCPrioritySystem+1)
 
 class CCSet;
@@ -48,39 +50,49 @@ class CCSet;
 // CCTimer
 //
 /** @brief Light-weight timer */
-//
+// 计数器
+
 class CC_DLL CCTimer : public CCObject
 {
 public:
     CCTimer(void);
     
     /** get interval in seconds */
+    // 获取间隔
     float getInterval(void) const;
     /** set interval in seconds */
+    // 设置时间间隔
     void setInterval(float fInterval);
     
     SEL_SCHEDULE getSelector() const;
     
     /** Initializes a timer with a target and a selector. */
+    // 带有一个目标对象和选择器计数器初始化
     bool initWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector);
     
     /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
-    bool initWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector, float fSeconds, unsigned int nRepeat, float fDelay);
+    // 带有目标，时间间隔，重复次数，延时的计数器初始化
+   bool initWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector, float fSeconds, unsigned int nRepeat, float fDelay);
     
     /** Initializes a timer with a script callback function and an interval in seconds. */
+    // 带有回调函数和时间间隔计数器初始化
     bool initWithScriptHandler(int nHandler, float fSeconds);
     
     /** triggers the timer */
+    // 触发计数器进行更新
     void update(float dt);
     
 public:
     /** Allocates a timer with a target and a selector. */
+    // 分配带有目标对象和选择器的计数器
     static CCTimer* timerWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector);
     
     /** Allocates a timer with a target, a selector and an interval in seconds. */
+    // 分配带有目标，选择器和时间间隔的计数器
     static CCTimer* timerWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector, float fSeconds);
     
     /** Allocates a timer with a script callback function and an interval in seconds. */
+    // 分配带有回调函数和时间间隔的计数器
     static CCTimer* timerWithScriptHandler(int nHandler, float fSeconds);
     
     inline int getScriptHandler() { return m_nScriptHandler; };
@@ -91,7 +103,7 @@ protected:
     bool m_bRunForever;
     bool m_bUseDelay;
     unsigned int m_uTimesExecuted;
-    unsigned int m_uRepeat; //0 = once, 1 is 2 x executed
+    unsigned int m_uRepeat; //0 = once, 1 is 2 x executed       0为执行了1次
     float m_fDelay;
     float m_fInterval;
     SEL_SCHEDULE m_pfnSelector;
@@ -101,7 +113,7 @@ protected:
 
 //
 // CCScheduler
-//
+// 调度
 struct _listEntry;
 struct _hashSelectorEntry;
 struct _hashUpdateEntry;
@@ -119,6 +131,9 @@ There are 2 different types of callbacks (selectors):
 The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
 
 */
+// 调度就是负责触发回调。替代NSTimer类
+// 具有两种回调：帧更新，和自定义选择器
+
 class CC_DLL CCScheduler : public CCObject
 {
 public:
@@ -133,11 +148,13 @@ public:
     @since v0.8
     @warning It will affect EVERY scheduled selector / action.
     */
+    // 设置回调时间；可以呈现快与慢的效果
     inline void setTimeScale(float fTimeScale) { m_fTimeScale = fTimeScale; }
 
     /** 'update' the scheduler.
      You should NEVER call this method, unless you know what you are doing.
      */
+    // 更新函数，不用手动调用
     void update(float dt);
 
     /** The scheduled method will be called every 'interval' seconds.
@@ -149,32 +166,40 @@ public:
 
      @since v0.99.3, repeat and delay added in v1.1
      */
+    // 调度方法：每个时间间隔调用一次，如果暂停则当恢复时才调用。
+    // 如果时间间隔为0，每帧都调用；推荐使用scheduleUpdateForTarget方法替换；
+    // 选择器已经确定，关系时间间隔；可以使用kCCRepeatForver进行重复动作； 延时是从运动开始时计数的
     void scheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget, float fInterval, unsigned int repeat, float delay, bool bPaused);
 
     /** calls scheduleSelector with kCCRepeatForever and a 0 delay */
+    // 带有kccRepeatForver和0延时参数的回调
     void scheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget, float fInterval, bool bPaused);
     /** Schedules the 'update' selector for a given target with a given priority.
      The 'update' selector will be called every frame.
      The lower the priority, the earlier it is called.
      @since v0.99.3
      */
+    // 给定目标和优先级的调度
     void scheduleUpdateForTarget(CCObject *pTarget, int nPriority, bool bPaused);
 
     /** Unschedule a selector for a given target.
      If you want to unschedule the "update", use unscheudleUpdateForTarget.
      @since v0.99.3
      */
+    // 给定对象的取消调度
     void unscheduleSelector(SEL_SCHEDULE pfnSelector, CCObject *pTarget);
 
     /** Unschedules the update selector for a given target
      @since v0.99.3
      */
+    // 给定目标的取消更新
     void unscheduleUpdateForTarget(const CCObject *pTarget);
 
     /** Unschedules all selectors for a given target.
      This also includes the "update" selector.
      @since v0.99.3
      */
+    // 取消调度给定目标的选择器，包括更新
     void unscheduleAllForTarget(CCObject *pTarget);
 
     /** Unschedules all selectors from all targets.
@@ -182,12 +207,14 @@ public:
 
      @since v0.99.3
      */
+    // 取消调用所有目标的所有选择器； 不要调用此方法，除非你知道你想要什么
     void unscheduleAll(void);
     
     /** Unschedules all selectors from all targets with a minimum priority.
       You should only call this with kCCPriorityNonSystemMin or higher.
       @since v2.0.0
       */
+    // 取消调用最小优先级的对象的选择器； 
     void unscheduleAllWithMinPriority(int nMinPriority);
 
     /** The scheduled script callback will be called every 'interval' seconds.
@@ -195,9 +222,12 @@ public:
      If 'interval' is 0, it will be called every frame.
      return schedule script entry ID, used for unscheduleScriptFunc().
      */
+    // 调度就是每个时间间隔的回调。若暂停，则在恢复后再调用；
+    // 若时间间隔为0，则会每帧调用； 返回调度脚本的id
     unsigned int scheduleScriptFunc(unsigned int nHandler, float fInterval, bool bPaused);
     
     /** Unschedule a script entry. */
+    // 取消调用一个熟人脚本
     void unscheduleScriptEntry(unsigned int uScheduleScriptEntryID);
 
     /** Pauses the target.
@@ -205,6 +235,7 @@ public:
      If the target is not present, nothing happens.
      @since v0.99.3
      */
+    // 暂停目标：所有选择器更新都会在恢复是作用； 若目标不存在，什么也不会发生
     void pauseTarget(CCObject *pTarget);
 
     /** Resumes the target.
@@ -212,36 +243,42 @@ public:
      If the target is not present, nothing happens.
      @since v0.99.3
      */
+    // 恢复目标
     void resumeTarget(CCObject *pTarget);
 
     /** Returns whether or not the target is paused
     @since v1.0.0
     */
+    //目标是否暂停
     bool isTargetPaused(CCObject *pTarget);
 
     /** Pause all selectors from all targets.
       You should NEVER call this method, unless you know what you are doing.
      @since v2.0.0
       */
+    // 停止所有目标的选择器
     CCSet* pauseAllTargets();
 
     /** Pause all selectors from all targets with a minimum priority.
       You should only call this with kCCPriorityNonSystemMin or higher.
       @since v2.0.0
       */
+    // 暂停带有最小优先级的目标选择器
     CCSet* pauseAllTargetsWithMinPriority(int nMinPriority);
 
     /** Resume selectors on a set of targets.
      This can be useful for undoing a call to pauseAllSelectors.
      @since v2.0.0
       */
+    // 恢复选择器
     void resumeTargets(CCSet* targetsToResume);
 
 private:
     void removeHashElement(struct _hashSelectorEntry *pElement);
     void removeUpdateFromHash(struct _listEntry *entry);
 
-    // update specific
+    // update specific      
+    // 指定更新
 
     void priorityIn(struct _listEntry **ppList, CCObject *pTarget, int nPriority, bool bPaused);
     void appendIn(struct _listEntry **ppList, CCObject *pTarget, bool bPaused);
@@ -251,17 +288,20 @@ protected:
 
     //
     // "updates with priority" stuff
-    //
-    struct _listEntry *m_pUpdatesNegList;        // list of priority < 0
+    // 有关优先级更新的内容
+    struct _listEntry *m_pUpdatesNegList;        // list of priority < 0        优先级列表
     struct _listEntry *m_pUpdates0List;            // list priority == 0
     struct _listEntry *m_pUpdatesPosList;        // list priority > 0
     struct _hashUpdateEntry *m_pHashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
+                                                // 哈希值用于快速取出列表内容
 
     // Used for "selectors with interval"
+    // 用于选择器
     struct _hashSelectorEntry *m_pHashForTimers;
     struct _hashSelectorEntry *m_pCurrentTarget;
     bool m_bCurrentTargetSalvaged;
     // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
+    // 如果为true，不会移除任何对象，只是被标记删除
     bool m_bUpdateHashLocked;
     CCArray* m_pScriptHandlerEntries;
 };
