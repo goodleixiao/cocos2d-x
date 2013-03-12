@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "cocos2d.h"
 
 NS_CC_BEGIN
-
+//获取当前cocos2d的版本号
 const char* cocos2dVersion()
 {
     return "cocos2d-2.1-x-2.1.2";
