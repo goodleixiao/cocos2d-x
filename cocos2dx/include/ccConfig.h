@@ -65,6 +65,7 @@ THE SOFTWARE.
  
  @since v2.0.0
  */
+//! 启用gl状态缓存，默认为启用
 #ifndef CC_ENABLE_GL_STATE_CACHE
 #define CC_ENABLE_GL_STATE_CACHE 1
 #endif
@@ -89,6 +90,18 @@ To enabled set it to 1. Disabled by default.
 
 @since v0.99.5
 */
+/** 启用该标志，则纹理坐标的计算公式为：
+- texCoord.left = (rect.origin.x*2+1) / (texture.wide*2);
+- texCoord.right = texCoord.left + (rect.size.width*2-2)/(texture.wide*2);
+99%的纹理使用spritesheet-artifact-fixer.py或相似工具来；
+同样影响其他节点：
+- CCSprite / CCSpriteBatchNode and subclasses: CCLabelBMFont, CCTMXTiledMap
+- CCLabelAtlas
+- CCQuadParticleSystem
+- CCTileMap
+启用设置为1，默认为0
+*/
+
 #ifndef CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
 #define CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL 0
 #endif
@@ -100,6 +113,7 @@ To enabled set it to 1. Disabled by default.
  
  Default value: 0.1f
  */
+//! 导演更新帧的时间：默认为0.1s
 #ifndef CC_DIRECTOR_STATS_INTERVAL
 #define CC_DIRECTOR_STATS_INTERVAL (0.5f)
 #endif
@@ -109,6 +123,7 @@ To enabled set it to 1. Disabled by default.
 
  Default: 0,0 (bottom-left corner)
  */
+//! FPS标签的位置
 #ifndef CC_DIRECTOR_FPS_POSITION
 #define CC_DIRECTOR_FPS_POSITION ccp(0,0)
 #endif
@@ -123,6 +138,7 @@ To enabled set it to 1. Disabled by default.
  
  @warning This feature is experimental
  */
+//! 导演快速调用事件；在使用CCFastDirector调用事件时间为0.04s；游戏中用到很多事件可以启用；默认为禁用
 #ifndef CC_DIRECTOR_DISPATCH_FAST_EVENTS
  #define CC_DIRECTOR_DISPATCH_FAST_EVENTS 0
 #endif
@@ -138,6 +154,7 @@ To enable set it to a 1, to disable it set to 0. Enabled by default.
 Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 
 */
+//! 仅仅支持mac显示使用
 #ifndef CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD
 #define CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD 1
 #endif
@@ -148,6 +165,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  
  To enable set it to 1. Enabled by default.
  */
+//! 启用则呈现子像素，否则为整数像素；默认为启用
 #ifndef CC_NODE_RENDER_SUBPIXEL
 #define CC_NODE_RENDER_SUBPIXEL 1
 #endif
@@ -158,6 +176,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  
  To enable set it to 1. Enabled by default.
  */
+//! 启用批量精灵节点则呈现子像素，否则为整数像素；默认为启用
 #ifndef CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
 #define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL    1
 #endif
@@ -169,6 +188,8 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  To enable set it to a value different than 0. Disabled by default.
 
  */
+//! 呈现纹理地图集时，用GL_TRIANGLE_STRIP替换GL_TRIANGLES
+//! 启用则运行慢；默认为禁用
 #ifndef CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 #define CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP 0
 #endif
@@ -181,6 +202,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  To disable it set it to 0. Enabled by default.
  
  */
+//! 默认情况下，纹理地图使用VAO（顶点数组对象）。苹果推荐使用； 但对于某些情况，你可能用到数百个VAO对象，最好禁用
 #ifndef CC_TEXTURE_ATLAS_USE_VAO
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
         #define CC_TEXTURE_ATLAS_USE_VAO 1
@@ -188,6 +210,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
         /* Some Windows display adapter driver cannot support VAO. */
         /* Some android devices cannot support VAO very well, so we disable it by default for android platform. */
         /* Blackberry also doesn't support this feature. */
+        /* 有些windows,android设备不支持VAO;黑莓不支持此特征 */
 		#define CC_TEXTURE_ATLAS_USE_VAO 0
     #endif
 #endif
@@ -202,6 +225,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 
  @since v0.99.5
  */
+//! 标签使用16比特，禁用则为8比特
 #ifndef CC_USE_LA88_LABELS
 #define CC_USE_LA88_LABELS 1
 #endif
@@ -218,6 +242,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  1 -- draw bounding box
  2 -- draw texture box
 */
+//! 启用所有精灵子类都会绘制边界，测试使用，推荐禁用
 #ifndef CC_SPRITE_DEBUG_DRAW
 #define CC_SPRITE_DEBUG_DRAW 0
 #endif
@@ -228,6 +253,7 @@ Useful for debugging purposes only. It is recommended to leave it disabled.
 
 To enable set it to a value different than 0. Disabled by default.
 */
+//! 启用，则批量精灵节点绘制边界，测试使用，推荐禁用；
 #ifndef CC_SPRITEBATCHNODE_DEBUG_DRAW
 #define CC_SPRITEBATCHNODE_DEBUG_DRAW 0
 #endif
@@ -238,6 +264,7 @@ Useful for debugging purposes only. It is recommended to leave it disabled.
 
 To enable set it to a value different than 0. Disabled by default.
 */
+//! 所有CCLabelBMFont子类绘制边界，当启用时；测试使用
 #ifndef CC_LABELBMFONT_DEBUG_DRAW
 #define CC_LABELBMFONT_DEBUG_DRAW 0
 #endif
@@ -248,6 +275,7 @@ To enable set it to a value different than 0. Disabled by default.
  
  To enable set it to a value different than 0. Disabled by default.
  */
+//! 启用时，所有LabeltAtlas子类都会绘制边界；测试使用
 #ifndef CC_LABELATLAS_DEBUG_DRAW
 #define CC_LABELATLAS_DEBUG_DRAW 0
 #endif
@@ -259,11 +287,13 @@ To enable set it to a value different than 0. Disabled by default.
  
  To enable set it to a value different than 0. Disabled by default.
  */
+//! 启用分析器：用于分析数据，调试目的，推荐禁用
 #ifndef CC_ENABLE_PROFILERS
 #define CC_ENABLE_PROFILERS 0
 #endif
 
 /** Enable Lua engine debug log */
+//! 启用lua引擎调试日志
 #ifndef CC_LUA_ENGINE_DEBUG
 #define CC_LUA_ENGINE_DEBUG 0
 #endif
