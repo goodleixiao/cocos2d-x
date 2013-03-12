@@ -33,6 +33,7 @@ THE SOFTWARE.
  @file
  cocos2d (cc) configuration file
 */
+//! ccos2d配置文件
 
 /** @def CC_ENABLE_STACKABLE_ACTIONS
  If enabled, actions that alter the position property (eg: CCMoveBy, CCJumpBy, CCBezierBy, etc..) will be stacked.
