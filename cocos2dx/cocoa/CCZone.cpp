@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "CCObject.h"
 
 NS_CC_BEGIN
-
+ 
 CCZone::CCZone(CCObject *pObject)
 {
     m_pCopyObject = pObject;
