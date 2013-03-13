@@ -32,7 +32,8 @@ using namespace std;
 NS_CC_BEGIN
 
 // -----------------------------------------------------------------------
-// CCDictElement
+// CCDictElement 
+// 元素
 
 CCDictElement::CCDictElement(const char* pszKey, CCObject* pObject)
 {
@@ -68,6 +69,7 @@ CCDictElement::~CCDictElement()
 
 // -----------------------------------------------------------------------
 // CCDictionary
+// 字典
 
 CCDictionary::CCDictionary()
 : m_pElements(NULL)
@@ -154,9 +156,12 @@ CCArray* CCDictionary::allKeysForObject(CCObject* object)
 CCObject* CCDictionary::objectForKey(const std::string& key)
 {
     // if dictionary wasn't initialized, return NULL directly.
+    // 如果没有初始化，直接返回为null
     if (m_eDictType == kCCDictUnknown) return NULL;
     // CCDictionary only supports one kind of key, string or integer.
     // This method uses string as key, therefore we should make sure that the key type of this CCDictionary is string.
+    // 字典仅仅支持一种键：字符串或整数；
+    // 此方法使用字符串键
     CCAssert(m_eDictType == kCCDictStr, "this dictionary does not use string as key.");
 
     CCObject* pRetObject = NULL;
@@ -172,9 +177,12 @@ CCObject* CCDictionary::objectForKey(const std::string& key)
 CCObject* CCDictionary::objectForKey(int key)
 {
     // if dictionary wasn't initialized, return NULL directly.
+    //如果没有初始化，直接返回为null
     if (m_eDictType == kCCDictUnknown) return NULL;
     // CCDictionary only supports one kind of key, string or integer.
     // This method uses integer as key, therefore we should make sure that the key type of this CCDictionary is integer.
+    // 字典仅仅支持一种键：字符串或整数；
+    // 此方法使用整数键
     CCAssert(m_eDictType == kCCDictInt, "this dictionary does not use integer as key.");
 
     CCObject* pRetObject = NULL;
