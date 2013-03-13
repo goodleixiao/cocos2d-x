@@ -33,29 +33,35 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup global
+ * @addtogroup global   属于全局
  * @{
  */
 /**
  @brief CCConfiguration contains some openGL variables
  @since v0.99.0
  */
+/** 配置中含有的opengl变量
+ */
 class CC_DLL CCConfiguration : public CCObject
 {
 public:
     /** returns a shared instance of CCConfiguration */
+    /** 返回一个配置的共享实例 */
     static CCConfiguration *sharedConfiguration(void);
     /** purge the shared instance of CCConfiguration */
+    /** 删除实例 */
     static void purgeConfiguration(void);
 public:    
     
     /** OpenGL Max texture size. */
+    /** opengl纹理大小 */
     inline int getMaxTextureSize(void)
     {
         return m_nMaxTextureSize;
     }
     
     /** OpenGL Max Modelview Stack Depth. */
+    /** opengl栈位深度？*/
     inline int getMaxModelviewStackDepth(void)
     {
         return m_nMaxModelviewStackDepth;
@@ -64,6 +70,7 @@ public:
     /** returns the maximum texture units
      @since v2.0.0
      */
+    /** 返回最大纹理单元 */
     inline int getMaxTextureUnits(void)
     {
         return m_nMaxTextureUnits;
@@ -74,12 +81,14 @@ public:
      
      @since v0.99.2
      */
+    /** 是否支持NPOT */
     inline bool supportsNPOT(void)
     {
         return m_bSupportsNPOT;
     }
 
     /** Whether or not PVR Texture Compressed is supported */
+    /** 是否支持pvr纹理 */
     inline bool supportsPVRTC(void)
     {
         return m_bSupportsPVRTC;
@@ -88,6 +97,7 @@ public:
     /** Whether or not BGRA8888 textures are supported.
      @since v0.99.2
      */
+    /** 是否支持像素格式为BGRA8888单位纹理 */
     inline bool supportsBGRA8888(void)
     {
         return m_bSupportsBGRA8888;
@@ -96,6 +106,7 @@ public:
     /** Whether or not glDiscardFramebufferEXT is supported
      @since v0.99.2
      */
+    /** 是否支持glDiscardFramebufferEXT */
     inline bool supportsDiscardFramebuffer(void)
     {
         return m_bSupportsDiscardFramebuffer;
@@ -104,12 +115,14 @@ public:
     /** Whether or not shareable VAOs are supported.
      @since v2.0.0
      */
+    /** 是否支持VAO渲染 */
     inline bool supportsShareableVAO(void)
     {
         return m_bSupportsShareableVAO;
     }
 
     /** returns whether or not an OpenGL is supported */
+    /** 是否支持opengl */
     bool checkForGLExtension(const std::string &searchName);
 
     bool init(void);
@@ -132,6 +145,7 @@ protected:
 };
 
 // end of global group
+// 结束全局组
 /// @}
 
 NS_CC_END
