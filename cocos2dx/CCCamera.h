@@ -35,7 +35,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup base_nodes
+ * @addtogroup base_nodes       基本节点
  * @{
  */
 
@@ -61,6 +61,16 @@ using the camera.
 - It is recommended to use it ONLY if you are going to create 3D effects. For 2D effects, use the action CCFollow or position/scale/rotate.
 
 */
+/** 
+ * 每个节点都会用到摄像
+ * 用于从不同位置查看对象；使用gluLookAt()函数放置摄像的位置
+ * 如果对象被缩放，旋转，或者移动了，需要重装摄像
+ * 不可以同时使用；使用摄像时，世界坐标不工作
+ * 限制：
+        一些节点如粒子节点使用节点坐标
+        同样在批量精灵节点对象也不作用
+        推荐在创建3D效果时使用，2D可以使用CCFollow
+ */
 class CC_DLL CCCamera : public CCObject
 {
 protected:
@@ -87,29 +97,40 @@ public:
     const char* description(void);
 
     /** sets the dirty value */
+    /** 设置旧的值 */
     inline void setDirty(bool bValue) { m_bDirty = bValue; }
     /** get the dirty value */
+    /** 获取旧的值 */
     inline bool isDirty(void) { return m_bDirty; }
 
     /** sets the camera in the default position */
+    /** 在默认位置设置摄像 */
     void restore(void);
     /** Sets the camera using gluLookAt using its eye, center and up_vector */
+    /** 使用gluLookAt,eye,中心，矢量来设置摄像 */
     void locate(void);
     /** sets the eye values in points */
+    /** 以点为单位设置眼的值 */
     void setEyeXYZ(float fEyeX, float fEyeY, float fEyeZ);
     /** sets the center values in points */
+    /** 以点为单位设置中心点的值 */
     void setCenterXYZ(float fCenterX, float fCenterY, float fCenterZ);
     /** sets the up values */
+    /** 设置上值 */
     void setUpXYZ(float fUpX, float fUpY, float fUpZ);
 
     /** get the eye vector values in points */
+    /** 获取眼值，以点为单位 */
     void getEyeXYZ(float *pEyeX, float *pEyeY, float *pEyeZ);
     /** get the center vector values int points */
+    /** 获取中心值，以点为单位 */
     void getCenterXYZ(float *pCenterX, float *pCenterY, float *pCenterZ);
     /** get the up vector values */
+    /** 获取上值 */
     void getUpXYZ(float *pUpX, float *pUpY, float *pUpZ);
 public:
     /** returns the Z eye */
+    /** 返回z值 */
     static float getZEye();
 
 private:
