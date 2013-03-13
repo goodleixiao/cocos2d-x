@@ -39,7 +39,7 @@ CCObject* CCCopying::copyWithZone(CCZone *pZone)
 
 CCObject::CCObject(void)
 : m_nLuaID(0)
-, m_uReference(1) // when the object is created, the reference count of it is 1
+, m_uReference(1) // when the object is created, the reference count of it is 1  当对象被创建时，引用计数为1
 , m_uAutoReleaseCount(0)
 {
     static unsigned int uObjectCount = 0;
@@ -51,12 +51,14 @@ CCObject::~CCObject(void)
 {
     // if the object is managed, we should remove it
     // from pool manager
+    // 从自动释放池中移除
     if (m_uAutoReleaseCount > 0)
     {
         CCPoolManager::sharedPoolManager()->removeObject(this);
     }
 
     // if the object is referenced by Lua engine, remove it
+    // 如果对象是lua引擎，就删除
     if (m_nLuaID)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptObjectByCCObject(this);
