@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 NS_CC_BEGIN
-
+// 字符串的最大长度
 #define kMaxStringLen (1024*100)
 
 CCString::CCString()
