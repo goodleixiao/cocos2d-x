@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures      数据结构
  * @{
  */
 
@@ -47,42 +47,52 @@ public:
     /**
     *@brief Return a copy of the CCSet, it will copy all the elements.
     */
+    // 返回所有元素的拷贝
     CCSet* copy();
     /**
     *@brief It is the same as copy().
     */
+    // 可变复制，与copy()相等
     CCSet* mutableCopy();
     /**
     *@brief Return the number of elements the CCSet contains.
     */
+    // 返回集合中元素的个数
     int count();
     /**
     *@brief Add a element into CCSet, it will retain the element.
     */
+    // 增加一个元素到集合
     void addObject(CCObject *pObject);
     /**
     *@brief Remove the given element, nothing todo if no element equals pObject.
     */
+    // 删除一个指定元素
     void removeObject(CCObject *pObject);
     /**
      *@brief Remove all elements of the set
      */
+    // 删除集合中所有元素
     void removeAllObjects();
     /**
     *@brief Check if CCSet contains a element equals pObject.
     */
+    // 检测集合中是否有相等元素
     bool containsObject(CCObject *pObject);
     /**
     *@brief Return the iterator that points to the first element.
     */
+    // 返回遍历，指向第一个元素
     CCSetIterator begin();
     /**
     *@brief Return the iterator that points to the position after the last element.
     */
+    // 返回遍历，指向最后一个元素的后面位置
     CCSetIterator end();
     /**
     *@brief Return the first element if it contains elements, or null if it doesn't contain any element.
     */
+    // 返回第一个元素对象，若为null，则表示集合没有任何元素
     CCObject* anyObject();
 
 private:
