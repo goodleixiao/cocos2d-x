@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "ccMacros.h"
 
 // implementation of CCPoint
+// 实现点
 NS_CC_BEGIN
 
 CCPoint::CCPoint(void)
@@ -61,7 +62,7 @@ bool CCPoint::equals(const CCPoint& target) const
 }
 
 // implementation of CCSize
-
+// 实现尺寸
 CCSize::CCSize(void)
 {
     setSize(0.0f, 0.0f);
@@ -95,7 +96,7 @@ bool CCSize::equals(const CCSize& target) const
 }
 
 // implementation of CCRect
-
+// 实现矩形
 CCRect::CCRect(void)
 {
     setRect(0.0f, 0.0f, 0.0f, 0.0f);
@@ -121,7 +122,7 @@ void CCRect::setRect(float x, float y, float width, float height)
 {
     // CGRect can support width<0 or height<0
     // CCAssert(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
-
+    // 支持宽或高小于0
     origin.x = x;
     origin.y = y;
 
