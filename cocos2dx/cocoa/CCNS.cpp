@@ -34,6 +34,7 @@ NS_CC_BEGIN
 typedef std::vector<std::string> strArray;
 
 // string toolkit
+// 字符串工具包
 static inline void split(std::string src, const char* token, strArray& vect)
 {
     int nend=0;
@@ -53,6 +54,10 @@ static inline void split(std::string src, const char* token, strArray& vect)
 // if the form is right,the string will be split into the parameter strs;
 // or the parameter strs will be empty.
 // if the form is right return true,else return false.
+// 首先，判断表格的字符串是否为{x,y}
+// 是，则使用分裂字符串到参数strs
+// 否则参数strs为空；
+// 表格是对的，则返回true
 static bool splitWithForm(const char* pStr, strArray& strs)
 {
     bool bRet = false;
@@ -62,6 +67,7 @@ static bool splitWithForm(const char* pStr, strArray& strs)
         CC_BREAK_IF(!pStr);
 
         // string is empty
+        // 字符串为空
         std::string content = pStr;
         CC_BREAK_IF(content.length() == 0);
 
@@ -69,17 +75,21 @@ static bool splitWithForm(const char* pStr, strArray& strs)
         int nPosRight = content.find('}');
 
         // don't have '{' and '}'
+        // 不含有{}
         CC_BREAK_IF(nPosLeft == (int)std::string::npos || nPosRight == (int)std::string::npos);
         // '}' is before '{'
+        // }在{前
         CC_BREAK_IF(nPosLeft > nPosRight);
 
         std::string pointStr = content.substr(nPosLeft + 1, nPosRight - nPosLeft - 1);
         // nothing between '{' and '}'
+        // 在{}之前没有任何参数
         CC_BREAK_IF(pointStr.length() == 0);
 
         int nPos1 = pointStr.find('{');
         int nPos2 = pointStr.find('}');
         // contain '{' or '}' 
+        // 包含{}
         CC_BREAK_IF(nPos1 != (int)std::string::npos || nPos2 != (int)std::string::npos);
 
         split(pointStr, ",", strs);
@@ -96,7 +106,7 @@ static bool splitWithForm(const char* pStr, strArray& strs)
 }
 
 // implement the functions
-
+// 实现功能
 CCRect CCRectFromString(const char* pszContent)
 {
     CCRect result = CCRectZero;
@@ -107,6 +117,7 @@ CCRect CCRectFromString(const char* pszContent)
         std::string content = pszContent;
 
         // find the first '{' and the third '}'
+        // 找到第一个{和第三个}
         int nPosLeft  = content.find('{');
         int nPosRight = content.find('}');
         for (int i = 1; i < 3; ++i)
@@ -126,10 +137,12 @@ CCRect CCRectFromString(const char* pszContent)
         CC_BREAK_IF(nPointEnd == (int)std::string::npos);
 
         // get the point string and size string
+        // 获取点字符串和大小字符串
         std::string pointStr = content.substr(0, nPointEnd);
         std::string sizeStr  = content.substr(nPointEnd + 1, content.length() - nPointEnd);
 
         // split the string with ','
+        // 分离字符串用逗号
         strArray pointInfo;
         CC_BREAK_IF(!splitWithForm(pointStr.c_str(), pointInfo));
         strArray sizeInfo;
