@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup base_nodes
+ * @addtogroup base_nodes       基本节点
  * @{
  */
 
@@ -49,13 +49,17 @@ class CC_DLL CCObject : public CCCopying
 {
 public:
     // object id, CCScriptSupport need public m_uID
+    // 对象id
     unsigned int        m_uID;
     // Lua reference id
+    // lua引用id
     int                 m_nLuaID;
 protected:
     // count of references
+    // 引用个数
     unsigned int        m_uReference;
     // count of autorelease
+    // 自动释放个数
     unsigned int        m_uAutoReleaseCount;
 public:
     CCObject(void);
@@ -84,6 +88,7 @@ typedef void (CCObject::*SEL_MenuHandler)(CCObject*);
 typedef void (CCObject::*SEL_EventHandler)(CCEvent*);
 typedef int (CCObject::*SEL_Compare)(CCObject*);
 
+//选择器方法
 #define schedule_selector(_SELECTOR) (SEL_SCHEDULE)(&_SELECTOR)
 #define callfunc_selector(_SELECTOR) (SEL_CallFunc)(&_SELECTOR)
 #define callfuncN_selector(_SELECTOR) (SEL_CallFuncN)(&_SELECTOR)
