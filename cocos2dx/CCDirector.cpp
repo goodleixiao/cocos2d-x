@@ -64,6 +64,7 @@ THE SOFTWARE.
  
  Default: 0,0 (bottom-left corner)
  */
+// 设置FPS的位置，默认为左下角(0,0)
 #ifndef CC_DIRECTOR_STATS_POSITION
 #define CC_DIRECTOR_STATS_POSITION CCDirector::sharedDirector()->getVisibleOrigin()
 #endif
@@ -76,9 +77,10 @@ NS_CC_BEGIN
 // XXX it should be a Director ivar. Move it there once support for multiple directors is added
 
 // singleton stuff
+// 单例
 static CCDisplayLinkDirector *s_SharedDirector = NULL;
 
-#define kDefaultFPS        60  // 60 frames per second
+#define kDefaultFPS        60  // 60 frames per second		每秒60帧
 extern const char* cocos2dVersion(void);
 
 CCDirector* CCDirector::sharedDirector(void)
@@ -101,7 +103,8 @@ bool CCDirector::init(void)
 {
     CCLOG("cocos2d: %s", cocos2dVersion());
     
-    // scenes
+    // scenes	
+    // 场景
     m_pRunningScene = NULL;
     m_pNextScene = NULL;
 
@@ -112,9 +115,11 @@ bool CCDirector::init(void)
     m_pobScenesStack->init();
 
     // Set default projection (3D)
+    // 设置默认投影
     m_eProjection = kCCDirectorProjectionDefault;
 
     // projection delegate if "Custom" projection is used
+    // 自定义投影时投影委托
     m_pProjectionDelegate = NULL;
 
     // FPS
@@ -128,10 +133,10 @@ bool CCDirector::init(void)
     m_pszFPS = new char[10];
     m_pLastUpdate = new struct cc_timeval();
 
-    // paused ?
+    // paused ?		暂停
     m_bPaused = false;
    
-    // purge ?
+    // purge ?		清除
     m_bPurgeDirecotorInNextLoop = false;
 
     m_obWinSizeInPoints = CCSizeZero;    
@@ -140,22 +145,22 @@ bool CCDirector::init(void)
 
     m_fContentScaleFactor = 1.0f;
 
-    // scheduler
+    // scheduler	调度
     m_pScheduler = new CCScheduler();
-    // action manager
+    // action manager	动作管理
     m_pActionManager = new CCActionManager();
     m_pScheduler->scheduleUpdateForTarget(m_pActionManager, kCCPrioritySystem, false);
-    // touchDispatcher
+    // touchDispatcher	触摸调度
     m_pTouchDispatcher = new CCTouchDispatcher();
     m_pTouchDispatcher->init();
 
-    // KeypadDispatcher
+    // KeypadDispatcher	键盘调用
     m_pKeypadDispatcher = new CCKeypadDispatcher();
 
-    // Accelerometer
+    // Accelerometer	加速计
     m_pAccelerometer = new CCAccelerometer();
 
-    // create autorelease pool
+    // create autorelease pool	自动释放
     CCPoolManager::sharedPoolManager()->push();
 
     return true;
@@ -178,13 +183,13 @@ CCDirector::~CCDirector(void)
     CC_SAFE_RELEASE(m_pKeypadDispatcher);
     CC_SAFE_DELETE(m_pAccelerometer);
 
-    // pop the autorelease pool
+    // pop the autorelease pool		弹出自动释放池
     CCPoolManager::sharedPoolManager()->pop();
     CCPoolManager::purgePoolManager();
 
-    // delete m_pLastUpdate
+    // delete m_pLastUpdate		删除最后更新
     CC_SAFE_DELETE(m_pLastUpdate);
-    // delete fps string
+    // delete fps string		删除fps字符串
     delete []m_pszFPS;
 
     s_SharedDirector = NULL;
@@ -193,25 +198,30 @@ CCDirector::~CCDirector(void)
 void CCDirector::setGLDefaultValues(void)
 {
     // This method SHOULD be called only after openGLView_ was initialized
+    // 此方法只在openGLView初始化是调用
     CCAssert(m_pobOpenGLView, "opengl view should not be null");
 
     setAlphaBlending(true);
     // XXX: Fix me, should enable/disable depth test according the depth format as cocos2d-iphone did
     // [self setDepthTest: view_.depthFormat];
+    // 设置位深度测试
     setDepthTest(false);
     setProjection(m_eProjection);
 
-    // set other opengl default values
+    // set other opengl default values	设置其他值
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 // Draw the Scene
+// 绘制场景
 void CCDirector::drawScene(void)
 {
     // calculate "global" dt
+    // 计数全局时间差
     calculateDeltaTime();
 
     //tick before glClear: issue #533
+    //使用glClear前
     if (! m_bPaused)
     {
         m_pScheduler->update(m_fDeltaTime);
@@ -229,12 +239,14 @@ void CCDirector::drawScene(void)
     kmGLPushMatrix();
 
     // draw the scene
+    // 绘制场景
     if (m_pRunningScene)
     {
         m_pRunningScene->visit();
     }
 
     // draw the notifications node
+    // 绘制通知节点
     if (m_pNotificationNode)
     {
         m_pNotificationNode->visit();
@@ -250,6 +262,7 @@ void CCDirector::drawScene(void)
     m_uTotalFrames++;
 
     // swap buffers
+    // 交换缓存
     if (m_pobOpenGLView)
     {
         m_pobOpenGLView->swapBuffers();
@@ -273,6 +286,7 @@ void CCDirector::calculateDeltaTime(void)
     }
 
     // new delta time. Re-fixed issue #1277
+    // 新的时间差
     if (m_bNextDeltaTimeZero)
     {
         m_fDeltaTime = 0;
@@ -286,6 +300,7 @@ void CCDirector::calculateDeltaTime(void)
 
 #ifdef DEBUG
     // If we are debugging our code, prevent big delta time
+    // 如果调试，则不用使用大的时间差
     if(m_fDeltaTime > 0.2f)
     {
         m_fDeltaTime = 1 / 60.0f;
@@ -301,11 +316,13 @@ void CCDirector::setOpenGLView(CCEGLView *pobOpenGLView)
 
     if (m_pobOpenGLView != pobOpenGLView)
     {
-        // EAGLView is not a CCObject
+        // EAGLView is not a CCObject		
+        // EAGLView不是一个对象 ？
         delete m_pobOpenGLView; // [openGLView_ release]
         m_pobOpenGLView = pobOpenGLView;
 
         // set size
+        // 设置大小
         m_obWinSizeInPoints = m_pobOpenGLView->getDesignResolutionSize();
         
         createStatsLabel();
@@ -481,6 +498,7 @@ CCPoint CCDirector::convertToUI(const CCPoint& glPoint)
     
 	kmVec3 clipCoord;
 	// Need to calculate the zero depth from the transform.
+	// 需要计算零深度的转换
 	kmVec3 glCoord = {glPoint.x, glPoint.y, 0.0};
 	kmVec3TransformCoord(&clipCoord, &glCoord, &transform);
 	
@@ -523,7 +541,7 @@ CCPoint CCDirector::getVisibleOrigin()
 }
 
 // scene management
-
+// 场景管理
 void CCDirector::runWithScene(CCScene *pScene)
 {
     CCAssert(pScene != NULL, "This command can only be used to start the CCDirector. There is already a scene present.");
@@ -612,10 +630,12 @@ void CCDirector::end()
 void CCDirector::purgeDirector()
 {
     // cleanup scheduler
+    // 清理调度
     getScheduler()->unscheduleAll();
     
     // don't release the event handlers
     // They are needed in case the director is run again
+    // 需要时，再次使用
     m_pTouchDispatcher->removeAllDelegates();
 
     if (m_pRunningScene)
@@ -631,6 +651,7 @@ void CCDirector::purgeDirector()
 
     // remove all objects, but don't release it.
     // runWithScene might be executed after 'end'.
+    // 移除所有对象，不删除； 直到end
     m_pobScenesStack->removeAllObjects();
 
     stopAnimation();
@@ -640,9 +661,11 @@ void CCDirector::purgeDirector()
     CC_SAFE_RELEASE_NULL(m_pDrawsLabel);
 
     // purge bitmap cache
+    // 清除缓存
     CCLabelBMFont::purgeCachedData();
 
     // purge all managed caches
+    // 清除所有管理者的缓存
     ccDrawFree();
     CCAnimationCache::purgeSharedAnimationCache();
     CCSpriteFrameCache::purgeSharedSpriteFrameCache();
@@ -652,6 +675,7 @@ void CCDirector::purgeDirector()
     CCConfiguration::purgeConfiguration();
 
     // cocos2d-x specific data structures
+    // 指定数据结构
     CCUserDefault::purgeSharedUserDefault();
     CCNotificationCenter::purgeNotificationCenter();
 
@@ -659,11 +683,12 @@ void CCDirector::purgeDirector()
     
     CHECK_GL_ERROR_DEBUG();
     
-    // OpenGL view
+    // OpenGL view	视图
     m_pobOpenGLView->end();
     m_pobOpenGLView = NULL;
 
     // delete CCDirector
+    // 释放导演
     release();
 }
 
@@ -673,6 +698,7 @@ void CCDirector::setNextScene(void)
     bool newIsTransition = dynamic_cast<CCTransitionScene*>(m_pNextScene) != NULL;
 
     // If it is not a transition, call onExit/cleanup
+    // 若不是变换，调用onExit和cleanup
      if (! newIsTransition)
      {
          if (m_pRunningScene)
@@ -683,6 +709,7 @@ void CCDirector::setNextScene(void)
  
          // issue #709. the root node (scene) should receive the cleanup message too
          // otherwise it might be leaked.
+         // 根节点接收清理消息； 否则会内存泄露
          if (m_bSendCleanupToScene && m_pRunningScene)
          {
              m_pRunningScene->cleanup();
@@ -714,6 +741,7 @@ void CCDirector::pause(void)
     m_dOldAnimationInterval = m_dAnimationInterval;
 
     // when paused, don't consume CPU
+    // 暂停时，消耗较低cpu
     setAnimationInterval(1 / 4.0);
     m_bPaused = true;
 }
@@ -738,6 +766,7 @@ void CCDirector::resume(void)
 
 // display the FPS using a LabelAtlas
 // updates the FPS every frame
+// 显示fps；并更新
 void CCDirector::showStats(void)
 {
     m_uFrames++;
@@ -781,6 +810,7 @@ void CCDirector::calculateMPF()
 }
 
 // returns the FPS image data pointer and len
+// 返回fps图像数据
 void CCDirector::getFPSImageData(unsigned char** datapointer, unsigned int* length)
 {
     // XXX fixed me if it should be used 
@@ -931,12 +961,16 @@ CCAccelerometer* CCDirector::getAccelerometer()
 }
 
 /***************************************************
-* implementation of DisplayLinkDirector
+* implementation of DisplayLinkDirector		实现
 **************************************************/
 
 // should we implement 4 types of director ??
 // I think DisplayLinkDirector is enough
 // so we now only support DisplayLinkDirector
+/** 要实现4钟类型导演
+ * 显示导演就行了
+ * 当前只支持DisplayLinkDirector
+ */
 void CCDisplayLinkDirector::startAnimation(void)
 {
     if (CCTime::gettimeofdayCocos2d(m_pLastUpdate, NULL) != 0)
@@ -959,7 +993,7 @@ void CCDisplayLinkDirector::mainLoop(void)
      {
          drawScene();
      
-         // release the objects
+         // release the objects 	释放对象
          CCPoolManager::sharedPoolManager()->pop();        
      }
 }
