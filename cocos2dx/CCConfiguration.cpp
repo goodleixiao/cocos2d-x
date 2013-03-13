@@ -113,7 +113,7 @@ void CCConfiguration::purgeConfiguration(void)
 {
     CC_SAFE_RELEASE_NULL(s_gSharedConfiguration);
 }
-
+ 
 bool CCConfiguration::checkForGLExtension(const string &searchName)
 {
     bool bRet = false;
