@@ -107,6 +107,7 @@ CCAffineTransform CCAffineTransformRotate(const CCAffineTransform& t, float anAn
 
 /* Concatenate `t2' to `t1' and return the result:
      t' = t1 * t2 */
+// 串联t2到t1上，结果为： t = t1 * t2;
 CCAffineTransform CCAffineTransformConcat(const CCAffineTransform& t1, const CCAffineTransform& t2)
 {
     return __CCAffineTransformMake(    t1.a * t2.a + t1.b * t2.c, t1.a * t2.b + t1.b * t2.d, //a,b
@@ -116,6 +117,7 @@ CCAffineTransform CCAffineTransformConcat(const CCAffineTransform& t1, const CCA
 }
 
 /* Return true if `t1' and `t2' are equal, false otherwise. */
+// 比较是否相等
 bool CCAffineTransformEqualToTransform(const CCAffineTransform& t1, const CCAffineTransform& t2)
 {
     return (t1.a == t2.a && t1.b == t2.b && t1.c == t2.c && t1.d == t2.d && t1.tx == t2.tx && t1.ty == t2.ty);
