@@ -51,7 +51,7 @@ class CCScheduler;
 class CCActionManager;
 
 /**
- * @addtogroup base_nodes
+ * @addtogroup base_nodes	基本节点
  * @{
  */
 
@@ -121,6 +121,15 @@ enum {
  Camera:
  - Each node has a camera. By default it points to the center of the CCNode.
  */
+/**
+ * 节点是主要元素。任何对象都可以是一个节点。主要或常用的场景类，层类，精灵，菜单类都是从节点继承而来
+ * 节点的主要特征：可以还有其他节点（增加子类或删除）；可以进行定期回调;可以执行动作(如运行,停止等)
+ * 一些节点可以提供附加功能. 如子类可以具有重载初始化资源和回调,可以回调处理时间,重画;
+ * 节点的特征:位置,缩放比例,旋转,摄像,网格,锚点,大小,可见性,z轴次序,opengl z轴位置
+ * 限制:节点可以是任意对象。不具有纹理;不可编辑的网格转换：节点可以具有转换，旋转，倾斜，缩放，摄像
+ * 可编辑网格中时：节点具有转换，旋转，倾斜，缩放，摄像，捕捉屏幕，呈现
+ * 每个节点都有一个摄像。默认为节点的中心位置
+ */
 
 class CC_DLL CCNode : public CCObject
 {
@@ -132,31 +141,37 @@ public:
     /**
      * Default constructor
      */
+    // 默认构造
     CCNode(void);
     
     /**
      * Default destructor
      */
+    // 析构
     virtual ~CCNode(void);
     
     /**
      *  Initializes the instance of CCNode
      *  @return Whether the initialization was successful.
      */
+    // 初始化
     virtual bool init();
 	/**
      * Allocates and initializes a node.
      * @return A initialized node which is marked as "autorelease".
      */
+    // 分配和初始化一个节点，返回值具有自动释放
     static CCNode * create(void);
     
     /**
      * Gets the description string. It makes debugging easier.
      * @return A string terminated with '\0'
      */
+    // 描述方法
     const char* description(void);
     
     /// @} end of initializers
+    /// 结束初始化
     
     
     
@@ -174,6 +189,7 @@ public:
      *
      * @param nZOrder   Z order of this node.
      */
+    // 设置z次序：相对于父类，兄弟之间的次序
     virtual void setZOrder(int zOrder);
     /**
      * Sets the z order which stands for the drawing order
@@ -183,6 +199,7 @@ public:
      * - _setZOrder(int) is a pure setter for m_nZOrder memeber variable
      * - setZOrder(int) firstly changes m_nZOrder, then recorder this node in its parent's chilren array.
      */
+    // 设置z次序，就是绘制循序
     virtual void _setZOrder(int z);
     /**
      * Gets the Z order of this node.
@@ -191,6 +208,7 @@ public:
      *
      * @return The Z order.
      */
+    // 获取z次序
     virtual int getZOrder();
 
 
@@ -206,6 +224,12 @@ public:
      *
      * @param fVertexZ  OpenGL Z vertex of this node.
      */
+    // 设置真实opengl z顶点：
+    /* opengl z顶点与 cocos2d的z次序不同
+    opengl修改z 顶点，而z 次序没有影响；opengl的z 可能要求设置2d投影。 
+    如果所有节点都设置相同的opengl的z 顶点，如vertexZ = 0;可以正常工作
+    注意：使用此，可能打破cocos2d父子的z次序
+    */
     virtual void setVertexZ(float vertexZ);
     /**
      * Gets OpenGL Z vertex of this node.
@@ -214,6 +238,7 @@ public:
      *
      * @return OpenGL Z vertex of this node
      */
+    // 获取opengl的z 顶点
     virtual float getVertexZ();
 
 
@@ -224,6 +249,7 @@ public:
      *
      * @param fScaleX   The scale factor on X axis.
      */
+    // 改变这个节点X轴的比例因子
     virtual void setScaleX(float fScaleX);
     /**
      * Returns the scale factor on X axis of this node
@@ -232,6 +258,7 @@ public:
      *
      * @return The scale factor on X axis.
      */
+    // 获取这个节点X轴的比例因子
     virtual float getScaleX();
 
     
@@ -242,6 +269,7 @@ public:
      *
      * @param fScaleY   The scale factor on Y axis.
      */
+    // 改变这个节点Y轴的比例因子
     virtual void setScaleY(float fScaleY);
     /**
      * Returns the scale factor on Y axis of this node
@@ -250,6 +278,7 @@ public:
      *
      * @return The scale factor on Y axis. 
      */
+    // 获取这个节点Y轴的比例因子
     virtual float getScaleY();
 
     
@@ -260,6 +289,7 @@ public:
      *
      * @param scale     The scale factor for both X and Y axis.
      */
+    // 改变这个节点X,Y轴的比例因子
     virtual void setScale(float scale);
     /**
      * Gets the scale factor of the node,  when X and Y have the same scale factor.
@@ -269,6 +299,7 @@ public:
      *
      * @return The scale factor of the node.
      */
+    // 获取这个节点X,y轴的比例因子,x,y具有相同的比例
     virtual float getScale();
     
     
@@ -285,6 +316,7 @@ public:
      *
      * @param position  The position (x,y) of the node in OpenGL coordinates
      */
+    // 设置位置，在opengl的坐标系中
     virtual void setPosition(const CCPoint &position);
     /**
      * Gets the position (x,y) of the node in OpenGL coordinates
@@ -293,6 +325,7 @@ public:
      *
      * @return The position (x,y) of the node in OpenGL coordinates
      */
+    // 获取节点的位置，在opengl坐标系
     virtual const CCPoint& getPosition();
     /**
      * Sets position in a more efficient way.
@@ -310,17 +343,20 @@ public:
      * @param x     X coordinate for position
      * @param y     Y coordinate for position
      */
+    // 使用x,y来设置节点位置
     void setPosition(float x, float y);
     /**
      * Gets position in a more efficient way, returns two number instead of a CCPoint object
      *
      * @see setPosition(float, float)
      */
+    // 获取节点的位置，参数为x,y
     void getPosition(float* x, float* y);
     /**
      * Gets/Sets x or y coordinate individually for position.
      * These methods are used in Lua and Javascript Bindings
      */
+    // 设置，获取x,y位置，用在lua和javascript绑定中
     void  setPositionX(float x);
     float getPositionX(void);
     void  setPositionY(float y);
@@ -336,6 +372,7 @@ public:
      *
      * @param fSkewX The X skew angle of the node in degrees.
      */
+    // 设置节点x轴倾斜的角度，以角度为单位
     virtual void setSkewX(float fSkewX);
     /**
      * Returns the X skew angle of the node in degrees.
@@ -344,6 +381,7 @@ public:
      *
      * @return The X skew angle of the node in degrees.
      */
+    // 获取节点x轴倾斜的角度，以角度为单位
     virtual float getSkewX();
 
     
@@ -356,6 +394,7 @@ public:
      *
      * @param fSkewY    The Y skew angle of the node in degrees.
      */
+    // 设置节点y轴倾斜的角度，以角度为单位
     virtual void setSkewY(float fSkewY);
     /**
      * Returns the Y skew angle of the node in degrees.
@@ -364,6 +403,7 @@ public:
      *
      * @return The Y skew angle of the node in degrees.
      */
+    // 获取节点y轴倾斜的角度，以角度为单位
     virtual float getSkewY();
 
     
@@ -378,6 +418,7 @@ public:
      *
      * @param anchorPoint   The anchor point of node.
      */
+    // 设置锚点，以百分数为单位。 通常锚点为几何图形的中心点
     virtual void setAnchorPoint(const CCPoint& anchorPoint);
     /** 
      * Returns the anchor point in percent.
@@ -386,6 +427,7 @@ public:
      *
      * @return The anchor point of node.
      */
+    // 获取锚点，以百分数为单位
     virtual const CCPoint& getAnchorPoint();
     /**
      * Returns the anchorPoint in absolute pixels.
@@ -395,6 +437,7 @@ public:
      *
      * @return The anchor point in absolute pixels.
      */
+    // 获取锚点，以像素为单位
     virtual const CCPoint& getAnchorPointInPoints();
     
     
@@ -406,6 +449,7 @@ public:
      *
      * @param contentSize   The untransformed size of the node.
      */
+    // 设置节点大小。未转化参数
     virtual void setContentSize(const CCSize& contentSize);
     /**
      * Returns the untransformed size of the node.
@@ -414,6 +458,7 @@ public:
      *
      * @return The untransformed size of the node.
      */
+    // 获取节点大小
     virtual const CCSize& getContentSize();
 
     
@@ -424,6 +469,7 @@ public:
      *
      * @param visible   true if the node is visible, false if the node is hidden.
      */
+    // 设置可见性
     virtual void setVisible(bool visible);
     /**
      * Determines if the node is visible
@@ -432,6 +478,7 @@ public:
      *
      * @return true if the node is visible, false if the node is hidden.
      */
+    // 是否可见，节点
     virtual bool isVisible();
 
     
@@ -443,6 +490,7 @@ public:
      * 
      * @param fRotation     The roration of the node in degrees.
      */
+    // 设置节点旋转角度，以角度为单位
     virtual void setRotation(float fRotation);
     /**
      * Returns the rotation of the node in degrees.
@@ -451,6 +499,7 @@ public:
      *
      * @return The rotation of the node in degrees.
      */
+    // 获取旋转角度
     virtual float getRotation();
 
     
@@ -462,6 +511,7 @@ public:
      * 
      * @param fRotationX    The X rotation in degrees which performs a horizontal rotational skew.
      */
+    // 设置节点x轴旋转角度，以角度为单位
     virtual void setRotationX(float fRotaionX);
     /**
      * Gets the X rotation (angle) of the node in degrees which performs a horizontal rotation skew.
@@ -470,6 +520,7 @@ public:
      *
      * @return The X rotation in degrees.
      */
+    // 获取节点x轴旋转角度
     virtual float getRotationX();
 
     
@@ -481,6 +532,7 @@ public:
      *
      * @param fRotationY    The Y rotation in degrees.
      */
+    // 设置节点y轴旋转角度，以角度为单位
     virtual void setRotationY(float fRotationY);
     /**
      * Gets the Y rotation (angle) of the node in degrees which performs a vertical rotational skew.
@@ -489,6 +541,7 @@ public:
      *
      * @return The Y rotation in degrees.
      */
+    // 获取节点y轴旋转角度
     virtual float getRotationY();
 
     
