@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures          数据结构
  * @{
  */
 
@@ -44,6 +44,12 @@ NS_CC_BEGIN
 @return A Core Graphics structure that represents a rectangle.
         If the string is not well-formed, the function returns CCRectZero.
 */
+/**
+ * 返回一个核心绘图矩形结构，给定一个字符串数据
+ * 一个字符串对象内容是：x轴，y轴，w为宽,h为高；可以使用整数或浮点数来表示；若一个有效的字符串为{{3,2},{4,5}}
+ * 字符串没有本地化，因此条目通常是用,分隔
+ * 返回一个核心绘画结构的呈现一个矩形；没有设置，默认返回CCRectZero
+ */
 CCRect CC_DLL CCRectFromString(const char* pszContent);
 
 /**
@@ -56,6 +62,12 @@ CCRect CC_DLL CCRectFromString(const char* pszContent);
 @return A Core Graphics structure that represents a point.
         If the string is not well-formed, the function returns CCPointZero.
 */
+/**
+ * 返回一个核心绘图点结构，给定一个字符串数据
+ * 一个字符串对象内容是：x轴，y轴，可以使用整数或浮点数来表示；若一个有效的字符串为{3,2}
+ * 字符串没有本地化，因此条目通常是用,分隔
+ * 返回一个核心绘画结构的呈现一个点；没有设置，默认返回CCRectZero
+ */
 CCPoint CC_DLL CCPointFromString(const char* pszContent);
 
 /**
@@ -68,6 +80,12 @@ CCPoint CC_DLL CCPointFromString(const char* pszContent);
 @return A Core Graphics structure that represents a size.
         If the string is not well-formed, the function returns CCSizeZero.
 */
+/**
+ * 返回一个核心绘图大小结构，给定一个字符串数据
+ * 一个字符串对象内容是：x轴，y轴，可以使用整数或浮点数来表示；若一个有效的字符串为{3,2}
+ * 字符串没有本地化，因此条目通常是用,分隔
+ * 返回一个核心绘画结构的呈现大小；没有设置，默认返回CCRectZero
+ */
 CCSize CC_DLL CCSizeFromString(const char* pszContent);
 
 // end of data_structure group
