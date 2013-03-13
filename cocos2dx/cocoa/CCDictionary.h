@@ -35,7 +35,7 @@ NS_CC_BEGIN
 class CCDictionary;
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures      数据结构
  * @{
  */
 
@@ -59,6 +59,12 @@ class CCDictionary;
  *  @endcode
  *
  */
+/**
+ * 用于字典
+ * 是字典中一个元素，有两个属性：键 和 对象
+ * 键有两个类型：整数和字符串
+ * 键是独一无二的。具有相同的类型在字典
+ */
 class CC_DLL CCDictElement
 {
 private:
@@ -68,6 +74,9 @@ private:
      *  @param  pszKey    The string key of this element.
      *  @param  pObject   The object of this element.
      */
+    /** 构造
+     * 参数为：字符串键和对象
+     */
     CCDictElement(const char* pszKey, CCObject* pObject);
 
     /**
@@ -76,12 +85,16 @@ private:
      *  @param  iKey    The integer key of this element.
      *  @param  pObject   The object of this element.
      */
+    /** 构造
+     * 参数为：整数键和对象
+     */
     CCDictElement(intptr_t iKey, CCObject* pObject);
     
 public:
     /**
      *  The destructor of CCDictElement.
      */
+    // 析构
     ~CCDictElement();
 
     // Inline functions need to be implemented in header file on Android.
@@ -92,6 +105,10 @@ public:
      *          If the element's key type is integer, invoking this method will cause an assert.
      *
      * @return  The string key of this element.
+     */
+    /**
+     * 获取元素的字符串键
+     * 只能获取字符串类型的键
      */
     inline const char* getStrKey() const
     {
@@ -106,6 +123,7 @@ public:
      *
      * @return  The integer key of this element.
      */
+    // 获取整数类型的元素
     inline intptr_t getIntKey() const
     {
         CCAssert(m_szKey[0] == '\0', "Should not call this function for string dictionary");
@@ -117,25 +135,33 @@ public:
      *
      * @return  The object of this element.
      */
+    /**
+     * 获取元素中的对象
+     */
     inline CCObject* getObject() const { return m_pObject; }
 
 private:
     // The max length of string key.
+    // 最大键长度
     #define   MAX_KEY_LEN   256
     // char array is needed for HASH_ADD_STR in UT_HASH.
     // So it's a pain that all elements will allocate 256 bytes for this array.
-    char      m_szKey[MAX_KEY_LEN];     // hash key of string type
-    intptr_t  m_iKey;       // hash key of integer type
-    CCObject* m_pObject;    // hash value
+    char      m_szKey[MAX_KEY_LEN];     // hash key of string type      哈希值 字符串
+    intptr_t  m_iKey;       // hash key of integer type                 整数哈希值
+    CCObject* m_pObject;    // hash value                               对象哈希值
 public:
-    UT_hash_handle hh;      // makes this class hashable
-    friend class CCDictionary; // declare CCDictionary as friend class
+    UT_hash_handle hh;      // makes this class hashable                制作哈希值
+    friend class CCDictionary; // declare CCDictionary as friend class  声明友元类
 };
 
 /** The macro for traversing dictionary
  *  
  *  @note It's faster than getting all keys and traversing keys to get objects by objectForKey.
  *        It's also safe to remove elements while traversing.
+ */
+/** 该宏用于串联字典
+ * 此方法比获取所有键串联在一起更快。
+ * 同样安全移除元素
  */
 #define CCDICT_FOREACH(__dict__, __el__) \
     CCDictElement* pTmp##__dict__##__el__ = NULL; \
@@ -167,18 +193,38 @@ public:
  *  @endcode
  *
  */
-
+/**
+ * 字典如obj-c中的字典
+ * 注意：只有CCObject对象和子类可以插入字典
+ * 创建一个字典，返回一个自动释放对象
+ * 
+ * 插入一个对象到字典
+ *  CCString* pValue1 = CCString::create("100");
+ *  CCString* pValue2 = CCString::create("120");
+ *  CCInteger* pValue3 = CCInteger::create(200);
+ *  pDict->setObject(pValue1, "key1");
+ *  pDict->setObject(pValue2, "key2");
+ *  pDict->setObject(pValue3, "key3");
+ *
+ *  获取键对应的对象
+ *  CCString* pStr1 = (CCString*)pDict->objectForKey("key1");
+ *  CCLog("{ key1: %s }", pStr1->getCString());
+ *  CCInteger* pInteger = (CCInteger*)pDict->objectForKey("key3");
+ *  CCLog("{ key3: %d }", pInteger->getValue());
+ */
 class CC_DLL CCDictionary : public CCObject
 {
 public:
     /** 
      * The constructor of CCDictionary.
      */
+    // 构造字典
     CCDictionary();
 
     /**
      * The destructor of CCDictionary
      */
+    // 析构字典
     ~CCDictionary();
 
     /**
@@ -186,6 +232,7 @@ public:
      *
      *  @return  The count of elements.
      */
+    // 获取元素个数
     unsigned int count();
 
     /**
@@ -193,6 +240,7 @@ public:
      *
      *  @return  The array contains all keys of elements. It's an autorelease object yet.
      */
+    // 返回所有键
     CCArray* allKeys();
 
     /** 
@@ -200,6 +248,7 @@ public:
      *  @warning  We use '==' to compare two objects
      *  @return   The array contains all keys for the specified object. It's an autorelease object yet.
      */
+    // 获取所有对象，键对应的
     CCArray* allKeysForObject(CCObject* object);
 
     /**
@@ -220,6 +269,7 @@ public:
      *  @endcode
      *  @see objectForKey(int)
      */
+    // 获取指定键对应的对象     字符串
     CCObject* objectForKey(const std::string& key);
     
     /**
@@ -230,6 +280,7 @@ public:
      *  @return The object matches the key.
      *  @see objectForKey(const std::string&)
      */
+    // 获取指定键对应的对象     整数
     CCObject* objectForKey(int key);
     
     /** Get the value according to the specified string key.
@@ -240,6 +291,7 @@ public:
      *          It will return an empty string if the objects aren't CCString pointer or the key wasn't found.
      *  @see valueForKey(int)
      */
+    // 获取指定键的值
     const CCString* valueForKey(const std::string& key);
     
     /** Get the value according to the specified integer key.
@@ -250,6 +302,7 @@ public:
      *          It will return an empty string if the objects aren't CCString pointer or the key wasn't found.
      *  @see valueForKey(int)
      */
+    // 获取指定整数键的值
     const CCString* valueForKey(int key);
 
     /** Insert an object to dictionary, and match it with the specified string key.
@@ -263,6 +316,7 @@ public:
      *  @param key      The string key for searching.
      *  @see setObject(CCObject*, int)
      */
+    // 插入一个对象到字典，指定一个字符串键
     void setObject(CCObject* pObject, const std::string& key);
     
     /** Insert an object to dictionary, and match it with the specified string key.
@@ -275,6 +329,7 @@ public:
      *  @param key      The string key for searching.
      *  @see setObject(CCObject*, const std::string&)
      */
+    // 插入一个对象到字典，指定一个整数键
     void setObject(CCObject* pObject, int key);
 
     /** 
@@ -284,6 +339,7 @@ public:
      *  @see removeObjectForKey(int), removeObjectsForKeys(CCArray*),
      *       removeObjectForElememt(CCDictElement*), removeAllObjects().
      */
+    // 移除从字典中一个对象，指定字符串键
     void removeObjectForKey(const std::string& key);
     
     /**
@@ -293,6 +349,7 @@ public:
      *  @see removeObjectForKey(const std::string&), removeObjectsForKeys(CCArray*),
      *       removeObjectForElememt(CCDictElement*), removeAllObjects().
      */
+    // 移除从字典中一个对象，指定整数键
     void removeObjectForKey(int key);
     
     /**
@@ -302,6 +359,7 @@ public:
      *  @see removeObjectForKey(const std::string&), removeObjectForKey(int),
      *       removeObjectForElememt(CCDictElement*), removeAllObjects().
      */
+    // 删除对象，给定键数组
     void removeObjectsForKeys(CCArray* pKeyArray);
     
     /**
@@ -311,6 +369,7 @@ public:
      *  @see removeObjectForKey(const std::string&), removeObjectForKey(int),
      *       removeObjectsForKeys(CCArray*), removeAllObjects().
      */
+    // 删除指定元素
     void removeObjectForElememt(CCDictElement* pElement);
     
     /**
@@ -319,6 +378,7 @@ public:
      *  @see removeObjectForKey(const std::string&), removeObjectForKey(int),
      *       removeObjectsForKeys(CCArray*), removeObjectForElememt(CCDictElement*).
      */
+    // 移除所有对象
     void removeAllObjects();
 
     /// @{
@@ -327,6 +387,7 @@ public:
      *  This function is used for deepcopy elements from source dictionary to destination dictionary.
      *  You shouldn't invoke this function manually since it's called by CCObject::copy.
      */
+    // 构造虚函数
     virtual CCObject* copyWithZone(CCZone* pZone);
     /// @}
     
@@ -336,6 +397,7 @@ public:
      *  @return The random object. 
      *  @see objectForKey(int), objectForKey(const std::string&)
      */
+    // 返回一个随机对象
     CCObject* randomObject();
     
     /**
@@ -343,6 +405,7 @@ public:
      *  @return A dictionary which is an autorelease object.
      *  @see createWithDictionary(CCDictionary*), createWithContentsOfFile(const char*), createWithContentsOfFileThreadSafe(const char*).
      */
+    // 创建一个字典，是自动释放对象
     static CCDictionary* create();
 
     /**
@@ -352,6 +415,7 @@ public:
      *  @return A dictionary which is an autorelease object.
      *  @see create(), createWithContentsOfFile(const char*), createWithContentsOfFileThreadSafe(const char*).
      */
+    // 用一个存在的字典创建一个字典
     static CCDictionary* createWithDictionary(CCDictionary* srcDict);
     
     /**
@@ -360,6 +424,7 @@ public:
      *  @return A dictionary which is an autorelease object.
      *  @see create(), createWithDictionary(CCDictionary*), createWithContentsOfFileThreadSafe(const char*).
      */
+    // 用链表文件创建字典
     static CCDictionary* createWithContentsOfFile(const char *pFileName);
 
     /**
@@ -373,12 +438,14 @@ public:
      *  @param  pFileName  The name of the plist file.
      *  @return A dictionary which isn't an autorelease object.
      */
+    // 用文件创建字典；返回对象不是自动释放对象，需要手动管理
     static CCDictionary* createWithContentsOfFileThreadSafe(const char *pFileName);
 
 private:
     /** 
      *  For internal usage, invoked by setObject.
      */
+    // 设置使用量
     void setObjectUnSafe(CCObject* pObject, const std::string& key);
     void setObjectUnSafe(CCObject* pObject, const int key);
     
@@ -388,10 +455,12 @@ public:
      * 
      *  @note For internal usage, we need to declare this member variable as public since it's used in UT_HASH.
      */
+    // 字典中的元素
     CCDictElement* m_pElements;
 private:
     
     /** The support type of dictionary, it's confirmed when setObject is invoked. */
+    // 字典支持的类型
     enum CCDictType
     {
         kCCDictUnknown = 0,
@@ -402,6 +471,7 @@ private:
     /** 
      *  The type of dictionary, it's assigned to kCCDictUnknown by default.
      */
+    // 默认为未知类型
     CCDictType m_eDictType;
 };
 
