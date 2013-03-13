@@ -38,6 +38,7 @@ CCSet::CCSet(const CCSet &rSetObject)
     m_pSet = new set<CCObject *>(*rSetObject.m_pSet);
 
     // call retain of members
+    // 调用成员
     CCSetIterator iter;
     for (iter = m_pSet->begin(); iter != m_pSet->end(); ++iter)
     {
