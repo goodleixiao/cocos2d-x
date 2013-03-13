@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "support/data_support/ccCArray.h"
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures      数据结构
  * @{
  */
 
@@ -47,6 +47,9 @@ __arr__ <= end && ((__object__ = *__arr__) != nil || true);                     
 __arr__++)
 
 I found that it's not work in C++. So it keep what it's look like in version 1.0.0-rc3. ---By Bin
+*/
+/*
+宏定义遍历数组，更快访问
 */
 #define CCARRAY_FOREACH(__array__, __object__)                                                                         \
     if ((__array__) && (__array__)->data->num > 0)                                                                     \
@@ -115,99 +118,138 @@ public:
     ~CCArray();
 
     /** Create an array */
+    // 创建一个数组
     static CCArray* create();
     /** Create an array with some objects */
+    // 使用一些对象创建数组
     static CCArray* create(CCObject* pObject, ...);
     /** Create an array with one object */
+    // 使用一个对象创建一个数组
     static CCArray* createWithObject(CCObject* pObject);
     /** Create an array with capacity */
+    // 创建一个带容量的数组
     static CCArray* createWithCapacity(unsigned int capacity);
     /** Create an array with an existing array */
+    // 使用存在的数组创建一个数组
     static CCArray* createWithArray(CCArray* otherArray);
     /**
      @brief   Generate a CCArray pointer by file
      @param   pFileName  The file name of *.plist file
      @return  The CCArray pointer generated from the file
      */
+    // 从文件来创建一个数组指针
     static CCArray* createWithContentsOfFile(const char* pFileName);
     
     /*
      @brief The same meaning as arrayWithContentsOfFile(), but it doesn't call autorelease, so the
      invoker should call release().
      */
+    // 由文件创建数组，但是不是自动释放对象
     static CCArray* createWithContentsOfFileThreadSafe(const char* pFileName);
 
     /** Initializes an array */
+    // 初始化一个数组
     bool init();
     /** Initializes an array with one object */
+    // 是否从一个对象初始化一个数组
     bool initWithObject(CCObject* pObject);
     /** Initializes an array with some objects */
+    // 是否从一些对象初始化数组
     bool initWithObjects(CCObject* pObject, ...);
     /** Initializes an array with capacity */
+    // 初始化一定容量的数组
     bool initWithCapacity(unsigned int capacity);
     /** Initializes an array with an existing array */
+    // 从存在的数组初始化一个新的数组
     bool initWithArray(CCArray* otherArray);
 
     // Querying an Array
+    // 查询一个数组
 
     /** Returns element count of the array */
+    // 返回数组中元素的个数
     unsigned int count();
     /** Returns capacity of the array */
+    // 返回容量
     unsigned int capacity();
     /** Returns index of a certain object, return UINT_MAX if doesn't contain the object */
+    // 返回指定对象的序号
     unsigned int indexOfObject(CCObject* object);
     /** Returns an element with a certain index */
+    // 返回指定序号的元素
     CCObject* objectAtIndex(unsigned int index);
     /** Returns last element */
+    // 返回最后的元素
     CCObject* lastObject();
     /** Returns a random element */
+    // 返回一个随机元素
     CCObject* randomObject();
     /** Returns a Boolean value that indicates whether object is present in array. */
+    // 返回一个对象是否在数组中
     bool containsObject(CCObject* object);
     /** @since 1.1 */
     bool isEqualToArray(CCArray* pOtherArray);
     // Adding Objects
+    // 增加对象
 
     /** Add a certain object */
+    // 增加一个指定对象
     void addObject(CCObject* object);
     /** Add all elements of an existing array */
+    // 增加一个存在数组的元素
     void addObjectsFromArray(CCArray* otherArray);
     /** Insert a certain object at a certain index */
+    // 插入一个对象，在知道指定序号
     void insertObject(CCObject* object, unsigned int index);
 
     // Removing Objects
+    // 移除对象
 
     /** Remove last object */
+    // 移除最后一个对象
     void removeLastObject(bool bReleaseObj = true);
     /** Remove a certain object */
+    // 移除一个指定对象
     void removeObject(CCObject* object, bool bReleaseObj = true);
     /** Remove an element with a certain index */
+    // 移除一个指定序号的元素
     void removeObjectAtIndex(unsigned int index, bool bReleaseObj = true);
     /** Remove all elements */
+    //移除所有元素
     void removeObjectsInArray(CCArray* otherArray);
     /** Remove all objects */
+    // 移除所有对象
     void removeAllObjects();
     /** Fast way to remove a certain object */
+    // 快速移除一个指定对象
     void fastRemoveObject(CCObject* object);
     /** Fast way to remove an element with a certain index */
+    // 快速移除一个指定序号的元素
     void fastRemoveObjectAtIndex(unsigned int index);
 
     // Rearranging Content
+    // 重新整理内容
 
     /** Swap two elements */
+    // 交换两个元素
     void exchangeObject(CCObject* object1, CCObject* object2);
     /** Swap two elements with certain indexes */
+    // 交换两个指定序号的元素
     void exchangeObjectAtIndex(unsigned int index1, unsigned int index2);
 
     /** Replace object at index with another object. */
+    // 用另一个对象替换一个指定序号的对象
     void replaceObjectAtIndex(unsigned int uIndex, CCObject* pObject, bool bReleaseObject = true);
 
     /** Revers the array */
+    // 反向数组
     void reverseObjects();
     /* Shrinks the array so the memory footprint corresponds with the number of items */
+    // 收缩阵列这样的内存占用量对应的项目数
     void reduceMemoryFootprint();
   
     /* override functions */
+    // 重载虚函数
     virtual CCObject* copyWithZone(CCZone* pZone);
 
 public:
