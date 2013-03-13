@@ -46,7 +46,7 @@ CC_DLL CCSize __CCSizeApplyAffineTransform(const CCSize& size, const CCAffineTra
 
 CC_DLL CCAffineTransform CCAffineTransformMakeIdentity();
 CC_DLL CCRect CCRectApplyAffineTransform(const CCRect& rect, const CCAffineTransform& anAffineTransform);
-
+// 移动，旋转，缩放
 CC_DLL CCAffineTransform CCAffineTransformTranslate(const CCAffineTransform& t, float tx, float ty);
 CC_DLL CCAffineTransform CCAffineTransformRotate(const CCAffineTransform& aTransform, float anAngle);
 CC_DLL CCAffineTransform CCAffineTransformScale(const CCAffineTransform& t, float sx, float sy);
