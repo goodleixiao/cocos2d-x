@@ -154,6 +154,7 @@ bool CCArray::initWithObject(CCObject* pObject)
 }
 
 /** Initializes an array with some objects */
+// 用一些对象来初始化一个数组
 bool CCArray::initWithObjects(CCObject* pObject, ...)
 {
     ccArrayFree(data);
@@ -249,7 +250,7 @@ CCObject* CCArray::randomObject()
 
     float r = CCRANDOM_0_1();
     
-    if (r == 1) // to prevent from accessing data-arr[data->num], out of range.
+    if (r == 1) // to prevent from accessing data-arr[data->num], out of range. 防止超出域
     {
         r = 0;
     }
@@ -358,6 +359,7 @@ void CCArray::reverseObjects()
     if (data->num > 1)
     {
         // floorf(), since in the case of an even number, the number of swaps stays the same
+        // floorf（），因为在为偶数的情况下，掉期的数目保持不变
         int count = (int) floorf(data->num/2.f); 
         unsigned int maxIndex = data->num - 1;
 
