@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures      数据结构
  * @{
  */
 
@@ -77,8 +77,8 @@ public:
     CCRect(const CCRect& other);
     CCRect& operator= (const CCRect& other); 
     void setRect(float x, float y, float width, float height);
-    float getMinX() const; /// return the leftmost x-value of current rect
-    float getMidX() const; /// return the midpoint x-value of current rect
+    float getMinX() const; /// return the leftmost x-value of current rect      
+    float getMidX() const; /// return the midpoint x-value of current rect  
     float getMaxX() const; /// return the rightmost x-value of current rect
     float getMinY() const; /// return the bottommost y-value of current rect
     float getMidY() const; /// return the midpoint y-value of current rect
