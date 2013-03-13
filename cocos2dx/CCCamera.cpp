@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "kazmath/GL/matrix.h"
 
 using namespace std;
-
+ 
 NS_CC_BEGIN
 
 CCCamera::CCCamera(void)
