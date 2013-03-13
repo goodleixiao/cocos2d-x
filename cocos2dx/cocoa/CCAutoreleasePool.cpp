@@ -45,7 +45,7 @@ void CCAutoreleasePool::addObject(CCObject* pObject)
 
     CCAssert(pObject->m_uReference > 1, "reference count should be greater than 1");
     ++(pObject->m_uAutoReleaseCount);
-    pObject->release(); // no ref count, in this case autorelease pool added.
+    pObject->release(); // no ref count, in this case autorelease pool added. 没哟引用计数
 }
 
 void CCAutoreleasePool::removeObject(CCObject* pObject)
@@ -86,7 +86,7 @@ void CCAutoreleasePool::clear()
 
 //--------------------------------------------------------------------
 //
-// CCPoolManager
+// CCPoolManager        池管理
 //
 //--------------------------------------------------------------------
 
@@ -117,6 +117,7 @@ CCPoolManager::~CCPoolManager()
      finalize();
  
      // we only release the last autorelease pool here 
+     // 在这里最后释放
     m_pCurReleasePool = 0;
      m_pReleasePoolStack->removeObjectAtIndex(0);
  
@@ -141,12 +142,12 @@ void CCPoolManager::finalize()
 
 void CCPoolManager::push()
 {
-    CCAutoreleasePool* pPool = new CCAutoreleasePool();       //ref = 1
+    CCAutoreleasePool* pPool = new CCAutoreleasePool();       //ref = 1         引用计数为1
     m_pCurReleasePool = pPool;
 
-    m_pReleasePoolStack->addObject(pPool);                   //ref = 2
+    m_pReleasePoolStack->addObject(pPool);                   //ref = 2          引用计数为2
 
-    pPool->release();                                       //ref = 1
+    pPool->release();                                       //ref = 1           引用计数为1
 }
 
 void CCPoolManager::pop()
