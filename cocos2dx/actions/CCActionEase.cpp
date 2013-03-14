@@ -29,6 +29,7 @@ THE SOFTWARE.
  *
  * by http://github.com/NikhilK
  */
+// 弹性，返回，弹跳动作
 
 #include "CCActionEase.h"
 #include "cocoa/CCZone.h"
@@ -41,7 +42,7 @@ NS_CC_BEGIN
 
 //
 // EaseAction
-//
+// 缓解动作
 
 CCActionEase* CCActionEase::create(CCActionInterval *pAction)
 {
@@ -133,7 +134,7 @@ CCActionInterval* CCActionEase::getInnerAction()
 
 //
 // EaseRateAction
-//
+// 速率参数
 
 CCEaseRateAction* CCEaseRateAction::create(CCActionInterval *pAction, float fRate)
 {
@@ -171,6 +172,7 @@ CCObject* CCEaseRateAction::copyWithZone(CCZone *pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        //子类调用
         pCopy = (CCEaseRateAction*)(pZone->m_pCopyObject);
     }
     else
@@ -196,7 +198,7 @@ CCActionInterval* CCEaseRateAction::reverse(void)
 
 //
 // EeseIn
-//
+// 入
 
 CCEaseIn* CCEaseIn::create(CCActionInterval *pAction, float fRate)
 {
@@ -249,7 +251,7 @@ CCActionInterval* CCEaseIn::reverse(void)
 
 //
 // EaseOut
-//
+// 出
 CCEaseOut* CCEaseOut::create(CCActionInterval *pAction, float fRate)
 {
     CCEaseOut *pRet = new CCEaseOut();
@@ -362,7 +364,7 @@ CCActionInterval* CCEaseInOut::reverse(void)
 
 //
 // EaseExponentialIn
-//
+// 指数缓解
 CCEaseExponentialIn* CCEaseExponentialIn::create(CCActionInterval* pAction)
 {
     CCEaseExponentialIn *pRet = new CCEaseExponentialIn();
@@ -529,7 +531,7 @@ CCActionInterval* CCEaseExponentialInOut::reverse()
 
 //
 // EaseSineIn
-//
+// 
 
 CCEaseSineIn* CCEaseSineIn::create(CCActionInterval* pAction)
 {
@@ -688,7 +690,7 @@ CCActionInterval* CCEaseSineInOut::reverse()
 
 //
 // EaseElastic
-//
+// 弹性
 
 CCEaseElastic* CCEaseElastic::create(CCActionInterval *pAction)
 {
@@ -978,7 +980,7 @@ CCActionInterval* CCEaseElasticInOut::reverse(void)
 
 //
 // EaseBounce
-//
+// 弹跳
 
 CCEaseBounce* CCEaseBounce::create(CCActionInterval* pAction)
 {
@@ -1219,7 +1221,7 @@ CCActionInterval* CCEaseBounceInOut::reverse()
 
 //
 // EaseBackIn
-//
+// 返回
 
 CCEaseBackIn* CCEaseBackIn::create(CCActionInterval *pAction)
 {
