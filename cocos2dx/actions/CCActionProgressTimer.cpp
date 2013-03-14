@@ -31,7 +31,7 @@ NS_CC_BEGIN
 #define kProgressTimerCast CCProgressTimer*
 
 // implementation of CCProgressTo
-
+// 实现进度
 CCProgressTo* CCProgressTo::create(float duration, float fPercent)
 {
     CCProgressTo *pProgressTo = new CCProgressTo();
@@ -60,6 +60,7 @@ CCObject* CCProgressTo::copyWithZone(CCZone *pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        // 在子类调用
         pCopy = (CCProgressTo*)(pZone->m_pCopyObject);
     }
     else
@@ -83,6 +84,7 @@ void CCProgressTo::startWithTarget(CCNode *pTarget)
 
     // XXX: Is this correct ?
     // Adding it to support CCRepeat
+    // 支持重复
     if (m_fFrom == 100)
     {
         m_fFrom = 0;
@@ -95,6 +97,7 @@ void CCProgressTo::update(float time)
 }
 
 // implementation of CCProgressFromTo
+// 实现进度从某一个比例到目标比例
 
 CCProgressFromTo* CCProgressFromTo::create(float duration, float fFromPercentage, float fToPercentage)
 {
@@ -125,6 +128,7 @@ CCObject* CCProgressFromTo::copyWithZone(CCZone *pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        // 子类调用
         pCopy = (CCProgressFromTo*)(pZone->m_pCopyObject);
     }
     else
