@@ -32,7 +32,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 //
 // CameraAction
-//
+// 摄像动作
 void CCActionCamera::startWithTarget(CCNode *pTarget)
 {
     CCActionInterval::startWithTarget(pTarget);
@@ -49,7 +49,7 @@ CCActionInterval * CCActionCamera::reverse()
 }
 //
 // CCOrbitCamera
-//
+// 轨道摄像动作
 
 CCOrbitCamera * CCOrbitCamera::create(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
 {
@@ -67,7 +67,7 @@ CCObject * CCOrbitCamera::copyWithZone(CCZone *pZone)
 {
     CCZone* pNewZone = NULL;
     CCOrbitCamera* pRet = NULL;
-    if(pZone && pZone->m_pCopyObject) //in case of being called at sub class
+    if(pZone && pZone->m_pCopyObject) //in case of being called at sub class 子类调用
         pRet = (CCOrbitCamera*)(pZone->m_pCopyObject);
     else
     {
@@ -133,7 +133,7 @@ void CCOrbitCamera::update(float dt)
 void CCOrbitCamera::sphericalRadius(float *newRadius, float *zenith, float *azimuth)
 {
     float ex, ey, ez, cx, cy, cz, x, y, z;
-    float r; // radius
+    float r; // radius 半径
     float s;
 
     CCCamera* pCamera = m_pTarget->getCamera();
