@@ -34,11 +34,12 @@ NS_CC_BEGIN
 class CCTexture2D;
 
 /**
- * @addtogroup effects
+ * @addtogroup effects  效果
  * @{
  */
 
 /** FBO class that grabs the the contents of the screen */
+// FBO类抓取屏幕内容  FBO：Frame Buffer Object用于旋转到纹理
 class CCGrabber : public CCObject
 {
 public:
