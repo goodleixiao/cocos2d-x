@@ -33,7 +33,7 @@ NS_CC_BEGIN
 /**
  * @addtogroup GUI
  * @{
- * @addtogroup label
+ * @addtogroup label    标签
  * @{
  */
 
@@ -48,6 +48,13 @@ CCLabelAtlas versus CCLabel:
 
 A more flexible class is CCLabelBMFont. It supports variable width characters and it also has a nice editor.
 */
+/**
+ * 是CCAtlasNode的子类
+ * 取代CCLabel，因为使用这个更快
+ * CCLabelAtlas 与 CCLabel比较：1，前者更快；2，前者具有高和宽；3，前者可以是任何对象，因为可以从图片文件中获取
+ * 
+ * 一个更加灵活的类是CCLabelBMFont. 支持宽字符，具有良好的编辑器
+ */
 class CC_DLL CCLabelAtlas : public CCAtlasNode, public CCLabelProtocol
 {
 public:
@@ -60,25 +67,31 @@ public:
     }
 
     /** creates the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas */
+    // 创建标签，使用字符串，字符文件，每个元素的宽，高，以及开始字符为参数
     static CCLabelAtlas * create(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap);
     
     /** creates the CCLabelAtlas with a string and a configuration file
      @since v2.0
      */
+    // 使用字符串和配置文件来创建
     static CCLabelAtlas* create(const char *string, const char *fntFile);
 
     /** initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas */
-    bool initWithString(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap);
+   // 初始化标签，使用字符串，字符文件，每个元素的宽，高，以及开始字符为参数
+   bool initWithString(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap);
     
     /** initializes the CCLabelAtlas with a string and a configuration file
      @since v2.0
      */
+    // 使用字符串和配置文件为参数，来创建标签
     bool initWithString(const char *string, const char *fntFile);
     
     /** initializes the CCLabelAtlas with a string, a texture, the width and height in points of each element and the starting char of the atlas */
+    // 创建标签，使用字符串，纹理，每个元素的宽，高，以及开始字符为参数
     bool initWithString(const char* string, CCTexture2D* texture, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap);
     
     // super methods
+    // 父类方法
     virtual void updateAtlasValues();
     virtual void setString(const char *label);
     virtual const char* getString(void);
@@ -89,8 +102,10 @@ public:
 
 protected:
     // string to render
+    // 显示字符串
     std::string m_sString;
     // the first char in the charmap
+    // 首字符
     unsigned int m_uMapStartChar;
 };
 
