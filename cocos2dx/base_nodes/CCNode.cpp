@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "script_support/CCScriptSupport.h"
 #include "shaders/CCGLProgram.h"
 // externals
+// 扩展
 #include "kazmath/GL/matrix.h"
 
 
@@ -49,6 +50,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // XXX: Yes, nodes might have a sort problem once every 15 days if the game runs at 60 FPS and each frame sprites are reordered.
+// 节点可能有排序问题
 static int s_globalOrderOfArrival = 1;
 
 CCNode::CCNode(void)
@@ -67,13 +69,16 @@ CCNode::CCNode(void)
 , m_pCamera(NULL)
 // children (lazy allocs)
 // lazy alloc
+// 子对象分配
 , m_pGrid(NULL)
 , m_nZOrder(0)
 , m_pChildren(NULL)
 , m_pParent(NULL)
 // "whole screen" objects. like Scenes and Layers, should set m_bIgnoreAnchorPointForPosition to false
+// 属于谁的对象，像场景和层要将m_bIgnoreAnchorPointForPosition设置为false
 , m_nTag(kCCNodeTagInvalid)
 // userData is always inited as nil
+// 用户数据为Nil
 , m_pUserData(NULL)
 , m_pUserObject(NULL)
 , m_pShaderProgram(NULL)
@@ -90,6 +95,7 @@ CCNode::CCNode(void)
 , m_nUpdateScriptHandler(0)
 {
     // set default scheduler and actionManager
+    // 设置默认调度和动作管理
     CCDirector *director = CCDirector::sharedDirector();
     m_pActionManager = director->getActionManager();
     m_pActionManager->retain();
@@ -112,7 +118,7 @@ CCNode::~CCNode(void)
 
     CC_SAFE_RELEASE(m_pActionManager);
     CC_SAFE_RELEASE(m_pScheduler);
-    // attributes
+    // attributes	属性
     CC_SAFE_RELEASE(m_pCamera);
 
     CC_SAFE_RELEASE(m_pGrid);
@@ -132,7 +138,7 @@ CCNode::~CCNode(void)
         }
     }
 
-    // children
+    // children		安全释放子对象
     CC_SAFE_RELEASE(m_pChildren);
 }
 
@@ -164,7 +170,7 @@ void CCNode::setSkewY(float newSkewY)
     m_bTransformDirty = m_bInverseDirty = true;
 }
 
-/// zOrder getter
+/// zOrder getter	获取z次序
 int CCNode::getZOrder()
 {
     return m_nZOrder;
@@ -172,6 +178,7 @@ int CCNode::getZOrder()
 
 /// zOrder setter : private method
 /// used internally to alter the zOrder variable. DON'T call this method manually 
+/// 设置z次序，私有方法，不要手动调用
 void CCNode::_setZOrder(int z)
 {
     m_nZOrder = z;
@@ -187,6 +194,7 @@ void CCNode::setZOrder(int z)
 }
 
 /// vertexZ getter
+/// 顶点z
 float CCNode::getVertexZ()
 {
     return m_fVertexZ;
@@ -194,6 +202,7 @@ float CCNode::getVertexZ()
 
 
 /// vertexZ setter
+/// 设置z顶点
 void CCNode::setVertexZ(float var)
 {
     m_fVertexZ = var;
@@ -201,6 +210,7 @@ void CCNode::setVertexZ(float var)
 
 
 /// rotation getter
+/// 旋转获取
 float CCNode::getRotation()
 {
     CCAssert(m_fRotationX == m_fRotationY, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
@@ -208,6 +218,7 @@ float CCNode::getRotation()
 }
 
 /// rotation setter
+/// 旋转设置
 void CCNode::setRotation(float newRotation)
 {
     m_fRotationX = m_fRotationY = newRotation;
@@ -237,6 +248,7 @@ void CCNode::setRotationY(float fRotationY)
 }
 
 /// scale getter
+/// 缩放
 float CCNode::getScale(void)
 {
     CCAssert( m_fScaleX == m_fScaleY, "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
@@ -277,6 +289,7 @@ void CCNode::setScaleY(float newScaleY)
 }
 
 /// position getter
+/// 位置
 const CCPoint& CCNode::getPosition()
 {
     return m_obPosition;
@@ -321,6 +334,7 @@ void CCNode::setPositionY(float y)
 }
 
 /// children getter
+/// 子节点获取
 CCArray* CCNode::getChildren()
 {
     return m_pChildren;
@@ -332,6 +346,7 @@ unsigned int CCNode::getChildrenCount(void)
 }
 
 /// camera getter: lazy alloc
+/// 摄像获取方法
 CCCamera* CCNode::getCamera()
 {
     if (!m_pCamera)
@@ -344,6 +359,7 @@ CCCamera* CCNode::getCamera()
 
 
 /// grid getter
+/// 网格获取
 CCGridBase* CCNode::getGrid()
 {
     return m_pGrid;
@@ -359,6 +375,7 @@ void CCNode::setGrid(CCGridBase* pGrid)
 
 
 /// isVisible getter
+/// 是否可见
 bool CCNode::isVisible()
 {
     return m_bVisible;
@@ -376,6 +393,7 @@ const CCPoint& CCNode::getAnchorPointInPoints()
 }
 
 /// anchorPoint getter
+/// 锚点获取
 const CCPoint& CCNode::getAnchorPoint()
 {
     return m_obAnchorPoint;
@@ -392,6 +410,7 @@ void CCNode::setAnchorPoint(const CCPoint& point)
 }
 
 /// contentSize getter
+/// 内容大小获取
 const CCSize& CCNode::getContentSize()
 {
     return m_obContentSize;
@@ -409,12 +428,14 @@ void CCNode::setContentSize(const CCSize & size)
 }
 
 // isRunning getter
+// 是否运行
 bool CCNode::isRunning()
 {
     return m_bRunning;
 }
 
 /// parent getter
+/// 父类获取
 CCNode * CCNode::getParent()
 {
     return m_pParent;
@@ -426,6 +447,7 @@ void CCNode::setParent(CCNode * var)
 }
 
 /// isRelativeAnchorPoint getter
+/// 是相对锚点获取
 bool CCNode::isIgnoreAnchorPointForPosition()
 {
     return m_bIgnoreAnchorPointForPosition;
@@ -441,6 +463,7 @@ void CCNode::ignoreAnchorPointForPosition(bool newValue)
 }
 
 /// tag getter
+/// 标志获取
 int CCNode::getTag()
 {
     return m_nTag;
@@ -453,6 +476,7 @@ void CCNode::setTag(int var)
 }
 
 /// userData getter
+/// 用户数据
 void * CCNode::getUserData()
 {
     return m_pUserData;
@@ -530,7 +554,7 @@ CCNode * CCNode::create(void)
 
 void CCNode::cleanup()
 {
-    // actions
+    // actions	动作
     this->stopAllActions();
     this->unscheduleAllSelectors();
     
@@ -539,7 +563,7 @@ void CCNode::cleanup()
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeNodeEvent(this, kCCNodeOnCleanup);
     }
     
-    // timers
+    // timers	计数器
     arrayMakeObjectsPerformSelector(m_pChildren, cleanup, CCNode*);
 }
 
@@ -577,6 +601,7 @@ CCNode* CCNode::getChildByTag(int aTag)
 * If a class want's to extend the 'addChild' behavior it only needs
 * to override this method
 */
+// 增加方法
 void CCNode::addChild(CCNode *child, int zOrder, int tag)
 {    
     CCAssert( child != NULL, "Argument must be non-nil");
@@ -635,6 +660,7 @@ void CCNode::removeChild(CCNode* child)
 * If a class want's to extend the 'removeChild' behavior it only needs
 * to override this method
 */
+// 删除方法
 void CCNode::removeChild(CCNode* child, bool cleanup)
 {
     // explicit nil handling
@@ -1101,6 +1127,7 @@ void CCNode::pauseSchedulerAndActions()
 }
 
 // override me
+// 重载
 void CCNode::update(float fDelta)
 {
     if (m_nUpdateScriptHandler)
