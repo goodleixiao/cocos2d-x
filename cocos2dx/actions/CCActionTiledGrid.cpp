@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2010��2011 cocos2d-x.org
+Copyright (c) 2010��2011 cocos2d-x.org
 Copyright (c) 2009       On-Core
  
 http://www.cocos2d-x.org
@@ -40,7 +40,7 @@ struct Tile
 };
 
 // implementation of ShakyTiles3D
-
+// 实现瓦片摇动
 CCShakyTiles3D* CCShakyTiles3D::create(float duration, const CCSize& gridSize, int nRange, bool bShakeZ)
 {
     CCShakyTiles3D *pAction = new CCShakyTiles3D();
@@ -80,6 +80,7 @@ CCObject* CCShakyTiles3D::copyWithZone(CCZone *pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        //子类调用
         pCopy = (CCShakyTiles3D*)(pZone->m_pCopyObject);
     }
     else
@@ -133,7 +134,7 @@ void CCShakyTiles3D::update(float time)
 }
 
 // implementation of CCShatteredTiles3D
-
+// 瓦片破碎效果
 CCShatteredTiles3D* CCShatteredTiles3D::create(float duration, const CCSize& gridSize, int nRange, bool bShatterZ)
 {
     CCShatteredTiles3D *pAction = new CCShatteredTiles3D();
@@ -232,7 +233,7 @@ void CCShatteredTiles3D::update(float time)
 }
 
 // implementation of CCShuffleTiles
-
+// 拖拽效果
 CCShuffleTiles* CCShuffleTiles::create(float duration, const CCSize& gridSize, unsigned int seed)
 {
     CCShuffleTiles *pAction = new CCShuffleTiles();
@@ -396,7 +397,7 @@ void CCShuffleTiles::update(float time)
 }
 
 // implementation of CCFadeOutTRTiles
-
+// 实现淡出效果
 CCFadeOutTRTiles* CCFadeOutTRTiles::create(float duration, const CCSize& gridSize)
 {
     CCFadeOutTRTiles *pAction = new CCFadeOutTRTiles();
@@ -594,7 +595,7 @@ float CCFadeOutDownTiles::testFunc(const CCSize& pos, float time)
 }
 
 // implementation of TurnOffTiles
-
+// 翻页效果
 CCTurnOffTiles* CCTurnOffTiles::create(float duration, const CCSize& gridSize)
 {
     CCTurnOffTiles* pAction = new CCTurnOffTiles();
@@ -738,7 +739,7 @@ void CCTurnOffTiles::update(float time)
 }
 
 // implementation of CCWavesTiles3D
-
+// 波
 CCWavesTiles3D* CCWavesTiles3D::create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude)
 {
     CCWavesTiles3D *pAction = new CCWavesTiles3D();
@@ -816,7 +817,7 @@ void CCWavesTiles3D::update(float time)
 }
 
 // implementation of CCJumpTiles3D
-
+// 跳跃
 CCJumpTiles3D* CCJumpTiles3D::create(float duration, const CCSize& gridSize, unsigned int numberOfJumps, float amplitude)
 {
     CCJumpTiles3D *pAction = new CCJumpTiles3D();
@@ -905,7 +906,7 @@ void CCJumpTiles3D::update(float time)
 }
 
 // implementation of CCSplitRows
-
+// 拆分效果 行或列
 CCSplitRows* CCSplitRows::create(float duration, unsigned int nRows)
 {
     CCSplitRows *pAction = new CCSplitRows();
