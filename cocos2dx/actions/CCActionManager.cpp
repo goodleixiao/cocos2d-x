@@ -36,7 +36,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 //
 // singleton stuff
-//
+// 单例
 typedef struct _hashElement
 {
     struct _ccArray             *actions;
@@ -76,6 +76,7 @@ void CCActionManager::deleteHashElement(tHashElement *pElement)
 void CCActionManager::actionAllocWithHashElement(tHashElement *pElement)
 {
     // 4 actions per Node by default
+    // 每个节点4个动作，默认
     if (pElement->actions == NULL)
     {
         pElement->actions = ccArrayNew(4);
@@ -100,6 +101,7 @@ void CCActionManager::removeActionAtIndex(unsigned int uIndex, tHashElement *pEl
     ccArrayRemoveObjectAtIndex(pElement->actions, uIndex, true);
 
     // update actionIndex in case we are in tick. looping over the actions
+    // 更新动作序号，在循环运动
     if (pElement->actionIndex >= uIndex)
     {
         pElement->actionIndex--;
@@ -119,7 +121,7 @@ void CCActionManager::removeActionAtIndex(unsigned int uIndex, tHashElement *pEl
 }
 
 // pause / resume
-
+// 暂停和恢复
 void CCActionManager::pauseTarget(CCObject *pTarget)
 {
     tHashElement *pElement = NULL;
@@ -175,6 +177,7 @@ void CCActionManager::addAction(CCAction *pAction, CCNode *pTarget, bool paused)
 
     tHashElement *pElement = NULL;
     // we should convert it to CCObject*, because we save it as CCObject*
+    // 需要转换为对象类，因为要存储它作为CCObject
     CCObject *tmp = pTarget;
     HASH_FIND_INT(m_pTargets, &tmp, pElement);
     if (! pElement)
@@ -195,7 +198,7 @@ void CCActionManager::addAction(CCAction *pAction, CCNode *pTarget, bool paused)
 }
 
 // remove
-
+// 移除
 void CCActionManager::removeAllActions(void)
 {
     for (tHashElement *pElement = m_pTargets; pElement != NULL; )
@@ -209,6 +212,7 @@ void CCActionManager::removeAllActions(void)
 void CCActionManager::removeAllActionsFromTarget(CCObject *pTarget)
 {
     // explicit null handling
+    // 确定为空
     if (pTarget == NULL)
     {
         return;
@@ -243,6 +247,7 @@ void CCActionManager::removeAllActionsFromTarget(CCObject *pTarget)
 void CCActionManager::removeAction(CCAction *pAction)
 {
     // explicit null handling
+    // 确定处理， null
     if (pAction == NULL)
     {
         return;
@@ -290,7 +295,7 @@ void CCActionManager::removeActionByTag(unsigned int tag, CCObject *pTarget)
 }
 
 // get
-
+// 获取方法
 CCAction* CCActionManager::getActionByTag(unsigned int tag, CCObject *pTarget)
 {
     CCAssert((int)tag != kCCActionTagInvalid, "");
@@ -336,6 +341,7 @@ unsigned int CCActionManager::numberOfRunningActionsInTarget(CCObject *pTarget)
 }
 
 // main loop
+// 主运行回路
 void CCActionManager::update(float dt)
 {
     for (tHashElement *elt = m_pTargets; elt != NULL; )
@@ -346,6 +352,7 @@ void CCActionManager::update(float dt)
         if (! m_pCurrentTarget->paused)
         {
             // The 'actions' CCMutableArray may change while inside this loop.
+            // 动作数组可变数组，可能改变，当处于运行回路
             for (m_pCurrentTarget->actionIndex = 0; m_pCurrentTarget->actionIndex < m_pCurrentTarget->actions->num;
                 m_pCurrentTarget->actionIndex++)
             {
@@ -364,6 +371,7 @@ void CCActionManager::update(float dt)
                     // The currentAction told the node to remove it. To prevent the action from
                     // accidentally deallocating itself before finishing its step, we retained
                     // it. Now that step is done, it's safe to release it.
+                    // 当前动作要告诉节点要删除自己。 当动作完成时，要安全删除操作，就是对象释放
                     m_pCurrentTarget->currentAction->release();
                 } else
                 if (m_pCurrentTarget->currentAction->isDone())
@@ -372,6 +380,7 @@ void CCActionManager::update(float dt)
 
                     CCAction *pAction = m_pCurrentTarget->currentAction;
                     // Make currentAction nil to prevent removeAction from salvaging it.
+                    // 确定当前动作为nil，防止remoreAction
                     m_pCurrentTarget->currentAction = NULL;
                     removeAction(pAction);
                 }
@@ -382,9 +391,11 @@ void CCActionManager::update(float dt)
 
         // elt, at this moment, is still valid
         // so it is safe to ask this here (issue #490)
+        // 某时刻是有效的，
         elt = (tHashElement*)(elt->hh.next);
 
         // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
+        // 当周期内没有动作被调度时，仅仅删除当前目标
         if (m_bCurrentTargetSalvaged && m_pCurrentTarget->actions->num == 0)
         {
             deleteHashElement(m_pCurrentTarget);
