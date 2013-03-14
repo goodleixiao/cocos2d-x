@@ -42,7 +42,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 //CCLabelAtlas - Creation & Init
-
+// 创建和初始化
 CCLabelAtlas* CCLabelAtlas::create(const char *string, const char *charMapFile, unsigned int itemWidth, int unsigned itemHeight, unsigned int startCharMap)
 {
     CCLabelAtlas *pRet = new CCLabelAtlas();
@@ -175,7 +175,7 @@ void CCLabelAtlas::updateAtlasValues()
     }
 }
 
-//CCLabelAtlas - CCLabelProtocol
+//CCLabelAtlas - CCLabelProtocol  标签协议
 void CCLabelAtlas::setString(const char *label)
 {
     unsigned int len = strlen(label);
@@ -200,7 +200,7 @@ const char* CCLabelAtlas::getString(void)
 }
 
 //CCLabelAtlas - draw
-
+// 绘制
 #if CC_LABELATLAS_DEBUG_DRAW    
 void CCLabelAtlas::draw()
 {
