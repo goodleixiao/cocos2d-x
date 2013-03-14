@@ -41,6 +41,10 @@ NS_CC_BEGIN
  
  @since v2.1
  */
+/**
+ * 绘制节点，绘制点，线，多边形
+ * 由于批量绘制就变得更快
+ */
 class CC_DLL CCDrawNode : public CCNode
 {
 protected:
@@ -63,15 +67,19 @@ public:
     virtual void draw();
     
     /** draw a dot at a position, with a given radius and color */
+    // 绘制点，使用位置，半径，颜色为参数
     void drawDot(const CCPoint &pos, float radius, const ccColor4F &color);
     
     /** draw a segment with a radius and color */
+    // 绘制线段，使用半径，颜色，原点，目标点参数
     void drawSegment(const CCPoint &from, const CCPoint &to, float radius, const ccColor4F &color);
     
     /** draw a polygon with a fill color and line color */
+    // 绘制多边形，使用点，填充颜色，线颜色，边界宽参数
     void drawPolygon(CCPoint *verts, unsigned int count, const ccColor4F &fillColor, float borderWidth, const ccColor4F &borderColor);
     
     /** Clear the geometry in the node's buffer. */
+    // 清除缓存
     void clear();
     
     ccBlendFunc getBlendFunc() const;
