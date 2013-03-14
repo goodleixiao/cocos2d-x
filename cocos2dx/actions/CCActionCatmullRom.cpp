@@ -44,6 +44,7 @@ NS_CC_BEGIN;
 /*
  *  Implementation of CCPointArray
  */
+// 控制点数组实现
 
 CCPointArray* CCPointArray::create(unsigned int capacity)
 {
@@ -110,6 +111,7 @@ void CCPointArray::setControlPoints(vector<CCPoint*> *controlPoints)
     CCAssert(controlPoints != NULL, "control points should not be NULL");
     
     // delete old points
+    // 删除旧的点
     vector<CCPoint*>::iterator iter;
     for (iter = m_pControlPoints->begin(); iter != m_pControlPoints->end(); ++iter)
     {
@@ -197,6 +199,7 @@ void CCPointArray::reverseInline()
 }
 
 // CatmullRom Spline formula:
+// CatmullRom曲线 公式
 CCPoint ccCardinalSplineAt(CCPoint &p0, CCPoint &p1, CCPoint &p2, CCPoint &p3, float tension, float t)
 {
     float t2 = t * t;
@@ -205,6 +208,7 @@ CCPoint ccCardinalSplineAt(CCPoint &p0, CCPoint &p1, CCPoint &p2, CCPoint &p3, f
 	/*
 	 * Formula: s(-ttt + 2tt - t)P1 + s(-ttt + tt)P2 + (2ttt - 3tt + 1)P2 + s(ttt - 2tt + t)P3 + (-2ttt + 3tt)P3 + s(ttt - tt)P4
 	 */
+	 //公式：s(-ttt + 2tt - t)P1 + s(-ttt + tt)P2 + (2ttt - 3tt + 1)P2 + s(ttt - 2tt + t)P3 + (-2ttt + 3tt)P3 + s(ttt - tt)P4
     float s = (1 - tension) / 2;
 	
     float b1 = s * ((-t3 + (2 * t2)) - t);                      // s(-t3 + 2 t2 - t)P1
@@ -220,7 +224,7 @@ CCPoint ccCardinalSplineAt(CCPoint &p0, CCPoint &p1, CCPoint &p2, CCPoint &p3, f
 
 /* Implementation of CCCardinalSplineTo
  */
-
+// 样条路径
 CCCardinalSplineTo* CCCardinalSplineTo::create(float duration, cocos2d::CCPointArray *points, float tension)
 {
     CCCardinalSplineTo *ret = new CCCardinalSplineTo();
@@ -321,7 +325,7 @@ void CCCardinalSplineTo::update(float time)
         lt = (time - m_fDeltaT * (float)p) / m_fDeltaT;
     }
     
-	// Interpolate    
+	// Interpolate    	插
     CCPoint pp0 = m_pPoints->getControlPointAtIndex(p-1);
     CCPoint pp1 = m_pPoints->getControlPointAtIndex(p+0);
     CCPoint pp2 = m_pPoints->getControlPointAtIndex(p+1);
@@ -331,6 +335,7 @@ void CCCardinalSplineTo::update(float time)
 	
 #if CC_ENABLE_STACKABLE_ACTIONS
     // Support for stacked actions
+    // 支持动作叠加
     CCNode *node = m_pTarget;
     CCPoint diff = ccpSub( node->getPosition(), m_previousPosition);
     if( diff.x !=0 || diff.y != 0 ) {
@@ -393,7 +398,7 @@ CCActionInterval* CCCardinalSplineBy::reverse()
 	
 	//
 	// convert "absolutes" to "diffs"
-	//
+	// 绝对??
     CCPoint p = copyConfig->getControlPointAtIndex(0);
     for (unsigned int i = 1; i < copyConfig->count(); ++i)
     {
@@ -439,7 +444,7 @@ void CCCardinalSplineBy::startWithTarget(cocos2d::CCNode *pTarget)
 
 /* CCCatmullRomTo
  */
-
+// CatmullRom曲线动作
 CCCatmullRomTo* CCCatmullRomTo::create(float dt, cocos2d::CCPointArray *points)
 {
     CCCatmullRomTo *ret = new CCCatmullRomTo();
