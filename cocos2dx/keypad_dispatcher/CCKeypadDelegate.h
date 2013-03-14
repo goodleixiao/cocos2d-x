@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
@@ -39,9 +39,11 @@ class CC_DLL CCKeypadDelegate
 {
 public:
     // The back key clicked
+    // 点击返回键
     virtual void keyBackClicked() {}
 
     // The menu key clicked. only available on wophone & android
+    // 点击主菜单。只有wophone和android
     virtual void keyMenuClicked() {};
 };
 
@@ -50,20 +52,24 @@ public:
 CCKeypadHandler
 Object than contains the CCKeypadDelegate.
 */
+// 键盘处理，使用键盘委托
 class CC_DLL CCKeypadHandler : public CCObject
 {
 public:
     virtual ~CCKeypadHandler(void);
 
     /** delegate */
+    // 委托
     CCKeypadDelegate* getDelegate();
     void setDelegate(CCKeypadDelegate *pDelegate);
 
     /** initializes a CCKeypadHandler with a delegate */
+    // 初始化一个键盘处理使用委托参数
     virtual bool initWithDelegate(CCKeypadDelegate *pDelegate);
 
 public:
     /** allocates a CCKeypadHandler with a delegate */
+    // 分配一个键盘事件，使用委托
     static CCKeypadHandler* handlerWithDelegate(CCKeypadDelegate *pDelegate);
 
 protected:
