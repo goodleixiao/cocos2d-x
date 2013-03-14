@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup actions
+ * @addtogroup actions  动作
  * @{
  */
 
@@ -59,12 +59,23 @@ public:
 
  @since v0.99.2
  */
+/** 是一种动作，可以更新对象的任何属性
+ * 如，修改对象的块度，从200到300，在2秒内，你可以：
+ *  id modifyWidth = [CCActionTween actionWithDuration:2 key:@"width" from:200 to:300];
+    [target runAction:modifyWidth];
+    另一个例子为：缩放属性
+    / scaleA and scaleB are equivalents
+    id scaleA = [CCScaleTo actionWithDuration:2 scale:3];
+    id scaleB = [CCActionTween actionWithDuration:2 key:@"scale" from:1 to:3];
+*/
 class CC_DLL CCActionTween : public CCActionInterval
 {
 public:
     /** creates an initializes the action with the property name (key), and the from and to parameters. */
+    // 创建动作，使用属性名，表和原和目标参数，及间隔参数
     static CCActionTween* create(float aDuration, const char* key, float from, float to);
     /** initializes the action with the property name (key), and the from and to parameters. */
+    // 初始化动作，使用属性名，表和原和目标参数，及间隔参数
     bool initWithDuration(float aDuration, const char* key, float from, float to);
 
     void startWithTarget(CCNode *pTarget);
