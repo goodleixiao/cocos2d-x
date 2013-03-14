@@ -66,7 +66,7 @@ static void lazy_init( void )
 
         //
         // Position and 1 color passed as a uniform (to simulate glColor4ub )
-        //
+        // 位置和颜色通过一个统一的，模拟使用glColor4ub
         s_pShader = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_Position_uColor);
         s_pShader->retain();
         
@@ -80,6 +80,7 @@ static void lazy_init( void )
 }
 
 // When switching from backround to foreground on android, we want the params to be initialized again
+// 在android平台，从后台转到前台，需要再次初始化
 void ccDrawInit()
 {
     lazy_init();
@@ -124,9 +125,11 @@ void ccDrawPoints( const CCPoint *points, unsigned int numberOfPoints )
     s_pShader->setUniformLocationWith1f(s_nPointSizeLocation, s_fPointSize);
 
     // XXX: Mac OpenGL error. arrays can't go out of scope before draw is executed
+    // mac 错误，在绘制执行前，数组不能越界
     ccVertex2F* newPoints = new ccVertex2F[numberOfPoints];
 
     // iPhone and 32-bit machines optimization
+    // iphone设备和32位设备优化
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
         glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, points);
@@ -134,6 +137,7 @@ void ccDrawPoints( const CCPoint *points, unsigned int numberOfPoints )
     else
     {
         // Mac on 64-bit
+        // mcc 64位处理器
         for( unsigned int i=0; i<numberOfPoints;i++) {
             newPoints[i].x = points[i].x;
             newPoints[i].y = points[i].y;
@@ -200,6 +204,7 @@ void ccDrawPoly( const CCPoint *poli, unsigned int numberOfPoints, bool closePol
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
     // iPhone and 32-bit machines optimization
+    // iphone设备和32位设备优化
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
         glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, poli);
@@ -212,7 +217,8 @@ void ccDrawPoly( const CCPoint *poli, unsigned int numberOfPoints, bool closePol
     else
     {
         // Mac on 64-bit
-        // XXX: Mac OpenGL error. arrays can't go out of scope before draw is executed
+        // XXX: Mac OpenGL error. arrays can't go out of scope before draw is executed 
+        // mac 64位设备，opengl错误，数组越界，在绘制执行前
         ccVertex2F* newPoli = new ccVertex2F[numberOfPoints];
         for( unsigned int i=0; i<numberOfPoints;i++) {
             newPoli[i].x = poli[i].x;
@@ -242,9 +248,11 @@ void ccDrawSolidPoly( const CCPoint *poli, unsigned int numberOfPoints, ccColor4
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
     // XXX: Mac OpenGL error. arrays can't go out of scope before draw is executed
+    // mac 64位设备，opengl错误，数组越界，在绘制执行前
     ccVertex2F* newPoli = new ccVertex2F[numberOfPoints];
 
     // iPhone and 32-bit machines optimization
+    // iphone设备和32位设备优化
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
         glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, poli);
@@ -358,6 +366,7 @@ void ccDrawCardinalSpline( CCPointArray *config, float tension,  unsigned int se
         float dt = (float)i / segments;
 
         // border
+        // 边界
         if( dt == 1 ) {
             p = config->count() - 1;
             lt = 1;
@@ -366,7 +375,7 @@ void ccDrawCardinalSpline( CCPointArray *config, float tension,  unsigned int se
             lt = (dt - deltaT * (float)p) / deltaT;
         }
 
-        // Interpolate
+        // Interpolate 插
         CCPoint pp0 = config->getControlPointAtIndex(p-1);
         CCPoint pp1 = config->getControlPointAtIndex(p+0);
         CCPoint pp2 = config->getControlPointAtIndex(p+1);
