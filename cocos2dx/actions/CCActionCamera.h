@@ -99,14 +99,14 @@ public:
     ~CCOrbitCamera(){}
     
     /** creates a CCOrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX */
-    // 使用弧度，弧度差，角，角度差z，等参数来创建一个轨道摄像动作
+    // 使用半径，半径差，角，角度差z，等参数来创建一个轨道摄像动作
     static CCOrbitCamera* create(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
     
     /** initializes a CCOrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX */
-    // 初始化一个动作，使用弧度，弧度差和x,y州的角度，及角度差，时间间隔
+    // 初始化一个动作，使用半径，半径差和x,y州的角度，及角度差，时间间隔
     bool initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
     /** positions the camera according to spherical coordinates */
-    // 指定弧度创建
+    // 指定半径创建
     void sphericalRadius(float *r, float *zenith, float *azimuth);
     // super methods
     // 父类方法
