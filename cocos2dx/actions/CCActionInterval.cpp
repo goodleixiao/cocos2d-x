@@ -36,6 +36,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // Extra action for making a CCSequence or CCSpawn when only adding one action to it.
+// 附加动作，序列化和合成，当只有一个动作
 class ExtraAction : public CCFiniteTimeAction
 {
 public:
@@ -80,7 +81,7 @@ void ExtraAction::step(float dt)
 
 //
 // IntervalAction
-//
+// 间隔动作
 CCActionInterval* CCActionInterval::create(float d)
 {
     CCActionInterval *pAction = new CCActionInterval();
@@ -188,7 +189,7 @@ CCActionInterval* CCActionInterval::reverse(void)
 
 //
 // Sequence
-//
+// 序列化
 
 CCSequence* CCSequence::createWithTwoActions(CCFiniteTimeAction *pActionOne, CCFiniteTimeAction *pActionTwo)
 {
@@ -228,6 +229,7 @@ CCSequence* CCSequence::createWithVariableList(CCFiniteTimeAction *pAction1, va_
         else
         {
             // If only one action is added to CCSequence, make up a CCSequence by adding a simplest finite time action.
+            // 若一个动作被添加序列化，通过一个简单的限定时间执行；变得简单
             if (bOneAction)
             {
                 pPrev = createWithTwoActions(pPrev, ExtraAction::create());
@@ -400,7 +402,7 @@ CCActionInterval* CCSequence::reverse(void)
 
 //
 // Repeat
-//
+// 重复
 
 CCRepeat* CCRepeat::create(CCFiniteTimeAction *pAction, unsigned int times)
 {
@@ -534,7 +536,7 @@ CCActionInterval* CCRepeat::reverse(void)
 
 //
 // RepeatForever
-//
+// 永远重复
 CCRepeatForever::~CCRepeatForever()
 {
     CC_SAFE_RELEASE(m_pInnerAction);
@@ -610,7 +612,7 @@ CCActionInterval *CCRepeatForever::reverse()
 
 //
 // Spawn
-//
+// 卵
 
 CCSpawn* CCSpawn::create(CCFiniteTimeAction *pAction1, ...)
 {
@@ -785,7 +787,7 @@ CCActionInterval* CCSpawn::reverse(void)
 
 //
 // RotateTo
-//
+// 旋转
 
 CCRotateTo* CCRotateTo::create(float fDuration, float fDeltaAngle)
 {
@@ -913,7 +915,7 @@ void CCRotateTo::update(float time)
 
 //
 // RotateBy
-//
+// 旋转，使用指定差值
 
 CCRotateBy* CCRotateBy::create(float fDuration, float fDeltaAngle)
 {
@@ -1003,7 +1005,7 @@ CCActionInterval* CCRotateBy::reverse(void)
 
 //
 // MoveBy
-//
+// 移动
 
 CCMoveBy* CCMoveBy::create(float duration, const CCPoint& deltaPosition)
 {
@@ -1133,7 +1135,7 @@ void CCMoveTo::startWithTarget(CCNode *pTarget)
 
 //
 // CCSkewTo
-//
+// 倾斜
 CCSkewTo* CCSkewTo::create(float t, float sx, float sy)
 {
     CCSkewTo *pSkewTo = new CCSkewTo();
@@ -1309,7 +1311,7 @@ CCActionInterval* CCSkewBy::reverse()
 
 //
 // JumpBy
-//
+// 跳
 
 CCJumpBy* CCJumpBy::create(float duration, const CCPoint& position, float height, unsigned int jumps)
 {
@@ -1437,9 +1439,9 @@ void CCJumpTo::startWithTarget(CCNode *pTarget)
     m_delta = ccp(m_delta.x - m_startPosition.x, m_delta.y - m_startPosition.y);
 }
 
-// Bezier cubic formula:
+// Bezier cubic formula:	贝塞尔立方公式
 //    ((1 - t) + t)3 = 1 
-// Expands to�� 
+// Expands to��式扩展公式
 //   (1 - t)3 + 3t(1-t)2 + 3t2(1 - t) + t3 = 1 
 static inline float bezierat( float a, float b, float c, float d, float t )
 {
@@ -1451,7 +1453,7 @@ static inline float bezierat( float a, float b, float c, float d, float t )
 
 //
 // BezierBy
-//
+// 贝塞尔公式
 
 CCBezierBy* CCBezierBy::create(float t, const ccBezierConfig& c)
 {
@@ -1604,7 +1606,7 @@ void CCBezierTo::startWithTarget(CCNode *pTarget)
 
 //
 // ScaleTo
-//
+// 缩放
 CCScaleTo* CCScaleTo::create(float duration, float s)
 {
     CCScaleTo *pScaleTo = new CCScaleTo();
@@ -1751,7 +1753,7 @@ CCActionInterval* CCScaleBy::reverse(void)
 
 //
 // Blink
-//
+// 闪烁
 
 CCBlink* CCBlink::create(float duration, unsigned int uBlinks)
 {
@@ -1827,7 +1829,7 @@ CCActionInterval* CCBlink::reverse(void)
 
 //
 // FadeIn
-//
+// 淡入
 
 CCFadeIn* CCFadeIn::create(float d)
 {
@@ -1878,7 +1880,7 @@ CCActionInterval* CCFadeIn::reverse(void)
 
 //
 // FadeOut
-//
+// 淡出
 
 CCFadeOut* CCFadeOut::create(float d)
 {
@@ -1998,7 +2000,7 @@ void CCFadeTo::update(float time)
 
 //
 // TintTo
-//
+// 着色
 CCTintTo* CCTintTo::create(float duration, GLubyte red, GLubyte green, GLubyte blue)
 {
     CCTintTo *pTintTo = new CCTintTo();
@@ -2146,7 +2148,7 @@ CCActionInterval* CCTintBy::reverse(void)
 
 //
 // DelayTime
-//
+// 延时
 CCDelayTime* CCDelayTime::create(float d)
 {
     CCDelayTime* pAction = new CCDelayTime();
@@ -2193,7 +2195,7 @@ CCActionInterval* CCDelayTime::reverse(void)
 
 //
 // ReverseTime
-//
+// 反向时间
 
 CCReverseTime* CCReverseTime::create(CCFiniteTimeAction *pAction)
 {
@@ -2284,7 +2286,7 @@ CCActionInterval* CCReverseTime::reverse(void)
 
 //
 // Animate
-//
+// 动画
 CCAnimate* CCAnimate::create(CCAnimation *pAnimation)
 {
     CCAnimate *pAnimate = new CCAnimate();
@@ -2465,7 +2467,7 @@ CCActionInterval* CCAnimate::reverse(void)
 }
 
 // CCTargetedAction
-
+// 目标动作
 CCTargetedAction::CCTargetedAction()
 : m_pForcedTarget(NULL)
 , m_pAction(NULL)
