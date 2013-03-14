@@ -35,7 +35,8 @@ CCGrabber::CCGrabber(void)
 {
     memset(m_oldClearColor, 0, sizeof(m_oldClearColor));
 
-    // generate FBO
+    // generate FBO 
+    // 生产fbo:frame buffer object
     glGenFramebuffers(1, &m_FBO);
 }
 
@@ -44,12 +45,15 @@ void CCGrabber::grab(CCTexture2D *pTexture)
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_oldFBO);
 
     // bind
+    // 绑定
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 
     // associate texture with FBO
+    // 使用fbo关联纹理
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pTexture->getName(), 0);
 
     // check if it worked (probably worth doing :) )
+    // 检测工作中
     GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (status != GL_FRAMEBUFFER_COMPLETE)
     {
@@ -67,15 +71,16 @@ void CCGrabber::beforeRender(CCTexture2D *pTexture)
     glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
     
     // save clear color
+    // 保存清楚颜色
     glGetFloatv(GL_COLOR_CLEAR_VALUE, m_oldClearColor);
     // BUG XXX: doesn't work with RGB565.
-
+    // 用RGB565不行
     glClearColor(0, 0, 0, 0);
 
     // BUG #631: To fix #631, uncomment the lines with #631
     // Warning: But it CCGrabber won't work with 2 effects at the same time
 //  glClearColor(0.0f,0.0f,0.0f,1.0f);    // #631
-
+    // 清楚颜色缓存和位深度缓存,同时设置不行
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 //  glColorMask(true, true, true, false);    // #631
@@ -89,6 +94,7 @@ void CCGrabber::afterRender(cocos2d::CCTexture2D *pTexture)
 //  glColorMask(true, true, true, true);    // #631
     
     // Restore clear color
+    // 重存颜色
     glClearColor(m_oldClearColor[0], m_oldClearColor[1], m_oldClearColor[2], m_oldClearColor[3]);
 }
 
