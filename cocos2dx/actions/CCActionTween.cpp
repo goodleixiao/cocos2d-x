@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "CCActionTween.h"
 
 NS_CC_BEGIN
-
+ 
 CCActionTween* CCActionTween::create(float aDuration, const char* key, float from, float to)
 {
     CCActionTween* pRet = new CCActionTween();
