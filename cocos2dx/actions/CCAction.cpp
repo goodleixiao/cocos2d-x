@@ -34,7 +34,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 //
 // Action Base Class
-//
+// 动作基类
 
 CCAction::CCAction()
 :m_pOriginalTarget(NULL)
@@ -108,7 +108,7 @@ void CCAction::update(float time)
 
 //
 // FiniteTimeAction
-//
+// 瞬时动作
 
 CCFiniteTimeAction *CCFiniteTimeAction::reverse()
 {
@@ -118,7 +118,7 @@ CCFiniteTimeAction *CCFiniteTimeAction::reverse()
 
 //
 // Speed
-//
+// 速度
 CCSpeed::~CCSpeed()
 {
     CC_SAFE_RELEASE(m_pInnerAction);
@@ -149,7 +149,7 @@ CCObject *CCSpeed::copyWithZone(CCZone *pZone)
 {
     CCZone* pNewZone = NULL;
     CCSpeed* pRet = NULL;
-    if(pZone && pZone->m_pCopyObject) //in case of being called at sub class
+    if(pZone && pZone->m_pCopyObject) //in case of being called at sub class 子类调用
     {
         pRet = (CCSpeed*)(pZone->m_pCopyObject);
     }
@@ -205,7 +205,7 @@ void CCSpeed::setInnerAction(CCActionInterval *pAction)
 
 //
 // Follow
-//
+// 跟随
 CCFollow::~CCFollow()
 {
     CC_SAFE_RELEASE(m_pobFollowedNode);
@@ -288,6 +288,7 @@ CCObject *CCFollow::copyWithZone(CCZone *pZone)
     }
     CCAction::copyWithZone(pZone);
     // copy member data
+    // 复制成员数据
     pRet->m_nTag = m_nTag;
     CC_SAFE_DELETE(pNewZone);
     return pRet;
