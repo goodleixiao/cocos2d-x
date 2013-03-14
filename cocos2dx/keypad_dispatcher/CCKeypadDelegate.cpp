@@ -29,7 +29,7 @@ NS_CC_BEGIN
 
 //------------------------------------------------------------------
 //
-// CCKeypadHandler
+// CCKeypadHandler  键盘委托
 //
 //------------------------------------------------------------------
 CCKeypadDelegate* CCKeypadHandler::getDelegate()
