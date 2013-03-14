@@ -29,7 +29,7 @@ NS_CC_BEGIN
 
 //------------------------------------------------------------------
 //
-// CCKeypadDispatcher
+// CCKeypadDispatcher   键盘调度
 //
 //------------------------------------------------------------------
 CCKeypadDispatcher::CCKeypadDispatcher()
