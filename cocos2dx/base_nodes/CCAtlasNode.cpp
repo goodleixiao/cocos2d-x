@@ -42,7 +42,7 @@ NS_CC_BEGIN
 // implementation CCAtlasNode
 
 // CCAtlasNode - Creation & Init
-
+// 创建和初始化
 CCAtlasNode::CCAtlasNode()
 : m_uItemsPerRow(0)
 , m_uItemsPerColumn(0)
@@ -108,7 +108,7 @@ bool CCAtlasNode::initWithTexture(CCTexture2D* texture, unsigned int tileWidth, 
 
     m_uQuadsToDraw = itemsToRender;
 
-    // shader stuff
+    // shader stuff	着色
     setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture_uColor));
     m_nUniformColor = glGetUniformLocation( getShaderProgram()->getProgram(), "u_color");
 
@@ -130,7 +130,7 @@ void CCAtlasNode::updateAtlasValues()
     CCAssert(false, "CCAtlasNode:Abstract updateAtlasValue not overridden");
 }
 
-// CCAtlasNode - draw
+// CCAtlasNode - draw		绘制
 void CCAtlasNode::draw(void)
 {
     CC_NODE_DRAW_SETUP();
@@ -143,7 +143,7 @@ void CCAtlasNode::draw(void)
     m_pTextureAtlas->drawNumberOfQuads(m_uQuadsToDraw, 0);
 }
 
-// CCAtlasNode - RGBA protocol
+// CCAtlasNode - RGBA protocol	协议
 
 const ccColor3B& CCAtlasNode::getColor()
 {
@@ -172,7 +172,7 @@ void CCAtlasNode::setOpacity(GLubyte opacity)
 {
     CCNodeRGBA::setOpacity(opacity);
 
-    // special opacity for premultiplied textures
+    // special opacity for premultiplied textures	指定容量
     if( m_bIsOpacityModifyRGB )
         this->setColor(m_tColorUnmodified);
 }
@@ -194,7 +194,7 @@ void CCAtlasNode::updateOpacityModifyRGB()
     m_bIsOpacityModifyRGB = m_pTextureAtlas->getTexture()->hasPremultipliedAlpha();
 }
 
-// CCAtlasNode - CocosNodeTexture protocol
+// CCAtlasNode - CocosNodeTexture protocol	纹理协议
 
 ccBlendFunc CCAtlasNode::getBlendFunc()
 {
