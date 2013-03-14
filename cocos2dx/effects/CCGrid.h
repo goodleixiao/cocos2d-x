@@ -40,34 +40,40 @@ class CCGrabber;
 class CCGLProgram;
 
 /**
- * @addtogroup effects
+ * @addtogroup effects 效果
  * @{
  */
 
 /** Base class for other
 */
+// 基类为其他类使用
 class CC_DLL CCGridBase : public CCObject
 {
 public:
     virtual ~CCGridBase(void);
 
     /** whether or not the grid is active */
+    // 网格是否激活状态
     inline bool isActive(void) { return m_bActive; }
     void setActive(bool bActive);
 
     /** number of times that the grid will be reused */
+    // 获取网格重用的次数
     inline int getReuseGrid(void) { return m_nReuseGrid; }
     inline void setReuseGrid(int nReuseGrid) { m_nReuseGrid = nReuseGrid; }
 
     /** size of the grid */
+    // 网格大小
     inline const CCSize& getGridSize(void) { return m_sGridSize; }
     inline void setGridSize(const CCSize& gridSize) { m_sGridSize = gridSize; }
 
     /** pixels between the grids */
+    // 网格间像素
     inline const CCPoint& getStep(void) { return m_obStep; }
     inline void setStep(const CCPoint& step) { m_obStep = step; }
 
     /** is texture flipped */
+    // 是纹理翻转
     inline bool isTextureFlipped(void) { return m_bIsTextureFlipped; }
     void setTextureFlipped(bool bFlipped);
 
@@ -83,10 +89,12 @@ public:
 public:
 
     /** create one Grid */
+    // 创建网格， 使用大小，纹理，是否翻转为参数
     static CCGridBase* create(const CCSize& gridSize, CCTexture2D *texture, bool flipped);
     /** create one Grid */
+    // 创建网格，使用大小参数
     static CCGridBase* create(const CCSize& gridSize);
-
+    // 设置2D投影
     void set2DProjection(void);
 
 protected:
@@ -104,6 +112,7 @@ protected:
 /**
  CCGrid3D is a 3D grid implementation. Each vertex has 3 dimensions: x,y,z
  */
+// 3D网格，每个顶点都有3个尺寸：x,y,z
 class CC_DLL CCGrid3D : public CCGridBase
 {
 public:
@@ -111,10 +120,13 @@ public:
     ~CCGrid3D(void);
 
     /** returns the vertex at a given position */
+    // 给定位置，返回一个顶点
     ccVertex3F vertex(const CCPoint& pos);
     /** returns the original (non-transformed) vertex at a given position */
+    // 返回一个原顶点，给定位置，非转化
     ccVertex3F originalVertex(const CCPoint& pos);
     /** sets a new vertex at a given position */
+    // 设置新的顶点，在给定位置
     void setVertex(const CCPoint& pos, const ccVertex3F& vertex);
 
     virtual void blit(void);
@@ -123,8 +135,10 @@ public:
 
 public:
     /** create one Grid */
+    // 创建一个网格，使用大小，纹理，是否翻转为参数
     static CCGrid3D* create(const CCSize& gridSize, CCTexture2D *pTexture, bool bFlipped);
     /** create one Grid */
+    // 创建网格，使用大小参数
     static CCGrid3D* create(const CCSize& gridSize);
     
 protected:
@@ -138,6 +152,7 @@ protected:
  CCTiledGrid3D is a 3D grid implementation. It differs from Grid3D in that
  the tiles can be separated from the grid.
 */
+// 3D实现，瓦片可以从网格分离的
 class CC_DLL CCTiledGrid3D : public CCGridBase
 {
 public:
@@ -145,10 +160,13 @@ public:
     ~CCTiledGrid3D(void);
 
     /** returns the tile at the given position */
+    // 给定位置，返回瓦片
     ccQuad3 tile(const CCPoint& pos);
     /** returns the original tile (untransformed) at the given position */
+    // 给定位置，返回原瓦片
     ccQuad3 originalTile(const CCPoint& pos);
     /** sets a new tile */
+    // 设置一个新的瓦片
     void setTile(const CCPoint& pos, const ccQuad3& coords);
 
     virtual void blit(void);
@@ -158,8 +176,10 @@ public:
 public:
 
     /** create one Grid */
+    // 创建一个网格，使用大小，纹理，是否翻转
     static CCTiledGrid3D* create(const CCSize& gridSize, CCTexture2D *pTexture, bool bFlipped);
     /** create one Grid */
+    // 创建一个网格，使用大小参数
     static CCTiledGrid3D* create(const CCSize& gridSize);
     
 protected:
