@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup actions
+ * @addtogroup actions  动作
  * @{
  */
 
@@ -38,10 +38,12 @@ NS_CC_BEGIN
 @brief Progress to percentage
 @since v0.99.1
 */
+// 比例进度
 class CC_DLL CCProgressTo : public CCActionInterval
 {
 public:
     /** Initializes with a duration and a percent */
+    // 初始化方法，使用间隔和比例参数
     bool initWithDuration(float duration, float fPercent);
 
     virtual CCObject* copyWithZone(CCZone *pZone);
@@ -50,6 +52,7 @@ public:
 
 public:
     /** Creates and initializes with a duration and a percent */
+    // 创建和初始化使用间隔和比例参数
     static CCProgressTo* create(float duration, float fPercent);
 protected:
     float m_fTo;
@@ -60,10 +63,12 @@ protected:
 @brief Progress from a percentage to another percentage
 @since v0.99.1
 */
+// 从一个比例到另一个比例，为进度
 class CC_DLL CCProgressFromTo : public CCActionInterval
 {
 public:
     /** Initializes the action with a duration, a "from" percentage and a "to" percentage */
+    // 初始化动作，使用间隔，原比例，目标比例参数
     bool initWithDuration(float duration, float fFromPercentage, float fToPercentage);
 
     virtual CCObject* copyWithZone(CCZone *pZone);
@@ -74,6 +79,7 @@ public:
 public:
 
     /** Creates and initializes the action with a duration, a "from" percentage and a "to" percentage */
+    // 初始化动作，使用间隔，原比例，目标比例参数
     static CCProgressFromTo* create(float duration, float fFromPercentage, float fToPercentage);
 protected:
     float m_fTo;
