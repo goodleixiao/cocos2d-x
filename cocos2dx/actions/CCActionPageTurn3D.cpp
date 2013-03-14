@@ -51,6 +51,7 @@ CCPageTurn3D* CCPageTurn3D::create(float duration, const CCSize& gridSize)
  * Update each tick
  * Time is the percentage of the way through the duration
  */
+// 更新每个时刻；时间是间隔比例
 void CCPageTurn3D::update(float time)
 {
     float tt = MAX(0, time - 0.25f);
@@ -68,6 +69,7 @@ void CCPageTurn3D::update(float time)
         for (int j = 0; j <= m_sGridSize.height; ++j)
         {
             // Get original vertex
+            // 获取原顶点
             ccVertex3F p = originalVertex(ccp(i ,j));
             
             float R = sqrtf((p.x * p.x) + ((p.y - ay) * (p.y - ay)));
@@ -78,6 +80,7 @@ void CCPageTurn3D::update(float time)
             
             // If beta > PI then we've wrapped around the cone
             // Reduce the radius to stop these points interfering with others
+            // 若beta大于π，可能会影响其他元素；所以减小半径
             if (beta <= M_PI)
             {
                 p.x = ( r * sinf(beta));
@@ -85,7 +88,8 @@ void CCPageTurn3D::update(float time)
             else
             {
                 // Force X = 0 to stop wrapped
-                // points
+                // points 点
+                //将x至0
                 p.x = 0;
             }
 
@@ -93,9 +97,11 @@ void CCPageTurn3D::update(float time)
 
             // We scale z here to avoid the animation being
             // too much bigger than the screen due to perspective transform
+            // 缩放z轴，避免动画太大，超出屏幕
             p.z = (r * ( 1 - cosBeta ) * cosTheta) / 7;// "100" didn't work for
 
-            //    Stop z coord from dropping beneath underlying page in a transition
+            // Stop z coord from dropping beneath underlying page in a transition
+            // 停止Z坐标下降基础页面下方的过渡   
             // issue #751
             if( p.z < 0.5f )
             {
@@ -103,6 +109,7 @@ void CCPageTurn3D::update(float time)
             }
             
             // Set new coords
+            // 设置新的坐标位置
             setVertex(ccp(i, j), p);
             
         }
