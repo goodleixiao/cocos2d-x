@@ -555,6 +555,7 @@ public:
      *
      * @param uOrderOfArrival   The arrival order.
      */
+    // 设置到达节点顺序，当节点具有相同的z次序时。不用手动管理
     virtual void setOrderOfArrival(unsigned int uOrderOfArrival);
     /**
      * Returns the arrival order, indecates which children is added previously.
@@ -563,6 +564,7 @@ public:
      *
      * @return The arrival order.
      */
+    // 获取节点到达顺序
     virtual unsigned int getOrderOfArrival();
     
     
@@ -571,12 +573,14 @@ public:
      *
      * @param glServerState     The state of OpenGL server side.
      */
+    // 设置gl服务端状态
     virtual void setGLServerState(ccGLServerState glServerState);
     /**
      * Returns the state of OpenGL server side.
      *
      * @return The state of OpenGL server side.
      */
+    // 返回服务端服务状态
     virtual ccGLServerState getGLServerState();
     
     
@@ -589,6 +593,7 @@ public:
      * @param ignore    true if anchor point will be (0,0) when you position this node
      * @todo This method shoud be renamed as setIgnoreAnchorPointForPosition(bool) or something with "set"
      */
+    // 忽视锚点设置，则锚点为默认设置为(0,0)
     virtual void ignoreAnchorPointForPosition(bool ignore);
     /**
      * Gets whether the anchor point will be (0,0) when you position this node.
@@ -597,9 +602,11 @@ public:
      *
      * @return true if the anchor point will be (0,0) when you position this node.
      */
+    // 是否忽视锚点设置
     virtual bool isIgnoreAnchorPointForPosition();
     
     /// @}  end of Setters & Getters for Graphic Peroperties
+    /// 设置和获取绘制相关属性
     
     
     ///////////////////////////////////////////////////////
@@ -613,6 +620,7 @@ public:
      *
      * @param child A child node
      */
+    // 增加一个子对象，而z次序为0
     virtual void addChild(CCNode * child);
     /** 
      * Adds a child to the container with a z-order
@@ -622,6 +630,7 @@ public:
      * @param child     A child node
      * @param zOrder    Z order for drawing priority. Please refer to setZOrder(int)
      */
+    // 增加一个带有z次序的对象
     virtual void addChild(CCNode * child, int zOrder);
     /** 
      * Adds a child to the container with z order and tag
@@ -632,6 +641,7 @@ public:
      * @param zOrder    Z order for drawing priority. Please refer to setZOrder(int)
      * @param tag       A interger to identify the node easily. Please refer to setTag(int)
      */
+    // 增加一个带有z次序和标志的对象
     virtual void addChild(CCNode* child, int zOrder, int tag);
     /**
      * Gets a child from the container with its tag
@@ -640,6 +650,7 @@ public:
      *
      * @return a CCNode object whose tag equals to the input parameter
      */
+    // 返回一个子对象，使用标志
     CCNode * getChildByTag(int tag);
     /**
      * Return an array of children
@@ -657,6 +668,7 @@ public:
      *
      * @return An array of children
      */
+    // 返回一组子对象
     virtual CCArray* getChildren();
     
     /** 
@@ -664,6 +676,7 @@ public:
      *
      * @return The amount of children.
      */
+    // 获取子对象的个数
     unsigned int getChildrenCount(void);
     
     /**
@@ -671,6 +684,7 @@ public:
      *
      * @param parent    A pointer to the parnet node
      */
+    // 设置父类节点
     virtual void setParent(CCNode* parent);
     /**
      * Returns a pointer to the parent node
@@ -679,6 +693,7 @@ public:
      *
      * @returns A pointer to the parnet node
      */
+    // 获取父类节点
     virtual CCNode* getParent();
     
     
@@ -689,12 +704,14 @@ public:
      * If the node orphan, then nothing happens.
      * @see removeFromParentAndCleanup(bool)
      */
+    // 从父类删除节点
     virtual void removeFromParent();
     /** 
      * Removes this node itself from its parent node. 
      * If the node orphan, then nothing happens.
      * @param cleanup   true if all actions and callbacks on this node should be removed, false otherwise.
      */
+    // 从父类删除，并清理节点
     virtual void removeFromParentAndCleanup(bool cleanup);
     /** 
      * Removes a child from the container with a cleanup
@@ -703,6 +720,7 @@ public:
      *
      * @param child     The child node which will be removed.
      */
+    // 删除一个子节点
     virtual void removeChild(CCNode* child);
     /** 
      * Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
@@ -710,6 +728,7 @@ public:
      * @param child     The child node which will be removed.
      * @param cleanup   true if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
+    // 删除一个子节点，并清理
     virtual void removeChild(CCNode* child, bool cleanup);
     /** 
      * Removes a child from the container by tag value with a cleanup.
@@ -718,6 +737,7 @@ public:
      *
      * @param tag       An interger number that identifies a child node
      */
+    // 删除一个子节点，使用标志参数
     virtual void removeChildByTag(int tag);
     /** 
      * Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter
@@ -725,18 +745,21 @@ public:
      * @param tag       An interger number that identifies a child node
      * @param cleanup   true if all running actions and callbacks on the child node will be cleanup, false otherwise. 
      */
+    // 删除一个子节点并清理，使用标志参数
     virtual void removeChildByTag(int tag, bool cleanup);
     /** 
      * Removes all children from the container with a cleanup.
      *
      * @see removeAllChildrenWithCleanup(bool)
      */
+    // 删除所有子节点
     virtual void removeAllChildren();
     /** 
      * Removes all children from the container, and do a cleanup to all running actions depending on the cleanup parameter.
      *
      * @param cleanup   true if all running actions on all children nodes should be cleanup, false oterwise.
      */
+    // 删除所有子节点，带有清理参数
     virtual void removeAllChildrenWithCleanup(bool cleanup);
     
     /** 
@@ -745,6 +768,7 @@ public:
      * @param child     An already added child node. It MUST be already added.
      * @param zOrder    Z order for drawing priority. Please refer to setZOrder(int)
      */
+    // 用新的z值，重新排序子节点
     virtual void reorderChild(CCNode * child, int zOrder);
     
     /** 
@@ -752,9 +776,11 @@ public:
      * This appraoch can improves the performance massively.
      * @note Don't call this manually unless a child added needs to be removed in the same frame 
      */
+    // 对所有子节点排序，在绘制之前
     virtual void sortAllChildren();
 
     /// @} end of Children and Parent
+    /// 结束子与父
     
 
     
@@ -767,15 +793,18 @@ public:
      * 
      * @return A CCGrid object that is used when applying effects
      */
+    // 网格对象； 获取一个网格对象
     virtual CCGridBase* getGrid();
     /**
      * Changes a grid object that is used when applying effects
      *
      * @param A CCGrid object that is used when applying effects
      */
+    // 设置一个网格对象，当应用效果时
     virtual void setGrid(CCGridBase *pGrid);
     
     /// @} end of Grid
+    /// 结束网格
     
     
     /////////////////////////////////////
@@ -815,6 +844,7 @@ public:
      *
      * @return A interger that identifies the node.
      */
+    // 标志和数据： 获取一个整数标志，来确定节点
     virtual int getTag();
     /**
      * Changes the tag that is used to identify the node easily.
@@ -823,6 +853,7 @@ public:
      *
      * @param A interger that indentifies the node.
      */
+    // 设置标志,确定节点容易
     virtual void setTag(int nTag);
     
     /**
@@ -832,6 +863,7 @@ public:
      * 
      * @return A custom user data pointer
      */
+    // 获取自定义的用户数据，可以是数据指针，数据块，结构体或一个对象
     virtual void* getUserData();
     /**
      * Sets a custom user data pointer
@@ -842,6 +874,7 @@ public:
      *
      * @return A custom user data pointer
      */
+    // 设置一个自定义的用户数据；要手动释放内存
     virtual void setUserData(void *pUserData);
     
     /** 
@@ -851,6 +884,7 @@ public:
      *
      * @return A user assigned CCObject
      */
+    // 获取一个对象，与获取数据类似
     virtual CCObject* getUserObject();
     /**
      * Returns a user assigned CCObject
@@ -862,9 +896,11 @@ public:
      *
      * @param A user assigned CCObject
      */
+    // 设置一个对象
     virtual void setUserObject(CCObject *pUserObject);
     
     /// @} end of Tag & User Data
+    /// 结束标志和用户数据
     
     
     ///////////////////////////////
@@ -875,6 +911,7 @@ public:
      * 
      * @return The shader program currelty used for this node
      */
+    // 着色方案；获取当前着色
     virtual CCGLProgram* getShaderProgram();
     /**
      * Sets the shader program for this node
@@ -887,9 +924,10 @@ public:
      * 
      * @param The shader program which fetchs from CCShaderCache.
      */
+    // 设置节点的着色方案
     virtual void setShaderProgram(CCGLProgram *pShaderProgram);
     /// @} end of Shader Program
-    
+    /// 结束着色方案
     ///////////////////////////////////////
     ///////////////////////////////////////
     
@@ -904,6 +942,7 @@ public:
      *
      * @return A CCCamera object that lets you move the node using a gluLookAt
      */
+    // 返回一个摄像对象，而已使用gluLookAt来移动
     virtual CCCamera* getCamera();
     
     /** 
@@ -913,6 +952,7 @@ public:
      *
      * @return Whether or not the node is running.
      */
+    // 是否在运行中，接收事件回调
     virtual bool isRunning();
 
     
@@ -941,12 +981,14 @@ public:
      *
      * @param handler   A number that indicates a lua function. 
      */
+    // 注册脚本处理，用于lua
     virtual void registerScriptHandler(int handler);
     /**
      * Unregisters a script function that will be called in onEnter() & onExit() series functions.
      *
      * @see registerScriptHandler(int)
      */
+    // 取消注册
     virtual void unregisterScriptHandler(void);
     /**
      * Gets script handler for onEnter/onExit event.
@@ -955,14 +997,17 @@ public:
      *
      * @return A number that indicates a lua function.
      */
+    // 获取脚本处理为onEnter/onExit事件
     inline int getScriptHandler() { return m_nScriptHandler; };
     
     /** 
      * Schedules for lua script. 
      */
+    // 附表为lua脚本
     void scheduleUpdateWithPriorityLua(int nHandler, int priority);
     
     /// @}  end Script Bindings
+    /// 结束脚本绑定
 
 
     //////////////////////////
@@ -975,12 +1020,14 @@ public:
      * During onEnter you can't access a "sister/brother" node.
      * If you override onEnter, you shall call its parent's one, e.g., CCNode::onEnter().
      */
+    // 事件回调； 节点每次进入的舞台，调用此方法
     virtual void onEnter();
 
     /** Event callback that is invoked when the CCNode enters in the 'stage'.
      * If the CCNode enters the 'stage' with a transition, this event is called when the transition finishes.
      * If you override onEnterTransitionDidFinish, you shall call its parent's one, e.g. CCNode::onEnterTransitionDidFinish()
      */
+    // 节点回调此方法，使用一个过渡参数
     virtual void onEnterTransitionDidFinish();
 
     /** 
@@ -989,20 +1036,24 @@ public:
      * During onExit you can't access a sibling node.
      * If you override onExit, you shall call its parent's one, e.g., CCNode::onExit().
      */
+    // 当节点离开舞台时
     virtual void onExit();
 
     /** 
      * Event callback that is called every time the CCNode leaves the 'stage'.
      * If the CCNode leaves the 'stage' with a transition, this callback is called when the transition starts.
      */
+    // 节点离开舞台时，每次都调用
     virtual void onExitTransitionDidStart();
 
     /// @} end of event callbacks.
+    /// 结束事件回调
 
 
     /** 
      * Stops all running actions and schedulers
      */
+    // 停止所有运行动作和调度
     virtual void cleanup(void);
 
     /** 
@@ -1015,11 +1066,13 @@ public:
      * AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
      * But if you enable any other GL state, you should disable it after drawing your node.
      */
+    // 重载此方法来绘制自己
     virtual void draw(void);
 
     /** 
      * Visits this node's children and draw them recursively.
      */
+    // 访问节点子对象，并递归绘制
     virtual void visit(void);
 
     
@@ -1032,6 +1085,7 @@ public:
      * 
      * @return A "local" axis aligned boudning box of the node.
      */
+    // 返回节点边界
     CCRect boundingBox(void);
 
     /////////////////////////////////////////
@@ -1045,12 +1099,14 @@ public:
      *
      * @param actionManager     A CCActionManager object that is used by all actions.
      */
+    // 设置运动管理对象，用于管理所有运动
     virtual void setActionManager(CCActionManager* actionManager);
     /**
      * Gets the CCActionManager object that is used by all actions.
      * @see setActionManager(CCActionManager*)
      * @return A CCActionManager object.
      */
+    // 获取运动管理对象
     virtual CCActionManager* getActionManager();
     
     /** 
@@ -1061,11 +1117,13 @@ public:
      *
      * @return An Action pointer
      */
+    // 返回执行的运行
     CCAction* runAction(CCAction* action);
 
     /** 
      * Stops and removes all actions from the running action list .
      */
+    // 从运行链表中停止和移除所有动作
     void stopAllActions(void);
 
     /** 
@@ -1073,6 +1131,7 @@ public:
      *
      * @param An action object to be removed.
      */
+    // 停止和移除一个动作
     void stopAction(CCAction* action);
 
     /** 
@@ -1080,6 +1139,7 @@ public:
      *
      * @param A tag that indicates the action to be removed.
      */
+    // 停止指定标志的动作，从链表中
     void stopActionByTag(int tag);
 
     /** 
@@ -1089,6 +1149,7 @@ public:
      *
      * @return The action object with the given tag.
      */
+    // 获取带有标志的动作
     CCAction* getActionByTag(int tag);
 
     /** 
@@ -1101,9 +1162,11 @@ public:
      *
      * @return The number of actions that are running plus the ones that are schedule to run
      */
+    // 运行中的动作数目
     unsigned int numberOfRunningActions(void);
 
     /// @} end of Actions
+    /// 结束动作
     
     
     //////////////////
@@ -1116,6 +1179,7 @@ public:
      * @warning If you set a new CCScheduler, then previously created timers/update are going to be removed.
      * @param scheduler     A CCShdeduler object that is used to schedule all "update" and timers.
      */
+    // 调度和计数器; 设置调度
     virtual void setScheduler(CCScheduler* scheduler);
     /**
      * Gets a CCSheduler object.
@@ -1123,6 +1187,7 @@ public:
      * @see setScheduler(CCScheduler*)
      * @return A CCScheduler object.
      */
+    // 获取调度对象
     virtual CCScheduler* getScheduler();
     
     /** 
@@ -1131,6 +1196,7 @@ public:
      * @param selector      A function selector
      * @return Whether the funcion selector is scheduled.
      */
+    // 选择器是否被调度
     bool isScheduled(SEL_SCHEDULE selector);
 
     /** 
@@ -1140,6 +1206,7 @@ public:
      * Scheduled methods with a lower order value will be called before the ones that have a higher order value.
      * Only one "update" method could be scheduled per node.
      */
+    // 调用更新方法；每帧都会调用
     void scheduleUpdate(void);
 
     /** 
@@ -1149,12 +1216,14 @@ public:
      * Scheduled methods with a lower priority will be called before the ones that have a higher value.
      * Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
      */
+    // 使用优先级调用更新方法
     void scheduleUpdateWithPriority(int priority);
 
     /* 
      * Unschedules the "update" method.
      * @see scheduleUpdate();
      */
+    // 取消更新
     void unscheduleUpdate(void);
 
     /**
@@ -1172,6 +1241,7 @@ public:
      * @param repeat    The selector will be excuted (repeat + 1) times, you can use kCCRepeatForever for tick infinitely.
      * @param delay     The amount of time that the first tick will wait before execution.
      */
+    // 注册一个自定义选择器：选择器，时间间隔，重复次数，延时为参数
     void schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay);
     
     /**
@@ -1181,6 +1251,7 @@ public:
      * @param selector      A function wrapped as a selector
      * @param interval      Callback interval time in seconds. 0 means tick every frame,
      */
+    // 注册一个选择器，使用时间间隔
     void schedule(SEL_SCHEDULE selector, float interval);
     
     /**
@@ -1190,6 +1261,7 @@ public:
      * @param selector      A function wrapped as a selector
      * @param delay         The amount of time that the first tick will wait before execution.
      */
+    // 注册一个只运行一次的选择器，用延时参数
     void scheduleOnce(SEL_SCHEDULE selector, float delay);
     
     /**
@@ -1198,6 +1270,7 @@ public:
      *
      * @param selector      A function wrapped as a selector
      */
+    // 注册一个自定义选择器
     void schedule(SEL_SCHEDULE selector);
     
     /** 
@@ -1206,28 +1279,33 @@ public:
      *
      * @param selector      A function wrapped as a selector
      */
+    // 取消注册
     void unschedule(SEL_SCHEDULE selector);
 
     /** 
      * Unschedule all scheduled selectors: custom selectors, and the 'update' selector.
      * Actions are not affected by this method.
      */
+    // 取消所有选择器
     void unscheduleAllSelectors(void);
 
     /** 
      * Resumes all scheduled selectors and actions.
      * This method is called internally by onEnter
      */
+    // 恢复所有注册选择器和动作
     void resumeSchedulerAndActions(void);
     /** 
      * Pauses all scheduled selectors and actions.
      * This method is called internally by onExit
      */
+    // 暂停所有选择器和动作
     void pauseSchedulerAndActions(void);
     
     /* 
      * Update method will be called automatically every frame if "scheduleUpdate" is called, and the node is "live"
      */
+    // 更新方法，会被每帧自动调用
     virtual void update(float delta);
     
 
@@ -1238,12 +1316,14 @@ public:
     /**
      * Performs OpenGL view-matrix transformation based on position, scale, rotation and other attributes.
      */
+    // 转换；基于位置，比例，旋转和其他属性
     void transform(void);
     /**
      * Performs OpenGL view-matrix transformation of it's ancestors.
      * Generally the ancestors are already transformed, but in certain cases (eg: attaching a FBO)
      * It's necessary to transform the ancestors again.
      */
+    // 从祖先那里执行opengl矩阵转换
     void transformAncestors(void);
     /**
      * Calls children's updateTransform() method recursively.
@@ -1252,31 +1332,37 @@ public:
      * As the result, you apply CCSpriteBatchNode's optimization on your customed CCNode.
      * e.g., batchNode->addChild(myCustomNode), while you can only addChild(sprite) before.
      */
+    // 更新转换，是调用子对象的方法
     virtual void updateTransform(void);
     
     /** 
      * Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.
      * The matrix is in Pixels.
      */
+    // 返回的矩阵：从节点空间坐标转换父类空间坐标； 矩阵是以像素为单位
     virtual CCAffineTransform nodeToParentTransform(void);
 
     /** 
      * Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
      * The matrix is in Pixels.
      */
+    // 从父类到子类转换
     virtual CCAffineTransform parentToNodeTransform(void);
 
     /** 
      * Returns the world affine transform matrix. The matrix is in Pixels.
      */
+    // 返回一个世界放射转换矩阵；矩阵以像素为单位
     virtual CCAffineTransform nodeToWorldTransform(void);
 
     /** 
      * Returns the inverse world affine transform matrix. The matrix is in Pixels.
      */
+    // 返回一个反向的矩形
     virtual CCAffineTransform worldToNodeTransform(void);
 
     /// @} end of Transformations
+    /// 结束转换
     
     
     ///////////////////
@@ -1286,33 +1372,39 @@ public:
     /** 
      * Converts a Point to node (local) space coordinates. The result is in Points.
      */
+    //坐标系转换； 从点到节点空间坐标
     CCPoint convertToNodeSpace(const CCPoint& worldPoint);
     
     /** 
      * Converts a Point to world space coordinates. The result is in Points.
      */
+    // 从点到世界空间坐标。结果以点为单位
     CCPoint convertToWorldSpace(const CCPoint& nodePoint);
     
     /** 
      * Converts a Point to node (local) space coordinates. The result is in Points.
      * treating the returned/received node point as anchor relative.
      */
+    // 点到节点本地空间坐标系 作为锚点
     CCPoint convertToNodeSpaceAR(const CCPoint& worldPoint);
     
     /** 
      * Converts a local Point to world space coordinates.The result is in Points.
      * treating the returned/received node point as anchor relative.
      */
+    // 本地点到世界空间坐标系。 该点作为一个锚点相对来说
     CCPoint convertToWorldSpaceAR(const CCPoint& nodePoint);
 
     /** 
      * convenience methods which take a CCTouch instead of CCPoint
      */
+    // 从touch坐标系到节点坐标系
     CCPoint convertTouchToNodeSpace(CCTouch * touch);
 
     /** 
      * converts a CCTouch (world coordinates) into a local coordinate. This method is AR (Anchor Relative).
      */
+    // 从touch世界坐标系到本地坐标系。 锚点
     CCPoint convertTouchToNodeSpaceAR(CCTouch * touch);
     
 	/**
@@ -1363,85 +1455,90 @@ public:
         spriteB->setAdditionalTransform(t);
      *  @endcode
      */
+    // 附加转换：位置，旋转，缩放
     void setAdditionalTransform(const CCAffineTransform& additionalTransform);
     /// @} end of Coordinate Converters
 
 private:
     /// lazy allocs
+    /// 懒分配
     void childrenAlloc(void);
     
     /// helper that reorder a child
+    /// 插入一个子节点
     void insertChild(CCNode* child, int z);
     
     /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
+    /// 删除一个子节点，调用子节点的onExit()方法，并清理，移除从子对象数组中
     void detachChild(CCNode *child, bool doCleanup);
     
     /// Convert cocos2d coordinates to UI windows coordinate.
+    // UI世界坐标与cocos2d坐标系的转换
     CCPoint convertToWindowSpace(const CCPoint& nodePoint);
 
 protected:
-    float m_fRotationX;                 ///< rotation angle on x-axis
-    float m_fRotationY;                 ///< rotation angle on y-axis
+    float m_fRotationX;                 ///< rotation angle on x-axis		旋转角度，x轴
+    float m_fRotationY;                 ///< rotation angle on y-axis		旋转角度，y轴
     
-    float m_fScaleX;                    ///< scaling factor on x-axis
-    float m_fScaleY;                    ///< scaling factor on y-axis
+    float m_fScaleX;                    ///< scaling factor on x-axis		缩放比例，x轴
+    float m_fScaleY;                    ///< scaling factor on y-axis		缩放比例，y轴
     
-    float m_fVertexZ;                   ///< OpenGL real Z vertex
+    float m_fVertexZ;                   ///< OpenGL real Z vertex		真实z顶点
     
-    CCPoint m_obPosition;               ///< position of the node
+    CCPoint m_obPosition;               ///< position of the node		节点位置
     
-    float m_fSkewX;                     ///< skew angle on x-axis
-    float m_fSkewY;                     ///< skew angle on y-axis
+    float m_fSkewX;                     ///< skew angle on x-axis		倾斜角度，x轴
+    float m_fSkewY;                     ///< skew angle on y-axis		倾斜角度，y轴
     
-    CCPoint m_obAnchorPointInPoints;    ///< anchor point in points
-    CCPoint m_obAnchorPoint;            ///< anchor point normalized (NOT in points)
+    CCPoint m_obAnchorPointInPoints;    ///< anchor point in points		锚点，以点为单位
+    CCPoint m_obAnchorPoint;            ///< anchor point normalized (NOT in points)	非转换锚点
     
-    CCSize m_obContentSize;             ///< untransformed size of the node
+    CCSize m_obContentSize;             ///< untransformed size of the node		非转化尺寸
     
     
-    CCAffineTransform m_sAdditionalTransform; ///< transform
+    CCAffineTransform m_sAdditionalTransform; ///< transform				转换
     CCAffineTransform m_sTransform;     ///< transform
     CCAffineTransform m_sInverse;       ///< transform
     
-    CCCamera *m_pCamera;                ///< a camera
+    CCCamera *m_pCamera;                ///< a camera				摄像
     
-    CCGridBase *m_pGrid;                ///< a grid
+    CCGridBase *m_pGrid;                ///< a grid				网格
     
-    int m_nZOrder;                      ///< z-order value that affects the draw order
+    int m_nZOrder;                      ///< z-order value that affects the draw order	z次序，影响绘制顺序
     
-    CCArray *m_pChildren;               ///< array of children nodes
-    CCNode *m_pParent;                  ///< weak reference to parent node
+    CCArray *m_pChildren;               ///< array of children nodes			子节点数组
+    CCNode *m_pParent;                  ///< weak reference to parent node		父类引用
     
-    int m_nTag;                         ///< a tag. Can be any number you assigned just to identify this node
+    int m_nTag;                         ///< a tag. Can be any number you assigned just to identify this node	标志
     
-    void *m_pUserData;                  ///< A user assingned void pointer, Can be point to any cpp object
-    CCObject *m_pUserObject;            ///< A user assigned CCObject
+    void *m_pUserData;                  ///< A user assingned void pointer, Can be point to any cpp object	用户数据
+    CCObject *m_pUserObject;            ///< A user assigned CCObject		用户数据对象
     
-    CCGLProgram *m_pShaderProgram;      ///< OpenGL shader
+    CCGLProgram *m_pShaderProgram;      ///< OpenGL shader			着色方案
     
-    ccGLServerState m_eGLServerState;   ///< OpenGL servier side state
+    ccGLServerState m_eGLServerState;   ///< OpenGL servier side state		opengl服务端状态
     
-    unsigned int m_uOrderOfArrival;     ///< used to preserve sequence while sorting children with the same zOrder
+    unsigned int m_uOrderOfArrival;     ///< used to preserve sequence while sorting children with the same zOrder	到达次序
     
-    CCScheduler *m_pScheduler;          ///< scheduler used to schedule timers and updates
+    CCScheduler *m_pScheduler;          ///< scheduler used to schedule timers and updates	注册计数器和更新
     
-    CCActionManager *m_pActionManager;  ///< a pointer to ActionManager singleton, which is used to handle all the actions
+    CCActionManager *m_pActionManager;  ///< a pointer to ActionManager singleton, which is used to handle all the actions	动作管理
     
-    bool m_bRunning;                    ///< is running
+    bool m_bRunning;                    ///< is running				是否运行中
     
-    bool m_bTransformDirty;             ///< transform dirty flag
-    bool m_bInverseDirty;               ///< transform dirty flag
-    bool m_bAdditionalTransformDirty;   ///< The flag to check whether the additional transform is dirty
-    bool m_bVisible;                    ///< is this node visible
+    bool m_bTransformDirty;             ///< transform dirty flag		转换旧的的标示
+    bool m_bInverseDirty;               ///< transform dirty flag		同上
+    bool m_bAdditionalTransformDirty;   ///< The flag to check whether the additional transform is dirty	检测是否旧的的转换
+    bool m_bVisible;                    ///< is this node visible		是否可见
     
-    bool m_bIgnoreAnchorPointForPosition; ///< true if the Anchor Point will be (0,0) when you position the CCNode, false otherwise.
-                                          ///< Used by CCLayer and CCScene.
+    bool m_bIgnoreAnchorPointForPosition; ///< true if the Anchor Point will be (0,0) when you position the CCNode, false otherwise. 是否忽视锚点
+                                          ///< Used by CCLayer and CCScene.	
     
-    bool m_bReorderChildDirty;          ///< children order dirty flag
+    bool m_bReorderChildDirty;          ///< children order dirty flag		是否子对象旧的次序标示
     
-    int m_nScriptHandler;               ///< script handler for onEnter() & onExit(), used in Javascript binding and Lua binding.
-    int m_nUpdateScriptHandler;         ///< script handler for update() callback per frame, which is invoked from lua & javascript.
-    ccScriptType m_eScriptType;         ///< type of script binding, lua or javascript
+    int m_nScriptHandler;               ///< script handler for onEnter() & onExit(), used in Javascript binding and Lua binding.	绑定lua处理
+    int m_nUpdateScriptHandler;         ///< script handler for update() callback per frame, which is invoked from lua & javascript.	处理更新
+    ccScriptType m_eScriptType;         ///< type of script binding, lua or javascript	绑定脚本类型
 };
 
 //#pragma mark - CCNodeRGBA
@@ -1455,6 +1552,8 @@ protected:
  Opacity/Color propagates into children that conform to the CCRGBAProtocol if cascadeOpacity/cascadeColor is enabled.
  @since v2.1
  */
+// RGBA节点是节点的子类，为实现CCRGBAProtocol协议
+// 增加了透明度和颜色值
 class CC_DLL CCNodeRGBA : public CCNode, public CCRGBAProtocol
 {
 public:
