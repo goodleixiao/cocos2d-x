@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 // implementation of CCGridAction
+// 实现网格动作
 
 CCGridAction* CCGridAction::create(float duration, const CCSize& gridSize)
 {
@@ -96,6 +97,7 @@ void CCGridAction::startWithTarget(CCNode *pTarget)
 CCGridBase* CCGridAction::getGrid(void)
 {
     // Abstract class needs implementation
+    // 虚类需要实现
     CCAssert(0, "");
 
     return NULL;
@@ -257,7 +259,7 @@ CCActionInterval* CCAccelDeccelAmplitude::reverse(void)
 }
 
 // implementation of AccelAmplitude
-
+// 加速幅度
 CCAccelAmplitude* CCAccelAmplitude::create(CCAction *pAction, float duration)
 {
     CCAccelAmplitude *pRet = new CCAccelAmplitude();
@@ -313,7 +315,7 @@ CCActionInterval* CCAccelAmplitude::reverse(void)
 }
 
 // DeccelAmplitude
-
+// 减速幅度
 CCDeccelAmplitude* CCDeccelAmplitude::create(CCAction *pAction, float duration)
 {
     CCDeccelAmplitude *pRet = new CCDeccelAmplitude();
@@ -390,7 +392,7 @@ CCStopGrid* CCStopGrid::create(void)
     return pAction;
 }
 // implementation of CCReuseGrid
-
+// 重用网格
 CCReuseGrid* CCReuseGrid::create(int times)
 {
     CCReuseGrid *pAction = new CCReuseGrid();
