@@ -45,7 +45,7 @@ NS_CC_BEGIN
 /**
  * @addtogroup GUI
  * @{
- * @addtogroup label
+ * @addtogroup label	标签
  * @{
  */
 
@@ -59,16 +59,22 @@ struct _FontDefHashElement;
 @struct ccBMFontDef
 BMFont definition
 */
+// BMFont定义
 typedef struct _BMFontDef {
     //! ID of the character
+    //! 字符的ID
     unsigned int charID;
     //! origin and size of the font
+    //! 字体的原点和大小
     CCRect rect;
     //! The X amount the image should be offset when drawing the image (in pixels)
+    //! 绘制图片时，x轴偏移量，以像素为单位
     short xOffset;
     //! The Y amount the image should be offset when drawing the image (in pixels)
+    //! 绘制图片时，y轴偏移量，以像素为单位
     short yOffset;
     //! The amount to move the current position after drawing the character (in pixels)
+    //! 绘制字符后，移动当前的位置的值，以像素为单位
     short xAdvance;
 } ccBMFontDef;
 
@@ -76,21 +82,26 @@ typedef struct _BMFontDef {
 BMFont padding
 @since v0.8.2
 */
+// 填充，padding
 typedef struct _BMFontPadding {
     /// padding left
+    /// 左方向填充
     int    left;
     /// padding top
+    /// 上方向填充
     int top;
     /// padding right
+    /// 右方向填充
     int right;
     /// padding bottom
+    /// 底部填充
     int bottom;
 } ccBMFontPadding;
 
 typedef struct _FontDefHashElement
 {
-	unsigned int	key;		// key. Font Unicode value
-	ccBMFontDef		fontDef;	// font definition
+	unsigned int	key;		// key. Font Unicode value 字体统一编码值
+	ccBMFontDef		fontDef;	// font definition  字体定义声明
 	UT_hash_handle	hh;
 } tCCFontDefHashElement;
 
