@@ -106,9 +106,10 @@ typedef struct _FontDefHashElement
 } tCCFontDefHashElement;
 
 // Equal function for targetSet.
+// 与targetSet功能相同
 typedef struct _KerningHashElement
 {
-	int				key;		// key for the hash. 16-bit for 1st element, 16-bit for 2nd element
+	int				key;		// key for the hash. 16-bit for 1st element, 16-bit for 2nd element	哈希值键
 	int				amount;
 	UT_hash_handle	hh;
 } tCCKerningHashElement;
@@ -116,23 +117,30 @@ typedef struct _KerningHashElement
 /** @brief CCBMFontConfiguration has parsed configuration of the the .fnt file
 @since v0.8
 */
+// 解析.fnt文件配置
 class CC_DLL CCBMFontConfiguration : public CCObject
 {
     // XXX: Creating a public interface so that the bitmapFontArray[] is accessible
 public://@public
     // BMFont definitions
+    // 创建一个公共接口来访问bitmapFontArray[]; 声明
     tCCFontDefHashElement *m_pFontDefDictionary;
 
     //! FNTConfig: Common Height Should be signed (issue #1343)
+    //! 统一高度，
     int m_nCommonHeight;
     //! Padding
+    //! 填充
     ccBMFontPadding    m_tPadding;
     //! atlas name
+    //! 图集名称
     std::string m_sAtlasName;
     //! values for kerning
+    //! 字距值
     tCCKerningHashElement *m_pKerningDictionary;
     
     // Character Set defines the letters that actually exist in the font
+    // 字符集定义实际存在的字体的字母
     std::set<unsigned int> *m_pCharacterSet;
 public:
     CCBMFontConfiguration();
@@ -140,9 +148,11 @@ public:
     const char * description();
 
     /** allocates a CCBMFontConfiguration with a FNT file */
+    // 用一个fnt文件分配配置
     static CCBMFontConfiguration * create(const char *FNTfile);
 
     /** initializes a BitmapFontConfiguration with a FNT file */
+    // 初始化配置，使用fnt文件
     bool initWithFNTfile(const char *FNTfile);
     
     inline const char* getAtlasName(){ return m_sAtlasName.c_str(); }
@@ -189,6 +199,16 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 @since v0.8
 */
+/** 是CCSpriteBatchNode的子类
+ * 可以认为是一个精灵，具有的特征是：旋转，缩放，移动，着色，改变透明度，可以认为是菜单的一部分，锚点，支持文本格式
+ * 限制：所有内部字符使用锚点为(0.5,0.5)，不推荐改变；可能会影响呈现效果
+ * 实现标签协议；
+ * 是更加灵活的标签，具有CCLabelAtlas的速度和精灵的所有特性；可以替换CCLabel/CCLabelAtlas使用
+ * 支持链接：http://glyphdesigner.71squared.com/ (Commercial, Mac OS X)
+http://www.n4te.com/hiero/hiero.jnlp (Free, Java)
+http://slick.cokeandcode.com/demos/hiero.jnlp (Free, Java)
+http://www.angelcode.com/products/bmfont/ (Free, Windows only)
+*/
 
 class CC_DLL CCLabelBMFont : public CCSpriteBatchNode, public CCLabelProtocol, public CCRGBAProtocol
 {
@@ -200,9 +220,11 @@ public:
     Removes from memory the cached configurations and the atlas name dictionary.
     @since v0.99.3
     */
+    // 清除缓存
     static void purgeCachedData();
 
     /** creates a bitmap font atlas with an initial string and the FNT file */
+    // 创建一个位图字体集，使用字符串，fnt文件为参数
     static CCLabelBMFont * create(const char *str, const char *fntFile, float width, CCTextAlignment alignment, CCPoint imageOffset);
     
 	static CCLabelBMFont * create(const char *str, const char *fntFile, float width, CCTextAlignment alignment);
@@ -213,15 +235,19 @@ public:
 
     /** Creates an label.
      */
+    // 创建一个标签
     static CCLabelBMFont * create();
 
     bool init();
     /** init a bitmap font atlas with an initial string and the FNT file */
+    // 使用字符串，fnt文件为参数来初始化一个位图字符集
     bool initWithString(const char *str, const char *fntFile, float width = kCCLabelAutomaticWidth, CCTextAlignment alignment = kCCTextAlignmentLeft, CCPoint imageOffset = CCPointZero);
 
     /** updates the font chars based on the string to render */
+    // 更新字符
     void createFontChars();
     // super method
+    // 父类方法
     virtual void setString(const char *label);
     virtual void setString(const char *label, bool fromUpdate);
     virtual void updateString(bool fromUpdate);
@@ -236,7 +262,7 @@ public:
     virtual void setScaleX(float scaleX);
     virtual void setScaleY(float scaleY);
     
-    // CCRGBAProtocol 
+    // CCRGBAProtocol  颜色协议
     virtual bool isOpacityModifyRGB();
     virtual void setOpacityModifyRGB(bool isOpacityModifyRGB); virtual GLubyte getOpacity();
     virtual GLubyte getDisplayedOpacity();
@@ -264,28 +290,36 @@ private:
     
 protected:
     // string to render
+    // 呈现字符串
     unsigned short* m_sString;
     
     // name of fntFile
+    // fnt文件名称
     std::string m_sFntFile;
     
     // initial string without line breaks
+    // 初始字符串，没有换行
     std::string m_sInitialString;
     // alignment of all lines
+    // 对齐方式
     CCTextAlignment m_pAlignment;
     // max width until a line break is added
+    // 行的最大宽度，直到换行
     float m_fWidth;
     
     CCBMFontConfiguration *m_pConfiguration;
     
     bool m_bLineBreakWithoutSpaces;
     // offset of the texture atlas
+    // 纹理偏移量
     CCPoint    m_tImageOffset;
     
     // reused char
+    // 重用字符
     CCSprite *m_pReusedChar;
     
     // texture RGBA
+    // 纹理颜色值
     GLubyte m_cDisplayedOpacity;
     GLubyte m_cRealOpacity;
     ccColor3B m_tDisplayedColor;
@@ -293,15 +327,18 @@ protected:
     bool m_bCascadeColorEnabled;
     bool m_bCascadeOpacityEnabled;
     /** conforms to CCRGBAProtocol protocol */
+    // 符合颜色协议
     bool        m_bIsOpacityModifyRGB;
 
 };
 
 /** Free function that parses a FNT file a place it on the cache
 */
+// 载人fnt文件到缓存
 CC_DLL CCBMFontConfiguration * FNTConfigLoadFile( const char *file );
 /** Purges the FNT config cache
 */
+// 清除fnt配置缓存
 CC_DLL void FNTConfigRemoveCache( void );
 
 // end of GUI group
