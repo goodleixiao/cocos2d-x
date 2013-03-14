@@ -49,7 +49,7 @@ using namespace std;
 NS_CC_BEGIN
 //
 //FNTConfig Cache - free functions
-//
+// 配置缓存 功能
 static CCDictionary* s_pConfigurations = NULL;
 
 CCBMFontConfiguration* FNTConfigLoadFile( const char *fntFile)
@@ -85,7 +85,7 @@ void FNTConfigRemoveCache( void )
 
 //
 //BitmapFontConfiguration
-//
+// 位图字体配置
 
 CCBMFontConfiguration * CCBMFontConfiguration::create(const char *FNTfile)
 {
@@ -185,6 +185,7 @@ std::set<unsigned int>* CCBMFontConfiguration::parseConfigFile(const char *contr
     }
 
     // parse spacing / padding
+    // 解析空格，填充
     std::string line;
     std::string strLeft = contents->getCString();
     while (strLeft.length() > 0)
@@ -194,12 +195,14 @@ std::set<unsigned int>* CCBMFontConfiguration::parseConfigFile(const char *contr
         if (pos != (int)std::string::npos)
         {
             // the data is more than a line.get one line
+            // 数据多于一行，获取新行
             line = strLeft.substr(0, pos);
             strLeft = strLeft.substr(pos + 1);
         }
         else
         {
             // get the left data
+            // 获取左数据
             line = strLeft;
             strLeft.erase();
         }
@@ -403,6 +406,7 @@ void CCBMFontConfiguration::parseKerningEntry(std::string line)
 //
 
 //LabelBMFont - Purge Cache
+// 清除缓存
 void CCLabelBMFont::purgeCachedData()
 {
     FNTConfigRemoveCache();
@@ -436,6 +440,7 @@ CCLabelBMFont * CCLabelBMFont::create(const char *str, const char *fntFile)
 }
 
 //LabelBMFont - Creation & Init
+// 创建和初始化
 CCLabelBMFont *CCLabelBMFont::create(const char *str, const char *fntFile, float width/* = kCCLabelAutomaticWidth*/, CCTextAlignment alignment/* = kCCTextAlignmentLeft*/, CCPoint imageOffset/* = CCPointZero*/)
 {
     CCLabelBMFont *pRet = new CCLabelBMFont();
@@ -708,6 +713,7 @@ void CCLabelBMFont::createFontChars()
 }
 
 //LabelBMFont - CCLabelProtocol protocol
+// 标签协议
 void CCLabelBMFont::setString(const char *newString)
 {
     this->setString(newString, false);
@@ -762,6 +768,7 @@ void CCLabelBMFont::setCString(const char *label)
 }
 
 //LabelBMFont - CCRGBAProtocol protocol
+// 颜色协议
 const ccColor3B& CCLabelBMFont::getColor()
 {
     return m_tRealColor;
@@ -884,7 +891,7 @@ void CCLabelBMFont::setCascadeOpacityEnabled(bool cascadeOpacityEnabled)
     m_bCascadeOpacityEnabled = cascadeOpacityEnabled;
 }
 
-// LabelBMFont - AnchorPoint
+// LabelBMFont - AnchorPoint	锚点
 void CCLabelBMFont::setAnchorPoint(const CCPoint& point)
 {
     if( ! point.equals(m_obAnchorPoint))
@@ -894,7 +901,7 @@ void CCLabelBMFont::setAnchorPoint(const CCPoint& point)
     }
 }
 
-// LabelBMFont - Alignment
+// LabelBMFont - Alignment	对齐
 void CCLabelBMFont::updateLabel()
 {
     this->setString(m_sInitialString.c_str(), false);
@@ -1135,7 +1142,7 @@ void CCLabelBMFont::updateLabel()
     }
 }
 
-// LabelBMFont - Alignment
+// LabelBMFont - Alignment	对齐
 void CCLabelBMFont::setAlignment(CCTextAlignment alignment)
 {
     this->m_pAlignment = alignment;
@@ -1182,7 +1189,7 @@ float CCLabelBMFont::getLetterPosXRight( CCSprite* sp )
     return sp->getPosition().x * m_fScaleX + (sp->getContentSize().width * m_fScaleX * sp->getAnchorPoint().x);
 }
 
-// LabelBMFont - FntFile
+// LabelBMFont - FntFile	fnt文件
 void CCLabelBMFont::setFntFile(const char* fntFile)
 {
     if (fntFile != NULL && strcmp(fntFile, m_sFntFile.c_str()) != 0 )
@@ -1208,7 +1215,7 @@ const char* CCLabelBMFont::getFntFile()
 }
 
 
-//LabelBMFont - Debug draw
+//LabelBMFont - Debug draw	调试
 #if CC_LABELBMFONT_DEBUG_DRAW
 void CCLabelBMFont::draw()
 {
