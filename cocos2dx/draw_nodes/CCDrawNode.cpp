@@ -29,6 +29,7 @@ NS_CC_BEGIN
 
 // ccVertex2F == CGPoint in 32-bits, but not in 64-bits (OS X)
 // that's why the "v2f" functions are needed
+// 顶点为32位
 static ccVertex2F v2fzero = {0.0f,0.0f};
 
 static inline ccVertex2F v2f(float x, float y)
@@ -93,7 +94,7 @@ static inline ccTex2F __t(const ccVertex2F &v)
 }
 
 // implementation of CCDrawNode
-
+// 实现绘制节点
 CCDrawNode::CCDrawNode()
 : m_uVao(0)
 , m_uVbo(0)
@@ -197,13 +198,13 @@ void CCDrawNode::render()
 #else
     ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
     glBindBuffer(GL_ARRAY_BUFFER, m_uVbo);
-    // vertex
+    // vertex 顶点
     glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, vertices));
     
-    // color
+    // color 颜色
     glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, colors));
     
-    // texcood
+    // texcood 坐标
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, texCoords));
 #endif
 
