@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup actions
+ * @addtogroup actions 动作
  * @{
  */
 
@@ -43,6 +43,10 @@ NS_CC_BEGIN
   
  @since v0.8.2
  */
+/** 此动作模拟翻页动作，从屏幕右下角开始
+ * 通常被PageTurnTransion使用
+ * 基于原始文件
+ */
 class CC_DLL CCPageTurn3D : public CCGrid3DAction
 {
 public:
@@ -51,6 +55,7 @@ public:
 public:
 
     /** create the action */
+    // 创建动作，使用间隔，和大小参数
     static CCPageTurn3D* create(float duration, const CCSize& gridSize);
 };
 
