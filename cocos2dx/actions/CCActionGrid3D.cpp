@@ -30,6 +30,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 // implementation of CCWaves3D
+// 3D波
 
 CCWaves3D* CCWaves3D::create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude)
 {
@@ -70,7 +71,7 @@ CCObject* CCWaves3D::copyWithZone(CCZone *pZone)
     CCWaves3D* pCopy = NULL;
     if(pZone && pZone->m_pCopyObject) 
     {
-        //in case of being called at sub class
+        //in case of being called at sub class    子类调用
         pCopy = (CCWaves3D*)(pZone->m_pCopyObject);
     }
     else
@@ -169,7 +170,7 @@ void CCFlipX3D::update(float time)
 {
     float angle = (float)M_PI * time; // 180 degrees
     float mz = sinf(angle);
-    angle = angle / 2.0f; // x calculates degrees from 0 to 90
+    angle = angle / 2.0f; // x calculates degrees from 0 to 90    计算角度从0到90
     float mx = cosf(angle);
 
     ccVertex3F v0, v1, v, diff;
@@ -184,7 +185,7 @@ void CCFlipX3D::update(float time)
 
     if ( x0 > x1 )
     {
-        // Normal Grid
+        // Normal Grid 常用网格
         a = ccp(0,0);
         b = ccp(0,1);
         c = ccp(1,0);
@@ -193,7 +194,7 @@ void CCFlipX3D::update(float time)
     }
     else
     {
-        // Reversed Grid
+        // Reversed Grid 反向
         c = ccp(0,0);
         d = ccp(0,1);
         a = ccp(1,0);
@@ -204,25 +205,25 @@ void CCFlipX3D::update(float time)
     diff.x = ( x - x * mx );
     diff.z = fabsf( floorf( (x * mz) / 4.0f ) );
 
-    // bottom-left
+    // bottom-left     左下
     v = originalVertex(a);
     v.x = diff.x;
     v.z += diff.z;
     setVertex(a, v);
     
-    // upper-left
+    // upper-left     左上
     v = originalVertex(b);
     v.x = diff.x;
     v.z += diff.z;
     setVertex(b, v);
     
-    // bottom-right
+    // bottom-right   右下
     v = originalVertex(c);
     v.x -= diff.x;
     v.z -= diff.z;
     setVertex(c, v);
     
-    // upper-right
+    // upper-right   右上
     v = originalVertex(d);
     v.x -= diff.x;
     v.z -= diff.z;
@@ -339,6 +340,7 @@ void CCFlipY3D::update(float time)
 
 
 // implementation of Lens3D
+// 镜像
 
 CCLens3D* CCLens3D::create(float duration, const CCSize& gridSize, const CCPoint& position, float radius)
 {
@@ -452,7 +454,7 @@ void CCLens3D::update(float time)
 }
 
 // implementation of Ripple3D
-
+// 波纹
 CCRipple3D* CCRipple3D::create(float duration, const CCSize& gridSize, const CCPoint& position, float radius, unsigned int waves, float amplitude)
 {
     CCRipple3D *pAction = new CCRipple3D();
@@ -541,7 +543,7 @@ void CCRipple3D::update(float time)
 }
 
 // implementation of Shaky3D
-
+// 摇动
 CCShaky3D* CCShaky3D::create(float duration, const CCSize& gridSize, int range, bool shakeZ)
 {
     CCShaky3D *pAction = new CCShaky3D();
@@ -620,6 +622,7 @@ void CCShaky3D::update(float time)
 }
 
 // implementation of Liquid
+// 液体动作
 
 CCLiquid* CCLiquid::create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude)
 {
@@ -694,6 +697,7 @@ void CCLiquid::update(float time)
 }
 
 // implementation of Waves
+// 波
 
 CCWaves* CCWaves::create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
 {
@@ -779,7 +783,7 @@ void CCWaves::update(float time)
 }
 
 // implementation of Twirl
-
+// 捏
 CCTwirl* CCTwirl::create(float duration, const CCSize& gridSize, CCPoint position, unsigned int twirls, float amplitude)
 {
     CCTwirl *pAction = new CCTwirl();
