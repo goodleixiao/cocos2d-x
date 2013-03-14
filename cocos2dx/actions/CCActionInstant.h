@@ -34,7 +34,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup actions
+ * @addtogroup actions		动作
  * @{
  */
 
@@ -42,34 +42,40 @@ NS_CC_BEGIN
 @brief Instant actions are immediate actions. They don't have a duration like
 the CCIntervalAction actions.
 */ 
+// 片刻，瞬间动作是立刻动作，没有间隔像CCIntervalAction动作
 class CC_DLL CCActionInstant : public CCFiniteTimeAction //<NSCopying>
 {
 public:
     CCActionInstant();
     virtual ~CCActionInstant(){}
     // CCAction methods
+    // 动作方法
     virtual CCObject* copyWithZone(CCZone *pZone);
     virtual bool isDone(void);
     virtual void step(float dt);
     virtual void update(float time);
     //CCFiniteTimeAction method
+    // 有限时间动作方法
     virtual CCFiniteTimeAction * reverse(void);
 };
 
 /** @brief Show the node
 */
+// 显示节点
 class CC_DLL CCShow : public CCActionInstant
 {
 public:
     CCShow(){}
     virtual ~CCShow(){}
     //super methods
+    //父类方法
     virtual void update(float time);
     virtual CCFiniteTimeAction * reverse(void);
     virtual CCObject* copyWithZone(CCZone *pZone);
 public:
 
     /** Allocates and initializes the action */
+    // 分配和初始化动作
     static CCShow * create();
 };
 
@@ -78,34 +84,40 @@ public:
 /** 
 @brief Hide the node
 */
+//隐藏节点
 class CC_DLL CCHide : public CCActionInstant
 {
 public:
     CCHide(){}
     virtual ~CCHide(){}
     //super methods
+    //父类方法
     virtual void update(float time);
     virtual CCFiniteTimeAction * reverse(void);
     virtual CCObject* copyWithZone(CCZone *pZone);
 public:
 
     /** Allocates and initializes the action */
+    // 分配和初始化动作
     static CCHide * create();
 };
 
 /** @brief Toggles the visibility of a node
 */
+// 切换节点可见性
 class CC_DLL CCToggleVisibility : public CCActionInstant
 {
 public:
     CCToggleVisibility(){}
     virtual ~CCToggleVisibility(){}
     //super method
+    //父类方法
     virtual void update(float time);
     virtual CCObject* copyWithZone(CCZone *pZone);
 public:
 
     /** Allocates and initializes the action */
+    // 分配和初始化动作
     static CCToggleVisibility * create();
 };
 
@@ -113,6 +125,7 @@ public:
 @brief Flips the sprite horizontally
 @since v0.99.0
 */
+//水平翻动
 class CC_DLL CCFlipX : public CCActionInstant
 {
 public:
@@ -122,11 +135,14 @@ public:
     virtual ~CCFlipX(){}
 
     /** create the action */
+    // 创建动作
     static CCFlipX * create(bool x);
 
     /** init the action */
+    // 初始化动作
     bool initWithFlipX(bool x);
     //super methods
+    //父类动作
     virtual void update(float time);
     virtual CCFiniteTimeAction * reverse(void);
     virtual CCObject* copyWithZone(CCZone *pZone);
@@ -139,6 +155,7 @@ protected:
 @brief Flips the sprite vertically
 @since v0.99.0
 */
+// 翻动精灵垂直动作
 class CC_DLL CCFlipY : public CCActionInstant
 {
 public:
@@ -148,11 +165,14 @@ public:
     virtual ~CCFlipY(){}
 
     /** create the action */
+    // 创建动作
     static CCFlipY * create(bool y);
 
     /** init the action */
+    // 初始化动作
     bool initWithFlipY(bool y);
     //super methods
+    // 父类方法
     virtual void update(float time);
     virtual CCFiniteTimeAction * reverse(void);
     virtual CCObject* copyWithZone(CCZone *pZone);
@@ -163,6 +183,7 @@ protected:
 
 /** @brief Places the node in a certain position
 */
+// 放置节点，在指定位置
 class CC_DLL CCPlace : public CCActionInstant //<NSCopying>
 {
 public:
@@ -170,10 +191,13 @@ public:
     virtual ~CCPlace(){}
 
     /** creates a Place action with a position */
+    // 创建一个放置动作用指定位置
     static CCPlace * create(const CCPoint& pos);
     /** Initializes a Place action with a position */
+    // 用位置参数放置动作
     bool initWithPosition(const CCPoint& pos);
     //super methods
+    // 父类方法
     virtual void update(float time);
     virtual CCObject* copyWithZone(CCZone *pZone);
 protected:
@@ -182,6 +206,7 @@ protected:
 
 /** @brief Calls a 'callback'
 */
+// 回调
 class CC_DLL CCCallFunc : public CCActionInstant //<NSCopying>
 {
 public:
@@ -197,19 +222,24 @@ public:
 
     typedef void (CCObject::*SEL_CallFunc)();
     */
+    //创建回调动作
     static CCCallFunc * create(CCObject* pSelectorTarget, SEL_CallFunc selector);
 
 	/** creates the action with the handler script function */
+	// 使用脚本函数创建动作
 	static CCCallFunc * create(int nHandler);
 
 	/** initializes the action with the callback 
     
     typedef void (CCObject::*SEL_CallFunc)();
     */
+    // 使用回调初始化动作
     virtual bool initWithTarget(CCObject* pSelectorTarget);
     /** executes the callback */
+    // 执行回调
     virtual void execute();
     //super methods
+    // 父类方法
     virtual void update(float time);
     CCObject * copyWithZone(CCZone *pZone);
 
@@ -231,6 +261,7 @@ public:
     inline int getScriptHandler() { return m_nScriptHandler; };
 protected:
     /** Target that will be called */
+    // 调用目标
     CCObject*   m_pSelectorTarget;
 
 	int m_nScriptHandler;
@@ -248,6 +279,7 @@ protected:
 @brief Calls a 'callback' with the node as the first argument
 N means Node
 */
+// 使用节点最为第一个参数的回调
 class CC_DLL CCCallFuncN : public CCCallFunc, public TypeInfo
 {
 public:
@@ -262,17 +294,21 @@ public:
 
     typedef void (CCObject::*SEL_CallFuncN)(CCNode*);
     */
+    // 创建回调动作
     static CCCallFuncN * create(CCObject* pSelectorTarget, SEL_CallFuncN selector);
 
 	/** creates the action with the handler script function */
+	// 创建一个动作用脚本函数
 	static CCCallFuncN * create(int nHandler);
 
     /** initializes the action with the callback 
 
     typedef void (CCObject::*SEL_CallFuncN)(CCNode*);
     */
+    // 初始化动作使用回调
     virtual bool initWithTarget(CCObject* pSelectorTarget, SEL_CallFuncN selector);
     // super methods
+    // 父类方法
     virtual CCObject* copyWithZone(CCZone *pZone);
     virtual void execute();
 };
@@ -282,6 +318,7 @@ public:
 @brief Calls a 'callback' with the node as the first argument and the 2nd argument is data
 * ND means: Node and Data. Data is void *, so it could be anything.
 */
+// 使用节点和数据作为参数创建回调
 class CC_DLL CCCallFuncND : public CCCallFuncN
 {
 public:
@@ -291,11 +328,14 @@ public:
     }
 
     /** creates the action with the callback and the data to pass as an argument */
+    // 创建动作回调，数据作为参数
     static CCCallFuncND * create(CCObject* pSelectorTarget, SEL_CallFuncND selector, void* d);
 
     /** initializes the action with the callback and the data to pass as an argument */
+    // 初始化动作，使用回调，数据作为参数
     virtual bool initWithTarget(CCObject* pSelectorTarget, SEL_CallFuncND selector, void* d);
     // super methods
+    // 父类方法
     virtual CCObject* copyWithZone(CCZone *pZone);
     virtual void execute();
 
@@ -309,7 +349,7 @@ protected:
 O means Object.
 @since v0.99.5
 */
-
+// 使用对象作为参数的回调
 class CC_DLL CCCallFuncO : public CCCallFunc, public TypeInfo
 {
 public:
@@ -325,14 +365,17 @@ public:
 
     typedef void (CCObject::*SEL_CallFuncO)(CCObject*);
     */
+    // 创建动作
     static CCCallFuncO * create(CCObject* pSelectorTarget, SEL_CallFuncO selector, CCObject* pObject);
 
     /** initializes the action with the callback 
 
     typedef void (CCObject::*SEL_CallFuncO)(CCObject*);
     */
+    // 初始化动作用回调： 声明定义typedef void (CCObject::*SEL_CallFuncO)(CCObject*);
     virtual bool initWithTarget(CCObject* pSelectorTarget, SEL_CallFuncO selector, CCObject* pObject);
     // super methods
+    // 父类方法
     virtual CCObject* copyWithZone(CCZone *pZone);
     virtual void execute();
 
@@ -353,6 +396,7 @@ public:
 
 protected:
     /** object to be passed as argument */
+    // 对象作为参数
     CCObject* m_pObject;
 };
 
