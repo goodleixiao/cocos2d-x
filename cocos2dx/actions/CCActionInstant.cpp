@@ -33,7 +33,7 @@
 NS_CC_BEGIN
 //
 // InstantAction
-//
+// 瞬时动作
 CCActionInstant::CCActionInstant() {
 }
 
@@ -73,7 +73,7 @@ CCFiniteTimeAction * CCActionInstant::reverse() {
 
 //
 // Show
-//
+// 显示
 
 CCShow* CCShow::create() 
 {
@@ -113,7 +113,7 @@ CCObject* CCShow::copyWithZone(CCZone *pZone) {
 
 //
 // Hide
-//
+// 隐藏
 CCHide * CCHide::create() 
 {
     CCHide *pRet = new CCHide();
@@ -152,7 +152,7 @@ CCObject* CCHide::copyWithZone(CCZone *pZone) {
 
 //
 // ToggleVisibility
-//
+// 可见性
 CCToggleVisibility * CCToggleVisibility::create()
 {
     CCToggleVisibility *pRet = new CCToggleVisibility();
@@ -190,7 +190,7 @@ CCObject* CCToggleVisibility::copyWithZone(CCZone *pZone)
 
 //
 // FlipX
-//
+// 翻动x轴
 
 CCFlipX *CCFlipX::create(bool x)
 {
@@ -238,7 +238,7 @@ CCObject * CCFlipX::copyWithZone(CCZone *pZone) {
 
 //
 // FlipY
-//
+// 翻动y轴
 
 CCFlipY * CCFlipY::create(bool y)
 {
@@ -286,7 +286,7 @@ CCObject* CCFlipY::copyWithZone(CCZone *pZone) {
 
 //
 // Place
-//
+// 放置
 
 CCPlace* CCPlace::create(const CCPoint& pos)
 {
@@ -330,7 +330,7 @@ void CCPlace::update(float time) {
 
 //
 // CallFunc
-//
+// 回调
 CCCallFunc * CCCallFunc::create(CCObject* pSelectorTarget, SEL_CallFunc selector) 
 {
     CCCallFunc *pRet = new CCCallFunc();
@@ -418,7 +418,7 @@ void CCCallFunc::execute() {
 
 //
 // CallFuncN
-//
+// 节点
 void CCCallFuncN::execute() {
     if (m_pCallFuncN) {
         (m_pSelectorTarget->*m_pCallFuncN)(m_pTarget);
@@ -486,7 +486,7 @@ CCObject * CCCallFuncN::copyWithZone(CCZone* zone) {
 
 //
 // CallFuncND
-//
+// 节点和数据参数
 
 CCCallFuncND * CCCallFuncND::create(CCObject* pSelectorTarget, SEL_CallFuncND selector, void* d)
 {
@@ -538,7 +538,7 @@ void CCCallFuncND::execute() {
 
 //
 // CCCallFuncO
-//
+// 对象object
 CCCallFuncO::CCCallFuncO() :
         m_pObject(NULL) {
 }
