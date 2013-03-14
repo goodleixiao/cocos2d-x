@@ -38,7 +38,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 // implementation of CCGridBase
-
+// 实现网格基类
 CCGridBase* CCGridBase::create(const CCSize& gridSize)
 {
     CCGridBase *pGridBase = new CCGridBase();
@@ -156,6 +156,7 @@ CCGridBase::~CCGridBase(void)
 }
 
 // properties
+// 属性
 void CCGridBase::setActive(bool bActive)
 {
     m_bActive = bActive;
@@ -200,6 +201,7 @@ void CCGridBase::set2DProjection()
 void CCGridBase::beforeDraw(void)
 {
     // save projection
+    // 保存投影
     CCDirector *director = CCDirector::sharedDirector();
     m_directorProjection = director->getProjection();
 
@@ -214,6 +216,7 @@ void CCGridBase::afterDraw(cocos2d::CCNode *pTarget)
     m_pGrabber->afterRender(m_pTexture);
 
     // restore projection
+    // 重存投影
     CCDirector *director = CCDirector::sharedDirector();
     director->setProjection(m_directorProjection);
 
@@ -253,6 +256,7 @@ void CCGridBase::calculateVertexPoints(void)
 }
 
 // implementation of CCGrid3D
+// 实现3D网格
 
 CCGrid3D* CCGrid3D::create(const CCSize& gridSize, CCTexture2D *pTexture, bool bFlipped)
 {
@@ -322,12 +326,14 @@ void CCGrid3D::blit(void)
 
     //
     // Attributes
-    //
+    // 属性
 
     // position
+    // 位置
     glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, m_pVertices);
 
     // texCoords
+    // 纹理坐标
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, m_pTexCoordinates);
 
     glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, m_pIndices);
@@ -454,7 +460,7 @@ void CCGrid3D::reuse(void)
 }
 
 // implementation of CCTiledGrid3D
-
+// 实现瓦片网格
 CCTiledGrid3D::CCTiledGrid3D()
     : m_pTexCoordinates(NULL)
     , m_pVertices(NULL)
@@ -522,12 +528,14 @@ void CCTiledGrid3D::blit(void)
 
     //
     // Attributes
-    //
+    // 属性
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
     // position
+    // 位置
     glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, m_pVertices);
 
     // texCoords
+    // 纹理坐标
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, m_pTexCoordinates);
 
     glDrawElements(GL_TRIANGLES, (GLsizei)n*6, GL_UNSIGNED_SHORT, m_pIndices);
