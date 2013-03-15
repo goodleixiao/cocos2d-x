@@ -86,7 +86,7 @@ CCTouchHandler* CCTouchHandler::handlerWithDelegate(CCTouchDelegate *pDelegate, 
     
     return pHandler;
 }
-
+ 
 bool CCTouchHandler::initWithDelegate(CCTouchDelegate *pDelegate, int nPriority)
 {
     CCAssert(pDelegate != NULL, "touch delegate should not be null");
@@ -110,6 +110,7 @@ CCTouchHandler::~CCTouchHandler(void)
 }
 
 // implementation of CCStandardTouchHandler
+// 实现标准委托处理
 bool CCStandardTouchHandler::initWithDelegate(CCTouchDelegate *pDelegate, int nPriority)
 {
     if (CCTouchHandler::initWithDelegate(pDelegate, nPriority))
@@ -140,7 +141,7 @@ CCStandardTouchHandler* CCStandardTouchHandler::handlerWithDelegate(CCTouchDeleg
 }
 
 // implementation of CCTargetedTouchHandler
-
+// 实现目标委托处理
 bool CCTargetedTouchHandler::isSwallowsTouches(void)
 {
     return m_bSwallowsTouches;
