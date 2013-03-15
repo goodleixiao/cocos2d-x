@@ -41,6 +41,7 @@ CCTransitionPageTurn::~CCTransitionPageTurn()
 }
 
 /** creates a base transition with duration and incoming scene */
+// 创建一个过渡使用间隔，输入场景为参数
 CCTransitionPageTurn * CCTransitionPageTurn::create(float t, CCScene *scene, bool backwards)
 {
     CCTransitionPageTurn * pTransition = new CCTransitionPageTurn();
@@ -50,6 +51,7 @@ CCTransitionPageTurn * CCTransitionPageTurn::create(float t, CCScene *scene, boo
 }
 
 /** initializes a transition with duration and incoming scene */
+// 初始化过渡，使用间隔，输入场景为参数
 bool CCTransitionPageTurn::initWithDuration(float t, CCScene *scene, bool backwards)
 {
     // XXX: needed before [super init]
@@ -122,6 +124,7 @@ CCActionInterval* CCTransitionPageTurn:: actionWithSize(const CCSize& vector)
     if (m_bBack)
     {
         // Get hold of the PageTurn3DAction
+        // 获取翻页动作
         return CCReverseTime::create
         (
             CCPageTurn3D::create(m_fDuration, vector)
@@ -130,6 +133,7 @@ CCActionInterval* CCTransitionPageTurn:: actionWithSize(const CCSize& vector)
     else
     {
         // Get hold of the PageTurn3DAction
+        // 获取翻页动作
         return CCPageTurn3D::create(m_fDuration, vector);
     }
 }
