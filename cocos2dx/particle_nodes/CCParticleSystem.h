@@ -34,7 +34,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup particle_nodes
+ * @addtogroup particle_nodes   粒子节点
  * @{
  */
 
@@ -43,15 +43,19 @@ class CCParticleBatchNode;
 //* @enum
 enum {
     /** The Particle emitter lives forever */
+    // 粒子发射器永远存在
     kCCParticleDurationInfinity = -1,
 
     /** The starting size of the particle is equal to the ending size */
+    // 粒子开始和结束大小一样
     kCCParticleStartSizeEqualToEndSize = -1,
 
     /** The starting radius of the particle is equal to the ending radius */
+    // 粒子开始和结束半径相等
     kCCParticleStartRadiusEqualToEndRadius = -1,
 
     // backward compatible
+    // 前后兼容
     kParticleStartSizeEqualToEndSize = kCCParticleStartSizeEqualToEndSize,
     kParticleDurationInfinity = kCCParticleDurationInfinity,
 };
@@ -59,9 +63,11 @@ enum {
 //* @enum
 enum {
     /** Gravity mode (A mode) */
+    // 重力模式
     kCCParticleModeGravity,
 
     /** Radius mode (B mode) */
+    // 半径模式，辐射模式
     kCCParticleModeRadius,    
 };
 
@@ -69,20 +75,25 @@ enum {
 /** @typedef tCCPositionType
 possible types of particle positions
 */
+// 粒子位置可能的类型
 typedef enum {
     /** Living particles are attached to the world and are unaffected by emitter repositioning. */
+    // 存在粒子附加在世界上，不影响发射器
     kCCPositionTypeFree,
 
     /** Living particles are attached to the world but will follow the emitter repositioning.
     Use case: Attach an emitter to an sprite, and you want that the emitter follows the sprite.
     */
+    // 粒子附加在世界上，跟随发生器； 具有跟随特性
     kCCPositionTypeRelative,
 
     /** Living particles are attached to the emitter and are translated along with it. */
+    // 粒子跟随发射器一起
     kCCPositionTypeGrouped,
 }tCCPositionType;
 
 // backward compatible
+// 兼容
 enum {
     kPositionTypeFree = kCCPositionTypeFree,
     kPositionTypeGrouped = kCCPositionTypeGrouped,
@@ -91,6 +102,7 @@ enum {
 /**
 Structure that contains the values of each particle
 */
+// 粒子结构体
 typedef struct sCCParticle {
     CCPoint     pos;
     CCPoint     startPos;
@@ -109,6 +121,7 @@ typedef struct sCCParticle {
     unsigned int    atlasIndex;
 
     //! Mode A: gravity, direction, radial accel, tangential accel
+    //! 重力模式：重力，方向，径向加速，切线加速
     struct {
         CCPoint        dir;
         float        radialAccel;
@@ -116,6 +129,7 @@ typedef struct sCCParticle {
     } modeA;
 
     //! Mode B: radius mode
+    //! 半径模式
     struct {
         float        angle;
         float        degreesPerSecond;
@@ -172,60 +186,86 @@ emitter.startSpin = 0;
 @endcode
 
 */
+/**
+ * 粒子系统的属性有：纹理，混合功能，生命，结束颜色，开始颜色，开始结束大小，发射速率，重力，方向，速度，径向切向加速
+ * 开始结束半径；旋转
+ * 
+ * 可以在运行时修改属性
+ */
 class CC_DLL CCParticleSystem : public CCNode, public CCTextureProtocol
 {    
 protected:
     std::string m_sPlistFile;
     //! time elapsed since the start of the system (in seconds)
+    // 从开始经过的时间
     float m_fElapsed;
 
     // Different modes
     //! Mode A:Gravity + Tangential Accel + Radial Accel
+    // 不同的模式：重力，径向加速，切向加速
     struct {
         /** Gravity value. Only available in 'Gravity' mode. */
+        // 重力值
         CCPoint gravity;
         /** speed of each particle. Only available in 'Gravity' mode.  */
+        // 速度
         float speed;
         /** speed variance of each particle. Only available in 'Gravity' mode. */
+        // 粒子的速度方差
         float speedVar;
         /** tangential acceleration of each particle. Only available in 'Gravity' mode. */
+        // 径向加速
         float tangentialAccel;
         /** tangential acceleration variance of each particle. Only available in 'Gravity' mode. */
+        // 径向加速方差
         float tangentialAccelVar;
         /** radial acceleration of each particle. Only available in 'Gravity' mode. */
+        // 切向加速
         float radialAccel;
         /** radial acceleration variance of each particle. Only available in 'Gravity' mode. */
+        // 切向加速方差
         float radialAccelVar;
         /** set the rotation of each particle to its direction Only available in 'Gravity' mode. */
+        // 是否回转
         bool rotationIsDir;
     } modeA;
 
     //! Mode B: circular movement (gravity, radial accel and tangential accel don't are not used in this mode)
+    //! 圆周运动：
     struct {
         /** The starting radius of the particles. Only available in 'Radius' mode. */
+        // 开始半径
         float startRadius;
         /** The starting radius variance of the particles. Only available in 'Radius' mode. */
+        // 开始半径方差
         float startRadiusVar;
         /** The ending radius of the particles. Only available in 'Radius' mode. */
+        // 结束半径
         float endRadius;
         /** The ending radius variance of the particles. Only available in 'Radius' mode. */
+        // 结束半径方差
         float endRadiusVar;            
         /** Number of degrees to rotate a particle around the source pos per second. Only available in 'Radius' mode. */
+        // 每秒旋转角度
         float rotatePerSecond;
         /** Variance in degrees for rotatePerSecond. Only available in 'Radius' mode. */
+        // 每秒旋转角度方差
         float rotatePerSecondVar;
     } modeB;
 
     //! Array of particles
+    //! 粒子数组
     tCCParticle *m_pParticles;
 
     // color modulate
     //    BOOL colorModulate;
 
     //! How many particles can be emitted per second
+    //! 每秒发射粒子数
     float m_fEmitCounter;
 
     //!  particle idx
+    //! 粒子序号
     unsigned int m_uParticleIdx;
 
     // Optimization
@@ -233,33 +273,46 @@ protected:
     //SEL                        updateParticleSel;
 
     /** weak reference to the CCSpriteBatchNode that renders the CCSprite */
+    // 优化：使用批量节点
     CC_PROPERTY(CCParticleBatchNode*, m_pBatchNode, BatchNode);
 
     // index of system in batch node array
+    // 粒子在批量节点数组的序号
     CC_SYNTHESIZE(unsigned int, m_uAtlasIndex, AtlasIndex);
 
     //true if scaled or rotated
+    // 是否缩放或旋转
     bool m_bTransformSystemDirty;
     // Number of allocated particles
+    // 已经分配的粒子数
     unsigned int m_uAllocatedParticles;
 
     /** Is the emitter active */
+    // 是否激活发射
     bool m_bIsActive;
     /** Quantity of particles that are being simulated at the moment */
+    // 此刻模拟粒子的数量
     CC_PROPERTY_READONLY(unsigned int, m_uParticleCount, ParticleCount)
     /** How many seconds the emitter will run. -1 means 'forever' */
+    // 发射器运行了多长时间； -1为永远
     CC_PROPERTY(float, m_fDuration, Duration)
     /** sourcePosition of the emitter */
+    // 发射器的原位置
     CC_PROPERTY_PASS_BY_REF(CCPoint, m_tSourcePosition, SourcePosition)
     /** Position variance of the emitter */
+    // 发射器位置方差
     CC_PROPERTY_PASS_BY_REF(CCPoint, m_tPosVar, PosVar)
     /** life, and life variation of each particle */
+    // 每个粒子的生命周期
     CC_PROPERTY(float, m_fLife, Life)
     /** life variance of each particle */
+    // 每个粒子的生命方差
     CC_PROPERTY(float, m_fLifeVar, LifeVar)
     /** angle and angle variation of each particle */
+    // 每个粒子的角度
     CC_PROPERTY(float, m_fAngle, Angle)
     /** angle variance of each particle */
+    // 每个粒子的角度方差
     CC_PROPERTY(float, m_fAngleVar, AngleVar)
 
 //////////////////////////////////////////////////////////////////////////
@@ -306,38 +359,55 @@ public:
 //////////////////////////////////////////////////////////////////////////
     
     /** start size in pixels of each particle */
+    // 粒子开始大小，以像素为单位
     CC_PROPERTY(float, m_fStartSize, StartSize)
     /** size variance in pixels of each particle */
+    // 粒子开始大小方差，以像素为单位
     CC_PROPERTY(float, m_fStartSizeVar, StartSizeVar)
     /** end size in pixels of each particle */
+    // 粒子结束大小，以像素为单位
     CC_PROPERTY(float, m_fEndSize, EndSize)
     /** end size variance in pixels of each particle */
+    // 粒子结束大小方差，以像素为单位
     CC_PROPERTY(float, m_fEndSizeVar, EndSizeVar)
     /** start color of each particle */
+    // 粒子开始颜色
     CC_PROPERTY_PASS_BY_REF(ccColor4F, m_tStartColor, StartColor)
     /** start color variance of each particle */
+    // 粒子开始颜色方差
     CC_PROPERTY_PASS_BY_REF(ccColor4F, m_tStartColorVar, StartColorVar)
     /** end color and end color variation of each particle */
+    // 粒子结束颜色
     CC_PROPERTY_PASS_BY_REF(ccColor4F, m_tEndColor, EndColor)
     /** end color variance of each particle */
+    // 粒子结束颜色方差
     CC_PROPERTY_PASS_BY_REF(ccColor4F, m_tEndColorVar, EndColorVar)
     //* initial angle of each particle
+    //粒子原角度
     CC_PROPERTY(float, m_fStartSpin, StartSpin)
     //* initial angle of each particle
+    // 粒子原角度方差
     CC_PROPERTY(float, m_fStartSpinVar, StartSpinVar)
     //* initial angle of each particle
+    // 粒子结束角度
     CC_PROPERTY(float, m_fEndSpin, EndSpin)
     //* initial angle of each particle
+    // 粒子结束角度方差
     CC_PROPERTY(float, m_fEndSpinVar, EndSpinVar)
     /** emission rate of the particles */
+    // 粒子发射速率
     CC_PROPERTY(float, m_fEmissionRate, EmissionRate)
     /** maximum particles of the system */
+    // 粒子系统最大粒子数
     CC_PROPERTY(unsigned int, m_uTotalParticles, TotalParticles)
     /** conforms to CocosNodeTexture protocol */
+    // 符合纹理协议
     CC_PROPERTY(CCTexture2D*, m_pTexture, Texture)
     /** conforms to CocosNodeTexture protocol */
+    // 符合纹理协议
     CC_PROPERTY(ccBlendFunc, m_tBlendFunc, BlendFunc)
     /** does the alpha value modify color */
+    // 阿尔法值修改颜色
     CC_PROPERTY(bool, m_bOpacityModifyRGB, OpacityModifyRGB)
 
     /** whether or not the particles are using blend additive.
@@ -347,15 +417,18 @@ public:
     dest blend function = GL_ONE;
     @endcode
     */
+    // 是否使用混合
     bool m_bIsBlendAdditive;
     /** particles movement type: Free or Grouped
     @since v0.8
     */
+    // 粒子运动
     CC_PROPERTY(tCCPositionType, m_ePositionType, PositionType)
     /** whether or not the node will be auto-removed when it has no particles left.
     By default it is false.
     @since v0.8
     */
+    // 是否自动移除，默认为false
 protected:
     bool m_bIsAutoRemoveOnFinish;
 public:
@@ -366,6 +439,7 @@ public:
     - kCCParticleModeGravity: uses gravity, speed, radial and tangential acceleration
     - kCCParticleModeRadius: uses radius movement + rotation
     */
+    // 切换不同发射器：重力和半径模式
     CC_PROPERTY(int, m_nEmitterMode, EmitterMode)
 
 public:
@@ -377,46 +451,60 @@ public:
     http://particledesigner.71squared.com/
     @since v2.0
     */
+    // 从链表文件中初始化粒子系统；文件可以手动创建或粒子设计
     static CCParticleSystem * create(const char *plistFile);
 
     //! create a system with a fixed number of particles
+    //! 创建粒子系统，使用混合一定数目的粒子
     static CCParticleSystem* createWithTotalParticles(unsigned int numberOfParticles);
 
     /** initializes a CCParticleSystem*/
+    // 初始化粒子系统
     bool init();
     /** initializes a CCParticleSystem from a plist file.
     This plist files can be created manually or with Particle Designer:
     http://particledesigner.71squared.com/
     @since v0.99.3
     */
+    // 从链表文件中初始化粒子系统；文件可以手动创建或粒子设计
     bool initWithFile(const char *plistFile);
 
     /** initializes a CCQuadParticleSystem from a CCDictionary.
     @since v0.99.3
     */
+    // 初始化粒子，使用字典参数
     bool initWithDictionary(CCDictionary *dictionary);
     
     /** initializes a particle system from a NSDictionary and the path from where to load the png
      @since v2.1
      */
+    // 初始化粒子系统，使用字典，文件路径（png)
     bool initWithDictionary(CCDictionary *dictionary, const char *dirname);
 
     //! Initializes a system with a fixed number of particles
+    //! 初始化粒子系统，使用一定数目的粒子为参数
     virtual bool initWithTotalParticles(unsigned int numberOfParticles);
     //! Add a particle to the emitter
+    //! 增加一个粒子
     bool addParticle();
     //! Initializes a particle
+    //! 初始化一个粒子
     void initParticle(tCCParticle* particle);
     //! stop emitting particles. Running particles will continue to run until they die
+    //! 停止发射粒子，运行中粒子只读运行死亡
     void stopSystem();
     //! Kill all living particles.
+    //! 杀死所有活着的粒子
     void resetSystem();
     //! whether or not the system is full
+    //! 粒子系统是否满了
     bool isFull();
 
     //! should be overridden by subclasses
+    //! 子类重载
     virtual void updateQuadWithParticle(tCCParticle* particle, const CCPoint& newPosition);
     //! should be overridden by subclasses
+    //! 子类重载
     virtual void postStep();
 
     virtual void update(float dt);
