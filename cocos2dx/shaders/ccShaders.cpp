@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "ccShaders.h"
 
 NS_CC_BEGIN
-//
+// 不同的着色方案，使用不同的参数
 const GLchar * ccPosition_uColor_frag = 
 #include "ccShader_Position_uColor_frag.h"
 const GLchar * ccPosition_uColor_vert =
