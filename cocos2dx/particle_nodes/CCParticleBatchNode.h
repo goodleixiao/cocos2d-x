@@ -39,7 +39,7 @@ class CCTextureAtlas;
 class CCParticleSystem;
 
 /**
- * @addtogroup particle_nodes
+ * @addtogroup particle_nodes       粒子节点
  * @{
  */
 
@@ -63,7 +63,17 @@ class CCParticleSystem;
  * - Initialize all particle systems and add them as child to the batch node
  * @since v1.1
  */
-
+/** 就如批量节点；包含子对象，使用单例绘制；一次调用opengl
+ * 称为批量绘制
+ * 有且仅有一个纹理引用，可以是图片文件，纹理地图集； 
+ * 仅支持CCParticleSystems被添加
+ * 所有CCParticleSystems对象被一次调用opengl es绘制函数
+ * 若CCParticleSystems没有添加，就要一个一个调用opengl绘制函数
+ * 
+ * 限制：某些时刻仅支持CCParticleSystemQuad；所有CCParticleSystem要具有相同参数，混合功能，纹理
+ * 
+ * 高效实用：初始化足够容量，所有粒子系统都可以被添加到节点上
+ */
 class CC_DLL CCParticleBatchNode : public CCNode, public CCTextureProtocol
 {
 public:
@@ -71,39 +81,50 @@ public:
     virtual ~CCParticleBatchNode();
 
     /** initializes the particle system with CCTexture2D, a capacity of particles, which particle system to use */
+    // 初始化粒子系统，实用纹理，容量为参数
     static CCParticleBatchNode* createWithTexture(CCTexture2D *tex, unsigned int capacity = kCCParticleDefaultCapacity);
 
     /** initializes the particle system with the name of a file on disk (for a list of supported formats look at the CCTexture2D class), a capacity of particles */
+    // 初始化粒子系统，实用文件，容量为参数
     static CCParticleBatchNode* create(const char* fileImage, unsigned int capacity = kCCParticleDefaultCapacity);
 
     /** initializes the particle system with CCTexture2D, a capacity of particles */
+    // 初始化粒子系统，实用纹理，容量为参数
     bool initWithTexture(CCTexture2D *tex, unsigned int capacity);
 
     /** initializes the particle system with the name of a file on disk (for a list of supported formats look at the CCTexture2D class), a capacity of particles */
+    // 初始化粒子系统，实用文件，容量为参数
     bool initWithFile(const char* fileImage, unsigned int capacity);
 
     /** Add a child into the CCParticleBatchNode */
+    // 增加一个子对象到粒子系统中
     virtual void addChild(CCNode * child);
     virtual void addChild(CCNode * child, int zOrder);
     virtual void addChild(CCNode * child, int zOrder, int tag);
 
     /** Inserts a child into the CCParticleBatchNode */
+    // 插入子对象，使用粒子系统，序号为参数
     void insertChild(CCParticleSystem* pSystem, unsigned int index);
 
     /** remove child from the CCParticleBatchNode */
+    // 移除指定节点
     virtual void removeChild(CCNode* child, bool cleanup);
     virtual void reorderChild(CCNode * child, int zOrder);
     void removeChildAtIndex(unsigned int index, bool doCleanup);
     void removeAllChildrenWithCleanup(bool doCleanup);
     /** disables a particle by inserting a 0'd quad into the texture atlas */
+    // 禁用指定序号的粒子
     void disableParticle(unsigned int particleIndex);
     virtual void draw(void);
     // returns the used texture
+    // 返回使用的纹理
     virtual CCTexture2D* getTexture(void);
     // sets a new texture. it will be retained
+    // 设置一个新的纹理，被保持
     virtual void setTexture(CCTexture2D *texture);
     virtual void setBlendFunc(ccBlendFunc blendFunc);
     // returns the blending function used for the texture
+    // 获取混合功能，用于纹理
     virtual ccBlendFunc getBlendFunc(void);
 
     void visit();
@@ -116,9 +137,11 @@ private:
     unsigned int addChildHelper(CCParticleSystem* child, int z, int aTag);
     void updateBlendFunc(void);
     /** the texture atlas used for drawing the quads */
+    // 纹理地图用于绘制四边形
     CC_SYNTHESIZE(CCTextureAtlas*, m_pTextureAtlas, TextureAtlas);
 private:
     /** the blend function used for drawing the quads */
+    // 混合功能参数
     ccBlendFunc m_tBlendFunc;
 };
 
