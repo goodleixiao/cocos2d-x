@@ -147,13 +147,13 @@ bool CCSprite::init(void)
     return initWithTexture(NULL, CCRectZero);
 }
 
-// designated initializer
+// designated initializer  初始化方法
 bool CCSprite::initWithTexture(CCTexture2D *pTexture, const CCRect& rect, bool rotated)
 {
     if (CCNodeRGBA::init())
     {
         m_pobBatchNode = NULL;
-        // shader program
+        // shader program	着色方案
         setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
         
         m_bRecursiveDirty = false;
@@ -167,17 +167,20 @@ bool CCSprite::initWithTexture(CCTexture2D *pTexture, const CCRect& rect, bool r
         m_bFlipX = m_bFlipY = false;
         
         // default transform anchor: center
+        // 默认锚点为中心
         setAnchorPoint(ccp(0.5f, 0.5f));
         
         // zwoptex default values
+        // 默认值
         m_obOffsetPosition = CCPointZero;
         
         m_bHasChildren = false;
         
         // clean the Quad
+        // 清理四边形
         memset(&m_sQuad, 0, sizeof(m_sQuad));
         
-        // Atlas: Color
+        // Atlas: Color	颜色
         ccColor4B tmpColor = { 255, 255, 255, 255 };
         m_sQuad.bl.colors = tmpColor;
         m_sQuad.br.colors = tmpColor;
@@ -185,11 +188,13 @@ bool CCSprite::initWithTexture(CCTexture2D *pTexture, const CCRect& rect, bool r
         m_sQuad.tr.colors = tmpColor;
         
         // update texture (calls updateBlendFunc)
+        // 更新纹理，调用updateBlendFunc
         setTexture(pTexture);
         setTextureRect(rect, rotated, rect.size);
         
         // by default use "Self Render".
         // if the sprite is added to a batchnode, then it will automatically switch to "batchnode Render"
+        // 设置批量节点；精灵被增加到批量节点，会自动渲染
         setBatchNode(NULL);
         
         return true;
@@ -230,6 +235,7 @@ bool CCSprite::initWithFile(const char *pszFilename)
     // don't release here.
     // when load texture failed, it's better to get a "transparent" sprite then a crashed program
     // this->release(); 
+    // 不用在这里释放，当载人纹理失败时，最好获取一个透明的精灵，然后让程序死掉
     return false;
 }
 
@@ -246,6 +252,7 @@ bool CCSprite::initWithFile(const char *pszFilename, const CCRect& rect)
     // don't release here.
     // when load texture failed, it's better to get a "transparent" sprite then a crashed program
     // this->release(); 
+    // 不用在这里释放，当载人纹理失败时，最好获取一个透明的精灵，然后让程序死掉
     return false;
 }
 
@@ -267,7 +274,7 @@ bool CCSprite::initWithSpriteFrameName(const char *pszSpriteFrameName)
     return initWithSpriteFrame(pFrame);
 }
 
-// XXX: deprecated
+// XXX: deprecated	弃用方法
 /*
 CCSprite* CCSprite::initWithCGImage(CGImageRef pImage)
 {
@@ -541,7 +548,7 @@ void CCSprite::updateTransform(void)
 #endif // CC_SPRITE_DEBUG_DRAW
 }
 
-// draw
+// draw		绘制
 
 void CCSprite::draw(void)
 {
@@ -770,7 +777,7 @@ void CCSprite::setDirtyRecursively(bool bValue)
     }
 }
 
-// XXX HACK: optimization
+// XXX HACK: optimization	优化
 #define SET_DIRTY_RECURSIVELY() {                                    \
                     if (m_pobBatchNode && ! m_bRecursiveDirty) {    \
                         m_bRecursiveDirty = true;                    \
@@ -888,7 +895,7 @@ bool CCSprite::isFlipY(void)
 
 //
 // RGBA protocol
-//
+// 协议
 
 void CCSprite::updateColor(void)
 {
@@ -968,7 +975,7 @@ void CCSprite::updateDisplayedOpacity(GLubyte opacity)
     updateColor();
 }
 
-// Frames
+// Frames	帧
 
 void CCSprite::setDisplayFrame(CCSpriteFrame *pNewFrame)
 {
@@ -1052,7 +1059,7 @@ void CCSprite::setBatchNode(CCSpriteBatchNode *pobSpriteBatchNode)
     }
 }
 
-// Texture protocol
+// Texture protocol	纹理协议
 
 void CCSprite::updateBlendFunc(void)
 {
