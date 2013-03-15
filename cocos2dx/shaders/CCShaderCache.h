@@ -34,7 +34,7 @@ NS_CC_BEGIN
 class CCGLProgram;
 
 /**
- * @addtogroup shaders
+ * @addtogroup shaders  着色
  * @{
  */
 
@@ -42,6 +42,7 @@ class CCGLProgram;
  Singleton that stores manages GL shaders
  @since v2.0
  */
+// 单例管理gl着色
 class CC_DLL CCShaderCache : public CCObject 
 {
 public:
@@ -49,21 +50,27 @@ public:
 
     virtual ~CCShaderCache();
     /** returns the shared instance */
+    // 返回共享实例
     static CCShaderCache* sharedShaderCache();
 
     /** purges the cache. It releases the retained instance. */
+    // 清除缓存，释放实例
     static void purgeSharedShaderCache();
 
     /** loads the default shaders */
+    // 载人默认着色
     void loadDefaultShaders();
     
     /** reload the default shaders */
+    // 重载默认着色
     void reloadDefaultShaders();
 
     /** returns a GL program for a given key */
+    // 返回gl方案，给定键
     CCGLProgram * programForKey(const char* key);
 
     /** adds a CCGLProgram to the cache for a given name */
+    // 增加方案，使用方案，和键为参数
     void addProgram(CCGLProgram* program, const char* key);
 
 private:
