@@ -57,7 +57,7 @@ enum
 
 //
 //CCMenu
-//
+//菜单
 
 CCMenu* CCMenu::create()
 {
@@ -128,6 +128,7 @@ bool CCMenu::initWithArray(CCArray* pArrayOfItems)
 
         m_bEnabled = true;
         // menu in the center of the screen
+        // 菜单位于屏幕中心
         CCSize s = CCDirector::sharedDirector()->getWinSize();
 
         this->ignoreAnchorPointForPosition(true);
@@ -164,6 +165,7 @@ bool CCMenu::initWithArray(CCArray* pArrayOfItems)
 /*
 * override add:
 */
+// 重载增加
 void CCMenu::addChild(CCNode * child)
 {
     CCLayer::addChild(child);
@@ -210,7 +212,7 @@ void CCMenu::removeChild(CCNode* child, bool cleanup)
 }
 
 //Menu - Events
-
+// 事件
 void CCMenu::setHandlerPriority(int newPriority)
 {
     CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
@@ -294,6 +296,7 @@ void CCMenu::ccTouchMoved(CCTouch* touch, CCEvent* event)
 }
 
 //Menu - Alignment
+// 菜单对齐
 void CCMenu::alignItemsVertically()
 {
     this->alignItemsVerticallyWithPadding(kDefaultPadding);
