@@ -47,7 +47,7 @@ static int _calcCharCount(const char * pszText)
 }
 
 //////////////////////////////////////////////////////////////////////////
-// constructor and destructor
+// constructor and destructor   构造和析构
 //////////////////////////////////////////////////////////////////////////
 
 CCTextFieldTTF::CCTextFieldTTF()
@@ -66,7 +66,7 @@ CCTextFieldTTF::~CCTextFieldTTF()
 }
 
 //////////////////////////////////////////////////////////////////////////
-// static constructor
+// static constructor   静态构造
 //////////////////////////////////////////////////////////////////////////
 
 CCTextFieldTTF * CCTextFieldTTF::textFieldWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize)
@@ -102,7 +102,7 @@ CCTextFieldTTF * CCTextFieldTTF::textFieldWithPlaceHolder(const char *placeholde
 }
 
 //////////////////////////////////////////////////////////////////////////
-// initialize
+// initialize   初始化
 //////////////////////////////////////////////////////////////////////////
 
 bool CCTextFieldTTF::initWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize)
@@ -125,7 +125,7 @@ bool CCTextFieldTTF::initWithPlaceHolder(const char *placeholder, const char *fo
 }
 
 //////////////////////////////////////////////////////////////////////////
-// CCIMEDelegate
+// CCIMEDelegate    委托
 //////////////////////////////////////////////////////////////////////////
 
 bool CCTextFieldTTF::attachWithIME()
@@ -133,7 +133,7 @@ bool CCTextFieldTTF::attachWithIME()
     bool bRet = CCIMEDelegate::attachWithIME();
     if (bRet)
     {
-        // open keyboard
+        // open keyboard    打开键盘
         CCEGLView * pGlView = CCDirector::sharedDirector()->getOpenGLView();
         if (pGlView)
         {
@@ -148,7 +148,7 @@ bool CCTextFieldTTF::detachWithIME()
     bool bRet = CCIMEDelegate::detachWithIME();
     if (bRet)
     {
-        // close keyboard
+        // close keyboard   关闭键盘
         CCEGLView * pGlView = CCDirector::sharedDirector()->getOpenGLView();
         if (pGlView)
         {
@@ -173,6 +173,7 @@ void CCTextFieldTTF::insertText(const char * text, int len)
     std::string sInsert(text, len);
 
     // insert \n means input end
+    // 插入换行
     int nPos = sInsert.find('\n');
     if ((int)sInsert.npos != nPos)
     {
@@ -185,6 +186,7 @@ void CCTextFieldTTF::insertText(const char * text, int len)
         if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, sInsert.c_str(), len))
         {
             // delegate doesn't want to insert text
+            // 委托不想插入文本
             return;
         }
         
@@ -199,12 +201,14 @@ void CCTextFieldTTF::insertText(const char * text, int len)
     }
     
     // '\n' inserted, let delegate process first
+    // 换行
     if (m_pDelegate && m_pDelegate->onTextFieldInsertText(this, "\n", 1))
     {
         return;
     }
     
     // if delegate hasn't processed, detach from IME by default
+    // 默认处理
     detachWithIME();
 }
 
@@ -213,11 +217,13 @@ void CCTextFieldTTF::deleteBackward()
     int nStrLen = m_pInputText->length();
     if (! nStrLen)
     {
-        // there is no string
+        // there is no string、
+        // 没有字符串
         return;
     }
 
     // get the delete byte number
+    // 获取删除字节数
     int nDeleteLen = 1;    // default, erase 1 byte
 
     while(0x80 == (0xC0 & m_pInputText->at(nStrLen - nDeleteLen)))
@@ -228,10 +234,12 @@ void CCTextFieldTTF::deleteBackward()
     if (m_pDelegate && m_pDelegate->onTextFieldDeleteBackward(this, m_pInputText->c_str() + nStrLen - nDeleteLen, nDeleteLen))
     {
         // delegate doesn't wan't to delete backwards
+        // 不关心返回键
         return;
     }
 
     // if all text deleted, show placeholder string
+    // 所有文本删除，显示预制字符
     if (nStrLen <= nDeleteLen)
     {
         CC_SAFE_DELETE(m_pInputText);
@@ -242,6 +250,7 @@ void CCTextFieldTTF::deleteBackward()
     }
 
     // set new input text
+    // 设置新的文本
     std::string sText(m_pInputText->c_str(), nStrLen - nDeleteLen);
     setString(sText.c_str());
 }
@@ -264,6 +273,7 @@ void CCTextFieldTTF::draw()
     }
 
     // draw placeholder
+    // 绘制占位符
     ccColor3B color = getColor();
     setColor(m_ColorSpaceHolder);
     CCLabelTTF::draw();
@@ -281,10 +291,11 @@ void CCTextFieldTTF::setColorSpaceHolder(const ccColor3B& color)
 }
 
 //////////////////////////////////////////////////////////////////////////
-// properties
+// properties   属性
 //////////////////////////////////////////////////////////////////////////
 
 // input text property
+// 输入文本属性
 void CCTextFieldTTF::setString(const char *text)
 {
     CC_SAFE_DELETE(m_pInputText);
@@ -299,6 +310,7 @@ void CCTextFieldTTF::setString(const char *text)
     }
 
     // if there is no input text, display placeholder instead
+    // 如果没有输入文本，显示预制字符
     if (! m_pInputText->length())
     {
         CCLabelTTF::setString(m_pPlaceHolder->c_str());
@@ -316,6 +328,7 @@ const char* CCTextFieldTTF::getString(void)
 }
 
 // place holder text property
+// 占位符文本属性
 void CCTextFieldTTF::setPlaceHolder(const char * text)
 {
     CC_SAFE_DELETE(m_pPlaceHolder);
