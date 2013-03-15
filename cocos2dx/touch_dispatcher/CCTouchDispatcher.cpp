@@ -36,7 +36,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * Used for sort
+ * Used for sort	用于分类
  */
 static int less(const CCObject* p1, const CCObject* p2)
 {
@@ -100,7 +100,7 @@ CCTouchDispatcher::~CCTouchDispatcher(void)
 
 //
 // handlers management
-//
+// 处理管理
 void CCTouchDispatcher::forceAddHandler(CCTouchHandler *pHandler, CCArray *pArray)
 {
     unsigned int u = 0;
@@ -315,7 +315,7 @@ void CCTouchDispatcher::setPriority(int nPriority, CCTouchDelegate *pDelegate)
 
 //
 // dispatch events
-//
+// 调度事件
 void CCTouchDispatcher::touches(CCSet *pTouches, CCEvent *pEvent, unsigned int uIndex)
 {
     CCAssert(uIndex >= 0 && uIndex < 4, "");
