@@ -40,9 +40,9 @@ NS_CC_BEGIN
 
 typedef struct _hashUniformEntry
 {
-    GLvoid*         value;       // value
-    unsigned int    location;    // Key
-    UT_hash_handle  hh;          // hash entry
+    GLvoid*         value;       // value	值
+    unsigned int    location;    // Key		键
+    UT_hash_handle  hh;          // hash entry	哈希值实体
 } tHashUniformEntry;
 
 CCGLProgram::CCGLProgram()
@@ -60,6 +60,7 @@ CCGLProgram::~CCGLProgram()
     CCLOGINFO("cocos2d: %s %d deallocing 0x%X", __FUNCTION__, __LINE__, this);
 
     // there is no need to delete the shaders. They should have been already deleted.
+    // 已经删除，不用再次删除着色
     CCAssert(m_uVertShader == 0, "Vertex Shaders should have been already deleted");
     CCAssert(m_uFragShader == 0, "Fragment Shaders should have been already deleted");
 
@@ -71,6 +72,7 @@ CCGLProgram::~CCGLProgram()
     tHashUniformEntry *current_element, *tmp;
 
     // Purge uniform hash
+    // 清除统一哈希值
     HASH_ITER(hh, m_pHashForUniforms, current_element, tmp)
     {
         HASH_DEL(m_pHashForUniforms, current_element);
@@ -95,6 +97,7 @@ bool CCGLProgram::initWithVertexShaderByteArray(const GLchar* vShaderByteArray, 
     }
 
     // Create and compile fragment shader
+    // 创建和编译片段着色
     if (fShaderByteArray)
     {
         if (!compileShader(&m_uFragShader, GL_FRAGMENT_SHADER, fShaderByteArray))
@@ -289,7 +292,7 @@ const char* CCGLProgram::programLog()
     return this->logForOpenGLObject(m_uProgram, (GLInfoFunction)&glGetProgramiv, (GLLogFunction)&glGetProgramInfoLog);
 }
 
-// Uniform cache
+// Uniform cache	统一缓存
 
 bool CCGLProgram::updateUniformLocation(GLint location, GLvoid* data, unsigned int bytes)
 {
