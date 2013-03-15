@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+ 
 "														\n\
 attribute vec4 a_position;								\n\
 attribute vec2 a_texCoord;								\n\
