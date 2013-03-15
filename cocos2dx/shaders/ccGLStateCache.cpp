@@ -56,6 +56,7 @@ static GLuint    s_uVAO = 0;
 #endif // CC_ENABLE_GL_STATE_CACHE
 
 // GL State Cache functions
+// gl状态缓存函数
 
 void ccGLInvalidateStateCache( void )
 {
