@@ -67,5 +67,5 @@ CC_DLL const POINT_CLASSIFICATION kmPlaneClassifyPoint(const kmPlane* pIn, const
 #ifdef __cplusplus
 }
 #endif
-
+ 
 #endif // PLANE_H_INCLUDED
