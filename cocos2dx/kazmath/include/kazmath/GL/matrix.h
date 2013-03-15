@@ -56,5 +56,5 @@ void CC_DLL kmGLGetMatrix(kmGLEnum mode, kmMat4* pOut);
 #ifdef __cplusplus
 }
 #endif
-
+ 
 #endif // MATRIX_H_INCLUDED
