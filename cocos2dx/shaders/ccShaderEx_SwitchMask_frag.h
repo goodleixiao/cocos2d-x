@@ -5,7 +5,7 @@ precision lowp float;                            \n\
                                                  \n\
 varying vec4        v_fragmentColor;             \n\
 varying vec2        v_texCoord;                  \n\
-uniform sampler2D   u_texture;                   \n\
+uniform sampler2D   u_texture;                   \n\ 
 uniform sampler2D   u_mask;                      \n\
                                                  \n\
 void main()                                      \n\
