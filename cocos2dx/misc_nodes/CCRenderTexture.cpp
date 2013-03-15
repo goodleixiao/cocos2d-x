@@ -44,6 +44,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // implementation CCRenderTexture
+// 实现渲染纹理
 CCRenderTexture::CCRenderTexture()
 : m_pSprite(NULL)
 , m_uFBO(0)
@@ -62,6 +63,7 @@ CCRenderTexture::CCRenderTexture()
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // Listen this event to save render texture before come to background.
     // Then it can be restored after coming to foreground on Android.
+    // 监听事件，仅在android平台有效
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this,
                                                                   callfuncO_selector(CCRenderTexture::listenToBackground),
                                                                   EVENT_COME_TO_BACKGROUND,
@@ -98,6 +100,7 @@ void CCRenderTexture::listenToBackground(cocos2d::CCObject *obj)
     CC_SAFE_DELETE(m_pUITextureImage);
     
     // to get the rendered texture data
+    // 获取渲染纹理数据
     m_pUITextureImage = newCCImage(false);
 
     if (m_pUITextureImage)
@@ -444,7 +447,8 @@ void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float d
     
     glClear(flags);
 
-    // restore
+    // restore  
+    // 恢复
     if (flags & GL_COLOR_BUFFER_BIT)
     {
         glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
@@ -466,6 +470,7 @@ void CCRenderTexture::end()
     glBindFramebuffer(GL_FRAMEBUFFER, m_nOldFBO);
 
     // restore viewport
+    // 恢复视口
     director->setViewport();
 
     kmGLMatrixMode(KM_GL_PROJECTION);
@@ -639,6 +644,7 @@ bool CCRenderTexture::saveToFile(const char *fileName, tCCImageFormat format)
 }
 
 /* get buffer as CCImage */
+// 获取缓存以CCImage方式
 CCImage* CCRenderTexture::newCCImage(bool flipImage)
 {
     CCAssert(m_ePixelFormat == kCCTexture2DPixelFormat_RGBA8888, "only RGBA8888 can be saved as image");
