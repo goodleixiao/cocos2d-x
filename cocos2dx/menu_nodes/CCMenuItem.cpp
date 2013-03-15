@@ -48,7 +48,7 @@ const unsigned int    kSelectedTag = 0x2;
 const unsigned int    kDisableTag = 0x3;
 //
 // CCMenuItem
-//
+// 菜单项
 
 CCMenuItem* CCMenuItem::create()
 {
@@ -151,7 +151,7 @@ void CCMenuItem::setTarget(CCObject *rec, SEL_MenuHandler selector)
 
 //
 //CCMenuItemLabel
-//
+//菜单项标签
 
 const ccColor3B& CCMenuItemLabel::getDisabledColor()
 {
@@ -287,7 +287,7 @@ void CCMenuItemLabel::setEnabled(bool enabled)
 
 //
 //CCMenuItemAtlasFont
-//
+//字体
 
 CCMenuItemAtlasFont * CCMenuItemAtlasFont::create(const char *value, const char *charMapFile, int itemWidth, int itemHeight, char startCharMap)
 {
@@ -405,7 +405,7 @@ const char* CCMenuItemFont::fontNameObj()
 
 //
 //CCMenuItemSprite
-//
+//精灵
 
 CCNode * CCMenuItemSprite::getNormalImage()
 {
@@ -605,7 +605,7 @@ void CCMenuItemSprite::updateImagesVisibility()
 
 ///
 /// CCMenuItemImage
-///
+///图片
 
 CCMenuItemImage* CCMenuItemImage::create()
 {
