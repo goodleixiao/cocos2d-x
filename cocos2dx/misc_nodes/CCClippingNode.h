@@ -38,6 +38,7 @@ NS_CC_BEGIN
  The stencil is an other CCNode that will not be drawn.
  The clipping is done using the alpha part of the stencil (adjusted with an alphaThreshold).
  */
+// 是节点的子类；它绘制的内容，作为模板； 不会被其他节点绘制；剪切可以使用阿尔法部分模板；
 class CC_DLL CCClippingNode : public CCNode
 {
 protected:
@@ -48,22 +49,26 @@ protected:
 public:
     /** Creates and initializes a clipping node without a stencil.
      */
+    // 创建并初始化剪切节点，没有模板
     static CCClippingNode* create();
     
     /** Creates and initializes a clipping node with an other node as its stencil.
      The stencil node will be retained.
      */
+    // 创建并初始化一个剪切节点，使用其他节点作为模板；模板节点将被保持
     static CCClippingNode* create(CCNode *pStencil);
     
     virtual ~CCClippingNode();
     
     /** Initializes a clipping node without a stencil.
      */
+    // 初始化剪切节点
     virtual bool init();
     
     /** Initializes a clipping node with an other node as its stencil.
      The stencil node will be retained, and its parent will be set to this clipping node.
      */
+    // 创建并初始化一个剪切节点，使用其他节点作为模板；模板节点将被保持
     virtual bool init(CCNode *pStencil);
     
     virtual void onEnter();
@@ -76,6 +81,7 @@ public:
      The stencil node will be retained.
      This default to nil.
      */
+    // 获取模板节点
     CCNode* getStencil() const;
     void setStencil(CCNode *pStencil);
     
@@ -84,6 +90,7 @@ public:
      Should be a float between 0 and 1.
      This default to 1 (so alpha test is disabled).
      */
+    // 获取阿尔法值
     GLfloat getAlphaThreshold() const;
     void setAlphaThreshold(GLfloat fAlphaThreshold);
     
@@ -91,6 +98,7 @@ public:
      the stencil is inverted, so the content is drawn where the stencil is NOT drawn.
      This default to NO.
      */
+    // 倒置模板
     bool isInverted() const;
     void setInverted(bool bInverted);
     
