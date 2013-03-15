@@ -30,19 +30,19 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
 typedef struct
 {
-    CCRect  begin;              // the soft keyboard rectangle when animation begins
-    CCRect  end;                // the soft keyboard rectangle when animation ends
-    float     duration;           // the soft keyboard animation duration
+    CCRect  begin;              // the soft keyboard rectangle when animation begins    键盘开始
+    CCRect  end;                // the soft keyboard rectangle when animation ends      键盘结束
+    float     duration;           // the soft keyboard animation duration               间隔
 } CCIMEKeyboardNotificationInfo;
 
 /**
-@brief    Input method editor delegate.
+@brief    Input method editor delegate.     输入方法编辑委托
 */
 class CC_DLL CCIMEDelegate
 {
@@ -60,39 +60,46 @@ protected:
 
     Called by CCIMEDispatcher.
     */
+    // 委托实例接收键盘消息
     virtual bool canAttachWithIME() { return false; }
     /**
     @brief    When the delegate detaches from the IME, this method is called by CCIMEDispatcher.
     */
+    // 委托实例接收键盘消息
     virtual void didAttachWithIME() {}
 
     /**
     @brief    Decide if the delegate instance can stop receiving IME messages.
     */
+    // 停止接收消息
     virtual bool canDetachWithIME() { return false; }
 
     /**
     @brief    When the delegate detaches from the IME, this method is called by CCIMEDispatcher.
     */
+    // 委托从键盘离开
     virtual void didDetachWithIME() {}
 
     /**
     @brief    Called by CCIMEDispatcher when text input received from the IME.
     */
+    // 插入文本，使用文本，长度为参数
     virtual void insertText(const char * text, int len) {CC_UNUSED_PARAM(text);CC_UNUSED_PARAM(len);}
 
     /**
     @brief    Called by CCIMEDispatcher after the user clicks the backward key.
     */
+    // 调用返回 删除按键
     virtual void deleteBackward() {}
 
     /**
     @brief    Called by CCIMEDispatcher for text stored in delegate.
     */
+    // 文本存储
     virtual const char * getContentText() { return 0; }
 
     //////////////////////////////////////////////////////////////////////////
-    // keyboard show/hide notification
+    // keyboard show/hide notification  键盘显示/隐藏通知
     //////////////////////////////////////////////////////////////////////////
     virtual void keyboardWillShow(CCIMEKeyboardNotificationInfo& info)   {CC_UNUSED_PARAM(info);}
     virtual void keyboardDidShow(CCIMEKeyboardNotificationInfo& info)    {CC_UNUSED_PARAM(info);}
