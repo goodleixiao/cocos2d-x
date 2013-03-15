@@ -64,6 +64,7 @@ CCObject* CCAnimationFrame::copyWithZone(CCZone* pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        // 子类调用
         pCopy = (CCAnimationFrame*)(pZone->m_pCopyObject);
     }
     else
@@ -80,7 +81,7 @@ CCObject* CCAnimationFrame::copyWithZone(CCZone* pZone)
 }
 
 // implementation of CCAnimation
-
+// 实现动画
 CCAnimation* CCAnimation::create(void)
 {
     CCAnimation *pAnimation = new CCAnimation();
@@ -182,6 +183,7 @@ void CCAnimation::addSpriteFrame(CCSpriteFrame *pFrame)
     animFrame->release();
 
     // update duration
+    // 间隔更新
     m_fTotalDelayUnits++;
 }
 
@@ -212,6 +214,7 @@ CCObject* CCAnimation::copyWithZone(CCZone* pZone)
     if(pZone && pZone->m_pCopyObject) 
     {
         //in case of being called at sub class
+        // 子类调用
         pCopy = (CCAnimation*)(pZone->m_pCopyObject);
     }
     else
