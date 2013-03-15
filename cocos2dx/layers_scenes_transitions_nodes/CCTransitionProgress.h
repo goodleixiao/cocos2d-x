@@ -35,7 +35,7 @@ class CCProgressTimer;
 class CCRenderTexture;
 
 /**
- * @addtogroup transition
+ * @addtogroup transition   过渡
  * @{
  */
 
@@ -60,6 +60,7 @@ protected:
 /** CCTransitionRadialCCW transition.
  A counter clock-wise radial transition to the next scene
  */
+// 逆时针半径过渡
 class CC_DLL CCTransitionProgressRadialCCW : public CCTransitionProgress
 {
 public:
@@ -73,6 +74,7 @@ protected:
 /** CCTransitionRadialCW transition.
  A counter clock-wise radial transition to the next scene
 */
+// 顺时针半径过渡
 class CC_DLL CCTransitionProgressRadialCW : public CCTransitionProgress
 {
 public:
@@ -85,6 +87,7 @@ protected:
 /** CCTransitionProgressHorizontal transition.
  A  clock-wise radial transition to the next scene
  */
+// 水平进度过渡
 class CC_DLL CCTransitionProgressHorizontal : public CCTransitionProgress
 {
 public:
