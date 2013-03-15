@@ -40,6 +40,7 @@ NS_CC_BEGIN
 /** MotionStreak.
  Creates a trailing path.
  */
+// 创建运动路径
 class CC_DLL CCMotionStreak : public CCNodeRGBA, public CCTextureProtocol
 {
 public:
@@ -47,27 +48,35 @@ public:
     virtual ~CCMotionStreak();
 
     /** creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture filename */
+    // 创建和初始化运动路径，褪色时间，最小线段，线宽，颜色，纹理文件名称为参数
     static CCMotionStreak* create(float fade, float minSeg, float stroke, ccColor3B color, const char* path);
     /** creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture */
+    // 创建和初始化运动路径，褪色时间，最小线段，线宽，颜色，纹理为参数
     static CCMotionStreak* create(float fade, float minSeg, float stroke, ccColor3B color, CCTexture2D* texture);
 
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture filename */
+    // 创建和初始化运动路径，褪色时间，最小线段，线宽，颜色，纹理文件名称为参数
     bool initWithFade(float fade, float minSeg, float stroke, ccColor3B color, const char* path);
     /** initializes a motion streak with fade in seconds, minimum segments, stroke's width, color and texture  */
+    // 创建和初始化运动路径，褪色时间，最小线段，线宽，颜色，纹理文件名称为参数
     bool initWithFade(float fade, float minSeg, float stroke, ccColor3B color, CCTexture2D* texture);
 
     /** color used for the tint */
+    // 着色
     void tintWithColor(ccColor3B colors);
 
     /** Remove all living segments of the ribbon */
+    // 重置
     void reset();
 
     /** Override super methods */
+    // 父类方法
     virtual void setPosition(const CCPoint& position);
     virtual void draw();
     virtual void update(float delta);
 
     /* Implement interfaces */
+    // 实现接口
     virtual CCTexture2D* getTexture(void);
     virtual void setTexture(CCTexture2D *texture);
     virtual void setBlendFunc(ccBlendFunc blendFunc);
@@ -78,6 +87,7 @@ public:
     virtual bool isOpacityModifyRGB(void);
 
     /** When fast mode is enabled, new points are added faster but with lower precision */
+    // 启用快速模式，节点增加块，但精度降低
     inline bool isFastMode() { return m_bFastMode; }
     inline void setFastMode(bool bFastMode) { m_bFastMode = bFastMode; }
 
@@ -91,6 +101,7 @@ protected:
     bool m_bStartingPositionInitialized;
 private:
     /** texture used for the motion streak */
+    // 纹理
     CCTexture2D* m_pTexture;
     ccBlendFunc m_tBlendFunc;
     CCPoint m_tPositionR;
@@ -104,6 +115,7 @@ private:
     unsigned int m_uPreviousNuPoints;
 
     /** Pointers */
+    // 指针
     CCPoint* m_pPointVertexes;
     float* m_pPointState;
 
