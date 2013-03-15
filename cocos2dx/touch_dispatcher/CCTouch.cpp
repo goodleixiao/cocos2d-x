@@ -29,42 +29,49 @@
 NS_CC_BEGIN
 
 // returns the current touch location in screen coordinates
+// 返回当前触摸位置，在屏幕坐标系中
 CCPoint CCTouch::getLocationInView() const 
 { 
     return m_point; 
 }
 
 // returns the previous touch location in screen coordinates
+// 返回前一次触摸位置，在屏幕坐标系中
 CCPoint CCTouch::getPreviousLocationInView() const 
 { 
     return m_prevPoint; 
 }
 
 // returns the start touch location in screen coordinates
+// 返回开始触摸位置，在屏幕坐标系中
 CCPoint CCTouch::getStartLocationInView() const 
 { 
     return m_startPoint; 
 }
 
 // returns the current touch location in OpenGL coordinates
+// 返回当前触摸位置，在opengl坐标系中
 CCPoint CCTouch::getLocation() const
 { 
     return CCDirector::sharedDirector()->convertToGL(m_point); 
 }
 
 // returns the previous touch location in OpenGL coordinates
+// 返回前一次触摸位置，在opengl坐标系中
 CCPoint CCTouch::getPreviousLocation() const
 { 
     return CCDirector::sharedDirector()->convertToGL(m_prevPoint);  
 }
 
 // returns the start touch location in OpenGL coordinates
+// 返回开始触摸位置，在opengl坐标系中
 CCPoint CCTouch::getStartLocation() const
 { 
     return CCDirector::sharedDirector()->convertToGL(m_startPoint);  
 }
 
 // returns the delta position between the current location and the previous location in OpenGL coordinates
+// 返回前一次和当前触摸位置的差，在opengl坐标系中
 CCPoint CCTouch::getDelta() const
 {     
     return ccpSub(getLocation(), getPreviousLocation()); 
