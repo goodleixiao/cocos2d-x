@@ -58,6 +58,7 @@ CCParticleBatchNode::~CCParticleBatchNode()
 /*
  * creation with CCTexture2D
  */
+// 创建，使用纹理
 
 CCParticleBatchNode* CCParticleBatchNode::createWithTexture(CCTexture2D *tex, unsigned int capacity/* = kCCParticleDefaultCapacity*/)
 {
@@ -74,6 +75,7 @@ CCParticleBatchNode* CCParticleBatchNode::createWithTexture(CCTexture2D *tex, un
 /*
  * creation with File Image
  */
+// 使用图片文件创建
 
 CCParticleBatchNode* CCParticleBatchNode::create(const char* imageFile, unsigned int capacity/* = kCCParticleDefaultCapacity*/)
 {
@@ -90,6 +92,7 @@ CCParticleBatchNode* CCParticleBatchNode::create(const char* imageFile, unsigned
 /*
  * init with CCTexture2D
  */
+// 用纹理初始化
 bool CCParticleBatchNode::initWithTexture(CCTexture2D *tex, unsigned int capacity)
 {
     m_pTextureAtlas = new CCTextureAtlas();
@@ -110,6 +113,7 @@ bool CCParticleBatchNode::initWithTexture(CCTexture2D *tex, unsigned int capacit
 /*
  * init with FileImage
  */
+// 用图片文件初始化
 bool CCParticleBatchNode::initWithFile(const char* fileImage, unsigned int capacity)
 {
     CCTexture2D *tex = CCTextureCache::sharedTextureCache()->addImage(fileImage);
@@ -155,6 +159,7 @@ void CCParticleBatchNode::visit()
 }
 
 // override addChild:
+// 重载增加子对象
 void CCParticleBatchNode::addChild(CCNode * child)
 {
     CCNode::addChild(child);
