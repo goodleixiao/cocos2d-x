@@ -85,6 +85,7 @@ bool CCProgressTimer::initWithSprite(CCSprite* sp)
     setBarChangeRate(ccp(1,1));
     setSprite(sp);
     // shader program
+    // 着色方案
     setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
     return true;
 }
@@ -114,6 +115,7 @@ void CCProgressTimer::setSprite(CCSprite *pSprite)
         setContentSize(m_pSprite->getContentSize());
 
         //    Every time we set a new sprite, we free the current vertex data
+        // 每次设置一个新的精灵，释放当前顶点数据
         if (m_pVertexData)
         {
             CC_SAFE_FREE(m_pVertexData);
@@ -127,6 +129,7 @@ void CCProgressTimer::setType(CCProgressTimerType type)
     if (type != m_eType)
     {
         //    release all previous information
+        // 释放所有先前信息
         if (m_pVertexData)
         {
             CC_SAFE_FREE(m_pVertexData);
@@ -144,6 +147,7 @@ void CCProgressTimer::setReverseProgress(bool reverse)
         m_bReverseDirection = reverse;
 
         //    release all previous information
+        // 释放所有先前信息
         CC_SAFE_FREE(m_pVertexData);
         m_nVertexDataCount = 0;
     }
@@ -163,7 +167,7 @@ bool CCProgressTimer::isOpacityModifyRGB(void)
 
 ///
 //    @returns the vertex position from the texture coordinate
-///
+/// 返回顶点位置
 ccTex2F CCProgressTimer::textureCoordFromAlphaPoint(CCPoint alpha)
 {
     ccTex2F ret = {0.0f, 0.0f};
