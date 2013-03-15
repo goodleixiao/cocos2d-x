@@ -153,6 +153,7 @@ void CCSpriteFrameCache::addSpriteFramesWithDictionary(CCDictionary* dictionary,
             CCSize sourceSize = CCSizeFromString(frameDict->valueForKey("sourceSize")->getCString());
 
             // create frame
+            // 创建帧
             spriteFrame = new CCSpriteFrame();
             spriteFrame->initWithTexture(pobTexture, 
                 frame,
