@@ -36,7 +36,7 @@ NS_CC_BEGIN
 class CCAnimation;
 
 /**
- * @addtogroup sprite_nodes
+ * @addtogroup sprite_nodes     精灵节点
  * @{
  */
 
@@ -47,42 +47,50 @@ Before v0.99.5, the recommend way was to save them on the CCSprite. Since v0.99.
 
 @since v0.99.5
 */
+// 单例管理动画。 经动画保存到缓存。 可以使用该类，将动画保存到缓存中
 class CC_DLL CCAnimationCache : public CCObject
 {
 public:
     CCAnimationCache();
     ~CCAnimationCache();
     /** Returns the shared instance of the Animation cache */
+    // 返回单例
     static CCAnimationCache* sharedAnimationCache(void);
 
     /** Purges the cache. It releases all the CCAnimation objects and the shared instance.
     */
+    // 清除缓存，释放所有动画对象和实例
     static void purgeSharedAnimationCache(void);
 
     /** Adds a CCAnimation with a name.
     */
+    // 增加一个动画用动画名称
     void addAnimation(CCAnimation *animation, const char * name);
 
     /** Deletes a CCAnimation from the cache.
     */
+    // 删除一个动画，从缓存中
     void removeAnimationByName(const char* name);
 
     /** Returns a CCAnimation that was previously added.
     If the name is not found it will return nil.
     You should retain the returned copy if you are going to use it.
     */
+    // 获取一个动画，使用名称
     CCAnimation* animationByName(const char* name);
 
     /** Adds an animation from an NSDictionary
      Make sure that the frames were previously loaded in the CCSpriteFrameCache.
      @since v1.1
      */
+    // 增加动画，从字典中
     void addAnimationsWithDictionary(CCDictionary* dictionary);
 
     /** Adds an animation from a plist file.
      Make sure that the frames were previously loaded in the CCSpriteFrameCache.
      @since v1.1
      */
+    // 增加一个动画，从文件中
     void addAnimationsWithFile(const char* plist);
 
     bool init(void);
