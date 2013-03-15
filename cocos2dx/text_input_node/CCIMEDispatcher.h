@@ -30,13 +30,14 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
 /**
-@brief    Input Method Edit Message Dispatcher.
+@brief    Input Method Edit Message Dispatcher. 
 */
+// 输入方法编辑调度
 class CC_DLL CCIMEDispatcher
 {
 public:
@@ -45,6 +46,7 @@ public:
     /**
     @brief Returns the shared CCIMEDispatcher object for the system.
     */
+    // 返回共享实例
     static CCIMEDispatcher* sharedDispatcher();
 
 //     /**
@@ -55,20 +57,23 @@ public:
     /**
     @brief Dispatches the input text from IME.
     */
+    // 调度输入的文本
     void dispatchInsertText(const char * pText, int nLen);
 
     /**
     @brief Dispatches the delete-backward operation.
     */
+    // 调度返回键
     void dispatchDeleteBackward();
 
     /**
     @brief Get the content text from CCIMEDelegate, retrieved previously from IME.
     */
+    // 获取文本
     const char * getContentText();
 
     //////////////////////////////////////////////////////////////////////////
-    // dispatch keyboard notification
+    // dispatch keyboard notification   调用键盘通知
     //////////////////////////////////////////////////////////////////////////
     void dispatchKeyboardWillShow(CCIMEKeyboardNotificationInfo& info);
     void dispatchKeyboardDidShow(CCIMEKeyboardNotificationInfo& info);
@@ -81,6 +86,7 @@ protected:
     /**
     @brief Add delegate to receive IME messages.
     */
+    // 增加委托，接收键盘消息
     void addDelegate(CCIMEDelegate * pDelegate);
 
     /**
@@ -88,12 +94,14 @@ protected:
     @return If the old delegate can detach from the IME, and the new delegate 
             can attach to the IME, return true, otherwise false.
     */
+    // 附加委托
     bool attachDelegateWithIME(CCIMEDelegate * pDelegate);
     bool detachDelegateWithIME(CCIMEDelegate * pDelegate);
 
     /**
     @brief Remove the delegate from the delegates which receive IME messages.
     */
+    // 移除委托
     void removeDelegate(CCIMEDelegate * pDelegate);
 
 private:
