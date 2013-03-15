@@ -38,6 +38,7 @@ NS_CC_BEGIN
 
 // #pragma mark -
 // #pragma mark CCScriptHandlerEntry
+// 脚本处理实体
 
 CCScriptHandlerEntry* CCScriptHandlerEntry::create(int nHandler)
 {
@@ -53,7 +54,7 @@ CCScriptHandlerEntry::~CCScriptHandlerEntry(void)
 
 // #pragma mark -
 // #pragma mark CCSchedulerScriptHandlerEntry
-
+// 脚本调度实体
 CCSchedulerScriptHandlerEntry* CCSchedulerScriptHandlerEntry::create(int nHandler, float fInterval, bool bPaused)
 {
     CCSchedulerScriptHandlerEntry* pEntry = new CCSchedulerScriptHandlerEntry(nHandler);
@@ -82,6 +83,7 @@ CCSchedulerScriptHandlerEntry::~CCSchedulerScriptHandlerEntry(void)
 
 // #pragma mark -
 // #pragma mark CCTouchScriptHandlerEntry
+// 脚本触摸
 
 CCTouchScriptHandlerEntry* CCTouchScriptHandlerEntry::create(int nHandler,
                                                              bool bIsMultiTouches,
@@ -111,6 +113,7 @@ bool CCTouchScriptHandlerEntry::init(bool bIsMultiTouches, int nPriority, bool b
 
 // #pragma mark -
 // #pragma mark CCScriptEngineManager
+// 脚本引擎管理
 
 static CCScriptEngineManager* s_pSharedScriptEngineManager = NULL;
 
