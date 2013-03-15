@@ -27,11 +27,12 @@
 #ifdef __arm__
 #if defined(__QNX__) || defined(ANDROID) || defined(I3D_ARCH_ARM) || defined(__native_client__) // MARMALADE CHANGE: Added for Marmalade support
 // blackberry and android don't have arm/arch.h but it defines __arm__
+// 黑莓和android不支持arm/arch.h可以定义defines __arm__
 #else
 #include "arm/arch.h"
 #endif 
 #endif // __arm__
-
+//NEON:技术可加速多媒体和信号处理算法（如视频编码/解码、2D/3D 图形、游戏、音频和语音处理、图像处理技术、电话和声音合成）
 // Matrices are assumed to be stored in column major format according to OpenGL
 // specification.
 
