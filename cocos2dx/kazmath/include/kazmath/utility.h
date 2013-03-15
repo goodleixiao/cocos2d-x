@@ -48,7 +48,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef KM_TRUE
 #define KM_TRUE 1
 #endif
-
+ 
 #define kmPI 3.141592f
 #define kmPIOver180 0.017453f //  PI / 180
 #define kmPIUnder180 57.295779f // 180 / PI
