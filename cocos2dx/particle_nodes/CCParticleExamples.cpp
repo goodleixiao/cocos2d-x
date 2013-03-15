@@ -33,7 +33,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 //
 // ParticleFire
-//
+// 火
 
 static CCTexture2D* getDefaultTexture()
 {
@@ -162,7 +162,7 @@ bool CCParticleFire::initWithTotalParticles(unsigned int numberOfParticles)
 }
 //
 // ParticleFireworks
-//
+// 烟花
 
 CCParticleFireworks* CCParticleFireworks::create()
 {
@@ -264,7 +264,7 @@ bool CCParticleFireworks::initWithTotalParticles(unsigned int numberOfParticles)
 }
 //
 // ParticleSun
-//
+// 太阳
 CCParticleSun* CCParticleSun::create()
 {
     CCParticleSun* pRet = new CCParticleSun();
@@ -370,7 +370,7 @@ bool CCParticleSun::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // ParticleGalaxy
-//
+// 星系
 
 CCParticleGalaxy* CCParticleGalaxy::create()
 {
@@ -479,7 +479,7 @@ bool CCParticleGalaxy::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // ParticleFlower
-//
+// 花朵
 
 CCParticleFlower* CCParticleFlower::create()
 {
@@ -587,7 +587,7 @@ bool CCParticleFlower::initWithTotalParticles(unsigned int numberOfParticles)
 }
 //
 // ParticleMeteor
-//
+// 流星
 
 CCParticleMeteor * CCParticleMeteor::create()
 {
@@ -696,7 +696,7 @@ bool CCParticleMeteor::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // ParticleSpiral
-//
+// 螺旋
 
 CCParticleSpiral* CCParticleSpiral::create()
 {
@@ -805,7 +805,7 @@ bool CCParticleSpiral::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // ParticleExplosion
-//
+// 爆炸
 
 CCParticleExplosion* CCParticleExplosion::create()
 {
@@ -913,7 +913,7 @@ bool CCParticleExplosion::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // ParticleSmoke
-//
+// 烟
 
 CCParticleSmoke* CCParticleSmoke::create()
 {
@@ -1018,7 +1018,7 @@ bool CCParticleSmoke::initWithTotalParticles(unsigned int numberOfParticles)
 
 //
 // CCParticleSnow
-//
+// 雪花
 
 CCParticleSnow* CCParticleSnow::create()
 {
@@ -1126,7 +1126,7 @@ bool CCParticleSnow::initWithTotalParticles(unsigned int numberOfParticles)
 }
 //
 // CCParticleRain
-//
+// 雨
 
 CCParticleRain* CCParticleRain::create()
 {
