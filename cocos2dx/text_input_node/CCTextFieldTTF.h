@@ -34,7 +34,7 @@ NS_CC_BEGIN
 class CCTextFieldTTF;
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
@@ -44,6 +44,7 @@ public:
     /**
     @brief    If the sender doesn't want to attach to the IME, return true;
     */
+    // 若发送者不想连接到ime，就返回true
     virtual bool onTextFieldAttachWithIME(CCTextFieldTTF * sender)
     { 
         CC_UNUSED_PARAM(sender);
@@ -53,6 +54,7 @@ public:
     /**
     @brief    If the sender doesn't want to detach from the IME, return true;
     */
+    // 若发送者不想连接到ime，就返回true
     virtual bool onTextFieldDetachWithIME(CCTextFieldTTF * sender)
     {
         CC_UNUSED_PARAM(sender);
@@ -62,6 +64,7 @@ public:
     /**
     @brief    If the sender doesn't want to insert the text, return true;
     */
+    // 若发送者不想插入文本，就返回true
     virtual bool onTextFieldInsertText(CCTextFieldTTF * sender, const char * text, int nLen)
     {
         CC_UNUSED_PARAM(sender);
@@ -73,6 +76,7 @@ public:
     /**
     @brief    If the sender doesn't want to delete the delText, return true;
     */
+    // 若发送者不想删除文本，就返回true
     virtual bool onTextFieldDeleteBackward(CCTextFieldTTF * sender, const char * delText, int nLen)
     {
         CC_UNUSED_PARAM(sender);
@@ -84,6 +88,7 @@ public:
     /**
     @brief    If the sender doesn't want to draw, return true.
     */
+    // 若发送者不想绘制，就返回true
     virtual bool onDraw(CCTextFieldTTF * sender)
     {
         CC_UNUSED_PARAM(sender);
@@ -94,6 +99,7 @@ public:
 /**
 @brief    A simple text input field with TTF font.
 */
+// 用TTF字体输入文本
 class CC_DLL CCTextFieldTTF : public CCLabelTTF, public CCIMEDelegate
 {
 public:
@@ -103,26 +109,32 @@ public:
     //char * description();
 
     /** creates a CCTextFieldTTF from a fontname, alignment, dimension and font size */
+    // 创建一个文本输入框，使用字体名称，对齐方式，字距，字体大小为参数
     static CCTextFieldTTF * textFieldWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize);
     /** creates a CCLabelTTF from a fontname and font size */
+    // 创建文本输入框，使用字体名称，大小为参数
     static CCTextFieldTTF * textFieldWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
     /** initializes the CCTextFieldTTF with a font name, alignment, dimension and font size */
+    // 初始化输入框，使用字体名称，对齐方式，字距，字体大小
     bool initWithPlaceHolder(const char *placeholder, const CCSize& dimensions, CCTextAlignment alignment, const char *fontName, float fontSize);
     /** initializes the CCTextFieldTTF with a font name and font size */
+    // 初始化文本输入框，使用字体名称，和字体大小
     bool initWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
 
     /**
     @brief    Open keyboard and receive input text.
     */
+    // 打开键盘接收输入文本
     virtual bool attachWithIME();
 
     /**
     @brief    End text input and close keyboard.
     */
+    // 结束输入，关闭键盘
     virtual bool detachWithIME();
 
     //////////////////////////////////////////////////////////////////////////
-    // properties
+    // properties   属性
     //////////////////////////////////////////////////////////////////////////
     
     CC_SYNTHESIZE(CCTextFieldDelegate *, m_pDelegate, Delegate);
@@ -131,6 +143,7 @@ public:
     virtual void setColorSpaceHolder(const ccColor3B& color);
 
     // input text property
+    // 输入文本属性
 public:
     virtual void setString(const char *text);
     virtual const char* getString(void);
@@ -139,6 +152,7 @@ protected:
 
     // place holder text property
     // place holder text displayed when there is no text in the text field.
+    // 占位符文本属性
 public:
     virtual void setPlaceHolder(const char * text);
     virtual const char * getPlaceHolder(void);
@@ -150,7 +164,7 @@ protected:
     virtual void draw();
 
     //////////////////////////////////////////////////////////////////////////
-    // CCIMEDelegate interface
+    // CCIMEDelegate interface  接口
     //////////////////////////////////////////////////////////////////////////
 
     virtual bool canAttachWithIME();
