@@ -45,6 +45,7 @@ NS_CC_BEGIN
 /*
 * creation with CCTexture2D
 */
+// 用纹理创建
 
 CCSpriteBatchNode* CCSpriteBatchNode::createWithTexture(CCTexture2D* tex, unsigned int capacity/* = kDefaultSpriteBatchCapacity*/)
 {
@@ -58,7 +59,7 @@ CCSpriteBatchNode* CCSpriteBatchNode::createWithTexture(CCTexture2D* tex, unsign
 /*
 * creation with File Image
 */
-
+// 图片文件创建
 CCSpriteBatchNode* CCSpriteBatchNode::create(const char *fileImage, unsigned int capacity/* = kDefaultSpriteBatchCapacity*/)
 {
     CCSpriteBatchNode *batchNode = new CCSpriteBatchNode();
@@ -71,6 +72,7 @@ CCSpriteBatchNode* CCSpriteBatchNode::create(const char *fileImage, unsigned int
 /*
 * init with CCTexture2D
 */
+// 初始化方法，用纹理
 bool CCSpriteBatchNode::initWithTexture(CCTexture2D *tex, unsigned int capacity)
 {
     m_blendFunc.src = CC_BLEND_SRC;
@@ -107,6 +109,7 @@ bool CCSpriteBatchNode::init()
 /*
 * init with FileImage
 */
+// 图片文件初始化
 bool CCSpriteBatchNode::initWithFile(const char* fileImage, unsigned int capacity)
 {
     CCTexture2D *pTexture2D = CCTextureCache::sharedTextureCache()->addImage(fileImage);
@@ -121,6 +124,7 @@ CCSpriteBatchNode::~CCSpriteBatchNode()
 
 // override visit
 // don't call visit on it's children
+// 重载访问
 void CCSpriteBatchNode::visit(void)
 {
     CC_PROFILER_START_CATEGORY(kCCProfilerCategoryBatchSprite, "CCSpriteBatchNode - visit");
@@ -186,6 +190,7 @@ void CCSpriteBatchNode::addChild(CCNode *child, int zOrder)
 }
 
 // override reorderChild
+// 重载排序
 void CCSpriteBatchNode::reorderChild(CCNode *child, int zOrder)
 {
     CCAssert(child != NULL, "the child should not be null");
@@ -201,6 +206,7 @@ void CCSpriteBatchNode::reorderChild(CCNode *child, int zOrder)
 }
 
 // override remove child
+// 移除子对象
 void CCSpriteBatchNode::removeChild(CCNode *child, bool cleanup)
 {
     CCSprite *pSprite = (CCSprite*)(child);
@@ -237,6 +243,7 @@ void CCSpriteBatchNode::removeAllChildrenWithCleanup(bool bCleanup)
 }
 
 //override sortAllChildren
+// 所有字对象排序
 void CCSpriteBatchNode::sortAllChildren()
 {
     if (m_bReorderChildDirty)
@@ -379,6 +386,7 @@ void CCSpriteBatchNode::reorderBatch(bool reorder)
 }
 
 // draw
+// 绘制
 void CCSpriteBatchNode::draw(void)
 {
     CC_PROFILER_START("CCSpriteBatchNode - draw");
@@ -548,6 +556,7 @@ unsigned int CCSpriteBatchNode::atlasIndexForChild(CCSprite *pobSprite, int nZ)
 }
 
 // add child helper
+// 增加方法
 
 void CCSpriteBatchNode::insertChild(CCSprite *pSprite, unsigned int uIndex)
 {
