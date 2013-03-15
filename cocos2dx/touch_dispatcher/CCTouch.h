@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
@@ -44,18 +44,25 @@ public:
     {}
 
     /** returns the current touch location in OpenGL coordinates */
+    // 返回当前触摸的位置，在opengl坐标系中
     CCPoint getLocation() const;
     /** returns the previous touch location in OpenGL coordinates */
+    // 返回前一次触摸的位置，在opengl坐标系中
     CCPoint getPreviousLocation() const;
     /** returns the start touch location in OpenGL coordinates */
+    // 返回开始触摸的位置，在opengl坐标系中
     CCPoint getStartLocation() const;
     /** returns the delta of 2 current touches locations in screen coordinates */
+    // 返回2个当前触摸位置差，在屏幕坐标系中
     CCPoint getDelta() const;
     /** returns the current touch location in screen coordinates */
+    // 返回当前触摸位置，在屏幕坐标系中
     CCPoint getLocationInView() const;
     /** returns the previous touch location in screen coordinates */
+    // 返回前一次触摸位置，在屏幕坐标系中
     CCPoint getPreviousLocationInView() const;
     /** returns the start touch location in screen coordinates */
+    // 返回开始触摸位置，在屏幕坐标系中
     CCPoint getStartLocationInView() const;
     
     void setTouchInfo(int id, float x, float y)
