@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup shaders
+ * @addtogroup shaders 着色，下面为不同的着色方式
  * @{
  */
 
