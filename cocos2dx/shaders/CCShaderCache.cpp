@@ -85,6 +85,7 @@ bool CCShaderCache::init()
 void CCShaderCache::loadDefaultShaders()
 {
     // Position Texture Color shader
+    // 着色方案
     CCGLProgram *p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionTextureColor);
 
@@ -92,6 +93,7 @@ void CCShaderCache::loadDefaultShaders()
     p->release();
 
     // Position Texture Color alpha test
+    // 阿尔法测试
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionTextureColorAlphaTest);
 
@@ -100,7 +102,7 @@ void CCShaderCache::loadDefaultShaders()
 
     //
     // Position, Color shader
-    //
+    // 位置，颜色
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionColor);
 
@@ -109,7 +111,7 @@ void CCShaderCache::loadDefaultShaders()
 
     //
     // Position Texture shader
-    //
+    // 纹理着色位置
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionTexture);
 
@@ -118,7 +120,7 @@ void CCShaderCache::loadDefaultShaders()
 
     //
     // Position, Texture attribs, 1 Color as uniform shader
-    //
+    // 统一着色
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionTexture_uColor);
 
@@ -127,7 +129,7 @@ void CCShaderCache::loadDefaultShaders()
 
     //
     // Position Texture A8 Color shader
-    //
+    // A8
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionTextureA8Color);
     
@@ -136,7 +138,7 @@ void CCShaderCache::loadDefaultShaders()
 
     //
     // Position and 1 color passed as a uniform (to simulate glColor4ub )
-    //
+    // 模拟glColor4ub()
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_Position_uColor);
     
@@ -145,7 +147,7 @@ void CCShaderCache::loadDefaultShaders()
     
     //
 	// Position, Legth(TexCoords, Color (used by Draw Node basically )
-	//
+	// 绘制基本节点
     p = new CCGLProgram();
     loadDefaultShader(p, kCCShaderType_PositionLengthTexureColor);
     
@@ -156,55 +158,58 @@ void CCShaderCache::loadDefaultShaders()
 void CCShaderCache::reloadDefaultShaders()
 {
     // reset all programs and reload them
+    // 重置所有方案和重载他们
     
     // Position Texture Color shader
+    // 着色
     CCGLProgram *p = programForKey(kCCShader_PositionTextureColor);    
     p->reset();
     loadDefaultShader(p, kCCShaderType_PositionTextureColor);
 
     // Position Texture Color alpha test
+    // 阿尔法测试
     p = programForKey(kCCShader_PositionTextureColorAlphaTest);
     p->reset();    
     loadDefaultShader(p, kCCShaderType_PositionTextureColorAlphaTest);
     
     //
     // Position, Color shader
-    //
+    // 位置，颜色
     p = programForKey(kCCShader_PositionColor);
     p->reset();
     loadDefaultShader(p, kCCShaderType_PositionColor);
     
     //
     // Position Texture shader
-    //
+    // 位置
     p = programForKey(kCCShader_PositionTexture);
     p->reset();
     loadDefaultShader(p, kCCShaderType_PositionTexture);
     
     //
     // Position, Texture attribs, 1 Color as uniform shader
-    //
+    // 统一位置，纹理属性
     p = programForKey(kCCShader_PositionTexture_uColor);
     p->reset();
     loadDefaultShader(p, kCCShaderType_PositionTexture_uColor);
     
     //
     // Position Texture A8 Color shader
-    //
+    // a8着色
     p = programForKey(kCCShader_PositionTextureA8Color);
     p->reset();
     loadDefaultShader(p, kCCShaderType_PositionTextureA8Color);
     
     //
     // Position and 1 color passed as a uniform (to simulate glColor4ub )
-    //
+    // 模拟glColor4ub
     p = programForKey(kCCShader_Position_uColor);
     p->reset();
     loadDefaultShader(p, kCCShaderType_Position_uColor);
     
     //
 	// Position, Legth(TexCoords, Color (used by Draw Node basically )
-	//
+	// 绘制基本节点，位置，长度
     p = programForKey(kCCShader_PositionLengthTexureColor);
     p->reset();
     loadDefaultShader(p, kCCShaderType_Position_uColor);
@@ -212,6 +217,7 @@ void CCShaderCache::reloadDefaultShaders()
 
 void CCShaderCache::loadDefaultShader(CCGLProgram *p, int type)
 {
+	// 不同类型载体不同默认着色方案
     switch (type) {
         case kCCShaderType_PositionTextureColor:
             p->initWithVertexShaderByteArray(ccPositionTextureColor_vert, ccPositionTextureColor_frag);
