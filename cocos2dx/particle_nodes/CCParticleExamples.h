@@ -31,11 +31,12 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup particle_nodes
+ * @addtogroup particle_nodes       粒子节点
  * @{
  */
 
 //! @brief A fire particle system
+//! 火粒子系统
 class CC_DLL CCParticleFire : public CCParticleSystemQuad
 {
 public:
@@ -49,6 +50,7 @@ public:
 };
 
 //! @brief A fireworks particle system
+//! 烟花粒子系统
 class CC_DLL CCParticleFireworks : public CCParticleSystemQuad
 {
 public:
@@ -62,6 +64,7 @@ public:
 };
 
 //! @brief A sun particle system
+//! 太阳光粒子系统
 class CC_DLL CCParticleSun : public CCParticleSystemQuad
 {
 public:
@@ -75,6 +78,7 @@ public:
 };
 
 //! @brief A galaxy particle system
+//! 星系粒子系统
 class CC_DLL CCParticleGalaxy : public CCParticleSystemQuad
 {
 public:
@@ -88,6 +92,7 @@ public:
 };
 
 //! @brief A flower particle system
+//! 花朵粒子系统
 class CC_DLL CCParticleFlower : public CCParticleSystemQuad
 {
 public:
@@ -101,6 +106,7 @@ public:
 };
 
 //! @brief A meteor particle system
+//! 流星粒子系统
 class CC_DLL CCParticleMeteor : public CCParticleSystemQuad
 {
 public:
@@ -114,6 +120,7 @@ public:
 };
 
 //! @brief An spiral particle system
+//! 螺旋粒子系统
 class CC_DLL CCParticleSpiral : public CCParticleSystemQuad
 {
 public:
@@ -127,6 +134,7 @@ public:
 };
 
 //! @brief An explosion particle system
+//! 爆炸粒子系统
 class CC_DLL CCParticleExplosion : public CCParticleSystemQuad
 {
 public:
@@ -140,6 +148,7 @@ public:
 };
 
 //! @brief An smoke particle system
+//! 烟粒子系统
 class CC_DLL CCParticleSmoke : public CCParticleSystemQuad
 {
 public:
@@ -153,6 +162,7 @@ public:
 };
 
 //! @brief An snow particle system
+//! 雪花粒子系统
 class CC_DLL CCParticleSnow : public CCParticleSystemQuad
 {
 public:
@@ -166,6 +176,7 @@ public:
 };
 
 //! @brief A rain particle system
+//! 下雨粒子系统
 class CC_DLL CCParticleRain : public CCParticleSystemQuad
 {
 public:
