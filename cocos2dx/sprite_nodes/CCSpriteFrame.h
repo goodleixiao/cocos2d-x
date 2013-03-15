@@ -38,7 +38,7 @@ class CCTexture2D;
 class CCZone;
 
 /**
- * @addtogroup sprite_nodes
+ * @addtogroup sprite_nodes 精灵节点
  * @{
  */
 
@@ -52,11 +52,16 @@ class CCZone;
     CCSpriteFrame *frame = CCSpriteFrame::frameWithTexture(texture, rect, offset);
     sprite->setDisplayFrame(frame);
  */
+/** 精灵帧：纹理，矩形
+ * 可以修改帧如下
+ CCSpriteFrame *frame = CCSpriteFrame::frameWithTexture(texture, rect, offset);
+ sprite->setDisplayFrame(frame);
+ */
 class CC_DLL CCSpriteFrame : public CCObject
 {
 public:
     // attributes
-
+    //属性
     inline const CCRect& getRectInPixels(void) { return m_obRectInPixels; }
     void setRectInPixels(const CCRect& rectInPixels);
 
@@ -64,28 +69,38 @@ public:
     inline void setRotated(bool bRotated) { m_bRotated = bRotated; }
 
     /** get rect of the frame */
+    // 获取帧矩形
     inline const CCRect& getRect(void) { return m_obRect; }
     /** set rect of the frame */
+    // 设置帧矩形
     void setRect(const CCRect& rect);
 
     /** get offset of the frame */
+    // 获取偏移量
     const CCPoint& getOffsetInPixels(void);
     /** set offset of the frame */
+    // 设置偏移量
     void setOffsetInPixels(const CCPoint& offsetInPixels);
 
     /** get original size of the trimmed image */
+    // 获取修剪图片大小
     inline const CCSize& getOriginalSizeInPixels(void) { return m_obOriginalSizeInPixels; }
     /** set original size of the trimmed image */
+    // 设置修改图片大小
     inline void setOriginalSizeInPixels(const CCSize& sizeInPixels) { m_obOriginalSizeInPixels = sizeInPixels; }
 
     /** get original size of the trimmed image */
+    // 获取修剪图片大小
     inline const CCSize& getOriginalSize(void) { return m_obOriginalSize; }
     /** set original size of the trimmed image */
+    // 设置修改图片大小
     inline void setOriginalSize(const CCSize& sizeInPixels) { m_obOriginalSize = sizeInPixels; }
 
     /** get texture of the frame */
+    // 获取纹理
     CCTexture2D* getTexture(void);
     /** set texture of the frame, the texture is retained */
+    // 设置纹理
     void setTexture(CCTexture2D* pobTexture);
 
     const CCPoint& getOffset(void);
@@ -98,37 +113,44 @@ public:
     /** Create a CCSpriteFrame with a texture filename, rect in points.
      It is assumed that the frame was not trimmed.
      */
+    // 创建帧，使用纹理名称，矩形以点为单位
     static CCSpriteFrame* create(const char* filename, const CCRect& rect);
     
     /** Create a CCSpriteFrame with a texture filename, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
      */
+    // 创建帧，使用纹理名称，大小，旋转，偏移量，原大小以像素为单位； 原大小为，为修剪的帧
     static CCSpriteFrame* create(const char* filename, const CCRect& rect, bool rotated, const CCPoint& offset, const CCSize& originalSize);
     
     /** Create a CCSpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      */
+    // 创建帧，使用纹理，大小为参数
     static CCSpriteFrame* createWithTexture(CCTexture2D* pobTexture, const CCRect& rect);
 
     /** Create a CCSpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
      */
+    // 创建帧，使用纹理，大小，旋转，原大小以像素为单位
     static CCSpriteFrame* createWithTexture(CCTexture2D* pobTexture, const CCRect& rect, bool rotated, const CCPoint& offset, const CCSize& originalSize);
 
 public:
     /** Initializes a CCSpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      */
+    // 初始化帧，使用纹理，大小为参数
     bool initWithTexture(CCTexture2D* pobTexture, const CCRect& rect);
 
     /** Initializes a CCSpriteFrame with a texture filename, rect in points;
      It is assumed that the frame was not trimmed.
      */
+    // 初始化帧，使用纹理名称，大小为参数
     bool initWithTextureFilename(const char* filename, const CCRect& rect);
 
     /** Initializes a CCSpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
     The originalSize is the size in points of the frame before being trimmed.
     */
+    // 初始化帧，使用纹理，大小，旋转，偏移量，原大小为参数
     bool initWithTexture(CCTexture2D* pobTexture, const CCRect& rect, bool rotated, const CCPoint& offset, const CCSize& originalSize);
 
     /** Initializes a CCSpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
@@ -136,6 +158,7 @@ public:
 
      @since v1.1
      */
+    // 初始化帧，使用文件名称，大小，旋转，偏移量，原大小为参数
     bool initWithTextureFilename(const char* filename, const CCRect& rect, bool rotated, const CCPoint& offset, const CCSize& originalSize);
 
 
