@@ -32,7 +32,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup scene
+ * @addtogroup scene    场景
  * @{
  */
 
@@ -46,6 +46,11 @@ additional logic.
 
 It is a good practice to use and CCScene as the parent of all your nodes.
 */
+/** 场景是节点的子类，仅仅作为抽象概念
+ * 场景具有默认锚点为场景的中心点
+ * 没有其他逻辑，可以附加逻辑
+ * 使用场景作为所有节点的父类
+ */
 class CC_DLL CCScene : public CCNode
 {
 public:
