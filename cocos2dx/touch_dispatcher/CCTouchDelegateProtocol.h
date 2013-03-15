@@ -37,7 +37,7 @@ class CCSet;
 class CCTouchDispatcher;
 
 /**
- * @addtogroup input
+ * @addtogroup input        输入
  * @{
  */
 
@@ -52,13 +52,13 @@ public:
     }
 
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent); return false;};
-    // optional
-
+    // optional 可选
+    
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
 
-    // optional
+    // optional 可选
      virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
@@ -79,15 +79,23 @@ public:
  handler, without bothering the other handlers.)
  @since v0.8
  */
+ /**
+  * 使用该协议的好处：
+  * 1，不用处理集合。调度者完成这项任务。可以准确到每次触摸调用
+  * 2，可以要求在触摸开始时返回yes. 分配委托给触摸；
+  * 
+  * 关系到目标，指定处理的目标
+  */
  class CC_DLL CCTargetedTouchDelegate : public CCTouchDelegate
  {
  public:
      /** Return YES to claim the touch.
       @since v0
      */
+     // 返回 yes, 触摸
      virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) { CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);return false;};
  
-     // optional
+     // optional 可选
      virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
@@ -97,10 +105,11 @@ public:
  This type of delegate is the same one used by CocoaTouch. You will receive all the events (Began,Moved,Ended,Canceled).
  @since v0.8
  */
+// 接收所有事件
  class CC_DLL CCStandardTouchDelegate : public CCTouchDelegate
  {
  public:
-     // optional
+     // optional 可选
      virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
      virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent) {CC_UNUSED_PARAM(pTouches); CC_UNUSED_PARAM(pEvent);}
