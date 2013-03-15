@@ -104,6 +104,7 @@ bool CCClippingNode::init(CCNode *pStencil)
     m_fAlphaThreshold = 1;
     m_bInverted = false;
     // get (only once) the number of bits of the stencil buffer
+    // 获取模板缓存字节数
     static bool once = true;
     if (once)
     {
@@ -145,9 +146,11 @@ void CCClippingNode::onExit()
 void CCClippingNode::visit()
 {
     // if stencil buffer disabled
+    // 若模板缓存禁用
     if (g_sStencilBits < 1)
     {
         // draw everything, as if there where no stencil
+        // 若没有模板可以绘制任何东西
         CCNode::visit();
         return;
     }
@@ -155,11 +158,13 @@ void CCClippingNode::visit()
     // return fast (draw nothing, or draw everything if in inverted mode) if:
     // - nil stencil node
     // - or stencil node invisible:
+    // 模板节点为nil,或模板不可见时，快速返回
     if (!m_pStencil || !m_pStencil->isVisible())
     {
         if (m_bInverted)
         {
             // draw everything
+            // 绘制任何东西
             CCNode::visit();
         }
         return;
