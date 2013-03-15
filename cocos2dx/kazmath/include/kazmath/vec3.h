@@ -43,7 +43,7 @@ typedef struct kmVec3 {
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif 
 
 CC_DLL kmVec3* kmVec3Fill(kmVec3* pOut, kmScalar x, kmScalar y, kmScalar z);
 CC_DLL kmScalar kmVec3Length(const kmVec3* pIn); /** Returns the length of the vector */
