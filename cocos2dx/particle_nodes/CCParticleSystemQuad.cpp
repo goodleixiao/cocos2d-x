@@ -45,12 +45,15 @@ NS_CC_BEGIN
 
 //implementation CCParticleSystemQuad
 // overriding the init method
+// 重载初始化方法
 bool CCParticleSystemQuad::initWithTotalParticles(unsigned int numberOfParticles)
 {
     // base initialization
+    // 基类初始化方法
     if( CCParticleSystem::initWithTotalParticles(numberOfParticles) ) 
     {
         // allocating data space
+        // 分配数据空间
         if( ! this->allocMemory() ) {
             this->release();
             return false;
@@ -132,6 +135,7 @@ CCParticleSystemQuad * CCParticleSystemQuad::createWithTotalParticles(unsigned i
 void CCParticleSystemQuad::initTexCoordsWithRect(const CCRect& pointRect)
 {
     // convert to Tex coords
+    // 转换纹理坐标
 
     CCRect rect = CCRectMake(
         pointRect.origin.x * CC_CONTENT_SCALE_FACTOR(),
