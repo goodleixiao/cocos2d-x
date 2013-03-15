@@ -37,5 +37,5 @@ void main()																													\n\
 // #else																														\n\
 	gl_FragColor = v_color*step(0.0, 1.0 - length(v_texcoord));																\n\
 // #endif																														\n\
-}																															\n\
+}			 																												\n\
 ";
