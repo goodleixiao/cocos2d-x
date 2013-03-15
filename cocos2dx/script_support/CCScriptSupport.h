@@ -79,7 +79,7 @@ protected:
 };
 
 /**
- * @addtogroup script_support
+ * @addtogroup script_support  脚本支持
  * @{
  */
 
@@ -87,6 +87,7 @@ class CCSchedulerScriptHandlerEntry : public CCScriptHandlerEntry
 {
 public:
     // nHandler return by tolua_ref_function(), called from LuaCocos2d.cpp
+    // 使用lua中的tolua_ref_function()方法返回处理
     static CCSchedulerScriptHandlerEntry* create(int nHandler, float fInterval, bool bPaused);
     ~CCSchedulerScriptHandlerEntry(void);
     
@@ -160,18 +161,24 @@ private:
 // Don't make CCScriptEngineProtocol inherits from CCObject since setScriptEngine is invoked only once in AppDelegate.cpp,
 // It will affect the lifecycle of ScriptCore instance, the autorelease pool will be destroyed before destructing ScriptCore.
 // So a crash will appear on Win32 if you click the close button.
+// 不用使用脚本引擎协议继承对象，因为只在Appdelegate.cpp文件中调用一次；
+// 会影响生命周期。
+// 记住不用继承CCObject,就可以了，否则应用呈现会崩溃
 class CC_DLL CCScriptEngineProtocol
 {
 public:
     virtual ~CCScriptEngineProtocol() {};
     
     /** Get script type */
+    // 获取脚本类型
     virtual ccScriptType getScriptType() { return kScriptTypeNone; };
 
     /** Remove script object. */
+    // 移除脚本对象
     virtual void removeScriptObjectByCCObject(CCObject* pObj) = 0;
     
     /** Remove script function handler, only CCLuaEngine class need to implement this function. */
+    // 仅在lua引擎中实现此方法，移除脚本处理程序
     virtual void removeScriptHandler(int nHandler) {};
     
     /**
@@ -180,12 +187,14 @@ public:
      @return 0 if the string is executed correctly.
      @return other if the string is executed wrongly.
      */
+    // 执行脚本代码，给定字符串；参数为有效脚本代码；   正确执行，返回0
     virtual int executeString(const char* codes) = 0;
     
     /**
      @brief Execute a script file.
      @param filename String object holding the filename of the script file that is to be executed
      */
+    // 执行一个脚本文件，参数为文件名
     virtual int executeScriptFile(const char* filename) = 0;
     
     /**
@@ -194,6 +203,7 @@ public:
      @param functionName String object holding the name of the function, in the global script environment, that is to be executed.
      @return The integer value returned from the script function.
      */
+    // 执行一个脚本的全局功能； 返回整数值
     virtual int executeGlobalFunction(const char* functionName) = 0;
     
     /**
@@ -202,30 +212,39 @@ public:
      @param nAction kCCNodeOnEnter,kCCNodeOnExit,kCCMenuItemActivated,kCCNodeOnEnterTransitionDidFinish,kCCNodeOnExitTransitionDidStart
      @return The integer value returned from the script function.
      */
+    // 执行一个节点世界功能，返回整数值
     virtual int executeNodeEvent(CCNode* pNode, int nAction) = 0;
     
     virtual int executeMenuItemEvent(CCMenuItem* pMenuItem) = 0;
     /** Execute a notification event function */
+    // 执行通知实践功能
     virtual int executeNotificationEvent(CCNotificationCenter* pNotificationCenter, const char* pszName) = 0;
     
     /** execute a callfun event */
+    // 执行回调
     virtual int executeCallFuncActionEvent(CCCallFunc* pAction, CCObject* pTarget = NULL) = 0;
     /** execute a schedule function */
+    // 执行调度
     virtual int executeSchedule(int nHandler, float dt, CCNode* pNode = NULL) = 0;
     
     /** functions for executing touch event */
+    // 执行触摸事件
     virtual int executeLayerTouchesEvent(CCLayer* pLayer, int eventType, CCSet *pTouches) = 0;
     virtual int executeLayerTouchEvent(CCLayer* pLayer, int eventType, CCTouch *pTouch) = 0;
 
     /** functions for keypad event */
+    // 执行键盘事件
     virtual int executeLayerKeypadEvent(CCLayer* pLayer, int eventType) = 0;
 
     /** execute a accelerometer event */
+    // 执行加速计事件
     virtual int executeAccelerometerEvent(CCLayer* pLayer, CCAcceleration* pAccelerationValue) = 0;
 
     /** function for common event */
+    // 执行通用事件
     virtual int executeEvent(int nHandler, const char* pEventName, CCObject* pEventSource = NULL, const char* pEventSourceClassName = NULL) = 0;
     /** function for assert test */
+    // 执行调试
     virtual bool executeAssert(bool cond, const char *msg = NULL) = 0;
 };
 
@@ -234,6 +253,7 @@ public:
  It helps cocos2d-x and the user code to find back LuaEngine object
  @since v0.99.5-x-0.8.5
  */
+// 脚本引擎管理是一个单例，实现脚本协议； 帮助用户和cooc2d-x找到lua引擎对象
 class CC_DLL CCScriptEngineManager
 {
 public:
