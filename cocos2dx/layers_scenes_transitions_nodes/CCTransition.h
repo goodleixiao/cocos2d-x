@@ -33,42 +33,49 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup transition
+ * @addtogroup transition	过渡
  * @{
  */
 
 //static creation function macro
 //c/c++ don't support object creation of using class name
 //so, all classes need creation method.
-
+// 静态函数宏，所有类需要创建方法；c/c++不支持使用类名创建对象
 class CCActionInterval;
 class CCNode;
 
 /** @brief CCTransitionEaseScene can ease the actions of the scene protocol.
 @since v0.8.2
 */
+// 缓解动作
 class CC_DLL CCTransitionEaseScene// : public CCObject
 {
 public:
     /** returns the Ease action that will be performed on a linear action.
     @since v0.8.2
     */
+    // 返回缓解动作
     virtual CCActionInterval * easeActionWithAction(CCActionInterval * action) = 0;
 };
 
 /** Orientation Type used by some transitions
 */
+// 过渡使用的方向类型
 typedef enum {
-    /// An horizontal orientation where the Left is nearer
+    	/// An horizontal orientation where the Left is nearer
+    	/// 水平方向的左边
 	kCCTransitionOrientationLeftOver = 0,
 	/// An horizontal orientation where the Right is nearer
+	/// 水平方向的右边
 	kCCTransitionOrientationRightOver = 1,
 	/// A vertical orientation where the Up is nearer
+	/// 垂直方向的上方
 	kCCTransitionOrientationUpOver = 0,
 	/// A vertical orientation where the Bottom is nearer
+	/// 垂直方向的底部
 	kCCTransitionOrientationDownOver = 1,
     
-	// Deprecated
+	// Deprecated	弃用
     //	kOrientationLeftOver = kCCTransitionOrientationLeftOver,
     //	kOrientationRightOver = kCCTransitionOrientationRightOver,
     //	kOrientationUpOver = kCCTransitionOrientationUpOver,
@@ -77,6 +84,7 @@ typedef enum {
 
 /** @brief Base class for CCTransition scenes
 */
+// 过渡场景
 class CC_DLL CCTransitionScene : public CCScene
 {
 
@@ -97,15 +105,19 @@ public:
     virtual void cleanup();
 
     /** creates a base transition with duration and incoming scene */
+    // 创建一个过渡，使用间隔，和输入场景为参数
     static CCTransitionScene * create(float t, CCScene *scene);
 
     /** initializes a transition with duration and incoming scene */
+    // 初始化一个过渡，使用间隔，和输入场景为参数
     virtual bool initWithDuration(float t,CCScene* scene);
 
     /** called after the transition finishes */
+    // 过渡完成时调用
     void finish(void);
 
     /** used by some transitions to hide the outer scene */
+    // 一些过渡隐藏外部创建使用
     void hideOutShowIn(void);
 
 protected:
@@ -118,6 +130,7 @@ private:
 /** @brief A CCTransition that supports orientation like.
 * Possible orientation: LeftOver, RightOver, UpOver, DownOver
 */
+// 过渡支持的方向：可能的方向为左右，上下
 class CC_DLL CCTransitionSceneOriented : public CCTransitionScene
 {
 protected:
@@ -128,15 +141,18 @@ public:
     virtual ~CCTransitionSceneOriented();
 
     /** creates a base transition with duration and incoming scene */
+    // 创建一个过渡，使用间隔和输入场景为惨
     static CCTransitionSceneOriented * create(float t,CCScene* scene, tOrientation orientation);
 
     /** initializes a transition with duration and incoming scene */
+    // 初始化一个过渡，使用间隔，输入场景为参数
     virtual bool initWithDuration(float t,CCScene* scene,tOrientation orientation);
 };
 
 /** @brief CCTransitionRotoZoom:
 Rotate and zoom out the outgoing scene, and then rotate and zoom in the incoming 
 */
+// 缩放过渡
 class CC_DLL CCTransitionRotoZoom : public CCTransitionScene
 {
 public:
@@ -150,6 +166,7 @@ public:
 /** @brief CCTransitionJumpZoom:
 Zoom out and jump the outgoing scene, and then jump and zoom in the incoming 
 */
+// 跳跃
 class CC_DLL CCTransitionJumpZoom : public CCTransitionScene
 {
 public:
@@ -163,14 +180,17 @@ public:
 /** @brief CCTransitionMoveInL:
 Move in from to the left the incoming scene.
 */
+// 从左方移动过渡
 class CC_DLL CCTransitionMoveInL : public CCTransitionScene, public CCTransitionEaseScene
 {
 public:
     CCTransitionMoveInL();
     virtual ~CCTransitionMoveInL();
     /** initializes the scenes */
+    // 初始化场景
     virtual void initScenes(void);
     /** returns the action that will be performed */
+    // 返回间隔动作
     virtual CCActionInterval* action(void);
 
     virtual CCActionInterval* easeActionWithAction(CCActionInterval * action);
@@ -183,6 +203,7 @@ public:
 /** @brief CCTransitionMoveInR:
 Move in from to the right the incoming scene.
 */
+// 从右方移动过渡
 class CC_DLL CCTransitionMoveInR : public CCTransitionMoveInL
 {
 public:
@@ -196,6 +217,7 @@ public:
 /** @brief CCTransitionMoveInT:
 Move in from to the top the incoming scene.
 */
+// 从上方移动过渡
 class CC_DLL CCTransitionMoveInT : public CCTransitionMoveInL 
 {
 public:
@@ -209,6 +231,7 @@ public:
 /** @brief CCTransitionMoveInB:
 Move in from to the bottom the incoming scene.
 */
+// 从底部移动过渡
 class CC_DLL CCTransitionMoveInB : public CCTransitionMoveInL
 {
 public:
@@ -222,6 +245,7 @@ public:
 /** @brief CCTransitionSlideInL:
 Slide in the incoming scene from the left border.
 */
+// 从左方滑动过渡
 class CC_DLL CCTransitionSlideInL : public CCTransitionScene, public CCTransitionEaseScene
 {
 public:
@@ -229,8 +253,10 @@ public:
     virtual ~CCTransitionSlideInL();
 
     /** initializes the scenes */
+    // 初始化场景
     virtual void initScenes(void);
     /** returns the action that will be performed by the incoming and outgoing scene */
+    // 返回间隔动作
     virtual CCActionInterval* action(void);
 
     virtual void onEnter();
@@ -245,6 +271,7 @@ protected:
 /** @brief CCTransitionSlideInR:
 Slide in the incoming scene from the right border.
 */
+// 从右方滑动过渡
 class CC_DLL CCTransitionSlideInR : public CCTransitionSlideInL 
 {
 public:
@@ -252,8 +279,10 @@ public:
     virtual ~CCTransitionSlideInR();
 
     /** initializes the scenes */
+    // 初始化场景
     virtual void initScenes(void);
     /** returns the action that will be performed by the incoming and outgoing scene */
+    // 返回间隔动作
     virtual CCActionInterval* action(void);
 
     static CCTransitionSlideInR* create(float t, CCScene* scene);
@@ -264,6 +293,7 @@ protected:
 /** @brief CCTransitionSlideInB:
 Slide in the incoming scene from the bottom border.
 */
+// 从底部滑动过渡
 class CC_DLL CCTransitionSlideInB : public CCTransitionSlideInL
 {
 public:
@@ -271,8 +301,10 @@ public:
     virtual ~CCTransitionSlideInB();
 
     /** initializes the scenes */
+    // 初始化场景
     virtual void initScenes(void);
     /** returns the action that will be performed by the incoming and outgoing scene */
+    // 返回间隔动作
     virtual CCActionInterval* action(void);
 
     static CCTransitionSlideInB* create(float t, CCScene* scene);
@@ -283,6 +315,7 @@ protected:
 /** @brief CCTransitionSlideInT:
 Slide in the incoming scene from the top border.
 */
+// 从上方滑动过渡
 class CC_DLL CCTransitionSlideInT : public CCTransitionSlideInL
 {
 public:
@@ -290,8 +323,10 @@ public:
     virtual ~CCTransitionSlideInT();
 
     /** initializes the scenes */
+    // 初始化场景
     virtual void initScenes(void);
     /** returns the action that will be performed by the incoming and outgoing scene */
+    // 返回间隔动作
     virtual CCActionInterval* action(void);
 
     static CCTransitionSlideInT* create(float t, CCScene* scene);
@@ -302,6 +337,7 @@ protected:
 /**
 @brief Shrink the outgoing scene while grow the incoming scene
 */
+// 收缩外部，增长内部过渡
 class CC_DLL CCTransitionShrinkGrow : public CCTransitionScene , public CCTransitionEaseScene
 {
 public:
@@ -318,6 +354,7 @@ public:
 Flips the screen horizontally.
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// x轴翻滚过渡
 class CC_DLL CCTransitionFlipX : public CCTransitionSceneOriented
 {
 public:
@@ -334,6 +371,7 @@ public:
 Flips the screen vertically.
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// y轴翻动过渡
 class CC_DLL CCTransitionFlipY : public CCTransitionSceneOriented
 {
 public:
@@ -350,6 +388,7 @@ public:
 Flips the screen half horizontally and half vertically.
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// 角度翻动过渡
 class CC_DLL CCTransitionFlipAngular : public CCTransitionSceneOriented
 {
 public:
@@ -366,6 +405,7 @@ public:
 Flips the screen horizontally doing a zoom out/in
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// 翻动x轴加放大过渡
 class CC_DLL CCTransitionZoomFlipX : public CCTransitionSceneOriented
 {
 public:
@@ -382,6 +422,7 @@ public:
 Flips the screen vertically doing a little zooming out/in
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// 翻动y轴加放大过渡
 class CC_DLL CCTransitionZoomFlipY : public CCTransitionSceneOriented
 {
 public:
@@ -398,6 +439,7 @@ public:
 Flips the screen half horizontally and half vertically doing a little zooming out/in.
 The front face is the outgoing scene and the back face is the incoming scene.
 */
+// 翻动角度加放大过渡
 class CC_DLL CCTransitionZoomFlipAngular : public CCTransitionSceneOriented
 {
 public:
@@ -413,6 +455,7 @@ public:
 /** @brief CCTransitionFade:
 Fade out the outgoing scene and then fade in the incoming scene.'''
 */
+// 淡入淡出过渡
 class CC_DLL CCTransitionFade : public CCTransitionScene
 {
 protected:
@@ -426,10 +469,12 @@ public:
     /** creates the transition with a duration and with an RGB color
     * Example: FadeTransition::create(2, scene, ccc3(255,0,0); // red color
     */
+    // 创建一个过渡，使用间隔，颜色为参数
     static CCTransitionFade* create(float duration,CCScene* scene, const ccColor3B& color);
     static CCTransitionFade* create(float duration,CCScene* scene);
 
     /** initializes the transition with a duration and with an RGB color */
+    // 初始化过渡，使用间隔，颜色为参数
     virtual bool initWithDuration(float t, CCScene*scene ,const ccColor3B& color);
 
     virtual bool initWithDuration(float t,CCScene* scene); 
@@ -442,6 +487,7 @@ class CCRenderTexture;
 @brief CCTransitionCrossFade:
 Cross fades two scenes using the CCRenderTexture object.
 */
+// 交叉淡出过渡
 class CC_DLL CCTransitionCrossFade : public CCTransitionScene
 {
 public :
@@ -459,6 +505,7 @@ public:
 /** @brief CCTransitionTurnOffTiles:
 Turn off the tiles of the outgoing scene in random order
 */
+// 瓦片过渡
 class CC_DLL CCTransitionTurnOffTiles : public CCTransitionScene ,public CCTransitionEaseScene
 {
 public :
@@ -477,6 +524,7 @@ protected:
 /** @brief CCTransitionSplitCols:
 The odd columns goes upwards while the even columns goes downwards.
 */
+// 拆分列过渡
 class CC_DLL CCTransitionSplitCols : public CCTransitionScene , public CCTransitionEaseScene
 {
 public:
@@ -495,6 +543,7 @@ public:
 /** @brief CCTransitionSplitRows:
 The odd rows goes to the left while the even rows goes to the right.
 */
+// 拆分行过渡
 class CC_DLL CCTransitionSplitRows : public CCTransitionSplitCols
 {
 public:
@@ -509,8 +558,9 @@ public:
 };
 
 /** @brief CCTransitionFadeTR:
-Fade the tiles of the outgoing scene from the left-bottom corner the to top-right corner.
+ * Fade the tiles of the outgoing scene from the top-right corner to the bottom-left corner.
 */
+// 从左下角淡出过渡
 class CC_DLL CCTransitionFadeTR : public CCTransitionScene , public CCTransitionEaseScene
 {
 public:
@@ -528,8 +578,9 @@ protected:
 };
 
 /** @brief CCTransitionFadeBL:
-Fade the tiles of the outgoing scene from the top-right corner to the bottom-left corner.
+Fade the tiles of the outgoing scene from the left-bottom corner the to top-right corner.
 */
+// 从右下角淡出过渡
 class CC_DLL CCTransitionFadeBL : public CCTransitionFadeTR
 {
 public:
@@ -545,6 +596,7 @@ public:
 /** @brief CCTransitionFadeUp:
 * Fade the tiles of the outgoing scene from the bottom to the top.
 */
+// 从上方淡出过渡
 class CC_DLL CCTransitionFadeUp : public CCTransitionFadeTR
 {
 public:
@@ -560,6 +612,7 @@ public:
 /** @brief CCTransitionFadeDown:
 * Fade the tiles of the outgoing scene from the top to the bottom.
 */
+// 从下方淡出过渡
 class CC_DLL CCTransitionFadeDown : public CCTransitionFadeTR
 {
 public:
