@@ -29,8 +29,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../mat4.h"
 
 typedef struct km_mat4_stack {
-    int capacity; //The total item capacity
-    int item_count; //The number of items
+    int capacity; //The total item capacity  总容量
+    int item_count; //The number of items    条目个数
     kmMat4* top;
     kmMat4* stack;
 } km_mat4_stack;
