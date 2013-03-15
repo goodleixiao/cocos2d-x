@@ -33,13 +33,14 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup shaders
+ * @addtogroup shaders  着色
  * @{
  */
 
 class CCGLProgram;
 
 /** vertex attrib flags */
+// 顶点属性标示
 enum {
     kCCVertexAttribFlag_None        = 0,
 
@@ -51,6 +52,7 @@ enum {
 };
 
 /** GL server side states */
+// gl服务端状态
 typedef enum {
 //    CC_GL_SCISSOR_TEST = 1 << 0,
 //    CC_GL_STENCIL_TEST = 1 << 1,
@@ -71,35 +73,41 @@ typedef enum {
  If CC_ENABLE_GL_STATE_CACHE it will reset the GL state cache.
  @since v2.0.0
  */
+// 若CC_ENABLE_GL_STATE_CACHE启用，则会重置gl状态缓存
 void CC_DLL ccGLInvalidateStateCache(void);
 
 /** Uses the GL program in case program is different than the current one.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will the glUseProgram() directly.
  @since v2.0.0
  */
+// 使用gl程序，不同于当前的；若CC_ENABLE_GL_STATE_CACHE是禁用的，直接使用glUseProgram()
 void CC_DLL ccGLUseProgram(GLuint program);
 
 /** Deletes the GL program. If it is the one that is being used, it invalidates it.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will the glDeleteProgram() directly.
  @since v2.0.0
  */
+// 删除方案。正在使用的；若CC_ENABLE_GL_STATE_CACHE禁用，可以直接调用glDeleteProgram()
 void CC_DLL ccGLDeleteProgram(GLuint program);
 
 /** Uses a blending function in case it not already used.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will the glBlendFunc() directly.
  @since v2.0.0
  */
+// 使用混合功能；若CC_ENABLE_GL_STATE_CACHE禁用，可以直接使用glBlendFunc()
 void CC_DLL ccGLBlendFunc(GLenum sfactor, GLenum dfactor);
 
 /** Resets the blending mode back to the cached state in case you used glBlendFuncSeparate() or glBlendEquation().
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will just set the default blending mode using GL_FUNC_ADD.
  @since v2.0.0
  */
+// 重置混合模式；若CC_ENABLE_GL_STATE_CACHE禁用可以直接使用GL_FUNC_ADD模式
 void CC_DLL ccGLBlendResetToCache(void);
 
 /** sets the projection matrix as dirty
  @since v2.0.0
  */
+// 设置投影矩阵
 void CC_DLL ccSetProjectionMatrixDirty(void);
 
 /** Will enable the vertex attribs that are passed as flags.
@@ -113,12 +121,14 @@ void CC_DLL ccSetProjectionMatrixDirty(void);
 
  @since v2.0.0
  */
+// 启用顶点属性，通过传递标示
 void CC_DLL ccGLEnableVertexAttribs(unsigned int flags);
 
 /** If the texture is not already bound to texture unit 0, it binds it.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindTexture() directly.
  @since v2.0.0
  */
+// 绑定纹理；若CC_ENABLE_GL_STATE_CACHE禁用，可以直接使用glBindTexture()
 void CC_DLL ccGLBindTexture2D(GLuint textureId);
 
 
@@ -126,30 +136,35 @@ void CC_DLL ccGLBindTexture2D(GLuint textureId);
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindTexture() directly.
  @since v2.1.0
  */
+// 绑定纹理；若CC_ENABLE_GL_STATE_CACHE禁用，可以直接使用glBindTexture()
 void CC_DLL ccGLBindTexture2DN(GLuint textureUnit, GLuint textureId);
 
 /** It will delete a given texture. If the texture was bound, it will invalidate the cached.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glDeleteTextures() directly.
  @since v2.0.0
  */
+// 删除给定纹理；若CC_ENABLE_GL_STATE_CACHE禁用，则直接调用glDeleteTextures()
 void CC_DLL ccGLDeleteTexture(GLuint textureId);
 
 /** It will delete a given texture. If the texture was bound, it will invalidate the cached for the given texture unit.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glDeleteTextures() directly.
  @since v2.1.0
  */
+// 删除给定纹理；若CC_ENABLE_GL_STATE_CACHE禁用，则直接调用glDeleteTexturs()
 void CC_DLL ccGLDeleteTextureN(GLuint textureUnit, GLuint textureId);
 
 /** If the vertex array is not already bound, it binds it.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glBindVertexArray() directly.
  @since v2.0.0
  */
+// 绑定顶点数组；若CC_ENABLE_GL_STATE_CACHE禁用，直接调用glBindVertexArray()
 void CC_DLL ccGLBindVAO(GLuint vaoId);
 
 /** It will enable / disable the server side GL states.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will call glEnable() directly.
  @since v2.0.0
  */
+// 启用、禁用服务端状态；若CC_ENABLE_GL_STATE_CACHE禁用，可以直接调用glEnable()
 void CC_DLL ccGLEnable( ccGLServerState flags );
 
 // end of shaders group
