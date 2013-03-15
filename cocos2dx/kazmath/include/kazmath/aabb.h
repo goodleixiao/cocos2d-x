@@ -38,9 +38,10 @@ extern "C" {
  * A structure that represents an axis-aligned
  * bounding box.
  */
+// 边界
 typedef struct kmAABB {
-    kmVec3 min; /** The max corner of the box */
-    kmVec3 max; /** The min corner of the box */
+    kmVec3 min; /** The min corner of the box */   // 最大角
+    kmVec3 max; /** The max corner of the box */   // 最小角
 } kmAABB;
 
 CC_DLL const int kmAABBContainsPoint(const kmVec3* pPoint, const kmAABB* pBox);
