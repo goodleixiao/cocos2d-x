@@ -31,7 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup transition
+ * @addtogroup transition  过渡
  * @{
  */
 
@@ -46,6 +46,10 @@ is turned on in CCDirector using:
 
  @since v0.8.2
 */
+/** 是一种模拟翻页的过渡
+ * 使用3DAction,推荐用深度缓存；如：
+ * CCDirector::sharedDirector()->setDepthBufferFormat(kDepthBuffer16);
+ */
 class CC_DLL CCTransitionPageTurn : public CCTransitionScene
 {
 protected:
@@ -60,6 +64,7 @@ public:
     * If back is true then the effect is reversed to appear as if the incoming 
     * scene is being turned from left over the outgoing scene.
     */
+    // 创建过渡，使用间隔，场景，是否反向为参数
     static CCTransitionPageTurn* create(float t,CCScene* scene,bool backwards);
 
     /**
@@ -67,6 +72,7 @@ public:
     * If back is true then the effect is reversed to appear as if the incoming 
     * scene is being turned from left over the outgoing scene.
     */
+    // 初始化过渡，使用间隔，场景，是否反向为参数
     virtual bool initWithDuration(float t,CCScene* scene,bool backwards);
 
     CCActionInterval* actionWithSize(const CCSize& vector);
