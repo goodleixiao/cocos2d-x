@@ -42,7 +42,7 @@ mat =   | 1   5   9  13 |
         | 2   6  10  14 |
         | 3   7  11  15 |
 */
-
+// 4x4矩阵
 #ifdef __cplusplus
 extern "C" {
 #endif
