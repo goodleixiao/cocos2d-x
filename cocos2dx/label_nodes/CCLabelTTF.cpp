@@ -117,6 +117,7 @@ bool CCLabelTTF::initWithString(const char *string, const char *fontName, float 
     if (CCSprite::init())
     {
         // shader program
+        // 着色方案
         this->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(SHADER_PROGRAM));
         
         m_tDimensions = CCSizeMake(dimensions.width, dimensions.height);
@@ -167,6 +168,7 @@ void CCLabelTTF::setHorizontalAlignment(CCTextAlignment alignment)
         m_hAlignment = alignment;
         
         // Force update
+        // 强制更新
         if (m_string.size() > 0)
         {
             this->updateTexture();
