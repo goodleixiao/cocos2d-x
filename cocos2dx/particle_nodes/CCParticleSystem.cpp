@@ -39,7 +39,7 @@ THE SOFTWARE.
 // IMPORTANT: Particle Designer is supported by cocos2d, but
 // 'Radius Mode' in Particle Designer uses a fixed emit rate of 30 hz. Since that can't be guaranteed in cocos2d,
 //  cocos2d uses a another approach, but the results are almost identical. 
-//
+//  注意：半径模式中，发射器发射速率为30hz
 
 #include "CCParticleSystem.h"
 #include "CCParticleBatchNode.h"
@@ -135,6 +135,7 @@ CCParticleSystem::CCParticleSystem()
     m_tBlendFunc.dst = CC_BLEND_DST;
 }
 // implementation CCParticleSystem
+// 实现粒子系统
 
 CCParticleSystem * CCParticleSystem::create(const char *plistFile)
 {
@@ -600,6 +601,7 @@ bool CCParticleSystem::isFull()
 }
 
 // ParticleSystem - MainLoop
+// 主运行回路
 void CCParticleSystem::update(float dt)
 {
     CC_PROFILER_START_CATEGORY(kCCProfilerCategoryParticles , "CCParticleSystem - update");
@@ -954,6 +956,7 @@ float CCParticleSystem::getSpeedVar()
 }
 
 // ParticleSystem - Properties of Radius Mode
+// 半径模式
 void CCParticleSystem::setStartRadius(float startRadius)
 {
     CCAssert( m_nEmitterMode == kCCParticleModeRadius, "Particle Mode should be Radius");
