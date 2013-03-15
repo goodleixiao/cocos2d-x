@@ -95,7 +95,7 @@ CCLayer *CCLayer::create()
 }
 
 /// Touch and Accelerometer related
-
+/// 触摸和加速相关
 void CCLayer::registerWithTouchDispatcher()
 {
     CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
@@ -630,6 +630,7 @@ void CCLayerRGBA::setCascadeColorEnabled(bool cascadeColorEnabled)
 }
 
 /// CCLayerColor
+/// 颜色层
 
 CCLayerColor::CCLayerColor()
 {
@@ -733,6 +734,7 @@ bool CCLayerColor::initWithColor(const ccColor4B& color)
 }
 
 /// override contentSize
+// 重载内容大小
 void CCLayerColor::setContentSize(const CCSize & size)
 {
     m_pSquareVertices[1].x = size.width;
@@ -989,6 +991,7 @@ void CCLayerGradient::setCompressedInterpolation(bool compress)
 }
 
 /// MultiplexLayer
+/// 复杂层
 
 CCLayerMultiplex::CCLayerMultiplex()
 : m_nEnabledLayer(0)
