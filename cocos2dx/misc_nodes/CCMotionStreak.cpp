@@ -124,10 +124,12 @@ bool CCMotionStreak::initWithFade(float fade, float minSeg, float stroke, ccColo
     m_pColorPointer =  (GLubyte*)malloc(sizeof(GLubyte) * m_uMaxPoints * 2 * 4);
 
     // Set blend mode
+    // 设置混合模式
     m_tBlendFunc.src = GL_SRC_ALPHA;
     m_tBlendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
 
     // shader program
+    // 着色方案
     setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
 
     setTexture(texture);
@@ -148,6 +150,7 @@ void CCMotionStreak::tintWithColor(ccColor3B colors)
     setColor(colors);
 
     // Fast assignation
+    // 快速分配
     for(unsigned int i = 0; i<m_uNuPoints*2; i++) 
     {
         *((ccColor3B*) (m_pColorPointer+i*4)) = colors;
@@ -213,6 +216,7 @@ void CCMotionStreak::update(float delta)
     unsigned int mov = 0;
 
     // Update current points
+    // 更新当前点
     for(i = 0; i<m_uNuPoints; i++)
     {
         m_pPointState[i]-=delta;
@@ -226,18 +230,22 @@ void CCMotionStreak::update(float delta)
             if(mov>0)
             {
                 // Move data
+                // 移动数据
                 m_pPointState[newIdx] = m_pPointState[i];
 
                 // Move point
+                // 移动点
                 m_pPointVertexes[newIdx] = m_pPointVertexes[i];
 
                 // Move vertices
+                // 移动顶点
                 i2 = i*2;
                 newIdx2 = newIdx*2;
                 m_pVertices[newIdx2] = m_pVertices[i2];
                 m_pVertices[newIdx2+1] = m_pVertices[i2+1];
 
                 // Move color
+                // 移动颜色
                 i2 *= 4;
                 newIdx2 *= 4;
                 m_pColorPointer[newIdx2+0] = m_pColorPointer[i2+0];
@@ -257,6 +265,7 @@ void CCMotionStreak::update(float delta)
     m_uNuPoints-=mov;
 
     // Append new point
+    // 添加新的点
     bool appendNewPoint = true;
     if(m_uNuPoints >= m_uMaxPoints)
     {
@@ -279,15 +288,18 @@ void CCMotionStreak::update(float delta)
         m_pPointState[m_uNuPoints] = 1.0f;
 
         // Color assignment
+        // 颜色分配
         const unsigned int offset = m_uNuPoints*8;
         *((ccColor3B*)(m_pColorPointer + offset)) = _displayedColor;
         *((ccColor3B*)(m_pColorPointer + offset+4)) = _displayedColor;
 
         // Opacity
+        // 透明度
         m_pColorPointer[offset+3] = 255;
         m_pColorPointer[offset+7] = 255;
 
         // Generate polygon
+        // 生产多边形
         if(m_uNuPoints > 0 && m_bFastMode )
         {
             if(m_uNuPoints > 1)
@@ -309,6 +321,7 @@ void CCMotionStreak::update(float delta)
     }
 
     // Updated Tex Coords only if they are different than previous step
+    // 若不同于前一步时，更新纹理坐标
     if( m_uNuPoints  && m_uPreviousNuPoints != m_uNuPoints ) {
         float texDelta = 1.0f / m_uNuPoints;
         for( i=0; i < m_uNuPoints; i++ ) {
