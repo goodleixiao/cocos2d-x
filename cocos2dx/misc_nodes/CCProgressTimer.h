@@ -30,17 +30,18 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup misc_nodes
+ * @addtogroup misc_nodes  杂项节点
  * @{
  */
 
 /** Types of progress
  @since v0.99.1
  */
+// 进度类型
 typedef enum {
-    /// Radial Counter-Clockwise
+    /// Radial Counter-Clockwise  顺时针半径
     kCCProgressTimerTypeRadial,
-    /// Bar
+    /// Bar                       栏
     kCCProgressTimerTypeBar,
 } CCProgressTimerType;
 
@@ -50,6 +51,7 @@ typedef enum {
  The progress can be Radial, Horizontal or vertical.
  @since v0.99.1
  */
+// 是节点的子类；呈现精灵，通过比例；半径，水平或垂直
 class CC_DLL CCProgressTimer : public CCNodeRGBA
 {
 public:
@@ -57,15 +59,19 @@ public:
     ~CCProgressTimer(void);
 
     /**    Change the percentage to change progress. */
+    // 改变比例来改变进度
     inline CCProgressTimerType getType(void) { return m_eType; }
 
     /** Percentages are from 0 to 100 */
+    // 比例从0到100
     inline float getPercentage(void) {return m_fPercentage; }
 
     /** The image to show the progress percentage, retain */
+    // 获取图片
     inline CCSprite* getSprite(void) { return m_pSprite; }
 
     /** Initializes a progress timer with the sprite as the shape the timer goes through */
+    // 使用精灵参数初始化进度
     bool initWithSprite(CCSprite* sp);
 
     void setPercentage(float fPercentage);
@@ -84,6 +90,7 @@ public:
 
 public:
     /** Creates a progress timer with the sprite as the shape the timer goes through */
+    // 创建一个进度计数器，使用尽量作为参数
     static CCProgressTimer* create(CCSprite* sp);
 protected:
     ccTex2F textureCoordFromAlphaPoint(CCPoint alpha);
@@ -111,6 +118,7 @@ protected:
      *        you want a bottom to top then set the midpoint all the way to ccp(x,0)
      *        you want a top to bottom then set the midpoint all the way to ccp(x,1)
      */
+    // midpoint是用于修改进度开始的位置；半径可以修改中心点；
     CC_PROPERTY(CCPoint, m_tMidpoint, Midpoint);
 
     /**
@@ -119,6 +127,7 @@ protected:
      *    For example you want a left to right bar but not have the height stay 100%
      *    Set the rate to be ccp(0,1); and set the midpoint to = ccp(0,.5f);
      */
+    // 指定速率，点：
     CC_SYNTHESIZE(CCPoint, m_tBarChangeRate, BarChangeRate);
 
     bool m_bReverseDirection;
