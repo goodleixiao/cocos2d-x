@@ -30,6 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // implementation of CCSpriteFrame
+// 实现精灵帧
 
 CCSpriteFrame* CCSpriteFrame::create(const char* filename, const CCRect& rect)
 {
