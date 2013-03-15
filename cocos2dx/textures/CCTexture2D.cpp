@@ -55,9 +55,11 @@ NS_CC_BEGIN
 
 // If the image has alpha, you can create RGBA8 (32-bit) or RGBA4 (16-bit) or RGB5A1 (16-bit)
 // Default is: RGBA8888 (32-bit textures)
+// 如果图片具有阿尔法值，可以创建RGBA8,RGBA4或RGBA541格式纹理；默认为RGBA8888 32比特纹理
 static CCTexture2DPixelFormat g_defaultAlphaPixelFormat = kCCTexture2DPixelFormat_Default;
 
 // By default PVR images are treated as if they don't have the alpha channel premultiplied
+// pvr图片，默认阿尔法预乘为禁用
 static bool PVRHaveAlphaPremultiplied_ = false;
 
 CCTexture2D::CCTexture2D()
@@ -164,6 +166,7 @@ void* CCTexture2D::keepData(void *data, unsigned int length)
 {
     CC_UNUSED_PARAM(length);
     //The texture data mustn't be saved because it isn't a mutable texture.
+    //纹理数据不用保存，不是可变的纹理
     return data;
 }
 
@@ -192,7 +195,7 @@ bool CCTexture2D::initWithData(const void *data, CCTexture2DPixelFormat pixelFor
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
-    // Specify OpenGL texture image
+    // Specify OpenGL texture image	指定纹理图片 格式
 
     switch(pixelFormat)
     {
@@ -247,6 +250,7 @@ const char* CCTexture2D::description(void)
 }
 
 // implementation CCTexture2D (Image)
+// 实现纹理
 
 bool CCTexture2D::initWithImage(CCImage *uiImage)
 {
@@ -269,6 +273,7 @@ bool CCTexture2D::initWithImage(CCImage *uiImage)
     }
     
     // always load premultiplied images
+    // 载人预乘图片
     return initPremultipliedATextureWithImage(uiImage, imageWidth, imageHeight);
 }
 
@@ -283,7 +288,7 @@ bool CCTexture2D::initPremultipliedATextureWithImage(CCImage *image, unsigned in
     CCTexture2DPixelFormat    pixelFormat;
     size_t                    bpp = image->getBitsPerComponent();
 
-    // compute pixel format
+    // compute pixel format	像素格式
     if(hasAlpha)
     {
         pixelFormat = g_defaultAlphaPixelFormat;
@@ -411,7 +416,7 @@ bool CCTexture2D::initPremultipliedATextureWithImage(CCImage *image, unsigned in
     return true;
 }
 
-// implementation CCTexture2D (Text)
+// implementation CCTexture2D (Text)	文本
 bool CCTexture2D::initWithString(const char *text, const char *fontName, float fontSize)
 {
     return initWithString(text,  fontName, fontSize, CCSizeMake(0,0), kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
@@ -420,7 +425,7 @@ bool CCTexture2D::initWithString(const char *text, const char *fontName, float f
 bool CCTexture2D::initWithString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
-    // cache the texture data
+    // cache the texture data	纹理数据缓存
     VolatileTexture::addStringTexture(this, text, dimensions, hAlignment, vAlignment, fontName, fontSize);
 #endif
 
@@ -462,7 +467,7 @@ bool CCTexture2D::initWithString(const char *text, const char *fontName, float f
 }
 
 
-// implementation CCTexture2D (Drawing)
+// implementation CCTexture2D (Drawing)	绘制
 
 void CCTexture2D::drawAtPoint(const CCPoint& point)
 {
@@ -519,7 +524,7 @@ void CCTexture2D::drawInRect(const CCRect& rect)
 }
 
 #ifdef CC_SUPPORT_PVRTC
-// implementation CCTexture2D (PVRTC);    
+// implementation CCTexture2D (PVRTC);    pvr
 bool CCTexture2D::initWithPVRTCData(const void *data, int level, int bpp, bool hasAlpha, int length, CCTexture2DPixelFormat pixelFormat)
 {
     if( !(CCConfiguration::sharedConfiguration()->supportsPVRTC()) )
@@ -598,7 +603,7 @@ void CCTexture2D::PVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
 //
 // Use to apply MIN/MAG filter
 //
-// implementation CCTexture2D (GLFilter)
+// implementation CCTexture2D (GLFilter)	过滤器
 
 void CCTexture2D::generateMipmap()
 {
@@ -718,6 +723,7 @@ const char* CCTexture2D::stringForFormat()
 // Texture options for images that contains alpha
 //
 // implementation CCTexture2D (PixelFormat)
+// 像素格式
 
 void CCTexture2D::setDefaultAlphaPixelFormat(CCTexture2DPixelFormat format)
 {
