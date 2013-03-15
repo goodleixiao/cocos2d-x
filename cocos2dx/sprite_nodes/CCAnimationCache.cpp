@@ -164,6 +164,7 @@ void CCAnimationCache::parseVersion2(CCDictionary* animations)
         }
 
         // Array of AnimationFrames
+        // 动画帧数组
         CCArray* array = CCArray::createWithCapacity(frameArray->count());
         array->retain();
 
@@ -240,6 +241,7 @@ void CCAnimationCache::addAnimationsWithDictionary(CCDictionary* dictionary)
 }
 
 /** Read an NSDictionary from a plist file and parse it automatically for animations */
+// 从字典文件中读取，传给动画
 void CCAnimationCache::addAnimationsWithFile(const char* plist)
 {
     CCAssert( plist, "Invalid texture file name");
