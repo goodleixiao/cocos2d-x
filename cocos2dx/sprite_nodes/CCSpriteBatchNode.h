@@ -37,7 +37,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup sprite_nodes
+ * @addtogroup sprite_nodes     精灵节点
  * @{
  */
 
@@ -60,6 +60,14 @@ class CCSprite;
 * 
 * @since v0.7.1
 */
+/** 如同批量节点一样；还有子对象，绘制他们，一次调用opengl
+ * 
+ * 只能接受纹理（图片文件，纹理集）；
+ * 精灵可以被添加到批量节点上
+ * 所有精灵都是一次调用opengl绘制的。 精灵若没有添加到批量节点，就需要一个一个绘制，调用opengl函数
+ * 
+ * 限制：只能接受对象作为子对象，是精灵或者其子类；所有子类不能组合，要具有相同的纹理。
+ */
 class CC_DLL CCSpriteBatchNode : public CCNode, public CCTextureProtocol
 {
 public:
@@ -68,6 +76,7 @@ public:
     // property
     
     // retain
+    // 属性
     inline CCTextureAtlas* getTextureAtlas(void) { return m_pobTextureAtlas; }
     inline void setTextureAtlas(CCTextureAtlas* textureAtlas) 
     { 
@@ -84,6 +93,7 @@ public:
     /** creates a CCSpriteBatchNode with a texture2d and capacity of children.
     The capacity will be increased in 33% in runtime if it run out of space.
     */
+    // 创建一个批量精灵节点，使用纹理和容量为参数； 容量增加33%，当精灵不在空间内时
     static CCSpriteBatchNode* createWithTexture(CCTexture2D* tex, unsigned int capacity);
     static CCSpriteBatchNode* createWithTexture(CCTexture2D* tex) {
         return CCSpriteBatchNode::createWithTexture(tex, kDefaultSpriteBatchCapacity);
@@ -93,6 +103,7 @@ public:
     The capacity will be increased in 33% in runtime if it run out of space.
     The file will be loaded using the TextureMgr.
     */
+    // 创建批量精灵节点，使用图片文件盒容量为参数
     static CCSpriteBatchNode* create(const char* fileImage, unsigned int capacity);
     static CCSpriteBatchNode* create(const char* fileImage) {
         return CCSpriteBatchNode::create(fileImage, kDefaultSpriteBatchCapacity);
@@ -101,11 +112,13 @@ public:
     /** initializes a CCSpriteBatchNode with a texture2d and capacity of children.
     The capacity will be increased in 33% in runtime if it run out of space.
     */
+    // 创建一个批量精灵节点，使用纹理和容量为参数； 容量增加33%，当精灵不在空间内时
     bool initWithTexture(CCTexture2D *tex, unsigned int capacity);
     /** initializes a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
     The capacity will be increased in 33% in runtime if it run out of space.
     The file will be loaded using the TextureMgr.
     */
+    // 初始化批量精灵节点，使用文件，容量为参数
     bool initWithFile(const char* fileImage, unsigned int capacity);
     bool init();
 
@@ -114,6 +127,7 @@ public:
     /** removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.
     @warning Removing a child from a CCSpriteBatchNode is very slow
     */
+    // 移除指定序号的精灵
     void removeChildAtIndex(unsigned int index, bool doCleanup);
 
     void insertChild(CCSprite *child, unsigned int index);
@@ -125,8 +139,10 @@ public:
     unsigned int lowestAtlasIndexInChild(CCSprite *sprite);
     unsigned int atlasIndexForChild(CCSprite *sprite, int z);
     /* Sprites use this to start sortChildren, don't call this manually */
+    // 重新排序，不用手动
     void reorderBatch(bool reorder);
     // CCTextureProtocol
+    // 纹理协议
     virtual CCTexture2D* getTexture(void);
     virtual void setTexture(CCTexture2D *texture);
     virtual void setBlendFunc(ccBlendFunc blendFunc);
@@ -148,15 +164,18 @@ protected:
      This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
      For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
      */
+    // 插入四边形，使用精灵精灵，序号为参数
     void insertQuadFromSprite(CCSprite *sprite, unsigned int index);
     /** Updates a quad at a certain index into the texture atlas. The CCSprite won't be added into the children array.
      This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
      For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
      */
+    // 更新方法，使用精灵和序号为参数
     void updateQuadFromSprite(CCSprite *sprite, unsigned int index);
     /* This is the opposite of "addQuadFromSprite.
     It add the sprite to the children and descendants array, but it doesn't update add it to the texture atlas
     */
+    // 增加批量精灵节点，使用精灵，序号，标示为参数
     CCSpriteBatchNode * addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag);
 
 private:
@@ -169,6 +188,7 @@ protected:
     ccBlendFunc m_blendFunc;
 
     // all descendants: children, gran children, etc...
+    // 所有后代，子类
     CCArray* m_pobDescendants;
 };
 
