@@ -31,18 +31,18 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup platform
+ * @addtogroup platform     平台
  * @{
  */
 
 struct CC_DLL cc_timeval
 {
 #ifdef __native_client__
-    time_t    tv_sec;        // seconds
+    time_t    tv_sec;        // seconds     秒
 #else
-    long    tv_sec;        // seconds
+    long    tv_sec;        // seconds       秒
 #endif
-    long    tv_usec;    // microSeconds
+    long    tv_usec;    // microSeconds     微秒
 };
 
 class CC_DLL CCTime
