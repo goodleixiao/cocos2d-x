@@ -68,7 +68,7 @@ CC_DLL kmMat3* const kmMat3Translation(kmMat3* pOut, const kmScalar x, const kmS
 CC_DLL kmMat3* const kmMat3RotationQuaternion(kmMat3* pOut, const struct kmQuaternion* pIn);
 CC_DLL kmMat3* const kmMat3RotationAxisAngle(kmMat3* pOut, const struct kmVec3* axis, kmScalar radians);
 CC_DLL struct kmVec3* const kmMat3RotationToAxisAngle(struct kmVec3* pAxis, kmScalar* radians, const kmMat3* pIn);
-
+ 
 #ifdef __cplusplus
 }
 #endif
