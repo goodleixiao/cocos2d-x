@@ -94,7 +94,7 @@ bool CCTransitionScene::initWithDuration(float t, CCScene *scene)
         return false;
     }
 }
-
+ 
 void CCTransitionScene::sceneOrder()
 {
     m_bIsInSceneOnTop = true;
@@ -197,7 +197,7 @@ void CCTransitionScene::cleanup()
 
 //
 // Oriented Transition
-//
+// 过渡方向
 
 CCTransitionSceneOriented::CCTransitionSceneOriented()
 {
@@ -283,7 +283,7 @@ void CCTransitionRotoZoom:: onEnter()
 
 //
 // JumpZoom
-//
+// 跳
 CCTransitionJumpZoom::CCTransitionJumpZoom()
 {
 }
@@ -337,7 +337,7 @@ void CCTransitionJumpZoom::onEnter()
 
 //
 // MoveInL
-//
+// 移动
 CCTransitionMoveInL::CCTransitionMoveInL()
 {
 }
@@ -480,7 +480,7 @@ void CCTransitionMoveInB::initScenes()
 
 //
 // SlideInL
-//
+// 滑动
 
 // The adjust factor is needed to prevent issue #442
 // One solution is to use DONT_RENDER_IN_SUBPIXELS images, but NO
@@ -671,7 +671,7 @@ CCActionInterval* CCTransitionSlideInB:: action()
 
 //
 // ShrinkGrow Transition
-//
+// 缩放增长 过渡
 CCTransitionShrinkGrow::CCTransitionShrinkGrow()
 {
 }
@@ -723,7 +723,7 @@ CCActionInterval* CCTransitionShrinkGrow:: easeActionWithAction(CCActionInterval
 
 //
 // FlipX Transition
-//
+// 翻动
 CCTransitionFlipX::CCTransitionFlipX()
 {
 }
@@ -1171,7 +1171,7 @@ CCTransitionZoomFlipAngular* CCTransitionZoomFlipAngular::create(float t, CCScen
 
 //
 // Fade Transition
-//
+// 淡出 过渡
 CCTransitionFade::CCTransitionFade()
 {
 }
@@ -1463,7 +1463,7 @@ CCActionInterval* CCTransitionSplitCols::easeActionWithAction(CCActionInterval *
 
 //
 // SplitRows Transition
-//
+// 拆分行
 CCTransitionSplitRows::CCTransitionSplitRows()
 {
 }
