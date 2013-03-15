@@ -61,6 +61,7 @@ CCTransitionProgress* CCTransitionProgress::create(float t, CCScene* scene)
 }
 
 // CCTransitionProgress
+// 进度过渡
 void CCTransitionProgress::onEnter()
 {
     CCTransitionScene::onEnter();
@@ -69,15 +70,18 @@ void CCTransitionProgress::onEnter()
     
     // create a transparent color layer
     // in which we are going to add our rendertextures
+    // 获取大小，增加城乡纹理
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
     // create the second render texture for outScene
+    // 场景第二个呈现纹理为出场景
     CCRenderTexture *texture = CCRenderTexture::create((int)size.width, (int)size.height);
     texture->getSprite()->setAnchorPoint(ccp(0.5f,0.5f));
     texture->setPosition(ccp(size.width/2, size.height/2));
     texture->setAnchorPoint(ccp(0.5f,0.5f));
 
     // render outScene to its texturebuffer
+    // 纹理缓存
     texture->clear(0, 0, 0, 1);
     texture->begin();
     m_pSceneToBeModified->visit();
@@ -105,9 +109,11 @@ void CCTransitionProgress::onEnter()
 }
 
 // clean up on exit
+// 清理退出
 void CCTransitionProgress::onExit()
 {
     // remove our layer and release all containing objects
+    // 移除层，释放所有包含的对象
     removeChildByTag(kCCSceneRadial, true);
     CCTransitionScene::onExit();
 }
@@ -132,6 +138,7 @@ CCProgressTimer* CCTransitionProgress::progressTimerNodeWithRenderTexture(CCRend
 
 
 // CCTransitionProgressRadialCCW
+// 逆时针半径过渡
 
 CCProgressTimer* CCTransitionProgressRadialCCW::progressTimerNodeWithRenderTexture(CCRenderTexture* texture)
 {
@@ -165,6 +172,7 @@ CCTransitionProgressRadialCCW* CCTransitionProgressRadialCCW::create(float t, CC
 }
 
 // CCTransitionProgressRadialCW
+// 顺时针半径过渡
 CCTransitionProgressRadialCW* CCTransitionProgressRadialCW::create(float t, CCScene* scene)
 {
     CCTransitionProgressRadialCW* pScene = new CCTransitionProgressRadialCW();
@@ -197,6 +205,7 @@ CCProgressTimer* CCTransitionProgressRadialCW::progressTimerNodeWithRenderTextur
 }
 
 // CCTransitionProgressHorizontal
+// 水平进度过渡
 CCTransitionProgressHorizontal* CCTransitionProgressHorizontal::create(float t, CCScene* scene)
 {
     CCTransitionProgressHorizontal* pScene = new CCTransitionProgressHorizontal();
@@ -230,6 +239,7 @@ CCProgressTimer* CCTransitionProgressHorizontal::progressTimerNodeWithRenderText
 }
 
 // CCTransitionProgressVertical
+// 垂直进度过渡
 CCTransitionProgressVertical* CCTransitionProgressVertical::create(float t, CCScene* scene)
 {
     CCTransitionProgressVertical* pScene = new CCTransitionProgressVertical();
@@ -310,6 +320,7 @@ CCProgressTimer* CCTransitionProgressInOut::progressTimerNodeWithRenderTexture(C
 
 
 // CCTransitionProgressOutIn
+// 外到里进度过渡
 CCTransitionProgressOutIn* CCTransitionProgressOutIn::create(float t, CCScene* scene)
 {
     CCTransitionProgressOutIn* pScene = new CCTransitionProgressOutIn();
