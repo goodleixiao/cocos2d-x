@@ -33,7 +33,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup input
+ * @addtogroup input    输入
  * @{
  */
 
@@ -96,6 +96,12 @@ struct _ccCArray;
 
  @since v0.8.0
  */
+/** 触摸调度
+ * 使用单例处理所有触摸事件
+ * 调度者调用事件，注册给触摸处理
+ * 有两钟处理方式：标准和目标
+ * 标准如cocoatouch一样；目标要有指定目标接收到触摸；
+ */
 class CC_DLL CCTouchDispatcher : public CCObject, public EGLTouchDelegate
 {
 public:
@@ -111,6 +117,7 @@ public:
 
 public:
     /** Whether or not the events are going to be dispatched. Default: true */
+    // 是否要调度事件，默认为true
     bool isDispatchEvents(void);
     void setDispatchEvents(bool bDispatchEvents);
 
@@ -118,24 +125,29 @@ public:
      See StandardTouchDelegate description.
      IMPORTANT: The delegate will be retained.
      */
+    // 增加标准委托，使用委托，优先级为参数
     void addStandardDelegate(CCTouchDelegate *pDelegate, int nPriority);
 
     /** Adds a targeted touch delegate to the dispatcher's list.
      See TargetedTouchDelegate description.
      IMPORTANT: The delegate will be retained.
      */
+    // 增加目标委托，使用委托，优先级，？
     void addTargetedDelegate(CCTouchDelegate *pDelegate, int nPriority, bool bSwallowsTouches);
 
     /** Removes a touch delegate.
      The delegate will be released
      */
+    // 移除委托
     void removeDelegate(CCTouchDelegate *pDelegate);
 
     /** Removes all touch delegates, releasing all the delegates */
+    // 移除所有委托
     void removeAllDelegates(void);
 
     /** Changes the priority of a previously added delegate. The lower the number,
     the higher the priority */
+    // 设置优先级
     void setPriority(int nPriority, CCTouchDelegate *pDelegate);
 
     void touches(CCSet *pTouches, CCEvent *pEvent, unsigned int uIndex);
@@ -167,6 +179,7 @@ protected:
     bool m_bDispatchEvents;
 
     // 4, 1 for each type of event
+    // 事件的每种类型：1,4
     struct ccTouchHandlerHelperData m_sHandlerHelperData[ccTouchMax];
 };
 
