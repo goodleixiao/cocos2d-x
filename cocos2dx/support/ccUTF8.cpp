@@ -126,7 +126,7 @@ static const char *const g_utf8_skip = utf8_skip_data;
  * @c:        the character to not look for.
  *
  * Return value: the index of the last character that is not c.
- * */
+ * */ 
 unsigned int cc_utf8_find_last_not_char(std::vector<unsigned short> str, unsigned short c)
 {
     int len = str.size();
