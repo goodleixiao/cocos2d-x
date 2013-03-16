@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "touch_dispatcher/CCTouchDispatcher.h"
 #include "jni/IMEJni.h"
 #include "jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
-#include "CCGL.h"
+#include "CCGL.h" 
 
 #include <stdlib.h>
 #include <android/log.h>
