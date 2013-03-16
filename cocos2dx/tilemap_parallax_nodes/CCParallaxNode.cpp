@@ -33,7 +33,7 @@ class CCPointObject : CCObject
 {
     CC_SYNTHESIZE(CCPoint, m_tRatio, Ratio)
     CC_SYNTHESIZE(CCPoint, m_tOffset, Offset)
-    CC_SYNTHESIZE(CCNode *,m_pChild, Child)    // weak ref
+    CC_SYNTHESIZE(CCNode *,m_pChild, Child)    // weak ref  弱引用
 
     static CCPointObject * pointWithCCPoint(CCPoint ratio, CCPoint offset)
     {
@@ -128,6 +128,7 @@ The positions are updated at visit because:
 - using a timer is not guaranteed that it will called after all the positions were updated
 - overriding "draw" will only precise if the children have a z > 0
 */
+// 位置更新
 void CCParallaxNode::visit()
 {
     //    CCPoint pos = position_;
