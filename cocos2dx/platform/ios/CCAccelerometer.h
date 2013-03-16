@@ -26,7 +26,7 @@ THE SOFTWARE.
 #define __PLATFORM_IPHONE_CCACCELEROMETER_H__
 
 #include "platform/CCAccelerometerDelegate.h"
-
+ 
 NS_CC_BEGIN
 
 class CC_DLL CCAccelerometer
