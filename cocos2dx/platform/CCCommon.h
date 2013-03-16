@@ -30,31 +30,36 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup platform
+ * @addtogroup platform 平台
  * @{
  */
 
 /// The max length of CCLog message.
+/// 日志消息最大长度
 static const int kMaxLogLen = 16*1024;
 
 /**
 @brief Output Debug message.
 */
+// s输出调试消息
 void CC_DLL CCLog(const char * pszFormat, ...);
 
 /**
  * lua can not deal with ...
  */
+// Lua日志
 void CC_DLL CCLuaLog(const char * pszFormat);
 
 /**
 @brief Pop out a message box
 */
+// 弹出消息框
 void CC_DLL CCMessageBox(const char * pszMsg, const char * pszTitle);
 
 /**
 @brief Enum the language type supported now
 */
+// 支持语言
 typedef enum LanguageType
 {
     kLanguageEnglish = 0,
