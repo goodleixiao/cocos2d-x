@@ -29,6 +29,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_PLATFORM != CC_PLATFORM_ANDROID)
 
 // root name of xml
+// xml的名称
 #define USERDEFAULT_ROOT_NAME    "userDefaultRoot"
 
 #define XML_FILE_NAME "UserDefault.xml"
@@ -47,6 +48,7 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLEle
     tinyxml2::XMLElement* curNode = NULL;
 
     // check the key value
+    // 检测键值
     if (! pKey)
     {
         return NULL;
@@ -67,6 +69,7 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLEle
 		}
 		xmlDoc->Parse(pXmlBuffer);
 		// get root node
+		// 获取根节点
 		*rootNode = xmlDoc->RootElement();
 		if (NULL == *rootNode)
 		{
@@ -74,6 +77,7 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLEle
 			break;
 		}
 		// find the node
+		// 找节点
 		curNode = (*rootNode)->FirstChildElement();
 		while (NULL != curNode)
 		{
@@ -96,13 +100,16 @@ static void setValueForKey(const char* pKey, const char* pValue)
 	tinyxml2::XMLDocument* doc;
 	tinyxml2::XMLElement* node;
 	// check the params
+	// 检测参数
 	if (! pKey || ! pValue)
 	{
 		return;
 	}
 	// find the node
+	// 找到节点
 	node = getXMLNodeForKey(pKey, &rootNode, &doc);
 	// if node exist, change the content
+	// 节点存在，改变内容
 	if (node)
 	{
         if (node->FirstChild())
@@ -127,6 +134,7 @@ static void setValueForKey(const char* pKey, const char* pValue)
 	}
 
     // save file and free doc
+    // 保存文件
 	if (doc)
 	{
 		doc->SaveFile(CCUserDefault::sharedUserDefault()->getXMLFilePath().c_str());
@@ -137,6 +145,7 @@ static void setValueForKey(const char* pKey, const char* pValue)
 /**
  * implements of CCUserDefault
  */
+// 实现用户设置
 
 CCUserDefault* CCUserDefault::m_spUserDefault = 0;
 string CCUserDefault::m_sFilePath = string("");
@@ -146,6 +155,7 @@ bool CCUserDefault::m_sbIsFilePathInitialized = false;
  * If the user invoke delete CCUserDefault::sharedUserDefault(), should set m_spUserDefault
  * to null to avoid error when he invoke CCUserDefault::sharedUserDefault() later.
  */
+// 析构
 CCUserDefault::~CCUserDefault()
 {
 	CC_SAFE_DELETE(m_spUserDefault);
@@ -175,6 +185,7 @@ bool CCUserDefault::getBoolForKey(const char* pKey, bool defaultValue)
 	tinyxml2::XMLElement* node;
 	node =  getXMLNodeForKey(pKey, &rootNode, &doc);
 	// find the node
+	// 找到节点
 	if (node && node->FirstChild())
 	{
         value = (const char*)(node->FirstChild()->Value());
@@ -205,6 +216,7 @@ int CCUserDefault::getIntegerForKey(const char* pKey, int defaultValue)
 	tinyxml2::XMLElement* node;
 	node =  getXMLNodeForKey(pKey, &rootNode, &doc);
 	// find the node
+	// 找节点
 	if (node && node->FirstChild())
 	{
         value = (const char*)(node->FirstChild()->Value());
@@ -251,6 +263,7 @@ double CCUserDefault::getDoubleForKey(const char* pKey, double defaultValue)
 	tinyxml2::XMLElement* node;
 	node =  getXMLNodeForKey(pKey, &rootNode, &doc);
 	// find the node
+	// 找节点
 	if (node && node->FirstChild())
 	{
         value = (const char*)(node->FirstChild()->Value());
@@ -281,6 +294,7 @@ string CCUserDefault::getStringForKey(const char* pKey, const std::string & defa
 	tinyxml2::XMLElement* node;
 	node =  getXMLNodeForKey(pKey, &rootNode, &doc);
 	// find the node
+	// 找节点
 	if (node && node->FirstChild())
 	{
         value = (const char*)(node->FirstChild()->Value());
@@ -301,7 +315,7 @@ string CCUserDefault::getStringForKey(const char* pKey, const std::string & defa
 void CCUserDefault::setBoolForKey(const char* pKey, bool value)
 {
     // save bool value as string
-
+    // 保存布尔值作为字符串
     if (true == value)
     {
         setStringForKey(pKey, "true");
@@ -315,12 +329,14 @@ void CCUserDefault::setBoolForKey(const char* pKey, bool value)
 void CCUserDefault::setIntegerForKey(const char* pKey, int value)
 {
     // check key
+    // 检测键
     if (! pKey)
     {
         return;
     }
 
     // format the value
+    // 值格式
     char tmp[50];
     memset(tmp, 0, 50);
     sprintf(tmp, "%d", value);
@@ -336,12 +352,14 @@ void CCUserDefault::setFloatForKey(const char* pKey, float value)
 void CCUserDefault::setDoubleForKey(const char* pKey, double value)
 {
     // check key
+    // 检测键
     if (! pKey)
     {
         return;
     }
 
     // format the value
+    // 值格式
     char tmp[50];
     memset(tmp, 0, 50);
     sprintf(tmp, "%f", value);
@@ -352,6 +370,7 @@ void CCUserDefault::setDoubleForKey(const char* pKey, double value)
 void CCUserDefault::setStringForKey(const char* pKey, const std::string & value)
 {
     // check key
+    // 检测键
     if (! pKey)
     {
         return;
@@ -366,6 +385,7 @@ CCUserDefault* CCUserDefault::sharedUserDefault()
 
     // only create xml file one time
     // the file exists after the program exit
+    // 一次创建xml文件；文件退出在程序退出之后
     if ((! isXMLFileExist()) && (! createXMLFile()))
     {
         return NULL;
@@ -403,6 +423,7 @@ void CCUserDefault::initXMLFilePath()
 }
 
 // create new xml file
+// 创建新的xml文件
 bool CCUserDefault::createXMLFile()
 {
 	bool bRet = false;  
