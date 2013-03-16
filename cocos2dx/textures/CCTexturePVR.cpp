@@ -42,7 +42,7 @@ NS_CC_BEGIN
 
 //
 // XXX DO NO ALTER THE ORDER IN THIS LIST XXX
-//
+// pvr表格式
 static const ccPVRTexturePixelFormatInfo PVRTableFormats[] = {
 	
 	// 0: BGRA_8888
@@ -82,6 +82,7 @@ struct _pixel_formathash {
 };
 
 // Values taken from PVRTexture.h from http://www.imgtec.com
+// 值
 enum {
     kPVR2TextureFlagMipmap         = (1<<8),        // has mip map levels
     kPVR2TextureFlagTwiddle        = (1<<9),        // is twiddled
@@ -119,6 +120,7 @@ typedef enum
 
 // v3
 /* supported predefined formats */
+// 支持预乘格式
 #define kPVR3TexturePixelFormat_PVRTC_2BPP_RGB   0
 #define kPVR3TexturePixelFormat_PVRTC_2BPP_RGBA  1
 #define kPVR3TexturePixelFormat_PVRTC_4BPP_RGB   2
