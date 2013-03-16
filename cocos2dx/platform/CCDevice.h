@@ -14,6 +14,7 @@ public:
      *  Gets the DPI of device
      *  @return The DPI of device.
      */
+    // 获取dpi:Dot Per Inch 分辨率
     static int getDPI();
 };
 
