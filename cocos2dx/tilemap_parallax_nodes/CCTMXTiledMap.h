@@ -38,20 +38,24 @@ class CCTMXTilesetInfo;
 class CCTMXMapInfo;
 
 /**
- * @addtogroup tilemap_parallax_nodes
+ * @addtogroup tilemap_parallax_nodes 瓦片地图节点
  * @{
  */
 
 /** Possible orientations of the TMX map */
+// 瓦片地图可能的方向
 enum
 {
     /** Orthogonal orientation */
+    // 正交方向
     CCTMXOrientationOrtho,
 
     /** Hexagonal orientation */
+    // 六角方向
     CCTMXOrientationHex,
 
     /** Isometric orientation */
+    // 等距方向
     CCTMXOrientationIso,
 };
 
@@ -106,44 +110,68 @@ object->propertyNamed(name_of_the_property);
 
 @since v0.8.1
 */
+/** 知道怎样显示tmx地图；
+ * 增加支持tmx瓦片地图格式；支持正交，六角，等距瓦片； 特征具有：
+    1，作为精灵；2，创建精灵仅仅可以调用[layer titleAt:];3，可以旋转，移动，缩放，透明度；4，可以在运行时增加移除；
+    5，运行时排序；6，锚点都为(0,0);7，增加子对象；8，默认别名；9，使用纹理缓存载人图片；10，独一无二标示；
+    11，独一无二z值；12，每个对象组都可以作为可变数组；13，所有属性都在字典中；14，属性可以赋值给地图，层，对象组，对象；
+ *限制：每个层仅仅一个瓦片集合；不支持嵌入式图片；只支持xml格式，不支持json格式；
+ * 
+ * 技术描述：使用CCTMXLayer来创建每个层；如果层的可见性关了，曾不能创建；可以在运行时获取层：[map getChildByTag:tag_number]
+ * 每个对象组都可以被认为是可变数组的子类；可以使用[map objectGroupNamed:name_of_object_group]获取
+ * 每个对象是CCTMXObject; 每个属性都存储在可变字典里；可以在运行时获取属性；
+ */
 class CC_DLL CCTMXTiledMap : public CCNode
 {
     /** the map's size property measured in tiles */
+    // 地图大小，以瓦片为单位
     CC_SYNTHESIZE_PASS_BY_REF(CCSize, m_tMapSize, MapSize);
     /** the tiles's size property measured in pixels */
+    // 瓦片大小，以像素为单位
     CC_SYNTHESIZE_PASS_BY_REF(CCSize, m_tTileSize, TileSize);
     /** map orientation */
+    // 地图方向
     CC_SYNTHESIZE(int, m_nMapOrientation, MapOrientation);
     /** object groups */
+    // 对象组
     CC_PROPERTY(CCArray*, m_pObjectGroups, ObjectGroups);
     /** properties */
+    // 属性
     CC_PROPERTY(CCDictionary*, m_pProperties, Properties);
 public:
     CCTMXTiledMap();
     virtual ~CCTMXTiledMap();
 
     /** creates a TMX Tiled Map with a TMX file.*/
+    // 创建tmx瓦片地图，使用tmx文件为参数
     static CCTMXTiledMap* create(const char *tmxFile);
 
     /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
+    // 创建地图，使用字符串，路径为参数
     static CCTMXTiledMap* createWithXML(const char* tmxString, const char* resourcePath);
 
     /** initializes a TMX Tiled Map with a TMX file */
+    // 初始化地图，使用tmx文件为参数
     bool initWithTMXFile(const char *tmxFile);
 
     /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
+    // 初始化地图，使用tmx格式的xml字符串和路径为参数
     bool initWithXML(const char* tmxString, const char* resourcePath);
 
     /** return the TMXLayer for the specific layer */
+    // 返回指定层
     CCTMXLayer* layerNamed(const char *layerName);
 
     /** return the TMXObjectGroup for the specific group */
+    // 返回对象组，使用组名称为参数
     CCTMXObjectGroup* objectGroupNamed(const char *groupName);
 
     /** return the value for the specific property name */
+    // 返回指定属性值
     CCString *propertyNamed(const char *propertyName);
 
     /** return properties dictionary for tile GID */
+    // 返回属性字典，使用gid为参数
     CCDictionary* propertiesForGID(int GID);
 
 private:
@@ -152,6 +180,7 @@ private:
     void buildWithMapInfo(CCTMXMapInfo* mapInfo);
 protected:
     //! tile properties
+    //! 瓦片属性
     CCDictionary* m_pTileProperties;
 
 };
