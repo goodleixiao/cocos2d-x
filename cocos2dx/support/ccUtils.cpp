@@ -24,7 +24,7 @@ THE SOFTWARE.
 #include "ccUtils.h"
 
 namespace cocos2d {
-
+// ccNextPOT方法实现
 unsigned long ccNextPOT(unsigned long x)
 {
     x = x - 1;
