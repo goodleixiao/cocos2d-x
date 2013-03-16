@@ -25,7 +25,7 @@
 #define __CC_PLATFORM_MACROS_H__
 
 /**
- * define some platform specific macros
+ * define some platform specific macros 平台指定宏
  */
 #include "ccConfig.h"
 #include "CCPlatformConfig.h"
@@ -35,6 +35,7 @@
  * define a create function for a specific type, such as CCLayer
  * @__TYPE__ class type to add create(), such as CCLayer
  */
+// 指定函数，指定类型
 #define CREATE_FUNC(__TYPE__) \
 static __TYPE__* create() \
 { \
@@ -57,6 +58,7 @@ static __TYPE__* create() \
  * @__TYPE__ class type to add node(), such as CCLayer
  * @deprecated: This interface will be deprecated sooner or later.
  */
+// 指定节点函数，指定类型
 #define NODE_FUNC(__TYPE__) \
 CC_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
 { \
@@ -80,6 +82,7 @@ Basically,it's only enabled in android
 
 It's new in cocos2d-x since v0.99.5
 */
+// 启用纹理缓存数据
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #define CC_ENABLE_CACHE_TEXTURE_DATA       1
 #else
@@ -90,13 +93,14 @@ It's new in cocos2d-x since v0.99.5
     /* Application will crash in glDrawElements function on some win32 computers and some android devices.
        Indices should be bound again while drawing to avoid this bug.
      */
+    // 重新绑定指数； 应用程序会崩溃在glDrawElements函数，在win32和android设备中
     #define CC_REBIND_INDICES_BUFFER  1
 #else
     #define CC_REBIND_INDICES_BUFFER  0
 #endif
 
 // generic macros
-
+// 生产宏
 // namespace cocos2d {}
 #ifdef __cplusplus
     #define NS_CC_BEGIN                     namespace cocos2d {
@@ -117,6 +121,7 @@ It's new in cocos2d-x since v0.99.5
  The variables and methods declared after CC_PROPERTY_READONLY are all public.
  If you need protected or private, please declare.
  */
+// 属性只读；用get读取变量
 #define CC_PROPERTY_READONLY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void);
@@ -135,6 +140,7 @@ public: virtual const varType& get##funName(void);
  The variables and methods declared after CC_PROPERTY are all public.
  If you need protected or private, please declare.
  */
+// 使用get读取变量，用set改变变量
 #define CC_PROPERTY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void);\
@@ -154,6 +160,7 @@ public: virtual void set##funName(const varType& var);
  The variables and methods declared after CC_SYNTHESIZE_READONLY are all public.
  If you need protected or private, please declare.
  */
+// 综合类只读
 #define CC_SYNTHESIZE_READONLY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }
@@ -172,6 +179,7 @@ public: virtual const varType& get##funName(void) const { return varName; }
  The variables and methods declared after CC_SYNTHESIZE are all public.
  If you need protected or private, please declare.
  */
+// 综合类：设置和获取变量
 #define CC_SYNTHESIZE(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }\
@@ -194,7 +202,7 @@ public: virtual void set##funName(varType var)   \
         varName = var; \
     } \
 } 
-
+// 安全删除对象
 #define CC_SAFE_DELETE(p)            do { if(p) { delete (p); (p) = 0; } } while(0)
 #define CC_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = 0; } } while(0)
 #define CC_SAFE_FREE(p)                do { if(p) { free(p); (p) = 0; } } while(0)
@@ -207,6 +215,7 @@ public: virtual void set##funName(varType var)   \
     CCLog("%s : %s",__FUNCTION__, CCString::createWithFormat(s, ##__VA_ARGS__)->getCString())
 
 // cocos2d debug
+// 调试日志
 #if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0
 #define CCLOG(...)       do {} while (0)
 #define CCLOGINFO(...)   do {} while (0)
@@ -227,6 +236,7 @@ public: virtual void set##funName(varType var)   \
 #endif // COCOS2D_DEBUG
 
 // Lua engine debug
+// lua引擎调试
 #if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0 || CC_LUA_ENGINE_DEBUG == 0
 #define LUALOG(...)
 #else
@@ -236,6 +246,7 @@ public: virtual void set##funName(varType var)   \
 /*
  * only certain compilers support __attribute__((deprecated))
  */
+// 启用属性
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
     #define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
 #elif _MSC_VER >= 1400 //vs 2005 or higher
