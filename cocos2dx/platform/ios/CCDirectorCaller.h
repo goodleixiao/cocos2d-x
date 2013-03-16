@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #import <Foundation/Foundation.h>
-
+ 
 @interface CCDirectorCaller : NSObject {
         id displayLink;
         int interval;
