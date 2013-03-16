@@ -32,6 +32,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // implementation CCTMXTiledMap
+// 实现tmx瓦片地图
 
 CCTMXTiledMap * CCTMXTiledMap::create(const char *tmxFile)
 {
