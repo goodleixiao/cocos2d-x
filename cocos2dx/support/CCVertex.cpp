@@ -28,7 +28,7 @@
 #include "ccMacros.h"
 
 NS_CC_BEGIN
-
+// 线到多边形转换
 void ccVertexLineToPolygon(CCPoint *points, float stroke, ccVertex2F *vertices, unsigned int offset, unsigned int nuPoints)
 {
     nuPoints += offset;
@@ -57,7 +57,8 @@ void ccVertexLineToPolygon(CCPoint *points, float stroke, ccVertex2F *vertices, 
             CCPoint p2p1 = ccpNormalize(ccpSub(p2, p1));
             CCPoint p0p1 = ccpNormalize(ccpSub(p0, p1));
 
-            // Calculate angle between vectors
+            // Calculate angle between vectors 
+            // 计算矢量之间的角度
             float angle = acosf(ccpDot(p2p1, p0p1));
 
             if(angle < CC_DEGREES_TO_RADIANS(70))
@@ -75,6 +76,7 @@ void ccVertexLineToPolygon(CCPoint *points, float stroke, ccVertex2F *vertices, 
     }
 
     // Validate vertexes
+    // 验证顶点
     offset = (offset==0) ? 0 : offset-1;
     for(unsigned int i = offset; i<nuPointsMinus; i++)
     {
@@ -100,7 +102,7 @@ void ccVertexLineToPolygon(CCPoint *points, float stroke, ccVertex2F *vertices, 
         }
     }
 }
-
+// 判断线是否相交
 bool ccVertexLineIntersect(float Ax, float Ay,
                                float Bx, float By,
                                float Cx, float Cy,
