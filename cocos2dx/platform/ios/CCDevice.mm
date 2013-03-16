@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 
 NS_CC_BEGIN
-
+ 
 int CCDevice::getDPI()
 {
     static int dpi = -1;
