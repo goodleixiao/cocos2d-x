@@ -141,6 +141,7 @@ CCPoint ccpIntersectPoint(const CCPoint& A, const CCPoint& B, const CCPoint& C, 
     if( ccpLineIntersect(A, B, C, D, &S, &T) )
     {
         // Point of intersection
+        // 交点
         CCPoint P;
         P.x = A.x + S * (B.x - A.x);
         P.y = A.y + S * (B.y - A.y);
@@ -154,7 +155,7 @@ bool ccpLineIntersect(const CCPoint& A, const CCPoint& B,
                       const CCPoint& C, const CCPoint& D,
                       float *S, float *T)
 {
-    // FAIL: Line undefined
+    // FAIL: Line undefined 未定义线
     if ( (A.x==B.x && A.y==B.y) || (C.x==D.x && C.y==D.y) )
     {
         return false;
