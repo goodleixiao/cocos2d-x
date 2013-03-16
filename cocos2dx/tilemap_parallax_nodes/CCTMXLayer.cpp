@@ -37,7 +37,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 
-// CCTMXLayer - init & alloc & dealloc
+// CCTMXLayer - init & alloc & dealloc	初始化
 
 CCTMXLayer * CCTMXLayer::create(CCTMXTilesetInfo *tilesetInfo, CCTMXLayerInfo *layerInfo, CCTMXMapInfo *mapInfo)
 {
@@ -51,7 +51,7 @@ CCTMXLayer * CCTMXLayer::create(CCTMXTilesetInfo *tilesetInfo, CCTMXLayerInfo *l
 }
 bool CCTMXLayer::initWithTilesetInfo(CCTMXTilesetInfo *tilesetInfo, CCTMXLayerInfo *layerInfo, CCTMXMapInfo *mapInfo)
 {    
-    // XXX: is 35% a good estimate ?
+    // XXX: is 35% a good estimate ?  是否最佳
     CCSize size = layerInfo->m_tLayerSize;
     float totalNumberOfTiles = size.width * size.height;
     float capacity = totalNumberOfTiles * 0.35f + 1; // 35 percent is occupied ?
@@ -64,7 +64,7 @@ bool CCTMXLayer::initWithTilesetInfo(CCTMXTilesetInfo *tilesetInfo, CCTMXLayerIn
 
     if (CCSpriteBatchNode::initWithTexture(texture, (unsigned int)capacity))
     {
-        // layerInfo
+        // layerInfo 层信息
         m_sLayerName = layerInfo->m_sName;
         m_tLayerSize = size;
         m_pTiles = layerInfo->m_pTiles;
@@ -74,15 +74,15 @@ bool CCTMXLayer::initWithTilesetInfo(CCTMXTilesetInfo *tilesetInfo, CCTMXLayerIn
         setProperties(CCDictionary::createWithDictionary(layerInfo->getProperties()));
         m_fContentScaleFactor = CCDirector::sharedDirector()->getContentScaleFactor(); 
 
-        // tilesetInfo
+        // tilesetInfo 瓦片信息
         m_pTileSet = tilesetInfo;
         CC_SAFE_RETAIN(m_pTileSet);
 
-        // mapInfo
+        // mapInfo 地图信息
         m_tMapTileSize = mapInfo->getTileSize();
         m_uLayerOrientation = mapInfo->getOrientation();
 
-        // offset (after layer orientation is set);
+        // offset (after layer orientation is set); 偏移量
         CCPoint offset = this->calculateLayerOffset(layerInfo->m_tOffset);
         this->setPosition(CC_POINT_PIXELS_TO_POINTS(offset));
 
@@ -151,7 +151,7 @@ void CCTMXLayer::releaseMap()
     }
 }
 
-// CCTMXLayer - setup Tiles
+// CCTMXLayer - setup Tiles 安装，启用瓦片
 void CCTMXLayer::setupTiles()
 {    
     // Optimization: quick hack that sets the image size on the tileset
@@ -198,7 +198,7 @@ void CCTMXLayer::setupTiles()
         m_uMinGID >= m_pTileSet->m_uFirstGid, "TMX: Only 1 tileset per layer is supported");    
 }
 
-// CCTMXLayer - Properties
+// CCTMXLayer - Properties 属性
 CCString* CCTMXLayer::propertyNamed(const char *propertyName)
 {
     return (CCString*)m_pProperties->objectForKey(propertyName);
@@ -316,7 +316,7 @@ CCSprite* CCTMXLayer::reusedTileWithRect(CCRect rect)
     return m_pReusedTile;
 }
 
-// CCTMXLayer - obtaining tiles/gids
+// CCTMXLayer - obtaining tiles/gids 获得瓦片，gid
 CCSprite * CCTMXLayer::tileAt(const CCPoint& pos)
 {
     CCAssert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
@@ -325,7 +325,7 @@ CCSprite * CCTMXLayer::tileAt(const CCPoint& pos)
     CCSprite *tile = NULL;
     unsigned int gid = this->tileGIDAt(pos);
 
-    // if GID == 0, then no tile is present
+    // if GID == 0, then no tile is present 没有瓦片
     if (gid) 
     {
         int z = (int)(pos.x + pos.y * m_tLayerSize.width);
@@ -377,7 +377,7 @@ unsigned int CCTMXLayer::tileGIDAt(const CCPoint& pos, ccTMXTileFlags* flags)
     return (tile & kCCFlippedMask);
 }
 
-// CCTMXLayer - adding helper methods
+// CCTMXLayer - adding helper methods 增加方法
 CCSprite * CCTMXLayer::insertTileForGID(unsigned int gid, const CCPoint& pos)
 {
     CCRect rect = m_pTileSet->rectForGID(gid);
@@ -496,7 +496,7 @@ unsigned int CCTMXLayer::atlasIndexForNewZ(int z)
     return i;
 }
 
-// CCTMXLayer - adding / remove tiles
+// CCTMXLayer - adding / remove tiles 增加，删除瓦片
 void CCTMXLayer::setTileGID(unsigned int gid, const CCPoint& pos)
 {
     setTileGID(gid, pos, (ccTMXTileFlags)0);
@@ -622,7 +622,7 @@ void CCTMXLayer::removeTileAt(const CCPoint& pos)
     }
 }
 
-//CCTMXLayer - obtaining positions, offset
+//CCTMXLayer - obtaining positions, offset 获取位置，偏移量
 CCPoint CCTMXLayer::calculateLayerOffset(const CCPoint& pos)
 {
     CCPoint ret = CCPointZero;
