@@ -2,7 +2,7 @@
 #define __CCPLATFORMDEFINE_H__
 
 #include "android/log.h"
-
+ 
 #define CC_DLL
 
 #define CC_NO_MESSAGE_PSEUDOASSERT(cond)                        \
