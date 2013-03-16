@@ -59,9 +59,11 @@
 }
 
 /** Color Renderbuffer */
+// 颜色
 @property (nonatomic,readonly) GLuint colorRenderbuffer;
 
 /** Default Renderbuffer */
+// 帧
 @property (nonatomic,readonly) GLuint defaultFramebuffer;
 
 /** MSAA Framebuffer */
