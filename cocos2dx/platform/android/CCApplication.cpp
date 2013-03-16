@@ -12,7 +12,7 @@
 
 NS_CC_BEGIN
 
-// sharedApplication pointer
+// sharedApplication pointer 
 CCApplication * CCApplication::sm_pSharedApplication = 0;
 
 CCApplication::CCApplication()
@@ -53,7 +53,7 @@ void CCApplication::setAnimationInterval(double interval)
 }
 
 //////////////////////////////////////////////////////////////////////////
-// static member function
+// static member function   静态成员函数
 //////////////////////////////////////////////////////////////////////////
 CCApplication* CCApplication::sharedApplication()
 {
