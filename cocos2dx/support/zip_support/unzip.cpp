@@ -93,7 +93,7 @@ namespace cocos2d {
 #endif
 /* compile with -Dlocal if your debugger can't find static symbols */
 
-
+ 
 #ifndef CASESENSITIVITYDEFAULT_NO
 #  if !defined(unix) && !defined(CASESENSITIVITYDEFAULT_YES)
 #    define CASESENSITIVITYDEFAULT_NO
