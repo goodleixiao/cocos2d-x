@@ -36,11 +36,12 @@ NS_CC_BEGIN
 class CCDictionary;
 class CCArray;
 /**
- * @addtogroup platform
+ * @addtogroup platform		平台
  * @{
  */
 
 //! @brief  Helper class to handle file operations
+//! 处理文件操作
 class CC_DLL CCFileUtils : public TypeInfo
 {
     friend class CCArray;
@@ -51,6 +52,7 @@ public:
      *  @note It's only used for JSBindings now.
      *  @return The unique ID for this class.
      */
+    // 返回独一无二的id
     virtual long getClassTypeInfo() {
 		static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCFileUtils).name());
 		return id;
@@ -59,16 +61,19 @@ public:
     /**
      *  Gets the instance of CCFileUtils.
      */
+    // 获取单例
     static CCFileUtils* sharedFileUtils();
     
     /**
      *  Destroys the instance of CCFileUtils.
      */
+    // 清除单例
     static void purgeFileUtils();
     
     /**
      *  The destructor of CCFileUtils.
      */
+    // 析构方法
     virtual ~CCFileUtils();
     
     /**
@@ -79,6 +84,7 @@ public:
      *        All the resources will be downloaded to the writable folder, before new js app launchs,
      *        this method should be invoked to clean the file search cache.
      */
+    // 清除文件搜索缓存；资源更新后调用
     virtual void purgeCachedEntries();
     
     /**
@@ -90,6 +96,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise NULL.
      *  @warning Recall: you are responsible for calling delete[] on any Non-NULL pointer returned.
      */
+    // 获取文件数据，使用文件名称，读取模式，长度为参数； 成功则返回指针
     virtual unsigned char* getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize);
 
     /**
@@ -100,6 +107,7 @@ public:
      *  @return Upon success, a pointer to the data is returned, otherwise NULL.
      *  @warning Recall: you are responsible for calling delete[] on any Non-NULL pointer returned.
      */
+    // 获取数据，从zip压缩文件中，使用文件名称，大小，为参数
     virtual unsigned char* getFileDataFromZip(const char* pszZipFilePath, const char* pszFileName, unsigned long * pSize);
 
     
@@ -148,6 +156,7 @@ public:
 
      @since v2.1
      */
+    // 获取完整路径，给定文件名称
     virtual std::string fullPathForFilename(const char* pszFileName);
     
     /**
@@ -181,6 +190,7 @@ public:
      *
      @since v2.1
      */
+    // 载人文件，使用文件名称
     virtual void loadFilenameLookupDictionaryFromFile(const char* filename);
     
     /** 
@@ -189,6 +199,7 @@ public:
      *  @param pFilenameLookupDict The dictionary for replacing filename.
      *  @since v2.1
      */
+    // 设置文件名称字典
     virtual void setFilenameLookupDictionary(CCDictionary* pFilenameLookupDict);
     
     /**
@@ -200,6 +211,7 @@ public:
      *               Return: /User/path1/path2/hello.pvr (If there a a key(hello.png)-value(hello.pvr) in FilenameLookup dictionary. )
      *
      */
+    // 获取完成路径，使用相对文件名称为参数
     virtual const char* fullPathFromRelativeFile(const char *pszFilename, const char *pszRelativeFile);
 
     /** 
@@ -209,6 +221,7 @@ public:
      *  @see getSearchResolutionsOrder(void), fullPathForFilename(const char*).
      *  @since v2.1
      */
+    // 设置所有资源次序
     virtual void setSearchResolutionsOrder(const std::vector<std::string>& searchResolutionsOrder);
 
     /**
@@ -217,6 +230,7 @@ public:
       * @see setSearchResolutionsOrder(), fullPathForFilename().
       * @since v2.1
       */
+    // 增加所有资源顺序
     virtual void addSearchResolutionsOrder(const char* order);
     
     /**
@@ -225,6 +239,7 @@ public:
      *  @see setSearchResolutionsOrder(const std::vector<std::string>&), fullPathForFilename(const char*).
      *  @since v2.1
      */
+    // 获取搜索资源的顺序
     virtual const std::vector<std::string>& getSearchResolutionsOrder();
     
     /** 
@@ -244,6 +259,7 @@ public:
      *  @see fullPathForFilename(const char*)
      *  @since v2.1
      */
+    // 设置搜索路径
     virtual void setSearchPaths(const std::vector<std::string>& searchPaths);
     
     /**
@@ -251,6 +267,7 @@ public:
       *
       * @since v2.1
       */
+     // 增加搜索路径
      void addSearchPath(const char* path);
     
     /**
@@ -259,12 +276,14 @@ public:
      *  @return The array of search paths.
      *  @see fullPathForFilename(const char*).
      */
+    // 获取搜索路径数组
     virtual const std::vector<std::string>& getSearchPaths();
 
     /**
      *  Gets the writable path.
      *  @return  The path that can be write/read a file in
      */
+    // 获取写入路径
     virtual std::string getWritablePath() = 0;
     
     /**
@@ -274,6 +293,7 @@ public:
      *  @param strFilePath The path of the file, it could be a relative or absolute path.
      *  @return true if the file exists, otherwise it will return false.
      */
+    // 检测文件存在
     virtual bool isFileExist(const std::string& strFilePath) = 0;
     
     /**
@@ -285,12 +305,14 @@ public:
      *  @param strPath The path that needs to be checked.
      *  @return true if it's an absolute path, otherwise it will return false.
      */
+    // 是否是绝对路径
     virtual bool isAbsolutePath(const std::string& strPath);
     
     
     /**
      *  Sets/Gets whether to pop-up a message box when failed to load an image.
      */
+    // 设置，获取弹出消息框，当载人图片时
     virtual void setPopupNotify(bool bNotify);
     virtual bool isPopupNotify();
 
@@ -298,6 +320,7 @@ protected:
     /**
      *  The default constructor.
      */
+    // 默认构造
     CCFileUtils();
     
     /**
@@ -308,6 +331,7 @@ protected:
      *  @return true if successed, otherwise it returns false.
      *
      */
+    // 初始化方法m_searchPathArray 和 m_searchResolutionsOrderArray为默认值
     virtual bool init();
     
     /**
@@ -316,6 +340,7 @@ protected:
      *  @return The new filename after searching in the filename lookup dictionary.
      *          If the original filename wasn't in the dictionary, it will return the original filename.
      */
+    // 获取新的文件名，从字典中
     virtual std::string getNewFilename(const char* pszFileName);
     
     /**
@@ -326,6 +351,7 @@ protected:
      *  @param searchPath The search path.
      *  @return The full path of the file. It will return an empty string if the full path of the file doesn't exist.
      */
+    // 获取文件的完整路径
     virtual std::string getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath);
     
     /**
@@ -338,18 +364,21 @@ protected:
      *  @param strFilename  The name of the file.
      *  @return The full path of the file, if the file can't be found, it will return an empty string.
      */
+    // 获取完整路径，字典和文件名称
     virtual std::string getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename);
     
     /**
      *  Creates a dictionary by the contents of a file.
      *  @note This method is used internally.
      */
+    // 创建字典，使用包含的文件
     virtual CCDictionary* createCCDictionaryWithContentsOfFile(const std::string& filename);
     
     /**
      *  Creates an array by the contents of a file.
      *  @note This method is used internally.
      */
+    // 创建数组，使用文件内容为参数
     virtual CCArray* createCCArrayWithContentsOfFile(const std::string& filename);
     
     /** Dictionary used to lookup filenames based on a key.
@@ -359,18 +388,21 @@ protected:
      *
      *  @since v2.1
      */
+    // 字典，
     CCDictionary* m_pFilenameLookupDict;
     
     /** 
      *  The vector contains resolution folders.
      *  The lower index of the element in this vector, the higher priority for this resolution directory.
      */
+    // 资源文件夹
     std::vector<std::string> m_searchResolutionsOrderArray;
     
     /**
      * The vector contains search paths.
      * The lower index of the element in this vector, the higher priority for this search path.
      */
+    // 搜索路径
     std::vector<std::string> m_searchPathArray;
     
     /**
@@ -380,17 +412,20 @@ protected:
      *  On Android, the default root path of resources will be assigned with "assets/" in CCFileUtilsAndroid::init().
      *  Similarly on Blackberry, we assign "app/native/Resources/" to this variable in CCFileUtilsBlackberry::init().
      */
+    // 默认根路径
     std::string m_strDefaultResRootPath;
     
     /**
      *  The full path cache. When a file is found, it will be added into this cache. 
      *  This variable is used for improving the performance of file search.
      */
+    // 完整路径，当一个文件被找到时，被添加到缓存中
     std::map<std::string, std::string> m_fullPathCache;
     
     /**
      *  The singleton pointer of CCFileUtils.
      */
+    // 文件操作单例
     static CCFileUtils* s_sharedFileUtils;
     
 };
