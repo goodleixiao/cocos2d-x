@@ -39,7 +39,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // premultiply alpha, or the effect will wrong when want to use other pixel format in CCTexture2D,
-// such as RGB888, RGB5A1
+// such as RGB888, RGB5A1	阿尔法预乘
 #define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va) \
     (unsigned)(((unsigned)((unsigned char)(vr) * ((unsigned char)(va) + 1)) >> 8) | \
     ((unsigned)((unsigned char)(vg) * ((unsigned char)(va) + 1) >> 8) << 8) | \
@@ -157,6 +157,7 @@ bool CCImage::initWithImageData(void * pData,
         else
         {
             // if it is a png file buffer.
+            // 如果是Png文件缓存
             if (nDataLen > 8)
             {
                 unsigned char* pHead = (unsigned char*)pData;
@@ -175,6 +176,7 @@ bool CCImage::initWithImageData(void * pData,
             }
 
             // if it is a tiff file buffer.
+            // 如果是tiff文件缓存
             if (nDataLen > 2)
             {
                 unsigned char* pHead = (unsigned char*)pData;
@@ -188,6 +190,7 @@ bool CCImage::initWithImageData(void * pData,
             }
 
             // if it is a jpeg file buffer.
+            // 如果是jpeg文件缓存
             if (nDataLen > 2)
             {
                 unsigned char* pHead = (unsigned char*)pData;
@@ -225,6 +228,11 @@ bool CCImage::initWithImageData(void * pData,
  *
  * Here's the extended error handler struct:
  */
+/** 错误处理
+ *  jpeg标准库错误处理程序：jerror.c，你可以重载一些方法；后面版本更新
+ * 
+ * 就是修改标准库中方法，要注意
+ */
 
 struct my_error_mgr {
   struct jpeg_error_mgr pub;	/* "public" fields */
@@ -237,7 +245,7 @@ typedef struct my_error_mgr * my_error_ptr;
 /*
  * Here's the routine that will replace the standard error_exit method:
  */
-
+// 运行时，替换标准的error_exit方法
 METHODDEF(void)
 my_error_exit (j_common_ptr cinfo)
 {
