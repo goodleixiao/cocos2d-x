@@ -43,6 +43,7 @@
 @synthesize msaaFramebuffer=msaaFramebuffer_;
 
 // Create an OpenGL ES 2.0 context
+// 创建opengl es上下文
 - (id) initWithDepthFormat:(unsigned int)depthFormat withPixelFormat:(unsigned int)pixelFormat withSharegroup:(EAGLSharegroup*)sharegroup withMultiSampling:(BOOL) multiSampling withNumberOfSamples:(unsigned int) requestedSamples
 {
     self = [super init];
