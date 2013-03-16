@@ -34,7 +34,7 @@ class CCLock
 public:
     CCLock(void);
     ~CCLock(void);
-
+ 
     void lock(void);
     void unlock(void);
 };
