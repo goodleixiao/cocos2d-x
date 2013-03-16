@@ -80,7 +80,7 @@ bool CCNotificationCenter::observerExisted(CCObject *target,const char *name)
 
 //
 // observer functions
-//
+// 观察者函数
 void CCNotificationCenter::addObserver(CCObject *target, 
                                        SEL_CallFuncO selector,
                                        const char *name,
