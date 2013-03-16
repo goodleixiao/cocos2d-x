@@ -40,6 +40,7 @@ public:
     /**
      @brief Get target platform
      */
+    // 获取目标平台
     virtual TargetPlatform getTargetPlatform();
 
 protected:
