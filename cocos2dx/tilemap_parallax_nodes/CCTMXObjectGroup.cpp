@@ -30,6 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 //implementation CCTMXObjectGroup
+// 实现瓦片对象组
 
 CCTMXObjectGroup::CCTMXObjectGroup()
     :m_tPositionOffset(CCPointZero)
@@ -60,7 +61,7 @@ CCDictionary* CCTMXObjectGroup::objectNamed(const char *objectName)
             }
         }
     }
-    // object not found
+    // object not found 对象未找到
     return NULL;    
 }
 CCString* CCTMXObjectGroup::propertyNamed(const char* propertyName)
