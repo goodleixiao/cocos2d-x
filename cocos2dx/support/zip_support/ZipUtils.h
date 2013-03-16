@@ -32,15 +32,15 @@ namespace cocos2d
     /** @struct CCZHeader
     */
     struct CCZHeader {
-        unsigned char            sig[4];                // signature. Should be 'CCZ!' 4 bytes
-        unsigned short            compression_type;    // should 0
-        unsigned short            version;            // should be 2 (although version type==1 is also supported)
-        unsigned int             reserved;            // Reserved for users.
-        unsigned int            len;                // size of the uncompressed file
+        unsigned char            sig[4];                // signature. Should be 'CCZ!' 4 bytes  签名（标示位）
+        unsigned short            compression_type;    // should 0                              压缩类型
+        unsigned short            version;            // should be 2 (although version type==1 is also supported)   版本
+        unsigned int             reserved;            // Reserved for users.                    保留位
+        unsigned int            len;                // size of the uncompressed file            长度（未压缩）
     };
 
     enum {
-        CCZ_COMPRESSION_ZLIB,                // zlib format.
+        CCZ_COMPRESSION_ZLIB,                // zlib format.    压缩支持格式
         CCZ_COMPRESSION_BZIP2,                // bzip2 format (not supported yet)
         CCZ_COMPRESSION_GZIP,                // gzip format (not supported yet)
         CCZ_COMPRESSION_NONE,                // plain (not supported yet)
