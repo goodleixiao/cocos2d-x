@@ -33,7 +33,7 @@ THE SOFTWARE.
 namespace   cocos2d {
 
 struct CCAffineTransform;
-
+// 坐标转换
 void CGAffineToGL(const CCAffineTransform *t, GLfloat *m);
 void GLToCGAffine(const GLfloat *m, CCAffineTransform *t);
 }//namespace   cocos2d 
