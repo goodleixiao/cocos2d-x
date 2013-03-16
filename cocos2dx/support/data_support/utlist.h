@@ -58,11 +58,19 @@ namespace   cocos2d {
  * For singly-linked lists, append and delete are O(n) but prepend is O(1)
  * The sort macro is O(n log(n)) for all types of single/double/circular lists.
  */
+/** 该文件包括两种链表：单向和双向链表
+ * 单链表（下一个指针），双链表（前后指针），圆形双链表（指针头）
+ */
 
 /* These macros use decltype or the earlier __typeof GNU extension.
    As decltype is only available in newer compilers (VS2010 or gcc 4.3+
    when compiling c++ code), this code uses whatever method is needed
    or, for VS2008 where neither is available, uses casting workarounds. */
+
+/** 这些宏定做，是GNU的扩展，有些类型仅在新的编译器中存在（vs2010 or gcc4.3) 
+ * 这些代码是需要的；对于vs2008使用铸造的解决方法,或者换开发环境
+ */
+
 #ifdef _MSC_VER            /* MS compiler */
 #if _MSC_VER >= 1600 && defined(__cplusplus  )/* VS2010 or newer in C++ mode */
 #define LDECLTYPE(x) decltype(x)
@@ -77,6 +85,11 @@ namespace   cocos2d {
 /* for VS2008 we use some workarounds to get around the lack of decltype,
  * namely, we always reassign our tmp variable to the list head if we need
  * to dereference its prev/next pointers, and save/restore the real head.*/
+/**
+ * 为VS2008中，我们使用了一些解决方法，以解决缺乏decltype，
+ * 即，我们总是重新分配我们的TMP变量表头，如果我们需要
+ * 取消引用它的prev/ next指针，保存/恢复真正的头部
+ */
 #ifdef NO_DECLTYPE
 #define _SV(elt,list) _tmp = (char*)(list); {char **_alias = (char**)&(list); *_alias = (elt); }
 #define _NEXT(elt,list) ((char*)((list)->next))
@@ -99,6 +112,7 @@ namespace   cocos2d {
  * The sort macro is an adaptation of Simon Tatham's O(n log(n)) mergesort    *
  * Unwieldy variable names used here to avoid shadowing passed-in variables.  *
  *****************************************************************************/
+ // 排序宏
 #define LL_SORT(list, cmp)                                                                     \
 do {                                                                                           \
   LDECLTYPE(list) _ls_p;                                                                        \
@@ -284,7 +298,7 @@ do {                                                                            
 } while (0)
 
 /******************************************************************************
- * singly linked list macros (non-circular)                                   *
+ * singly linked list macros (non-circular)        单链表非圆形                           *
  *****************************************************************************/
 #define LL_PREPEND(head,add)                                                                   \
 do {                                                                                           \
@@ -381,7 +395,7 @@ do {                                                                            
 } while(0) 
 
 /******************************************************************************
- * doubly linked list macros (non-circular)                                   *
+ * doubly linked list macros (non-circular)           双链表，非圆形                        *
  *****************************************************************************/
 #define DL_PREPEND(head,add)                                                                   \
 do {                                                                                           \
@@ -439,7 +453,7 @@ do {                                                                            
 #define DL_SEARCH LL_SEARCH
 
 /******************************************************************************
- * circular doubly linked list macros                                         *
+ * circular doubly linked list macros                圆形链表                         *
  *****************************************************************************/
 #define CDL_PREPEND(head,add)                                                                  \
 do {                                                                                           \
