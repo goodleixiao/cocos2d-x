@@ -42,6 +42,7 @@ Examples:
 
 @since v0.99.5
 */
+// 返回下一个数的值. 若值为16，下一个也为16； 若值为17，则为32
 
 unsigned long ccNextPOT( unsigned long value );
 
