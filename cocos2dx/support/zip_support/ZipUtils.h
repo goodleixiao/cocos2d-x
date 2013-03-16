@@ -58,6 +58,7 @@ namespace cocos2d
         *
         @since v0.8.1
         */
+        // 非配内存。内存有调度者释放；会分配256k的目标缓冲区； 返回分配的缓冲区长度
         static int ccInflateMemory(unsigned char *in, unsigned int inLength, unsigned char **out);
 
         /** 
@@ -70,6 +71,7 @@ namespace cocos2d
         *
         @since v1.0.0
         */
+        // 返回缓冲区的长度，
         static int ccInflateMemoryWithHint(unsigned char *in, unsigned int inLength, unsigned char **out, unsigned int outLenghtHint);
 
         /** inflates a GZip file into memory
@@ -78,6 +80,7 @@ namespace cocos2d
         *
         * @since v0.99.5
         */
+        // 解压一个gzip文件到内存，返回缓冲区的长度
         static int ccInflateGZipFile(const char *filename, unsigned char **out);
 
         /** inflates a CCZ file into memory
@@ -86,6 +89,7 @@ namespace cocos2d
         *
         * @since v0.99.5
         */
+        // 解压/膨胀一个ccz文件到内存，返回缓冲区的长度
         static int ccInflateCCZFile(const char *filename, unsigned char **out);
 
     private:
@@ -94,6 +98,7 @@ namespace cocos2d
     };
 
     // forward declaration
+    // 声明
     class ZipFilePrivate;
 
     /**
@@ -104,6 +109,7 @@ namespace cocos2d
     *
     * @since v2.0.5
     */
+    // 会缓存特定zip文件到指定位置在存档列表内，因此可以更加快速的读取指定文件或检测其存在
     class ZipFile
     {
     public:
@@ -116,6 +122,7 @@ namespace cocos2d
         *
         * @since v2.0.5
         */
+        // 构造，打开zip文件和存储文件列表，使用文件名称，过滤器为参数
         ZipFile(const std::string &zipFile, const std::string &filter = std::string());
         virtual ~ZipFile();
 
@@ -128,6 +135,7 @@ namespace cocos2d
         *
         * @since v2.0.5
         */
+        // 基于新的过滤器字符串，访问文件列表
         bool setFilter(const std::string &filter);
 
         /**
@@ -138,6 +146,7 @@ namespace cocos2d
         *
         * @since v2.0.5
         */
+        // 检测一个文件是否存在在zip文件中
         bool fileExists(const std::string &fileName) const;
 
         /**
@@ -149,10 +158,12 @@ namespace cocos2d
         *
         * @since v2.0.5
         */
+        // 获取资源文件数据从zip文件中，使用文件名称，文件大小（文件读取操作成功，则有大小，否则为0）
         unsigned char *getFileData(const std::string &fileName, unsigned long *pSize);
 
     private:
         /** Internal data like zip file pointer / file list array and so on */
+        // 内部数据，如文件指针，列表数组等
         ZipFilePrivate *m_data;
     };
 } // end of namespace cocos2d
