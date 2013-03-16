@@ -142,7 +142,7 @@ void CCSAXParser::setDelegator(CCSAXDelegator* pDelegator)
 {
     m_pDelegator = pDelegator;
 }
-
+ 
 NS_CC_END
 
 
