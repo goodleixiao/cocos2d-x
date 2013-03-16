@@ -34,6 +34,7 @@ static bool tgaLoadRLEImageData(unsigned char* Buffer, unsigned long bufSize, tI
 void tgaFlipImage( tImageTGA *info );
 
 // load the image header field from stream
+// 载人图片头信息，从流中
 bool tgaLoadHeader(unsigned char* Buffer, unsigned long bufSize, tImageTGA *psInfo)
 {
     bool bRet = false;
@@ -193,6 +194,7 @@ void tgaFlipImage( tImageTGA *psInfo )
 }
 
 // this is the function to call when we want to load an image
+// 主要调用这个就行了
 tImageTGA * tgaLoad(const char *pszFilename)
 {
     int mode,total;
