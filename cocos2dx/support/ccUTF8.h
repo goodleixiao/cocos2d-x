@@ -24,6 +24,7 @@ CC_DLL void cc_utf8_trim_ws(std::vector<unsigned short>* str);
  *
  * Return value: weather the character is a whitespace character.
  * */
+// 是否是空格
 CC_DLL bool isspace_unicode(unsigned short ch);
 
 /*
@@ -38,6 +39,7 @@ CC_DLL bool isspace_unicode(unsigned short ch);
  *
  * Return value: the length of the string in characters
  **/
+// 返回字符串的长度
 CC_DLL long
 cc_utf8_strlen (const char * p, int max);
 
@@ -47,6 +49,7 @@ cc_utf8_strlen (const char * p, int max);
  *
  * Return value: the index of the last character that is not c.
  * */
+// 返回c所在的索引
 CC_DLL unsigned int cc_utf8_find_last_not_char(std::vector<unsigned short> str, unsigned short c);
 
 CC_DLL std::vector<unsigned short> cc_utf16_vec_from_utf16_str(const unsigned short* str);
@@ -59,6 +62,7 @@ CC_DLL std::vector<unsigned short> cc_utf16_vec_from_utf16_str(const unsigned sh
  *
  * Return value: the newly created utf8 string.
  * */
+// 新创建一个utf8字符串，从另一个字符串中
 CC_DLL unsigned short* cc_utf8_to_utf16(const char* str_old);
 
 /**
@@ -86,6 +90,7 @@ CC_DLL unsigned short* cc_utf8_to_utf16(const char* str_old);
  *               error occurs, %NULL will be returned and
  *               @error set.
  **/
+// 返回一个新分配的utf8字符串指针
 CC_DLL char *
 cc_utf16_to_utf8 (const unsigned short  *str,
                   long             len,
