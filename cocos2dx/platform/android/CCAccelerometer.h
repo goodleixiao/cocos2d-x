@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include "platform/CCCommon.h"
 #include "platform/CCAccelerometerDelegate.h"
-
+ 
 namespace   cocos2d {
 
 class CC_DLL CCAccelerometer
