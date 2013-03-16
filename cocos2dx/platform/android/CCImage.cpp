@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include <android/log.h>
 #include <string.h>
-#include <jni.h>
+#include <jni.h> 
 
 
 NS_CC_BEGIN
