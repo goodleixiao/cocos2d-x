@@ -26,7 +26,7 @@ static int getUnUsedIndex()
         temp >>= 1;
     }
 
-    // all bits are used
+    // all bits are used	使用
     return -1;
 }
 
@@ -79,7 +79,7 @@ void CCEGLViewProtocol::setDesignResolutionSize(float width, float height, Resol
         m_fScaleX = m_fScaleY = MIN(m_fScaleX, m_fScaleY);
     }
 
-    // calculate the rect of viewport    
+    // calculate the rect of viewport    计算视口矩形
     float viewPortW = m_obDesignResolutionSize.width * m_fScaleX;
     float viewPortH = m_obDesignResolutionSize.height * m_fScaleY;
 
@@ -87,7 +87,7 @@ void CCEGLViewProtocol::setDesignResolutionSize(float width, float height, Resol
     
     m_eResolutionPolicy = resolutionPolicy;
     
-	// reset director's member variables to fit visible rect
+	// reset director's member variables to fit visible rect 重置导演成员变量，适应可见矩形
     CCDirector::sharedDirector()->m_obWinSizeInPoints = getDesignResolutionSize();
     CCDirector::sharedDirector()->createStatsLabel();
     CCDirector::sharedDirector()->setGLDefaultValues();
@@ -179,7 +179,7 @@ void CCEGLViewProtocol::handleTouchesBegin(int num, int ids[], float xs[], float
         CCInteger* pIndex = (CCInteger*)s_TouchesIntergerDict.objectForKey(id);
         int nUnusedIndex = 0;
 
-        // it is a new touch
+        // it is a new touch 新的触摸
         if (pIndex == NULL)
         {
             nUnusedIndex = getUnUsedIndex();
@@ -238,7 +238,7 @@ void CCEGLViewProtocol::handleTouchesMove(int num, int ids[], float xs[], float 
         }
         else
         {
-            // It is error, should return.
+            // It is error, should return. 错误，则返回
             CCLOG("Moving touches with id: %d error", id);
             return;
         }
@@ -268,6 +268,7 @@ void CCEGLViewProtocol::getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[
             continue;
         }
         /* Add to the set to send to the director */
+        // 发送给导演
         CCTouch* pTouch = s_pTouches[pIndex->getValue()];        
         if (pTouch)
         {
@@ -278,6 +279,7 @@ void CCEGLViewProtocol::getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[
             set.addObject(pTouch);
 
             // release the object
+            // 释放对象
             pTouch->release();
             s_pTouches[pIndex->getValue()] = NULL;
             removeUsedIndexBit(pIndex->getValue());
