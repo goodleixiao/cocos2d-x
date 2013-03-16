@@ -37,17 +37,19 @@ NS_CC_BEGIN
 
 // memory in iPhone is precious
 // Should buffer factor be 1.5 instead of 2 ?
+// 内存使用是珍贵的，是否减少缓冲区
 #define BUFFER_INC_FACTOR (2)
-
+// 获取缓冲区的长度
 int ZipUtils::ccInflateMemoryWithHint(unsigned char *in, unsigned int inLength, unsigned char **out, unsigned int *outLength, unsigned int outLenghtHint)
 {
     /* ret value */
+    // 值
     int err = Z_OK;
 
     int bufferSize = outLenghtHint;
     *out = new unsigned char[bufferSize];
 
-    z_stream d_stream; /* decompression stream */    
+    z_stream d_stream; /* decompression stream */    // 解压缩流
     d_stream.zalloc = (alloc_func)0;
     d_stream.zfree = (free_func)0;
     d_stream.opaque = (voidpf)0;
@@ -58,6 +60,7 @@ int ZipUtils::ccInflateMemoryWithHint(unsigned char *in, unsigned int inLength, 
     d_stream.avail_out = bufferSize;
 
     /* window size to hold 256k */
+    // 256K
     if( (err = inflateInit2(&d_stream, 15 + 32)) != Z_OK )
         return err;
 
@@ -81,12 +84,14 @@ int ZipUtils::ccInflateMemoryWithHint(unsigned char *in, unsigned int inLength, 
         }
 
         // not enough memory ?
+        // 内存不足时
         if (err != Z_STREAM_END) 
         {
             delete [] *out;
             *out = new unsigned char[bufferSize * BUFFER_INC_FACTOR];
 
             /* not enough memory, ouch */
+            // 内存不足时
             if (! *out ) 
             {
                 CCLOG("cocos2d: ZipUtils: realloc failed");
@@ -184,6 +189,7 @@ int ZipUtils::ccInflateGZipFile(const char *path, unsigned char **out)
         offset += len;
 
         // finish reading the file
+        // 完成读取文件
         if( (unsigned int)len < bufferSize )
         {
             break;
@@ -218,6 +224,7 @@ int ZipUtils::ccInflateCCZFile(const char *path, unsigned char **out)
      CCAssert(&*out, "");
 
      // load file into memory
+     // 载人文件到内存
      unsigned char* compressed = NULL;
     
      unsigned long fileLen = 0;
@@ -232,6 +239,7 @@ int ZipUtils::ccInflateCCZFile(const char *path, unsigned char **out)
      struct CCZHeader *header = (struct CCZHeader*) compressed;
 
      // verify header
+     // 验证头
      if( header->sig[0] != 'C' || header->sig[1] != 'C' || header->sig[2] != 'Z' || header->sig[3] != '!' ) 
      {
          CCLOG("cocos2d: Invalid CCZ file");
@@ -240,6 +248,7 @@ int ZipUtils::ccInflateCCZFile(const char *path, unsigned char **out)
      }
 
      // verify header version
+     // 验证头版本
      unsigned int version = CC_SWAP_INT16_BIG_TO_HOST( header->version );
      if( version > 2 ) 
      {
@@ -249,6 +258,7 @@ int ZipUtils::ccInflateCCZFile(const char *path, unsigned char **out)
      }
 
      // verify compression format
+     // 验证压缩格式
      if( CC_SWAP_INT16_BIG_TO_HOST(header->compression_type) != CCZ_COMPRESSION_ZLIB ) 
      {
          CCLOG("cocos2d: CCZ Unsupported compression method");
@@ -332,6 +342,7 @@ bool ZipFile::setFilter(const std::string &filter)
         CC_BREAK_IF(!m_data->zipFile);
 
         // clear existing file list
+        // 清除存在文件列表
         m_data->fileList.clear();
 
         // UNZ_MAXFILENAMEINZIP + 1 - it is done so in unzLocateFile
@@ -339,6 +350,7 @@ bool ZipFile::setFilter(const std::string &filter)
         unz_file_info64 fileInfo;
 
         // go through all files and store position information about the required files
+        // 经过的所有文件和所需的文件存储位置信息
         int err = unzGoToFirstFile64(m_data->zipFile, &fileInfo,
                 szCurrentFileName, sizeof(szCurrentFileName) - 1);
         while (err == UNZ_OK)
@@ -349,6 +361,7 @@ bool ZipFile::setFilter(const std::string &filter)
             {
                 std::string currentFileName = szCurrentFileName;
                 // cache info about filtered files only (like 'assets/')
+                // 缓存信息关于过滤文件仅仅
                 if (filter.empty()
                     || currentFileName.substr(0, filter.length()) == filter)
                 {
@@ -359,6 +372,7 @@ bool ZipFile::setFilter(const std::string &filter)
                 }
             }
             // next file - also get the information about it
+            // 下个文件，也要获取信息
             err = unzGoToNextFile64(m_data->zipFile, &fileInfo,
                     szCurrentFileName, sizeof(szCurrentFileName) - 1);
         }
