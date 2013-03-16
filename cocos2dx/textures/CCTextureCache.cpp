@@ -120,10 +120,12 @@ static void* loadImage(void* data)
     while (true)
     {
         // create autorelease pool for iOS
+        // 创建自动释放池
         CCThread thread;
         thread.createAutoreleasePool();
         
         // wait for rendering thread to ask for loading if s_pAsyncStructQueue is empty
+        // 等待渲染线程载人
         int semWaitRet = sem_wait(s_pSem);
         if( semWaitRet < 0 )
         {
@@ -133,7 +135,7 @@ static void* loadImage(void* data)
 
         std::queue<AsyncStruct*> *pQueue = s_pAsyncStructQueue;
 
-        pthread_mutex_lock(&s_asyncStructQueueMutex);// get async struct from queue
+        pthread_mutex_lock(&s_asyncStructQueueMutex);// get async struct from queue 获取异步结构从队列
         if (pQueue->empty())
         {
             pthread_mutex_unlock(&s_asyncStructQueueMutex);
@@ -151,7 +153,7 @@ static void* loadImage(void* data)
 
         const char *filename = pAsyncStruct->filename.c_str();
 
-        // compute image type
+        // compute image type   计数图片类型
         CCImage::EImageFormat imageType = computeImageFormatType(pAsyncStruct->filename);
         if (imageType == CCImage::kFmtUnKnown)
         {
@@ -161,7 +163,7 @@ static void* loadImage(void* data)
             continue;
         }
         
-        // generate image            
+        // generate image            生产图片
         CCImage *pImage = new CCImage();
         if (pImage && !pImage->initWithImageFileThreadSafe(filename, imageType))
         {
@@ -170,13 +172,13 @@ static void* loadImage(void* data)
             continue;
         }
 
-        // generate image info
+        // generate image info  图片信息
         ImageInfo *pImageInfo = new ImageInfo();
         pImageInfo->asyncStruct = pAsyncStruct;
         pImageInfo->image = pImage;
         pImageInfo->imageType = imageType;
 
-        // put the image info into the queue
+        // put the image info into the queue    图片信息放入队列
         pthread_mutex_lock(&s_ImageInfoMutex);
         s_pImageQueue->push(pImageInfo);
         pthread_mutex_unlock(&s_ImageInfoMutex);    
@@ -200,7 +202,7 @@ static void* loadImage(void* data)
 
 // implementation CCTextureCache
 
-// TextureCache - Alloc, Init & Dealloc
+// TextureCache - Alloc, Init & Dealloc 分配，初始化，
 static CCTextureCache *g_sharedTextureCache = NULL;
 
 CCTextureCache * CCTextureCache::sharedTextureCache()
