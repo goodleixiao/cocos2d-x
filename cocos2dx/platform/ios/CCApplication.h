@@ -41,29 +41,34 @@ public:
     /**
     @brief    Run the message loop.
     */
+    // 运行回路
     int run();
         
     /**
     @brief    Get the current application instance.
     @return Current application instance pointer.
     */
+    // 应用程序实例
     static CCApplication* sharedApplication();
     
     /**
      @brief    Callback by CCDirector for limit FPS.
      @interval       The time, expressed in seconds, between current frame and next. 
      */
+    // 设置动画间隔
     virtual void setAnimationInterval(double interval);
 
     /**
     @brief Get current language config
     @return Current language config
     */
+    // 获取语言设置
     virtual ccLanguageType getCurrentLanguage();
     
     /**
      @brief Get target platform
      */
+    // 获取目标平台
     virtual TargetPlatform getTargetPlatform();
 
 protected:
