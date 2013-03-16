@@ -109,7 +109,7 @@ int base64Decode(unsigned char *in, unsigned int inLength, unsigned char **out)
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA)
             printf("Base64Utils: error decoding");
 #endif
-            delete [] *out;
+            delete [] *out; 
             *out = NULL;            
             outLength = 0;
         }
