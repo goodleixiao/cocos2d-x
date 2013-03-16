@@ -36,6 +36,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // implementation CCTileMapAtlas
+// 实现瓦片地图
 
 CCTileMapAtlas * CCTileMapAtlas::create(const char *tile, const char *mapFile, int tileWidth, int tileHeight)
 {
@@ -121,7 +122,7 @@ void CCTileMapAtlas::loadTGAfile(const char *file)
     //    NSBundle *mainBndl = [CCDirector sharedDirector].loadingBundle;
     //    CCString *resourcePath = [mainBndl resourcePath];
     //    CCString * path = [resourcePath stringByAppendingPathComponent:file];
-
+    //    找到文件路径
     m_pTGAInfo = tgaLoad( fullPath.c_str() );
 #if 1
     if( m_pTGAInfo->status != TGA_OK ) 
@@ -131,7 +132,7 @@ void CCTileMapAtlas::loadTGAfile(const char *file)
 #endif
 }
 
-// CCTileMapAtlas - Atlas generation / updates
+// CCTileMapAtlas - Atlas generation / updates  生产，更新
 void CCTileMapAtlas::setTile(const ccColor3B& tile, const CCPoint& position)
 {
     CCAssert(m_pTGAInfo != NULL, "tgaInfo must not be nil");
