@@ -92,5 +92,5 @@ static id s_sharedDirectorCaller;
 {
     cocos2d::CCDirector::sharedDirector()->mainLoop();
 }
-
+ 
 @end
