@@ -60,7 +60,7 @@ void CCApplication::setAnimationInterval(double interval)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// static member function
+// static member function 静态成员函数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 CCApplication* CCApplication::sharedApplication()
@@ -72,11 +72,13 @@ CCApplication* CCApplication::sharedApplication()
 ccLanguageType CCApplication::getCurrentLanguage()
 {
     // get the current language and country config
+    // 获取当前语言和国家配置
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
     NSString *currentLanguage = [languages objectAtIndex:0];
 
     // get the current language code.(such as English is "en", Chinese is "zh" and so on)
+    // 获取当前语言代码
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
     NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
 
