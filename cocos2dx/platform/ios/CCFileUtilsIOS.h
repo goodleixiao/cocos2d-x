@@ -39,6 +39,7 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
+//! 纹理处理操作
 class CC_DLL CCFileUtilsIOS : public CCFileUtils
 {
 public:
