@@ -30,6 +30,7 @@ NS_CC_BEGIN
 
 //#pragma mark - Profiling Categories
 /* set to NO the categories that you don't want to profile */
+// 若要分析则设为true 类别扩展
 bool kCCProfilerCategorySprite = false;
 bool kCCProfilerCategoryBatchSprite = false;
 bool kCCProfilerCategoryParticles = false;
@@ -90,6 +91,7 @@ void CCProfiler::displayTimers()
 }
 
 // implementation of CCProfilingTimer
+// 实现计数
 
 bool CCProfilingTimer::initWithName(const char* timerName)
 {
@@ -152,7 +154,7 @@ void CCProfilingEndTimingBlock(const char *timerName)
 
     double duration = CCTime::timersubCocos2d((struct cc_timeval *)&timer->m_sStartTime, (struct cc_timeval *)&currentTime);
 
-    // milliseconds
+    // milliseconds 微秒
     timer->m_dAverageTime = (timer->m_dAverageTime + duration) / 2.0f;
     timer->totalTime += duration;
     timer->maxTime = MAX( timer->maxTime, duration);
