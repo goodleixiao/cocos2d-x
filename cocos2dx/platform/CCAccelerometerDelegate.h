@@ -31,6 +31,7 @@ NS_CC_BEGIN
 /**
 @brief The device accelerometer reports values for each axis in units of g-force 
 */
+// 设备加速计要求知道每个轴的值
 class CCAcceleration
 {
 public:
@@ -46,6 +47,7 @@ public:
 The CCAccelerometerDelegate defines a single method for
 receiving acceleration-related data from the system.
 */
+// 单例方法，接收加速计相关数据
 class CC_DLL CCAccelerometerDelegate
 {
 public:
