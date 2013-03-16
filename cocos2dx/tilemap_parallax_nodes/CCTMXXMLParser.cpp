@@ -65,6 +65,7 @@ static const char* valueForKey(const char *key, std::map<std::string, std::strin
     return "";
 }
 // implementation CCTMXLayerInfo
+// 实现层信息
 CCTMXLayerInfo::CCTMXLayerInfo()
 : m_sName("")
 , m_pTiles(NULL)
@@ -98,6 +99,7 @@ void CCTMXLayerInfo::setProperties(CCDictionary* var)
 }
 
 // implementation CCTMXTilesetInfo
+// 实现瓦片集合信息
 CCTMXTilesetInfo::CCTMXTilesetInfo()
     :m_uFirstGid(0)
     ,m_tTileSize(CCSizeZero)
@@ -124,6 +126,7 @@ CCRect CCTMXTilesetInfo::rectForGID(unsigned int gid)
 }
 
 // implementation CCTMXMapInfo
+// 实现地图信息
 
 CCTMXMapInfo * CCTMXMapInfo::formatWithTMXFile(const char *tmxFile)
 {
@@ -312,6 +315,7 @@ bool CCTMXMapInfo::parseXMLFile(const char *xmlFilename)
 
 
 // the XML parser calls here with all the elements
+// xml解析调用，所有元素
 void CCTMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
 {    
     CC_UNUSED_PARAM(ctx);
