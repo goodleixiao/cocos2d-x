@@ -37,34 +37,45 @@ enum {
 };
 
 /** TGA format */
+/**TGA图像格式最大的特点是可以做出不规则形状的图形、图像文件，一般图形、图像文件都为四方形，
+ * 若需要有圆形、菱形甚至是缕空的图像文件时，TGA可就派上用场了。
+ */
 typedef struct sImageTGA {
     int status;
     unsigned char type, pixelDepth;
     
     /** map width */
+    // 宽度
     signed short width;
     
     /** map height */
+    // 高度
     signed short height;
     
     /** raw data */
+    // 原始数据
     unsigned char *imageData;
     int flipped;
 } tImageTGA;
 
 /// load the image header fields. We only keep those that matter!
+/// 载人图片头区域，参数缓存，大小，图片信息为参数
 bool tgaLoadHeader(unsigned char *Buffer, unsigned long bufSize, tImageTGA *psInfo);
 
 /// loads the image pixels. You shouldn't call this function directly
+/// 载人图片像素，参数缓存，大小，图片信息为参数
 bool tgaLoadImageData(unsigned char *Buffer, unsigned long bufSize, tImageTGA *psInfo);
 
 /// this is the function to call when we want to load an image
+// 载人图片，使用文件名称为参数
 tImageTGA * tgaLoad(const char *pszFilename);
 
 // /converts RGB to grayscale
+// rgb到灰阶（灰阶代表了由最暗到最亮之间不同亮度的层次级别）
 void tgaRGBtogreyscale(tImageTGA *psInfo);
 
 /// releases the memory used for the image
+/// 释放内存
 void tgaDestroy(tImageTGA *psInfo);
 
 }//namespace cocos2d 
