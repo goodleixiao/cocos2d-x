@@ -35,20 +35,24 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup tilemap_parallax_nodes
+ * @addtogroup tilemap_parallax_nodes 瓦片地图节点
  * @{
  */
 
 /** @brief CCTMXObjectGroup represents the TMX object group.
 @since v0.99.0
 */
+// 瓦片对象组
 class CC_DLL CCTMXObjectGroup : public CCObject
 {
     /** offset position of child objects */
+    // 子对象偏移量
     CC_SYNTHESIZE_PASS_BY_REF(CCPoint, m_tPositionOffset, PositionOffset);
     /** list of properties stored in a dictionary */
+    // 在字典存储的属性列表
     CC_PROPERTY(CCDictionary*, m_pProperties, Properties);
     /** array of the objects */
+    // 对象数组
     CC_PROPERTY(CCArray*, m_pObjects, Objects);
 public:
     CCTMXObjectGroup();
@@ -58,14 +62,17 @@ public:
     inline void setGroupName(const char *groupName){ m_sGroupName = groupName; }
 
     /** return the value for the specific property name */
+    // 返回指定属性名称
     CCString *propertyNamed(const char* propertyName);
 
     /** return the dictionary for the specific object name.
     It will return the 1st object found on the array for the given name.
     */
+    // 返回指定对象
     CCDictionary* objectNamed(const char *objectName);
 protected:    
     /** name of the group */
+    // 组名
     std::string m_sGroupName;
 };
 
