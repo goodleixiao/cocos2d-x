@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "CCThread.h"
 
 NS_CC_BEGIN
-
+ 
 CCThread::~CCThread()
 {
     [(id)m_pAutoreasePool release];
