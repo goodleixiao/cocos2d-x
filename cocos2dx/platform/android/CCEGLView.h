@@ -36,7 +36,7 @@ public:
     CCEGLView();
     virtual ~CCEGLView();
 
-    bool    isOpenGLReady();
+    bool    isOpenGLReady(); 
 
     // keep compatible
     void    end();
