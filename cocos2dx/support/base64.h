@@ -43,6 +43,7 @@ namespace cocos2d {
  *
  @since v0.8.1
  */
+// 解码：返回缓冲区出的长度
 int base64Decode(unsigned char *in, unsigned int inLength, unsigned char **out);
 
 }//namespace   cocos2d 
