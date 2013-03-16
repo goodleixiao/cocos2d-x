@@ -28,12 +28,14 @@ THE SOFTWARE.
 /**
 Config of cocos2d-x project, per target platform.
 */
+// 目标平台
 
 //////////////////////////////////////////////////////////////////////////
-// pre configure
+// pre configure    配置
 //////////////////////////////////////////////////////////////////////////
 
 // define supported target platform macro which CC uses.
+// 确定支持的目标平台的宏使用
 #define CC_PLATFORM_UNKNOWN            0
 #define CC_PLATFORM_IOS                1
 #define CC_PLATFORM_ANDROID            2
@@ -46,6 +48,7 @@ Config of cocos2d-x project, per target platform.
 #define CC_PLATFORM_NACL               9
 
 // Determine target platform by compile environment macro.
+// 确定编译环境
 #define CC_TARGET_PLATFORM             CC_PLATFORM_UNKNOWN
 
 // mac
@@ -105,10 +108,11 @@ Config of cocos2d-x project, per target platform.
 
 
 //////////////////////////////////////////////////////////////////////////
-// post configure
+// post configure   发布配置
 //////////////////////////////////////////////////////////////////////////
 
 // check user set platform
+// 检测用户设置平台
 #if ! CC_TARGET_PLATFORM
     #error  "Cannot recognize the target platform; are you targeting an unsupported platform?"
 #endif 
