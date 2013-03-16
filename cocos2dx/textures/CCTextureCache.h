@@ -44,7 +44,7 @@ class CCLock;
 class CCImage;
 
 /**
- * @addtogroup textures
+ * @addtogroup textures 纹理
  * @{
  */
 
@@ -52,6 +52,7 @@ class CCImage;
 * Once the texture is loaded, the next time it will return
 * a reference of the previously loaded texture reducing GPU & CPU memory
 */
+// 单例管理纹理；一旦载人，下次使用引用，可以减少gpu cpu消耗
 class CC_DLL CCTextureCache : public CCObject
 {
 protected:
@@ -61,6 +62,7 @@ protected:
 
 private:
     /// todo: void addImageWithAsyncObject(CCAsyncObject* async);
+    // 异步增加对象
     void addImageAsyncCallBack(float dt);
 
 public:
@@ -73,11 +75,13 @@ public:
     CCDictionary* snapshotTextures();
 
     /** Returns the shared instance of the cache */
+    // 返回共享实例
     static CCTextureCache * sharedTextureCache();
 
     /** purges the cache. It releases the retained instance.
     @since v0.99.0
     */
+    // 清除缓存
     static void purgeSharedTextureCache();
 
     /** Returns a Texture2D object given an file image
@@ -86,6 +90,7 @@ public:
     * Otherwise it will return a reference of a previously loaded image.
     * Supported image extensions: .png, .bmp, .tiff, .jpeg, .pvr, .gif
     */
+    // 返回纹理对象，使用给定图片文件为参数； 支持的图片格式：.png,bmp,tiff,jpeg,pvr,gif
     CCTexture2D* addImage(const char* fileimage);
 
     /* Returns a Texture2D object given a file image
@@ -95,7 +100,7 @@ public:
     * Supported image extensions: .png, .jpg
     * @since v0.8
     */
-    
+    // 异步增加图片，给定图片文件；  若图片文件没有预加载，则会创建新的对象； 图片格式：.png .jpg
     void addImageAsync(const char *path, CCObject *target, SEL_CallFuncO selector);
 
     /* Returns a Texture2D object given an CGImageRef image
@@ -112,11 +117,13 @@ public:
     * The "key" parameter will be used as the "key" for the cache.
     * If "key" is nil, then a new texture will be created each time.
     */
+    // 增加图片：使用CGImageRef 图片，键为参数；key为Nil，则新建；
     CCTexture2D* addUIImage(CCImage *image, const char *key);
 
     /** Returns an already created texture. Returns nil if the texture doesn't exist.
     @since v0.99.5
     */
+    // 返回一个已经存在的纹理。为Nil，则表示 不存在
     CCTexture2D* textureForKey(const char* key);
     /** Purges the dictionary of loaded textures.
     * Call this method if you receive the "Memory Warning"
@@ -124,6 +131,7 @@ public:
     * In the medium term: it will allocate more resources
     * In the long term: it will be the same
     */
+    // 删除所有纹理。 内存警告：释放内存
     void removeAllTextures();
 
     /** Removes unused textures
@@ -131,15 +139,18 @@ public:
     * It is convenient to call this method after when starting a new Scene
     * @since v0.8
     */
+    // 移除未使用的纹理
     void removeUnusedTextures();
 
     /** Deletes a texture from the cache given a texture
     */
+    // 删除指定纹理
     void removeTexture(CCTexture2D* texture);
 
     /** Deletes a texture from the cache given a its key name
     @since v0.99.4
     */
+    // 删除纹理，使用键为参数
     void removeTextureForKey(const char *textureKeyName);
 
     /** Output to CCLOG the current contents of this CCTextureCache
@@ -147,6 +158,7 @@ public:
     *
     * @since v1.0
     */
+    // 输出当前纹理缓存内容到日志
     void dumpCachedTextureInfo();
 
 #ifdef CC_SUPPORT_PVRTC
@@ -158,6 +170,7 @@ public:
     * bpp can only be 2 or 4. 2 means more compression but lower quality.
     * hasAlpha: whether or not the image contains alpha channel
     */
+    // 增加prv文件，使用文件名称，压缩值，阿尔法，宽为参数
     CCTexture2D* addPVRTCImage(const char* fileimage, int bpp, bool hasAlpha, int width);
 #endif // CC_SUPPORT_PVRTC
     
@@ -165,11 +178,13 @@ public:
     * If the file image was not previously loaded, it will create a new CCTexture2D
     *  object and it will return it. Otherwise it will return a reference of a previously loaded image
     */
+    // 增加pvr图片，使用文件名称为参数
     CCTexture2D* addPVRImage(const char* filename);
 
     /** Reload all textures
     It's only useful when the value of CC_ENABLE_CACHE_TEXTURE_DATA is 1
     */
+    // 重载所有纹理
     static void reloadAllTextures();
 };
 
@@ -206,6 +221,7 @@ public:
 private:
     // find VolatileTexture by CCTexture2D*
     // if not found, create a new one
+    // 没有，就新建一个
     static VolatileTexture* findVolotileTexture(CCTexture2D *tt);
 
 protected:
