@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup platform
+ * @addtogroup platform     平台
  * @{
  */
 
@@ -52,15 +52,15 @@ public:
 
     typedef enum
     {
-        kAlignCenter        = 0x33, ///< Horizontal center and vertical center.
-        kAlignTop           = 0x13, ///< Horizontal center and vertical top.
-        kAlignTopRight      = 0x12, ///< Horizontal right and vertical top.
-        kAlignRight         = 0x32, ///< Horizontal right and vertical center.
-        kAlignBottomRight   = 0x22, ///< Horizontal right and vertical bottom.
-        kAlignBottom        = 0x23, ///< Horizontal center and vertical bottom.
-        kAlignBottomLeft    = 0x21, ///< Horizontal left and vertical bottom.
-        kAlignLeft          = 0x31, ///< Horizontal left and vertical center.
-        kAlignTopLeft       = 0x11, ///< Horizontal left and vertical top.
+        kAlignCenter        = 0x33, ///< Horizontal center and vertical center. 文本对齐方式  水平中心和垂直中心
+        kAlignTop           = 0x13, ///< Horizontal center and vertical top.    水平中心和垂直上方
+        kAlignTopRight      = 0x12, ///< Horizontal right and vertical top.     水平右方和垂直上方
+        kAlignRight         = 0x32, ///< Horizontal right and vertical center.  水平右方和垂直中心
+        kAlignBottomRight   = 0x22, ///< Horizontal right and vertical bottom.  水平右方和垂直底部
+        kAlignBottom        = 0x23, ///< Horizontal center and vertical bottom. 水平中心和垂直底部
+        kAlignBottomLeft    = 0x21, ///< Horizontal left and vertical bottom.   水平左方和垂直底部
+        kAlignLeft          = 0x31, ///< Horizontal left and vertical center.   水平左方和垂直中心
+        kAlignTopLeft       = 0x11, ///< Horizontal left and vertical top.      水平左方和垂直上方
     }ETextAlign;
     
     /**
@@ -69,6 +69,7 @@ public:
     @param imageType the type of image, currently only supporting two types.
     @return  true if loaded correctly.
     */
+    // 指定路径，载人图片
     bool initWithImageFile(const char * strPath, EImageFormat imageType = kFmtPng);
 
     /*
@@ -78,6 +79,7 @@ public:
      @param imageType the type of image, currently only supporting two types.
      @return  true if loaded correctly.
      */
+    // 载人图片，使用完整路径，图片类型为参数
     bool initWithImageFileThreadSafe(const char *fullpath, EImageFormat imageType = kFmtPng);
 
     /**
@@ -89,6 +91,7 @@ public:
     @param nWidth, nHeight, nBitsPerComponent are used for kFmtRawData.
     @return true if loaded correctly.
     */
+    // 载人图片，从缓存流中，缓存数据数据长度，宽，高为参数
     bool initWithImageData(void * pData, 
                            int nDataLen, 
                            EImageFormat eFmt = kFmtUnKnown,
@@ -105,6 +108,7 @@ public:
     @param  pFontName   the name of the font used to draw the text. If nil, use the default system font.
     @param  nSize       the font size, if 0, use the system default size.
     */
+    // 创建图片，使用字符串，宽，高，对齐方式，字体名称，字体大小为参数
     bool initWithString(
         const char *    pText, 
         int             nWidth = 0, 
@@ -124,6 +128,7 @@ public:
     @param    pszFilePath        the file's absolute path, including file suffix.
     @param    bIsToRGB        whether the image is saved as RGB format.
     */
+    // 指定格式保存图片数据
     bool saveToFile(const char *pszFilePath, bool bIsToRGB = true);
 
     CC_SYNTHESIZE_READONLY(unsigned short,   m_nWidth,       Width);
@@ -136,6 +141,7 @@ protected:
     bool _initWithTiffData(void *pData, int nDataLen);
     bool _initWithWebpData(void *pData, int nDataLen);
     // @warning kFmtRawData only support RGBA8888
+    // 仅支持RGBA8888格式
     bool _initWithRawData(void *pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent);
 
     bool _saveImageToPNG(const char *pszFilePath, bool bIsToRGB = true);
@@ -147,6 +153,7 @@ protected:
 
 private:
     // noncopyable
+    // 不可复制的
     CCImage(const CCImage&    rImg);
     CCImage & operator=(const CCImage&);
 };
