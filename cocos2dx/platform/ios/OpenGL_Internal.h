@@ -62,6 +62,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 */
 
 /* Generic error reporting */
+// 错误报告
 #define REPORT_ERROR(__FORMAT__, ...) printf("%s: %s\n", __FUNCTION__, [[NSString stringWithFormat:__FORMAT__, __VA_ARGS__] UTF8String])
 
 /* EAGL and GL functions calling wrappers that log on error */
