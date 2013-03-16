@@ -34,6 +34,7 @@ using namespace std;
 /**
  * implements of CCUserDefault
  */
+// 实现用户设置
 
 CCUserDefault* CCUserDefault::m_spUserDefault = 0;
 string CCUserDefault::m_sFilePath = string("");
@@ -43,6 +44,7 @@ bool CCUserDefault::m_sbIsFilePathInitialized = false;
  * If the user invoke delete CCUserDefault::sharedUserDefault(), should set m_spUserDefault
  * to null to avoid error when he invoke CCUserDefault::sharedUserDefault() later.
  */
+// 若果用户调用删除；应设置m_spUserDefault为null;避免错误。
 CCUserDefault::~CCUserDefault()
 {
 	CC_SAFE_DELETE(m_spUserDefault);
@@ -162,7 +164,7 @@ void CCUserDefault::initXMLFilePath()
     
 }
 
-// create new xml file
+// create new xml file 创建新xml文件
 bool CCUserDefault::createXMLFile()
 {
 	return false;
