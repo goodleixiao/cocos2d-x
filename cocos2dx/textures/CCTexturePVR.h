@@ -34,13 +34,14 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup textures
+ * @addtogroup textures	纹理
  * @{
  */
 
 /**
  @brief Structure which can tell where mipmap begins and how long is it
 */
+// 开始地方和长度，结构体
 struct CCPVRMipmap {
     unsigned char *address;
     unsigned int len;
@@ -60,6 +61,7 @@ typedef struct _ccPVRTexturePixelFormatInfo {
  @brief Determine how many mipmaps can we have. 
  Its same as define but it respects namespaces
 */
+// 定义最大mipmap值
 enum {
     CC_PVRMIPMAP_MAX = 16,
 };
@@ -87,6 +89,8 @@ enum {
     To use mipmaps with non-square textures, instead call CCTexture2D#generateMipmap on the sheet texture itself
     (and to save space, save the PVR sprite sheet without mip maps included).
 */
+// 对象载人pvr图片：支持的格式为上面那些：
+// 限制：仅支持所有有效的，正方形精灵；不是正方形，则会调用纹理本身进行生产
 class CCTexturePVR : public CCObject
 {
 public:
@@ -94,26 +98,35 @@ public:
     virtual ~CCTexturePVR();
 
     /** initializes a CCTexturePVR with a path */
+    // 初始化pvr，使用路径为参数
     bool initWithContentsOfFile(const char* path);
 
     /** creates and initializes a CCTexturePVR with a path */
+    // 创建并初始化一个pvr纹理，使用路径为参数
     static CCTexturePVR* create(const char* path);
     
     // properties 
     
     /** texture id name */
+    // 属性：纹理名称
     inline unsigned int getName() { return m_uName; }
     /** texture width */
+    // 纹理宽度
     inline unsigned int getWidth() { return m_uWidth; }
     /** texture height */
+    // 纹理高度
     inline unsigned int getHeight() { return m_uHeight; }
     /** whether or not the texture has alpha */
+    // 是否具有阿尔法
     inline bool hasAlpha() { return m_bHasAlpha; }
     /** whether or not the texture has premultiplied alpha */
+    // 纹理是否预乘阿尔法
     inline bool hasPremultipliedAlpha() { return m_bHasPremultipliedAlpha; }
     /** whether or not the texture should use hasPremultipliedAlpha instead of global default */
+    // 纹理是否强制预乘阿尔法
     inline bool isForcePremultipliedAlpha() { return m_bForcePremultipliedAlpha; }
     /** how many mipmaps the texture has. 1 means one level (level 0 */
+    // 纹理水平值
     inline unsigned int getNumberOfMipmaps() { return m_uNumberOfMipmaps; }
     inline CCTexture2DPixelFormat getFormat() { return m_eFormat; }
     inline bool isRetainName() { return m_bRetainName; }
@@ -125,8 +138,8 @@ private:
     bool createGLTexture();
     
 protected:
-    struct CCPVRMipmap m_asMipmaps[CC_PVRMIPMAP_MAX];   // pointer to mipmap images    
-    unsigned int m_uNumberOfMipmaps;                    // number of mipmap used
+    struct CCPVRMipmap m_asMipmaps[CC_PVRMIPMAP_MAX];   // pointer to mipmap images    指针
+    unsigned int m_uNumberOfMipmaps;                    // number of mipmap used       数目
     
     unsigned int m_uWidth, m_uHeight;
     GLuint m_uName;
