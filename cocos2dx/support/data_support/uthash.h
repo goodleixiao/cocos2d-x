@@ -24,14 +24,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __SUPPORT_DATA_SUPPORT_UTHASH_H__
 #define __SUPPORT_DATA_SUPPORT_UTHASH_H__
 
-#include <string.h>   /* memcmp,strlen */
-#include <stddef.h>   /* ptrdiff_t */
-#include <stdlib.h>   /* exit() */
+#include <string.h>   /* memcmp,strlen */ // 内存， 长度
+#include <stddef.h>   /* ptrdiff_t */     // 
+#include <stdlib.h>   /* exit() */        // 退出
 
 /* These macros use decltype or the earlier __typeof GNU extension.
    As decltype is only available in newer compilers (VS2010 or gcc 4.3+
    when compiling c++ source) this code uses whatever method is needed
    or, for VS2008 where neither is available, uses casting workarounds. */
+// 这些宏有的是新增加的，只有在vs2010或gcc4.3+编译
 #ifdef _MSC_VER         /* MS compiler */
 #if _MSC_VER >= 1600 && defined(__cplusplus)  /* VS2010 or newer in C++ mode */
 #define DECLTYPE(x) (decltype(x))
@@ -75,21 +76,25 @@ do {                                                                            
 //     #endif /* __QNX__ */
 // #endif /* _MSC_VER */
 
+
+// uthash支持：增加、查找、删除、计数、迭代、排序、选择等操作。
 #define UTHASH_VERSION 1.9.3
 
-#define uthash_fatal(msg) exit(-1)        /* fatal error (out of memory,etc) */
-#define uthash_malloc(sz) malloc(sz)      /* malloc fcn                      */
-#define uthash_free(ptr,sz) free(ptr)        /* free fcn                        */
+#define uthash_fatal(msg) exit(-1)        /* fatal error (out of memory,etc) */     // 越界错误
+#define uthash_malloc(sz) malloc(sz)      /* malloc fcn                      */     // 分配内存
+#define uthash_free(ptr,sz) free(ptr)        /* free fcn                        */  // 释放内存
 
-#define uthash_noexpand_fyi(tbl)          /* can be defined to log noexpand  */
-#define uthash_expand_fyi(tbl)            /* can be defined to log expands   */
+#define uthash_noexpand_fyi(tbl)          /* can be defined to log noexpand  */     // 日志非扩展
+#define uthash_expand_fyi(tbl)            /* can be defined to log expands   */     // 日志扩展
 
 /* initial number of buckets */
-#define HASH_INITIAL_NUM_BUCKETS 32      /* initial number of buckets        */
-#define HASH_INITIAL_NUM_BUCKETS_LOG2 5  /* lg2 of initial number of buckets */
-#define HASH_BKT_CAPACITY_THRESH 10      /* expand when bucket count reaches */
+// 初始数值
+#define HASH_INITIAL_NUM_BUCKETS 32      /* initial number of buckets        */     // 初始值
+#define HASH_INITIAL_NUM_BUCKETS_LOG2 5  /* lg2 of initial number of buckets */     // lg2
+#define HASH_BKT_CAPACITY_THRESH 10      /* expand when bucket count reaches */     // 扩展值
 
 /* calculate the element whose hash handle address is hhe */
+// 计算元素的地址
 #define ELMT_FROM_HH(tbl,hhp) ((void*)(((char*)(hhp)) - ((tbl)->hho)))
 
 #define HASH_FIND(hh,head,keyptr,keylen,out)                                     \
@@ -202,6 +207,7 @@ do {                                                                            
  * copy the deletee pointer, then the latter references are via that
  * scratch pointer rather than through the repointed (users) symbol.
  */
+// 删除操作
 #define HASH_DELETE(hh,head,delptr)                                              \
 do {                                                                             \
     unsigned _hd_bkt;                                                            \
@@ -239,6 +245,7 @@ do {                                                                            
 
 
 /* convenience forms of HASH_FIND/HASH_ADD/HASH_DEL */
+// 方便表格：找到，增加，删除
 #define HASH_FIND_STR(head,findstr,out)                                          \
     HASH_FIND(hh,head,findstr,strlen(findstr),out)
 #define HASH_ADD_STR(head,strfield,add)                                          \
@@ -257,6 +264,7 @@ do {                                                                            
 /* HASH_FSCK checks hash integrity on every add/delete when HASH_DEBUG is defined.
  * This is for uthash developer only; it compiles away if HASH_DEBUG isn't defined.
  */
+// 开发使用，调试
 #ifdef HASH_DEBUG
 #define HASH_OOPS(...) do { fprintf(stderr,__VA_ARGS__); exit(-1); } while (0)
 #define HASH_FSCK(hh,head)                                                       \
