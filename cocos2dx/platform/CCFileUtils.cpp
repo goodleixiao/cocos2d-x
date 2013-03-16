@@ -62,8 +62,8 @@ public:
     CCDictionary *m_pRootDict;
     CCDictionary *m_pCurDict;
     std::stack<CCDictionary*> m_tDictStack;
-    std::string m_sCurKey;   ///< parsed key
-    std::string m_sCurValue; // parsed value
+    std::string m_sCurKey;   ///< parsed key 键
+    std::string m_sCurValue; // parsed value 值
     CCSAXState m_tState;
     CCArray* m_pArray;
 
@@ -152,7 +152,7 @@ public:
 
             m_pCurDict->release();
 
-            // record the dict state
+            // record the dict state 记录字典状态
             m_tStateStack.push(m_tState);
             m_tDictStack.push(m_pCurDict);
         }
@@ -371,6 +371,7 @@ unsigned char* CCFileUtils::getFileData(const char* pszFileName, const char* psz
     do
     {
         // read the file from hardware
+        // 从硬盘读取文件
         std::string fullPath = fullPathForFilename(pszFileName);
         FILE *fp = fopen(fullPath.c_str(), pszMode);
         CC_BREAK_IF(!fp);
