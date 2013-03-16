@@ -45,6 +45,7 @@ void CCLog(const char * pszFormat, ...)
 }
 
 // ios no MessageBox, use CCLog instead
+// 用日志
 void CCMessageBox(const char * pszMsg, const char * pszTitle)
 {
     NSString * title = (pszTitle) ? [NSString stringWithUTF8String : pszTitle] : nil;
