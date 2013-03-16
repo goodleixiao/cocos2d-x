@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "platform.h"
 
 #include "CCStdC.h"
-
+ 
 NS_CC_BEGIN
 
 int CCTime::gettimeofdayCocos2d(struct cc_timeval *tp, void *tzp)
