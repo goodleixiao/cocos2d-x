@@ -77,6 +77,8 @@ distribution.
 
 #if (defined(_MSC_VER) && (_MSC_VER >= 1400 ) && (CC_TARGET_PLATFORM != CC_PLATFORM_MARMALADE))
 // Microsoft visual studio, version 2005 and higher.
+
+// vs版本要高于vs2005,使用
 /*int _snprintf_s(
    char *buffer,
    size_t sizeOfBuffer,
@@ -95,6 +97,8 @@ inline int TIXML_SNPRINTF( char* buffer, size_t size, const char* format, ... )
 #define TIXML_SSCANF   sscanf_s
 #else
 // GCC version 3 and higher
+// gcc版本要大于3
+
 //#warning( "Using sn* functions." )
 #define TIXML_SNPRINTF snprintf
 #define TIXML_SSCANF   sscanf
@@ -123,6 +127,7 @@ class XMLPrinter;
 	and entity translation if actually read. Can also store (and memory
 	manage) a traditional char[]
 */
+// 一个类包装字符串。通常存储开始和结束指针，到xml文件，可以正常读取操作
 class StrPair
 {
 public:
@@ -175,6 +180,7 @@ private:
     };
 
     // After parsing, if *end != 0, it can be set to zero.
+    // 在解析之后，若*end != 0,可以设置为0
     int     _flags;
     char*   _start;
     char*   _end;
@@ -186,6 +192,7 @@ private:
 	Has a small initial memory pool, so that low or no usage will not
 	cause a call to new/delete
 */
+// 一个动态数组普通数据。不支持构造；具有一个小的原始内存池，可以使用，不用调用new/delete
 template <class T, int INIT>
 class DynArray
 {
@@ -258,7 +265,7 @@ private:
         if ( cap > _allocated ) {
             int newAllocated = cap * 2;
             T* newMem = new T[newAllocated];
-            memcpy( newMem, _mem, sizeof(T)*_size );	// warning: not using constructors, only works for PODs
+            memcpy( newMem, _mem, sizeof(T)*_size );	// warning: not using constructors, only works for PODs  没有构造
             if ( _mem != _pool ) {
                 delete [] _mem;
             }
@@ -269,8 +276,8 @@ private:
 
     T*  _mem;
     T   _pool[INIT];
-    int _allocated;		// objects allocated
-    int _size;			// number objects in use
+    int _allocated;		// objects allocated		对象分配
+    int _size;			// number objects in use	使用对象个数
 };
 
 
