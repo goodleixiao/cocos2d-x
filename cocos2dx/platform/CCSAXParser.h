@@ -30,9 +30,10 @@
 NS_CC_BEGIN
 
 /**
- * @addtogroup platform
+ * @addtogroup platform 平台
  * @{
  */
+// sax:SAX是一个用于处理XML事件驱动的“推”模型
 
 typedef unsigned char CC_XML_CHAR;
 
