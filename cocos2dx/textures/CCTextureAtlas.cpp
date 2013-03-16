@@ -41,6 +41,7 @@ THE SOFTWARE.
 //According to some tests GL_TRIANGLE_STRIP is slower, MUCH slower. Probably I'm doing something very wrong
 
 // implementation CCTextureAtlas
+// 实现纹理地图
 
 NS_CC_BEGIN
 
@@ -102,7 +103,7 @@ void CCTextureAtlas::setQuads(ccV3F_C4B_T2F_Quad *var)
     m_pQuads = var;
 }
 
-// TextureAtlas - alloc & init
+// TextureAtlas - alloc & init	分配初始化
 
 CCTextureAtlas * CCTextureAtlas::create(const char* file, unsigned int capacity)
 {
@@ -130,7 +131,7 @@ CCTextureAtlas * CCTextureAtlas::createWithTexture(CCTexture2D *texture, unsigne
 
 bool CCTextureAtlas::initWithFile(const char * file, unsigned int capacity)
 {
-    // retained in property
+    // retained in property	属性
     CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(file);
 
     if (texture)
@@ -231,7 +232,7 @@ void CCTextureAtlas::setupIndices()
         m_pIndices[i*6+1] = i*4+1;
         m_pIndices[i*6+2] = i*4+2;
 
-        // inverted index. issue #179
+        // inverted index. issue #179	
         m_pIndices[i*6+3] = i*4+3;
         m_pIndices[i*6+4] = i*4+2;
         m_pIndices[i*6+5] = i*4+1;        
@@ -239,7 +240,7 @@ void CCTextureAtlas::setupIndices()
     }
 }
 
-//TextureAtlas - VAO / VBO specific
+//TextureAtlas - VAO / VBO specific	VAO/VBO指定渲染方式
 
 #if CC_TEXTURE_ATLAS_USE_VAO
 void CCTextureAtlas::setupVBOandVAO()
@@ -301,7 +302,7 @@ void CCTextureAtlas::mapBuffers()
     CHECK_GL_ERROR_DEBUG();
 }
 
-// TextureAtlas - Update, Insert, Move & Remove
+// TextureAtlas - Update, Insert, Move & Remove	更新，插入，移动，移除
 
 void CCTextureAtlas::updateQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
 {
@@ -443,7 +444,7 @@ void CCTextureAtlas::removeAllQuads()
     m_uTotalQuads = 0;
 }
 
-// TextureAtlas - Resize
+// TextureAtlas - Resize 容量
 bool CCTextureAtlas::resizeCapacity(unsigned int newCapacity)
 {
     if( newCapacity == m_uCapacity )
@@ -572,7 +573,7 @@ void CCTextureAtlas::fillWithEmptyQuadsFromIndex(unsigned int index, unsigned in
     }
 }
 
-// TextureAtlas - Drawing
+// TextureAtlas - Drawing 绘制
 
 void CCTextureAtlas::drawQuads()
 {
