@@ -34,7 +34,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /**
- * @addtogroup global
+ * @addtogroup global  全局
  * @{
  */
 
@@ -45,22 +45,27 @@ class CCProfilingTimer;
 
  To use it, enable set the CC_ENABLE_PROFILERS=1 in the ccConfig.h file
  */
+// 分析器：使用则设置CC_ENABLE_PROFILERS=1
 
 class CC_DLL CCProfiler : public CCObject
 {
 public:
     ~CCProfiler(void);
     /** display the timers */
+    // 显示计数
     void displayTimers(void);
     bool init(void);
 
 public:
     static CCProfiler* sharedProfiler(void);
     /** Creates and adds a new timer */
+    // 创建和增加新的计数器
     CCProfilingTimer* createAndAddTimerWithName(const char* timerName);
     /** releases a timer */
+    // 释放计数器
     void releaseTimer(const char* timerName);
     /** releases all timers */
+    // 释放所有计数器
     void releaseAllTimers();
 
     CCDictionary* m_pActiveTimers;
@@ -76,6 +81,7 @@ public:
     inline void setAverageTime(double value) { m_dAverageTime = value; }
     inline double getAverageTime(void) { return m_dAverageTime; }
     /** resets the timer properties */
+    // 重置计数器属性
     void reset();
 
     std::string m_NameStr;
@@ -95,7 +101,7 @@ extern void CCProfilingResetTimingBlock(const char *timerName);
  * cocos2d profiling categories
  * used to enable / disable profilers with granularity
  */
-
+// 分析器类别
 extern bool kCCProfilerCategorySprite;
 extern bool kCCProfilerCategoryBatchSprite;
 extern bool kCCProfilerCategoryParticles;
