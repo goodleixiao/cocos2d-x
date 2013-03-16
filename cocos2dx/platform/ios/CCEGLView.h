@@ -41,7 +41,7 @@ public:
     virtual bool    isOpenGLReady();
     virtual bool    setContentScaleFactor(float contentScaleFactor);
     
-    // keep compatible
+    // keep compatible  兼容
     virtual void    end();
     virtual void    swapBuffers();
     
