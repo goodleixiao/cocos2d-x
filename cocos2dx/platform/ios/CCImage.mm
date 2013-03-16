@@ -47,6 +47,7 @@ static bool _initWithImage(CGImageRef cgImage, tImageInfo *pImageinfo)
     }
     
     // get image info
+    // 获取图片信息
     
     pImageinfo->width = CGImageGetWidth(cgImage);
     pImageinfo->height = CGImageGetHeight(cgImage);
@@ -107,6 +108,7 @@ static bool _initWithFile(const char* path, tImageInfo *pImageinfo)
     bool            ret;
     
     // convert jpg to png before loading the texture
+    // 转换jpg到png,在载人纹理前
     
     NSString *fullPath = [NSString stringWithUTF8String:path];
     jpg = [[UIImage alloc] initWithContentsOfFile: fullPath];
