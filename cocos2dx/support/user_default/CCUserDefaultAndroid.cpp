@@ -39,7 +39,7 @@ NS_CC_BEGIN
 /**
  * implements of CCUserDefault
  */
-
+// 实现用户设置
 CCUserDefault* CCUserDefault::m_spUserDefault = 0;
 string CCUserDefault::m_sFilePath = string("");
 bool CCUserDefault::m_sbIsFilePathInitialized = false;
@@ -48,6 +48,7 @@ bool CCUserDefault::m_sbIsFilePathInitialized = false;
  * If the user invoke delete CCUserDefault::sharedUserDefault(), should set m_spUserDefault
  * to null to avoid error when he invoke CCUserDefault::sharedUserDefault() later.
  */
+// 删除用户设置，要将m_spUserDefault设置为null
 CCUserDefault::~CCUserDefault()
 {
 	CC_SAFE_DELETE(m_spUserDefault);
