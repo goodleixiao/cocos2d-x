@@ -64,7 +64,7 @@ bool CCFileUtilsAndroid::isFileExist(const std::string& strFilePath)
 {
     bool bFound = false;
     
-    // Check whether file exists in apk.
+    // Check whether file exists in apk. 
     if (strFilePath[0] != '/')
     {
         std::string strPath = strFilePath;
