@@ -34,7 +34,7 @@ NS_CC_BEGIN
 struct _ccArray;
 
 /**
- * @addtogroup tilemap_parallax_nodes
+ * @addtogroup tilemap_parallax_nodes   瓦片地图视差节点
  * @{
  */
 
@@ -43,9 +43,11 @@ struct _ccArray;
 The children will be moved faster / slower than the parent according the the parallax ratio.
 
 */
+// 视差节点模拟视差滚动： 子对象移动快慢，可以访问视差的比率
 class CC_DLL CCParallaxNode : public CCNode 
 {
     /** array that holds the offset / ratio of the children */
+    // 偏移量，比率数组
     CC_SYNTHESIZE(struct _ccArray *, m_pParallaxArray, ParallaxArray)
 
 public:
@@ -53,12 +55,14 @@ public:
     It returns self, so you can chain several addChilds.
     @since v0.8
     */
+    // 增加子对象，使用z次序，视差比例，偏移量为参数
     CCParallaxNode();
     virtual ~CCParallaxNode();
 
     static CCParallaxNode * create();
     virtual void addChild(CCNode * child, unsigned int z, const CCPoint& parallaxRatio, const CCPoint& positionOffset);
     // super methods
+    // 父类方法
     virtual void addChild(CCNode * child, unsigned int zOrder, int tag);
     virtual void removeChild(CCNode* child, bool cleanup);
     virtual void removeAllChildrenWithCleanup(bool cleanup);
