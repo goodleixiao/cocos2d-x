@@ -71,7 +71,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import "CCIMEDispatcher.h"
 #import "OpenGL_Internal.h"
 #import "CCEGLView.h"
-//CLASS IMPLEMENTATIONS:
+//CLASS IMPLEMENTATIONS: 
 
 #define IOS_MAX_TOUCHES_COUNT     10
 
