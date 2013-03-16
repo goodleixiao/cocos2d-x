@@ -43,6 +43,7 @@ static void addValueToCCDict(id key, id value, CCDictionary* pDict);
 static void addItemToCCArray(id item, CCArray *pArray)
 {
     // add string value into array
+    // 增加字符串到数组
     if ([item isKindOfClass:[NSString class]]) {
         CCString* pValue = new CCString([item UTF8String]);
         
@@ -52,6 +53,7 @@ static void addItemToCCArray(id item, CCArray *pArray)
     }
     
     // add number value into array(such as int, float, bool and so on)
+    // 增加数值到数组（int, float,bool)
     if ([item isKindOfClass:[NSNumber class]]) {
         NSString* pStr = [item stringValue];
         CCString* pValue = new CCString([pStr UTF8String]);
@@ -62,6 +64,7 @@ static void addItemToCCArray(id item, CCArray *pArray)
     }
     
     // add dictionary value into array
+    // 增加字典到数组
     if ([item isKindOfClass:[NSDictionary class]]) {
         CCDictionary* pDictItem = new CCDictionary();
         for (id subKey in [item allKeys]) {
@@ -74,6 +77,7 @@ static void addItemToCCArray(id item, CCArray *pArray)
     }
     
     // add array value into array
+    // 增加数组到数组
     if ([item isKindOfClass:[NSArray class]]) {
         CCArray *pArrayItem = new CCArray();
         pArrayItem->init();
@@ -89,10 +93,12 @@ static void addItemToCCArray(id item, CCArray *pArray)
 static void addValueToCCDict(id key, id value, CCDictionary* pDict)
 {
     // the key must be a string
+    // 键必须是字符串
     CCAssert([key isKindOfClass:[NSString class]], "The key should be a string!");
     std::string pKey = [key UTF8String];
     
     // the value is a new dictionary
+    // 值是一个新字典
     if ([value isKindOfClass:[NSDictionary class]]) {
         CCDictionary* pSubDict = new CCDictionary();
         for (id subKey in [value allKeys]) {
@@ -105,6 +111,7 @@ static void addValueToCCDict(id key, id value, CCDictionary* pDict)
     }
     
     // the value is a string
+    // 值是字符串
     if ([value isKindOfClass:[NSString class]]) {
         CCString* pValue = new CCString([value UTF8String]);
         
@@ -114,6 +121,7 @@ static void addValueToCCDict(id key, id value, CCDictionary* pDict)
     }
     
     // the value is a number
+    // 值是数字
     if ([value isKindOfClass:[NSNumber class]]) {
         NSString* pStr = [value stringValue];
         CCString* pValue = new CCString([pStr UTF8String]);
@@ -124,6 +132,7 @@ static void addValueToCCDict(id key, id value, CCDictionary* pDict)
     }
     
     // the value is a array
+    // 值为数组
     if ([value isKindOfClass:[NSArray class]]) {
         CCArray *pArray = new CCArray();
         pArray->init();
@@ -135,7 +144,7 @@ static void addValueToCCDict(id key, id value, CCDictionary* pDict)
         return;
     }
 }
-
+// 文件操作共享实例
 CCFileUtils* CCFileUtils::sharedFileUtils()
 {
     if (s_sharedFileUtils == NULL)
@@ -152,13 +161,14 @@ static NSFileManager* s_fileManager = [NSFileManager defaultManager];
 std::string CCFileUtilsIOS::getWritablePath()
 {
     // save to document folder
+    // 保存到文档目录
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     std::string strRet = [documentsDirectory UTF8String];
     strRet.append("/");
     return strRet;
 }
-
+// 文件是否存在
 bool CCFileUtilsIOS::isFileExist(const std::string& strFilePath)
 {
     bool bRet = false;
@@ -183,6 +193,7 @@ bool CCFileUtilsIOS::isFileExist(const std::string& strFilePath)
     else
     {
         // Search path is an absolute path.
+        // 搜索路径为绝对路径
         if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:strFilePath.c_str()]]) {
             bRet = true;
         }
@@ -206,6 +217,7 @@ std::string CCFileUtilsIOS::getFullPathForDirectoryAndFilename(const std::string
     {
         std::string fullPath = strDirectory+strFilename;
         // Search path is an absolute path.
+        // 搜索路径为绝对路径
         if ([s_fileManager fileExistsAtPath:[NSString stringWithUTF8String:fullPath.c_str()]]) {
             return fullPath;
         }
@@ -233,7 +245,7 @@ CCDictionary* CCFileUtilsIOS::createCCDictionaryWithContentsOfFile(const std::st
     
     return pRet;
 }
-
+// 创建数组，从文件中
 CCArray* CCFileUtilsIOS::createCCArrayWithContentsOfFile(const std::string& filename)
 {
     //    NSString* pPath = [NSString stringWithUTF8String:pFileName];
