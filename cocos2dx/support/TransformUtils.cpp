@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "TransformUtils.h"
 #include "cocoa/CCAffineTransform.h"
 
-namespace cocos2d {
+namespace cocos2d { 
 
 void CGAffineToGL(const CCAffineTransform *t, GLfloat *m)
 {
