@@ -39,7 +39,7 @@
         See header of unzip64.c
 
 */
-
+// 解压缩
 #ifndef _unz64_H
 #define _unz64_H
 
@@ -81,6 +81,7 @@ typedef voidp unzFile;
 namespace cocos2d {
 
 /* tm_unz contain date/time info */
+// 日期，时间信息：秒，分，小时，天，月，年
 typedef struct tm_unz_s
 {
     uInt tm_sec;            /* seconds after the minute - [0,59] */
@@ -93,11 +94,12 @@ typedef struct tm_unz_s
 
 /* unz_global_info structure contain global data about the ZIPfile
    These data comes from the end of central dir */
+// 全局信息结构体，包括关于zip文件的数据；
 typedef struct unz_global_info64_s
 {
     ZPOS64_T number_entry;         /* total number of entries in
-                                     the central dir on this disk */
-    uLong size_comment;         /* size of the global comment of the zipfile */
+                                     the central dir on this disk */    // 实体总数
+    uLong size_comment;         /* size of the global comment of the zipfile */  // 大小
 } unz_global_info64;
 
 typedef struct unz_global_info_s
@@ -108,23 +110,24 @@ typedef struct unz_global_info_s
 } unz_global_info;
 
 /* unz_file_info contain information about a file in the zipfile */
+// 一个zip文件信息包括
 typedef struct unz_file_info64_s
 {
-    uLong version;              /* version made by                 2 bytes */
-    uLong version_needed;       /* version needed to extract       2 bytes */
-    uLong flag;                 /* general purpose bit flag        2 bytes */
-    uLong compression_method;   /* compression method              2 bytes */
-    uLong dosDate;              /* last mod file date in Dos fmt   4 bytes */
-    uLong crc;                  /* crc-32                          4 bytes */
-    ZPOS64_T compressed_size;   /* compressed size                 8 bytes */
-    ZPOS64_T uncompressed_size; /* uncompressed size               8 bytes */
-    uLong size_filename;        /* filename length                 2 bytes */
-    uLong size_file_extra;      /* extra field length              2 bytes */
-    uLong size_file_comment;    /* file comment length             2 bytes */
+    uLong version;              /* version made by                 2 bytes */    // 版本
+    uLong version_needed;       /* version needed to extract       2 bytes */    // 版本扩展
+    uLong flag;                 /* general purpose bit flag        2 bytes */    // 目的标志
+    uLong compression_method;   /* compression method              2 bytes */    // 压缩方法
+    uLong dosDate;              /* last mod file date in Dos fmt   4 bytes */    // 最后修改日期
+    uLong crc;                  /* crc-32                          4 bytes */    // crc-32
+    ZPOS64_T compressed_size;   /* compressed size                 8 bytes */    // 压缩大小
+    ZPOS64_T uncompressed_size; /* uncompressed size               8 bytes */    // 解压大小
+    uLong size_filename;        /* filename length                 2 bytes */    // 文件名称长度
+    uLong size_file_extra;      /* extra field length              2 bytes */    // 扩展区域长度
+    uLong size_file_comment;    /* file comment length             2 bytes */    // 文件注释长度
 
-    uLong disk_num_start;       /* disk number start               2 bytes */
-    uLong internal_fa;          /* internal file attributes        2 bytes */
-    uLong external_fa;          /* external file attributes        4 bytes */
+    uLong disk_num_start;       /* disk number start               2 bytes */    // 磁盘开始
+    uLong internal_fa;          /* internal file attributes        2 bytes */    // 内部文件属性
+    uLong external_fa;          /* external file attributes        4 bytes */    // 扩展文件属性
 
     tm_unz tmu_date;
 } unz_file_info64;
@@ -180,28 +183,28 @@ unzFile CC_DLL unzOpen64 OF((const void *path));
        does not describe the reality
 */
 
-
+// 打开一个zip文件，包括完整路径名称
 unzFile CC_DLL unzOpen2 OF((const char *path,
                                     zlib_filefunc_def* pzlib_filefunc_def));
 /*
    Open a Zip file, like unzOpen, but provide a set of file low level API
       for read/write the zip file (see ioapi.h)
 */
-
+// 打开zip文件，进行读写操作
 unzFile CC_DLL unzOpen2_64 OF((const void *path,
                                     zlib_filefunc64_def* pzlib_filefunc_def));
 /*
    Open a Zip file, like unz64Open, but provide a set of file low level API
       for read/write the zip file (see ioapi.h)
 */
-
+// 打开zip文件，进行读写操作
 int CC_DLL unzClose OF((unzFile file));
 /*
   Close a ZipFile opened with unzipOpen.
   If there is files inside the .Zip opened with unzOpenCurrentFile (see later),
     these files MUST be closed with unzipCloseCurrentFile before call unzipClose.
   return UNZ_OK if there is no problem. */
-
+// 关闭zip文件（已经打开的）
 int CC_DLL unzGetGlobalInfo OF((unzFile file,
                                         unz_global_info *pglobal_info));
 
@@ -212,7 +215,7 @@ int CC_DLL unzGetGlobalInfo64 OF((unzFile file,
   No preparation of the structure is needed
   return UNZ_OK if there is no problem. */
 
-
+// 写入信息关于zip文件的
 int CC_DLL unzGetGlobalComment OF((unzFile file,
                                            char *szComment,
                                            uLong uSizeBuf));
@@ -225,14 +228,14 @@ int CC_DLL unzGetGlobalComment OF((unzFile file,
 
 /***************************************************************************/
 /* Unzip package allow you browse the directory of the zipfile */
-
+// 解压包，允许你浏览zip文件
 int CC_DLL unzGoToFirstFile OF((unzFile file));
 
 /*
   Set the current file of the zipfile to the first file.
   return UNZ_OK if there is no problem
 */
-
+// 设置当前文件为第一个文件，返回UNZ_OK,标示没有问题
 int CC_DLL unzGoToFirstFile64 OF((unzFile file,
                         unz_file_info64 *pfile_info,
                         char *szFileName,
@@ -242,28 +245,18 @@ int CC_DLL unzGoToFirstFile64 OF((unzFile file,
   with retrieving an information about the file.
   return UNZ_OK if there is no problem
 */
-
+// 设置当前文件作为下个文件
 int CC_DLL unzGoToNextFile OF((unzFile file));
 /*
   Set the current file of the zipfile to the next file.
   return UNZ_OK if there is no problem
   return UNZ_END_OF_LIST_OF_FILE if the actual file was the latest.
 */
-
+// 设置当前文件作为下个文件
 int CC_DLL unzGoToNextFile64 OF((unzFile file,
                        unz_file_info64 *pfile_info,
                        char *szFileName,
                        uLong fileNameBufferSize));
-/*
-  Set the current file of the zipfile to the next file
-  with retrieving an information about the file.
-  return UNZ_OK if there is no problem
-  return UNZ_END_OF_LIST_OF_FILE if the actual file was the latest.
-*/
-
-int CC_DLL unzLocateFile OF((unzFile file,
-                     const char *szFileName,
-                     int iCaseSensitivity));
 /*
   Try locate the file szFileName in the zipfile.
   For the iCaseSensitivity signification, see unzStringFileNameCompare
@@ -272,14 +265,21 @@ int CC_DLL unzLocateFile OF((unzFile file,
   UNZ_OK if the file is found. It becomes the current file.
   UNZ_END_OF_LIST_OF_FILE if the file is not found
 */
+// 从解压缩文件中找到szFileName文件，返回UNZ_OK,表示找到
+
+int CC_DLL unzLocateFile OF((unzFile file,
+                     const char *szFileName,
+                     int iCaseSensitivity));
+
 
 
 /* ****************************************** */
 /* Ryan supplied functions */
 /* unz_file_info contain information about a file in the zipfile */
+// 一个文件中包含的信息
 typedef struct unz_file_pos_s
 {
-    uLong pos_in_zip_directory;   /* offset in zip file directory */
+    uLong pos_in_zip_directory;   /* offset in zip file directory */  // 在文件夹中的偏移量
     uLong num_of_file;            /* # of file */
 } unz_file_pos;
 
@@ -349,13 +349,14 @@ ZPOS64_T CC_DLL unzGetCurrentFileZStreamPos64 OF((unzFile file));
 /* for reading the content of the current zipfile, you can open it, read data
    from it, and close it (you can close it before reading all the file)
    */
+// 你打开，读取数据，关闭，（可以在读取所有文件前关闭）
 
 int CC_DLL unzOpenCurrentFile OF((unzFile file));
 /*
   Open for reading data the current file in the zipfile.
   If there is no error, the return value is UNZ_OK.
 */
-
+// 打开，读取数据，从当前的文件。没有错误，则返回UNZ_OK
 int CC_DLL unzOpenCurrentFilePassword OF((unzFile file,
                                                   const char* password));
 /*
@@ -363,7 +364,7 @@ int CC_DLL unzOpenCurrentFilePassword OF((unzFile file,
   password is a crypting password
   If there is no error, the return value is UNZ_OK.
 */
-
+// 读取当前文件数据；加密？ 没有错误，返回UNZ_OK
 int CC_DLL unzOpenCurrentFile2 OF((unzFile file,
                                            int* method,
                                            int* level,
@@ -376,7 +377,7 @@ int CC_DLL unzOpenCurrentFile2 OF((unzFile file,
   note : you can set level parameter as NULL (if you did not want known level,
          but you CANNOT set method parameter as NULL
 */
-
+// 打开读取原始文件；可以设置level参数为null,若不知道就设置为null
 int CC_DLL unzOpenCurrentFile3 OF((unzFile file,
                                            int* method,
                                            int* level,
@@ -391,12 +392,13 @@ int CC_DLL unzOpenCurrentFile3 OF((unzFile file,
          but you CANNOT set method parameter as NULL
 */
 
-
+// 关闭当前文件
 int CC_DLL unzCloseCurrentFile OF((unzFile file));
 /*
   Close the file in zip opened with unzOpenCurrentFile
   Return UNZ_CRCERROR if all the file was read but the CRC is not good
 */
+// 关闭文件（用unzOpenCurrentFile打开的），若所有文件被读取，但是crc;返回UNZ_CRCERROR
 
 int CC_DLL unzReadCurrentFile OF((unzFile file,
                       voidp buf,
@@ -411,19 +413,19 @@ int CC_DLL unzReadCurrentFile OF((unzFile file,
   return <0 with error code if there is an error
     (UNZ_ERRNO for IO error, or zLib error for uncompress error)
 */
-
+// 从当前文件中读取字节； 返回的字节复制； 若返回0，文件到头；返回小于0，则为错误
 z_off_t CC_DLL unztell OF((unzFile file));
 
 ZPOS64_T CC_DLL unztell64 OF((unzFile file));
 /*
   Give the current position in uncompressed data
 */
-
+// 给当前位置在解压数据
 int CC_DLL unzeof OF((unzFile file));
 /*
   return 1 if the end of file was reached, 0 elsewhere
 */
-
+// 返回1，则表明文件到结尾了，0则没有
 int CC_DLL unzGetLocalExtrafield OF((unzFile file,
                                              voidp buf,
                                              unsigned len));
@@ -443,10 +445,12 @@ int CC_DLL unzGetLocalExtrafield OF((unzFile file,
 /***************************************************************************/
 
 /* Get the current file offset */
+// 获取当前文件偏移量
 ZPOS64_T CC_DLL unzGetOffset64 (unzFile file);
 uLong CC_DLL unzGetOffset (unzFile file);
 
 /* Set the current file offset */
+// 设置当前文件偏移量
 int CC_DLL unzSetOffset64 (unzFile file, ZPOS64_T pos);
 int CC_DLL unzSetOffset (unzFile file, uLong pos);
 
