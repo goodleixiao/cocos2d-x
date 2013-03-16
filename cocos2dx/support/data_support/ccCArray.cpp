@@ -29,6 +29,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 /** Allocates and initializes a new array with specified capacity */
+// 容量初始化
 ccArray* ccArrayNew(unsigned int capacity) 
 {
 	if (capacity == 0)
@@ -43,6 +44,7 @@ ccArray* ccArrayNew(unsigned int capacity)
 }
 
 /** Frees array after removing all remaining objects. Silently ignores NULL arr. */
+// 释放方法
 void ccArrayFree(ccArray*& arr)
 {
     if( arr == NULL ) 
