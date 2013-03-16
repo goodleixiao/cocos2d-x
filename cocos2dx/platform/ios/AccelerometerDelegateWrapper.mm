@@ -93,7 +93,7 @@ static AccelerometerDispatcher* s_pAccelerometerDispatcher;
         acceleration_->x = -acceleration_->y;
         acceleration_->y = tmp;
         break;
-        
+         
     case UIInterfaceOrientationLandscapeLeft:
         acceleration_->x = acceleration_->y;
         acceleration_->y = -tmp;
