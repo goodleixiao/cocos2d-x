@@ -30,16 +30,18 @@
 NS_CC_BEGIN
 
 /**
- * @addtogroup data_structures
+ * @addtogroup data_structures  数据结构
  * @{
  */
 
 /** @file CCVertex.h */
 
 /** converts a line to a polygon */
+// 线到多边形转换
 void CC_DLL ccVertexLineToPolygon(CCPoint *points, float stroke, ccVertex2F *vertices, unsigned int offset, unsigned int nuPoints);
 
 /** returns whether or not the line intersects */
+// 线是否相交
 bool CC_DLL ccVertexLineIntersect(float Ax, float Ay,
                              float Bx, float By,
                              float Cx, float Cy,
