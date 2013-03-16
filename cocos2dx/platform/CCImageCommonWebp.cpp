@@ -37,7 +37,7 @@
 #include <string.h>
 
 NS_CC_BEGIN
-
+ 
 bool CCImage::_initWithWebpData(void *pData, int nDataLen)
 {
 	bool bRet = false;
