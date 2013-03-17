@@ -6,7 +6,7 @@
 NS_CC_EXT_BEGIN
 
 /* Forward declaration. */
-class CCBReader;
+class CCBReader; 
 
 class CCLayerColorLoader : public CCLayerLoader {
     public:
