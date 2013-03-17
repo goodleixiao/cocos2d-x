@@ -6,7 +6,7 @@ NS_CC_EXT_BEGIN
 
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
-#define PROPERTY_BLENDFUNC "blendFunc"
+#define PROPERTY_BLENDFUNC "blendFunc" 
 #define PROPERTY_FNTFILE "fntFile"
 #define PROPERTY_STRING "string"
 
