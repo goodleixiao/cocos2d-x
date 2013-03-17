@@ -1,6 +1,6 @@
 #include "CCLayerColorLoader.h"
 
-
+ 
 
 NS_CC_EXT_BEGIN
 
