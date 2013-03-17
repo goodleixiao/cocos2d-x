@@ -9,7 +9,7 @@ CCBKeyframe::CCBKeyframe()
 , mTime(0.0f)
 , mEasingType(0)
 , mEasingOpt(0.0f)
-{}
+{} 
 
 CCBKeyframe::~CCBKeyframe()
 {
