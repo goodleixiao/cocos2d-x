@@ -35,10 +35,12 @@ NS_CC_EXT_BEGIN
  Please refer to samples/TestCpp/Classes/ExtensionTest/NetworkTest/HttpClientTest.cpp as a sample
  @since v2.0.2
  */
+// CCHttpClient::send(HttpRequest*)方法中使用
 class CCHttpRequest : public CCObject
 {
 public:
     /** Use this enum type as param in setReqeustType(param) */
+    // 请求的类型
     typedef enum
     {
         kHttpGet,
@@ -52,6 +54,7 @@ public:
         new/retain/release still works, which means you need to release it manually
         Please refer to HttpRequestTest.cpp to find its usage
      */
+    // 构造方法，请求对象被用于UI线程和网络线程之间； 加入到自动释放池中，避免崩溃
     CCHttpRequest()
     {
         _requestType = kHttpUnkown;
@@ -62,7 +65,7 @@ public:
         _pSelector = NULL;
         _pUserData = NULL;
     };
-    
+    // 析构方法
     /** Destructor */
     virtual ~CCHttpRequest()
     {
@@ -73,6 +76,7 @@ public:
     };
     
     /** Override autorelease method to avoid developers to call it */
+    // 自动释放
     CCObject* autorelease(void)
     {
         CCAssert(false, "HttpResponse is used between network thread and ui thread \
@@ -85,11 +89,13 @@ public:
     /** Required field for HttpRequest object before being sent.
         kHttpGet & kHttpPost is currently supported
      */
+    // 设置请求类型属性
     inline void setRequestType(HttpRequestType type)
     {
         _requestType = type;
     };
     /** Get back the kHttpGet/Post/... enum value */
+    // 获取请求类型
     inline HttpRequestType getRequestType()
     {
         return _requestType;
@@ -97,11 +103,13 @@ public:
     
     /** Required field for HttpRequest object before being sent.
      */
+    // 设置Url
     inline void setUrl(const char* url)
     {
         _url = url;
     };
     /** Get back the setted url */
+    // 获取url
     inline const char* getUrl()
     {
         return _url.c_str();
@@ -109,16 +117,19 @@ public:
     
     /** Option field. You can set your post data here
      */
+    // 请求数据
     inline void setRequestData(const char* buffer, unsigned int len)
     {
         _requestData.assign(buffer, buffer + len);
     };
     /** Get the request data pointer back */
+    // 获取请求数据指针
     inline char* getRequestData()
     {
         return &(_requestData.front());
     }
     /** Get the size of request data back */
+    // 获取请求数据大小
     inline int getRequestDataSize()
     {
         return _requestData.size();
@@ -126,6 +137,7 @@ public:
     
     /** Option field. You can set a string tag to identify your request, this tag can be found in HttpResponse->getHttpRequest->getTag()
      */
+    // 设置标示
     inline void setTag(const char* tag)
     {
         _tag = tag;
@@ -133,6 +145,7 @@ public:
     /** Get the string tag back to identify the request. 
         The best practice is to use it in your MyClass::onMyHttpRequestCompleted(sender, HttpResponse*) callback
      */
+    // 获取标示
     inline const char* getTag()
     {
         return _tag.c_str();
@@ -141,6 +154,7 @@ public:
     /** Option field. You can attach a customed data in each request, and get it back in response callback.
         But you need to new/delete the data pointer manully
      */
+    // 设置用户数据
     inline void setUserData(void* pUserData)
     {
         _pUserData = pUserData;
@@ -148,6 +162,7 @@ public:
     /** Get the pre-setted custom data pointer back.
         Don't forget to delete it. HttpClient/HttpResponse/HttpRequest will do nothing with this pointer
      */
+    // 获取用户数据
     inline void* getUserData()
     {
         return _pUserData;
@@ -155,6 +170,7 @@ public:
     
     /** Required field. You should set the callback selector function at ack the http request completed
      */
+    // 设置响应回调
     inline void setResponseCallback(CCObject* pTarget, SEL_CallFuncND pSelector)
     {
         _pTarget = pTarget;
@@ -166,23 +182,27 @@ public:
         }
     }    
     /** Get the target of callback selector funtion, mainly used by CCHttpClient */
+    // 获取回调目标
     inline CCObject* getTarget()
     {
         return _pTarget;
     }
     /** Get the selector function pointer, mainly used by CCHttpClient */
+    // 回调
     inline SEL_CallFuncND getSelector()
     {
         return _pSelector;
     }
 
     /** Set any custom headers **/
+    // 设置任意自定义头
     inline void setHeaders(std::vector<std::string> pHeaders)
    	{
    		_headers=pHeaders;
    	}
    
     /** Get custom headers **/
+    // 获取头
    	inline std::vector<std::string> getHeaders()
    	{
    		return _headers;
@@ -191,6 +211,7 @@ public:
 
 protected:
     // properties
+    // 属性
     HttpRequestType             _requestType;    /// kHttpRequestGet, kHttpRequestPost or other enums
     std::string                 _url;            /// target url that this request is sent to
     std::vector<char>           _requestData;    /// used for POST
