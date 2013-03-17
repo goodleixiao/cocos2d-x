@@ -24,6 +24,6 @@ void CCMenuItemLoader::onHandlePropTypeCheck(CCNode * pNode, CCNode * pParent, c
     } else {
         CCNodeLoader::onHandlePropTypeCheck(pNode, pParent, pPropertyName, pCheck, pCCBReader);
     }
-}
+} 
 
 NS_CC_EXT_END
