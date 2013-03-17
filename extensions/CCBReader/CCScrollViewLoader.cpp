@@ -16,7 +16,7 @@ void CCScrollViewLoader::onHandlePropTypeSize(CCNode * pNode, CCNode * pParent, 
 	} else {
 		CCNodeLoader::onHandlePropTypeSize(pNode, pParent, pPropertyName, pSize, pCCBReader);
 	}
-}
+} 
 
 void CCScrollViewLoader::onHandlePropTypeCheck(CCNode * pNode, CCNode * pParent, const char * pPropertyName, bool pCheck, CCBReader * pCCBReader) {
     if(strcmp(pPropertyName, PROPERTY_CLIPSTOBOUNDS) == 0) {
