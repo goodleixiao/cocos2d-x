@@ -12,7 +12,7 @@
 #include "CCMenuItemLoader.h"
 #include "CCMenuItemImageLoader.h"
 #include "CCControlButtonLoader.h"
-#include "CCParticleSystemQuadLoader.h"
+#include "CCParticleSystemQuadLoader.h" 
 #include "CCScrollViewLoader.h"
 
 
