@@ -2,7 +2,7 @@
 
 
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 #define PROPERTY_CCBFILE "ccbFile"
 
