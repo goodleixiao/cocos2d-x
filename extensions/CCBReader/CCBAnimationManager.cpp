@@ -13,7 +13,7 @@ using namespace std;
 NS_CC_EXT_BEGIN
 
 // Implementation of CCBAinmationManager
-
+ 
 CCBAnimationManager::CCBAnimationManager()
 : mSequences(NULL)
 , mNodeSequences(NULL)
