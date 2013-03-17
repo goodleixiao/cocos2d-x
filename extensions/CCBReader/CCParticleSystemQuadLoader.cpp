@@ -1,6 +1,6 @@
 #include "CCParticleSystemQuadLoader.h"
 
-
+ 
 
 #define PROPERTY_EMITERMODE "emitterMode"
 #define PROPERTY_POSVAR "posVar"
