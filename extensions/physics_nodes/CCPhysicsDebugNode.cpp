@@ -42,7 +42,7 @@ NS_CC_EXT_BEGIN
  It is not recommended to write rendering code like this in your own games
  as the private API may change with little or no warning.
  */
-
+// 此文件采用了很多私有的API,用于调试中渲染物理空间。 不推荐这么做，私有api最不愿改动
 static ccColor4F ColorForBody(cpBody *body)
 {
 	if (cpBodyIsRogue(body) || cpBodyIsSleeping(body))
