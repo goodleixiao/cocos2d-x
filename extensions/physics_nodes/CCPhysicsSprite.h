@@ -45,6 +45,20 @@ NS_CC_EXT_BEGIN
  - If you update the rotation or position manually, the physics body will be updated
  - You can't enble both Chipmunk support and Box2d support at the same time. Only one can be enabled at compile time
  */
+ 
+/** 一个节点的子类，用于物理物体；
+ * 如何工作
+ * Chipmunk：要设置宏CC_ENABLE_CHIPMUNK_INTEGRATION
+ * Objective-Chipmunk：要设置CC_ENABLE_CHIPMUNK_INTEGRATION
+ * Box2d：要设置CC_ENABLE_BOX2D_INTEGRATION
+ * 
+ * 特征和限制：
+ * 1，缩放和倾斜属性被忽略
+ * 2，位置和旋转被更新
+ * 3，如果你手动更新旋转，位置，物理物体也将更新
+ * 4，不能同时支持chipmunk和box2d; 只能编译一个
+ */
+ 
 class CCPhysicsSprite : public CCSprite
 {
 protected:
@@ -56,6 +70,7 @@ protected:
     b2Body  *m_pB2Body;
     
     // Pixels to Meters ratio
+    // 像素比
     float   m_fPTMRatio;
 #endif // CC_ENABLE_CHIPMUNK_INTEGRATION
 public:
@@ -66,14 +81,17 @@ public:
      The rect used will be the size of the texture.
      The offset will be (0,0).
      */
+    // 创建精灵，使用纹理为参数；大小为纹理大小，偏移量为(0,0)
     static CCPhysicsSprite* createWithTexture(CCTexture2D *pTexture);
 
     /** Creates an sprite with a texture and a rect.
      The offset will be (0,0).
      */
+    // 创建物理精灵，使用纹理，矩形为参数；偏移量为(0,0)
     static CCPhysicsSprite* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
 
     /** Creates an sprite with an sprite frame. */
+    // 创建物理精灵，使用精灵帧为参数
     static CCPhysicsSprite* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
 
     /** Creates an sprite with an sprite frame name.
@@ -81,22 +99,26 @@ public:
      If the CCSpriteFrame doesn't exist it will raise an exception.
      @since v0.9
      */
+    // 创建物理精灵，使用精灵帧名称为参数
     static CCPhysicsSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
 
     /** Creates an sprite with an image filename.
      The rect used will be the size of the image.
      The offset will be (0,0).
      */
+    // 创建物理精灵，使用图片文件名称为参数
     static CCPhysicsSprite* create(const char *pszFileName);
 
     /** Creates an sprite with an image filename and a rect.
      The offset will be (0,0).
      */
+    // 创建物理精灵，使用图片名称，和矩形为参数
     static CCPhysicsSprite* create(const char *pszFileName, const CCRect& rect);
 
     virtual bool isDirty();
     
     /** Keep the sprite's rotation separate from the body. */
+    // 是否忽视物体旋转
     bool isIgnoreBodyRotation() const;
     void setIgnoreBodyRotation(bool bIgnoreBodyRotation);
     
@@ -109,6 +131,7 @@ public:
     virtual CCAffineTransform nodeToParentTransform();
     
     /** Body accessor when using regular Chipmunk */
+    // 物体访问，使用通用chipmunk
     cpBody* getCPBody() const;
     void setCPBody(cpBody *pBody);
 
@@ -121,6 +144,7 @@ public:
     virtual CCAffineTransform nodeToParentTransform();
     
     /** Body accessor when using box2d */
+    // 用box2d访问物体
     b2Body* getB2Body() const;
     void setB2Body(b2Body *pBody);
     
