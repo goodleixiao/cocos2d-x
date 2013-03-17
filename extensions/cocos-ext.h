@@ -42,6 +42,7 @@
 #include "network/HttpClient.h"
 
 // Physics integration
+// 物理接口
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
 #include "physics_nodes/CCPhysicsDebugNode.h"
 #include "physics_nodes/CCPhysicsSprite.h"
