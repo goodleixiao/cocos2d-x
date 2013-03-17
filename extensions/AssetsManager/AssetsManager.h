@@ -38,16 +38,18 @@ NS_CC_EXT_BEGIN
  *  The updated package should be a zip file. And there should be a file named
  *  version in the server, which contains version code.
  */
+// 该类用于自动更新资源，如图片，脚本。更新包是zip文件。有一个文件是版本，包含版本代码
 class AssetsManager
 {
 public:
     enum ErrorCode
     {
-        ServerNotAvailable,    /** server address error or timeout */
+        ServerNotAvailable,    /** server address error or timeout */ // 服务地址不存在，或者超时
         TimeOut,
     };
     
     //! Default constructor. You should set server address later.
+    //! 默认构造。 可以设置服务端地址
     AssetsManager();
     
     /* @brief Creates a AssetsManager with new package url and version code url.
@@ -56,6 +58,7 @@ public:
      * @param packageUrl URL of new package, the package should be a zip file.
      * @param versionFileUrl URL of version file. It should contain version code of new package.
      */
+    // 创建方法，使用新的包url和版本代码url为参数（zip文件) 可以使用CCFileUtils::getWritablePath()返回的值作为存储路径
     AssetsManager(const char* packageUrl, const char* versionFileUrl);
     
     /* @brief Creates a AssetsManager with new package url, version code url and storage path.
@@ -64,45 +67,55 @@ public:
      * @param versionFileUrl URL of version file. It should contain version code of new package.
      * @param storagePath The path to store downloaded resources.
      */
+    // 创建方法，使用新包url,版本代码url和存储路径为参数
     AssetsManager(const char* packageUrl, const char* versionFileUrl, const char* storagePath);
     
     /* @brief Check out if there is a new version resource.
      *        You may use this method before updating, then let user determine whether
      *        he wants to update resources.
      */
+    // 检测是否有新版本
     virtual bool checkUpdate();
     
     /* @brief Download new package if there is a new version, and uncompress downloaded zip file.
      *        Ofcourse it will set search path that stores downloaded files.
      */
+    // 下载新的版本，解压下载的文件
     virtual void update();
     
     /* @brief Gets url of package.
      */
+    // 获取包的url
     const char* getPackageUrl() const;
     
     /* @brief Sets package url.
      */
+    // 设置包的url
     void setPackageUrl(const char* packageUrl);
     
     /* @brief Gets version file url.
      */
+    // 获取版本文件url
     const char* getVersionFileUrl() const;
     
-    /* @brief Gets version file url.
+    /* @brief Sets version file url.
      */
+    // 设置版本文件url
     void setVersionFileUrl(const char* versionFileUrl);
     
     /* @brief Gets current version code.
      */
+    // 获取当前版本代码
     std::string getVersion();
     
     /* @brief Deletes recorded version code.
      */
+    // 删除旧的版本代码
     void deleteVersion();
     
     /* @brief Gets storage path.
      */
+    // 获取存储路径
     const char* getStoragePath() const;
     
     /* @brief Sets storage path.
@@ -110,6 +123,7 @@ public:
      * @param storagePath The path to store downloaded resources.
      * @warm The path should be a valid path.
      */
+    // 设置存储路径
     void setStoragePath(const char* storagePath);
     
 protected:
@@ -121,9 +135,11 @@ protected:
     
 private:
     //! The path to store downloaded resources.
+    //! 存储路径
     std::string _storagePath;
     
     //! The version of downloaded resources.
+    //! 下载版本资源
     std::string _version;
     
     std::string _packageUrl;
