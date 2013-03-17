@@ -4,7 +4,7 @@
 #include "CCLayerLoader.h"
 
 NS_CC_EXT_BEGIN
-
+ 
 /* Forward declaration. */
 class CCBReader;
 
