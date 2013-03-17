@@ -7,6 +7,7 @@
 NS_CC_EXT_BEGIN
 
 /* Forward declaration. */
+// 前置声明
 class CCBReader;
 
 class CCControlLoader : public CCNodeLoader {
