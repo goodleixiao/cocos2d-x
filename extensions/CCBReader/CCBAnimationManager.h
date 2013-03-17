@@ -54,7 +54,7 @@ public:
     void setAutoPlaySequenceId(int autoPlaySequenceId);
     
     CCNode* getRootNode();
-    void setRootNode(CCNode* pRootNode); // weak reference    
+    void setRootNode(CCNode* pRootNode); // weak reference    若引用
     
 
     void addDocumentCallbackNode(CCNode *node);
@@ -87,6 +87,7 @@ public:
     void moveAnimationsFromNode(CCNode* fromNode, CCNode* toNode);
 
     /** @deprecated This interface will be deprecated sooner or later.*/
+    // 弃用接口
     CC_DEPRECATED_ATTRIBUTE void runAnimations(const char *pName, float fTweenDuration);
     /** @deprecated This interface will be deprecated sooner or later.*/
     CC_DEPRECATED_ATTRIBUTE void runAnimations(const char *pName);
@@ -122,6 +123,7 @@ public:
     ~CCBSetSpriteFrame();
     
     /** creates a Place action with a position */
+    // 创建放置动作，使用点为参数
     static CCBSetSpriteFrame* create(CCSpriteFrame *pSpriteFrame);
     bool initWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
     virtual void update(float time);
