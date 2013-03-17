@@ -26,7 +26,7 @@
  Local Storage support for the JS Bindings for iOS.
  Works on cocos2d-iphone and cocos2d-x.
  */
-
+// 本地存储
 #include "cocos2d.h"
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
@@ -45,7 +45,7 @@ static sqlite3_stmt *_stmt_update;
 
 static void localStorageLazyInit();
 static void localStorageCreateTable();
-
+// 创建表
 static void localStorageCreateTable()
 {
 	const char *sql_createtable = "CREATE TABLE IF NOT EXISTS data(key TEXT PRIMARY KEY,value TEXT);";
@@ -57,7 +57,7 @@ static void localStorageCreateTable()
 	if( ok != SQLITE_OK && ok != SQLITE_DONE)
 		printf("Error in CREATE TABLE\n");
 }
-
+// 初始化，使用路径为参数
 void localStorageInit( const char *fullpath)
 {
 	if( ! _initialized ) {
@@ -72,26 +72,29 @@ void localStorageInit( const char *fullpath)
 		localStorageCreateTable();
 
 		// SELECT
+		// 选择
 		const char *sql_select = "SELECT value FROM data WHERE key=?;";
 		ret |= sqlite3_prepare_v2(_db, sql_select, -1, &_stmt_select, NULL);
 
 		// REPLACE
+		// 替换
 		const char *sql_update = "REPLACE INTO data (key, value) VALUES (?,?);";
 		ret |= sqlite3_prepare_v2(_db, sql_update, -1, &_stmt_update, NULL);
 
 		// DELETE
+		// 删除
 		const char *sql_remove = "DELETE FROM data WHERE key=?;";
 		ret |= sqlite3_prepare_v2(_db, sql_remove, -1, &_stmt_remove, NULL);
 
 		if( ret != SQLITE_OK ) {
 			printf("Error initializing DB\n");
-			// report error
+			// report error	显示错误
 		}
 		
 		_initialized = 1;
 	}
 }
-
+// 释放分配的内存
 void localStorageFree()
 {
 	if( _initialized ) {
@@ -106,6 +109,7 @@ void localStorageFree()
 }
 
 /** sets an item in the LS */
+// 设置一个条目存储
 void localStorageSetItem( const char *key, const char *value)
 {
 	assert( _initialized );
@@ -122,6 +126,7 @@ void localStorageSetItem( const char *key, const char *value)
 }
 
 /** gets an item from the LS */
+// 获取指定条目，使用键为参数
 const char* localStorageGetItem( const char *key )
 {
 	assert( _initialized );
@@ -140,6 +145,7 @@ const char* localStorageGetItem( const char *key )
 }
 
 /** removes an item from the LS */
+// 移除一个条目，使用键为参数
 void localStorageRemoveItem( const char *key )
 {
 	assert( _initialized );
