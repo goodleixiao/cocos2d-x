@@ -6,7 +6,7 @@
 #include "../GUI/CCControlExtension/CCInvocation.h"
 
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 #define CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(TARGET, SELECTORNAME, METHOD) if(pTarget == TARGET && strcmp(pSelectorName, SELECTORNAME) == 0) { \
     return menu_selector(METHOD); \
