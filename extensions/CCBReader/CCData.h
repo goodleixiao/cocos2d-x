@@ -1,11 +1,10 @@
-
 #ifndef __CCB_CCDATA_H__
 #define __CCB_CCDATA_H__
 
 #include "cocos2d.h"
 #include "ExtensionMacros.h"
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 class CCData : public CCObject
 {
