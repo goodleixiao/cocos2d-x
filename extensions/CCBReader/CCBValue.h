@@ -8,6 +8,8 @@
  These classes are wrapper of basic types, such as ccColor3B
  */
 
+// 该类包装基本类型，如ccColor3B
+
 NS_CC_EXT_BEGIN
 
 class ccColor3BWapper : public CCObject
