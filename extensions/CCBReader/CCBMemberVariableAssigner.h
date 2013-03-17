@@ -31,6 +31,7 @@ class CCBMemberVariableAssigner {
          *  @param pNode The member variable.
          *  @return Whether the assignment was successful.
          */
+        // 分配成员变量的回调函数，成员变量必须是节点或其子类；使用目标，成员变量名称，节点变量为参数
         virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode) = 0;
 
         /**
@@ -41,6 +42,7 @@ class CCBMemberVariableAssigner {
          *  @param pValue The value of the property.
          *  @return Whether the assignment was successful.
          */
+        // 分配自定义属性的回调函数，使用目标，成员变量名称，值为参数
         virtual bool onAssignCCBCustomProperty(CCObject* pTarget, const char* pMemberVariableName, CCBValue* pCCBValue) { return false; };
 };
 
