@@ -107,6 +107,7 @@ bool AssetsManager::checkUpdate()
     }
     
     // Clear _version before assign new value.
+    // 清除旧的版本
     _version.clear();
     
     CURLcode res;
@@ -128,6 +129,7 @@ bool AssetsManager::checkUpdate()
     {
         CCLOG("there is not new version");
         // Set resource search path.
+        // 设置搜索路径
         setSearchPath();
         return false;
     }
@@ -141,6 +143,7 @@ void AssetsManager::update()
 {
     // 1. Urls of package and version should be valid;
     // 2. Package should be a zip file.
+    // urls为有效的，包为zip文件
     if (_versionFileUrl.size() == 0 ||
         _packageUrl.size() == 0 ||
         std::string::npos == _packageUrl.find(".zip"))
@@ -150,34 +153,42 @@ void AssetsManager::update()
     }
     
     // Check if there is a new version.
+    // 检测是新版本
     if (! checkUpdate()) return;
     
     // Is package already downloaded?
+    // 是要下载吗
     string downloadedVersion = CCUserDefault::sharedUserDefault()->getStringForKey(KEY_OF_DOWNLOADED_VERSION);
     if (downloadedVersion != _version)
     {
         if (! downLoad()) return;
         
         // Record downloaded version.
+        // 记录下载版本
         CCUserDefault::sharedUserDefault()->setStringForKey(KEY_OF_DOWNLOADED_VERSION, _version.c_str());
         CCUserDefault::sharedUserDefault()->flush();
     }
     
     // Uncompress zip file.
+    // 解压zip文件
     if (! uncompress()) return;
     
     // Record new version code.
+    // 记录新版本代码
     CCUserDefault::sharedUserDefault()->setStringForKey(KEY_OF_VERSION, _version.c_str());
     
     // Unrecord downloaded version code.
+    // 取消下载版本代码
     CCUserDefault::sharedUserDefault()->setStringForKey(KEY_OF_DOWNLOADED_VERSION, "");
     
     CCUserDefault::sharedUserDefault()->flush();
     
     // Set resource search path.
+    // 设置资源搜索路径
     setSearchPath();
     
     // Delete unloaded zip file.
+    // 删除未载入zip文件
     string zipfileName = _storagePath + TEMP_PACKAGE_FILE_NAME;
     if (remove(zipfileName.c_str()) != 0)
     {
@@ -188,6 +199,7 @@ void AssetsManager::update()
 bool AssetsManager::uncompress()
 {
     // Open the zip file
+    // 打开zip文件
     string outFileName = _storagePath + TEMP_PACKAGE_FILE_NAME;
     unzFile zipfile = unzOpen(outFileName.c_str());
     if (! zipfile)
@@ -197,6 +209,7 @@ bool AssetsManager::uncompress()
     }
     
     // Get info about the zip file
+    // 获取zip 文件信息
     unz_global_info global_info;
     if (unzGetGlobalInfo(zipfile, &global_info) != UNZ_OK)
     {
@@ -205,15 +218,18 @@ bool AssetsManager::uncompress()
     }
     
     // Buffer to hold data read from the zip file
+    // 读取缓冲区
     char readBuffer[BUFFER_SIZE];
     
     CCLOG("start uncompressing");
     
     // Loop to extract all files.
+    // 循环提取所有文件
     uLong i;
     for (i = 0; i < global_info.number_entry; ++i)
     {
         // Get info about current file.
+        // 获取当前文件信息
         unz_file_info fileInfo;
         char fileName[MAX_FILENAME];
         if (unzGetCurrentFileInfo(zipfile,
@@ -233,11 +249,13 @@ bool AssetsManager::uncompress()
         string fullPath = _storagePath + fileName;
         
         // Check if this entry is a directory or a file.
+        // 检测该实体是文件夹或文件
         const size_t filenameLength = strlen(fileName);
         if (fileName[filenameLength-1] == '/')
         {
             // Entry is a direcotry, so create it.
             // If the directory exists, it will failed scilently.
+            // 是文件夹就创建，若文件已经存在，就放弃
             if (!createDirectory(fullPath.c_str()))
             {
                 CCLOG("can not create directory %s", fullPath.c_str());
@@ -250,6 +268,7 @@ bool AssetsManager::uncompress()
             // Entry is a file, so extract it.
             
             // Open current file.
+            // 实体是文件，就提取； 打开当前文件
             if (unzOpenCurrentFile(zipfile) != UNZ_OK)
             {
                 CCLOG("can not open file %s", fileName);
@@ -258,6 +277,7 @@ bool AssetsManager::uncompress()
             }
             
             // Create a file to store current file.
+            // 创建一个文件存储到当前文件
             FILE *out = fopen(fullPath.c_str(), "wb");
             if (! out)
             {
@@ -268,6 +288,7 @@ bool AssetsManager::uncompress()
             }
             
             // Write current file content to destinate file.
+            // 向目标文件写入当前文件内容
             int error = UNZ_OK;
             do
             {
@@ -292,6 +313,7 @@ bool AssetsManager::uncompress()
         unzCloseCurrentFile(zipfile);
         
         // Goto next entry listed in the zip file.
+        // 列表中下个实体
         if ((i+1) < global_info.number_entry)
         {
             if (unzGoToNextFile(zipfile) != UNZ_OK)
@@ -311,6 +333,7 @@ bool AssetsManager::uncompress()
 /*
  * Create a direcotry is platform depended.
  */
+// 创建一个文件夹
 bool AssetsManager::createDirectory(const char *path)
 {
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
@@ -332,7 +355,7 @@ bool AssetsManager::createDirectory(const char *path)
     return true;
 #endif
 }
-
+// 设置搜索路径
 void AssetsManager::setSearchPath()
 {
     vector<string> searchPaths = CCFileUtils::sharedFileUtils()->getSearchPaths();
@@ -340,7 +363,7 @@ void AssetsManager::setSearchPath()
     searchPaths.insert(iter, _storagePath);
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
 }
-
+// 下载包的大小
 static size_t downLoadPackage(void *ptr, size_t size, size_t nmemb, void *userdata)
 {
     FILE *fp = (FILE*)userdata;
@@ -358,6 +381,7 @@ static int progressFunc(void *ptr, double totalToDownload, double nowDownloaded,
 bool AssetsManager::downLoad()
 {
     // Create a file to save package.
+    // 创建一个文件存储在包中
     string outFileName = _storagePath + TEMP_PACKAGE_FILE_NAME;
     FILE *fp = fopen(outFileName.c_str(), "wb");
     if (! fp)
@@ -367,6 +391,7 @@ bool AssetsManager::downLoad()
     }
     
     // Download pacakge
+    // 下载包
     CURLcode res;
     curl_easy_setopt(_curl, CURLOPT_URL, _packageUrl.c_str());
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, downLoadPackage);
