@@ -24,7 +24,7 @@ void CCSpriteLoader::onHandlePropTypeFlip(CCNode * pNode, CCNode * pParent, cons
         CCNodeLoader::onHandlePropTypeFlip(pNode, pParent, pPropertyName, pFlip, pCCBReader);
     }
 }
-
+ 
 void CCSpriteLoader::onHandlePropTypeColor3(CCNode * pNode, CCNode * pParent, const char * pPropertyName, ccColor3B pCCColor3B, CCBReader * pCCBReader) {
     if(strcmp(pPropertyName, PROPERTY_COLOR) == 0) {
         ((CCSprite *)pNode)->setColor(pCCColor3B);
