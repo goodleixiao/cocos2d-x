@@ -36,12 +36,14 @@ NS_CC_EXT_BEGIN
  Please refer to samples/TestCpp/Classes/ExtensionTest/NetworkTest/HttpClientTest.cpp as a sample
  @since v2.0.2
  */
+// http响应
 class CCHttpResponse : public CCObject
 {
 public:
     /** Constructor, it's used by CCHttpClient internal, users don't need to create HttpResponse manually
      @param request the corresponding HttpRequest which leads to this response 
      */
+    // 构造，被CCHttpClient内部使用，不用手动创建
     CCHttpResponse(CCHttpRequest* request)
     {
         _pHttpRequest = request;
@@ -58,6 +60,7 @@ public:
     /** Destructor, it will be called in CCHttpClient internal,
      users don't need to desturct HttpResponse object manully 
      */
+    // 析构
     virtual ~CCHttpResponse()
     {
         if (_pHttpRequest)
@@ -67,6 +70,7 @@ public:
     }
     
     /** Override autorelease method to prevent developers from calling it */
+    // 自动释放
     CCObject* autorelease(void)
     {
         CCAssert(false, "HttpResponse is used between network thread and ui thread \
@@ -79,6 +83,7 @@ public:
     /** Get the corresponding HttpRequest object which leads to this response 
         There's no paired setter for it, coz it's already setted in class constructor
      */
+    // 获取方法
     inline CCHttpRequest* getHttpRequest()
     {
         return _pHttpRequest;
@@ -88,12 +93,14 @@ public:
         Althrough users can judge if (http return code = 200), we want an easier way
         If this getter returns false, you can call getResponseCode and getErrorBuffer to find more details
      */
+    // 是否成功
     inline bool isSucceed()
     {
         return _succeed;
     };
     
     /** Get the http response raw data */
+    // 获取响应原始数据
     inline std::vector<char>* getResponseData()
     {
         return &_responseData;
@@ -102,6 +109,7 @@ public:
     /** Get the http response errorCode
      *  I know that you want to see http 200 :)
      */
+    // 获取响应错误码
     inline int getResponseCode()
     {
         return _responseCode;
@@ -109,6 +117,7 @@ public:
 
     /** Get the rror buffer which will tell you more about the reason why http request failed
      */
+    // 获取错误缓存，告诉你请求失败的原因
     inline const char* getErrorBuffer()
     {
         return _errorBuffer.c_str();
@@ -122,6 +131,7 @@ public:
      Althrough users can judge if (http code == 200), we want a easier way
      This setter is mainly used in CCHttpClient, users mustn't set it directly
      */
+    // 设置成功
     inline void setSucceed(bool value)
     {
         _succeed = value;
@@ -130,6 +140,7 @@ public:
     
     /** Set the http response raw buffer, is used by CCHttpClient      
      */
+    // 设置原始数据
     inline void setResponseData(std::vector<char>* data)
     {
         _responseData = *data;
@@ -138,6 +149,7 @@ public:
     
     /** Set the http response errorCode
      */
+    // 设置错误码
     inline void setResponseCode(int value)
     {
         _responseCode = value;
@@ -146,6 +158,7 @@ public:
     
     /** Set the error buffer which will tell you more the reason why http request failed
      */
+    // 设置错误原因
     inline void setErrorBuffer(const char* value)
     {
         _errorBuffer.clear();
@@ -156,6 +169,7 @@ protected:
     bool initWithRequest(CCHttpRequest* request);
     
     // properties
+    // 属性
     CCHttpRequest*        _pHttpRequest;  /// the corresponding HttpRequest pointer who leads to this response 
     bool                _succeed;       /// to indecate if the http reqeust is successful simply
     std::vector<char>   _responseData;  /// the returned raw data. You can also dump it as a string
