@@ -1,7 +1,7 @@
 #ifndef _CCB_CCLAYERLOADER_H_
 #define _CCB_CCLAYERLOADER_H_
 
-#include "CCNodeLoader.h"
+#include "CCNodeLoader.h" 
 
 NS_CC_EXT_BEGIN
 
