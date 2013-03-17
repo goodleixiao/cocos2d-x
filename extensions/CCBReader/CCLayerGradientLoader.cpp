@@ -6,7 +6,7 @@
 #define PROPERTY_ENDCOLOR "endColor"
 #define PROPERTY_STARTOPACITY "startOpacity"
 #define PROPERTY_ENDOPACITY "endOpacity"
-#define PROPERTY_VECTOR "vector"
+#define PROPERTY_VECTOR "vector" 
 #define PROPERTY_BLENDFUNC "blendFunc"
 
 NS_CC_EXT_BEGIN
