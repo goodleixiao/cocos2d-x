@@ -40,7 +40,7 @@ CCPhysicsSprite::CCPhysicsSprite()
 , m_fPTMRatio(0.0f)
 #endif
 {}
-
+// 创建物理精灵方法
 CCPhysicsSprite* CCPhysicsSprite::create()
 {
     CCPhysicsSprite* pRet = new CCPhysicsSprite();
@@ -288,6 +288,7 @@ void CCPhysicsSprite::setRotation(float fRotation)
 }
 
 // returns the transform matrix according the Box2D Body values
+// 返回的矩阵符合box2d刚体值
 CCAffineTransform CCPhysicsSprite::nodeToParentTransform()
 {
     b2Vec2 pos  = m_pB2Body->GetPosition();
