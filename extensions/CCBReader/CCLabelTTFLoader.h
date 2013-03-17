@@ -3,7 +3,7 @@
 
 #include "CCNodeLoader.h"
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 /* Forward declaration. */
 class CCBReader;
