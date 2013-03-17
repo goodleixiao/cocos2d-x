@@ -1,6 +1,6 @@
 #include "CCLabelTTFLoader.h"
 
-
+ 
 
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
