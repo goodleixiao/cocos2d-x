@@ -2,7 +2,7 @@
 #define _CCB_CCMENUITEMIMAGELOADER_H_
 
 #include "CCMenuItemLoader.h"
-
+ 
 NS_CC_EXT_BEGIN
 
 /* Forward declaration. */
