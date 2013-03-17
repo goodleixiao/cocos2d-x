@@ -31,7 +31,7 @@ public:
     void setChainedSequenceId(int nChainedSequenceId);
 };
 
-
+ 
 NS_CC_EXT_END
 
 
