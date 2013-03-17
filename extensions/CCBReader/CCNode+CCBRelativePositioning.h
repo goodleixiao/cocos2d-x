@@ -5,7 +5,7 @@
 #include "ExtensionMacros.h"
 
 NS_CC_EXT_BEGIN
-
+ 
 extern CCPoint getAbsolutePosition(const CCPoint &pt, int nType, const CCSize &containerSize, const char *pPropName);
 
 extern void setRelativeScale(CCNode *pNode, float fScaleX, float fScaleY, int nType, const char* pPropName);
