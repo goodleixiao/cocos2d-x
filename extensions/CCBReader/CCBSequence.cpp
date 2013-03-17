@@ -4,7 +4,7 @@ using namespace cocos2d;
 using namespace std;
 
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 CCBSequence::CCBSequence()
 : mDuration(0.0f)
