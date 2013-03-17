@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
+// 扩展宏
 #ifndef __EXTENSIONMARCROS_H__
 #define __EXTENSIONMARCROS_H__
 
