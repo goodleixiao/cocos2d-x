@@ -1,5 +1,5 @@
 #ifndef __CCB_SEQUENCE_PROPERTY_H__
-#define __CCB_SEQUENCE_PROPERTY_H__
+#define __CCB_SEQUENCE_PROPERTY_H__ 
 
 #include "cocos2d.h"
 #include "ExtensionMacros.h"
