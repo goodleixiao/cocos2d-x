@@ -41,7 +41,7 @@
 
 USING_NS_CC;
 static int _initialized = 0;
-
+// 文件名称
 static void splitFilename (std::string& str)
 {
 	size_t found = 0;
@@ -51,7 +51,7 @@ static void splitFilename (std::string& str)
 		str = str.substr(found+1);
 	}
 }
-
+// 初始化方法
 void localStorageInit( const char *fullpath)
 {
 	if (fullpath == NULL || strlen(fullpath) == 0) return;
@@ -75,7 +75,7 @@ void localStorageInit( const char *fullpath)
 		
 	}
 }
-
+// 释放方法
 void localStorageFree()
 {
 	if( _initialized ) {
@@ -93,6 +93,7 @@ void localStorageFree()
 }
 
 /** sets an item in the LS */
+// 存储一个条目
 void localStorageSetItem( const char *key, const char *value)
 {
 	assert( _initialized );
@@ -110,6 +111,7 @@ void localStorageSetItem( const char *key, const char *value)
 }
 
 /** gets an item from the LS */
+// 获取一个条目
 const char* localStorageGetItem( const char *key )
 {
 	assert( _initialized );
@@ -127,6 +129,7 @@ const char* localStorageGetItem( const char *key )
 }
 
 /** removes an item from the LS */
+// 移除一个条目
 void localStorageRemoveItem( const char *key )
 {
 	assert( _initialized );
