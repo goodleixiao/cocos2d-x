@@ -26,7 +26,7 @@ class CCNodeLoaderLibrary : public CCObject {
         //void registerCCNodeLoader(CCString * pClassName, CCNodeLoader * pCCNodeLoader);
         void unregisterCCNodeLoader(const char * pClassName);
         //void unregisterCCNodeLoader(CCString * pClassName);
-        CCNodeLoader * getCCNodeLoader(const char * pClassName);
+        CCNodeLoader * getCCNodeLoader(const char * pClassName); 
         //CCNodeLoader * getCCNodeLoader(CCString * pClassName);
         void purge(bool pDelete);
 
