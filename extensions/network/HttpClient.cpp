@@ -62,7 +62,7 @@ static bool need_quit = false;
 static CCArray* s_requestQueue = NULL;
 static CCArray* s_responseQueue = NULL;
 
-static CCHttpClient *s_pHttpClient = NULL; // pointer to singleton
+static CCHttpClient *s_pHttpClient = NULL; // pointer to singleton 单例指针
 
 static char s_errorBuffer[CURL_ERROR_SIZE];
 
@@ -70,6 +70,7 @@ typedef size_t (*write_callback)(void *ptr, size_t size, size_t nmemb, void *str
 
 
 // Callback function used by libcurl for collect response data
+// 回调函数收集响应信息
 size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
 {
     std::vector<char> *recvBuffer = (std::vector<char>*)stream;
@@ -77,19 +78,22 @@ size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
     
     // add data to the end of recvBuffer
     // write data maybe called more than once in a single request
+    // 写入的数据可能多于请求的
     recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr+sizes);
     
     return sizes;
 }
 
 // Prototypes
+// 原形
 bool configureCURL(CURL *handle);
 int processGetTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
 int processPostTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *errorCode);
 // int processDownloadTask(HttpRequest *task, write_callback callback, void *stream, int32_t *errorCode);
 
 
-// Worker thread
+// Worker thread 
+// 工作线程
 static void* networkThread(void *data)
 {    
     CCHttpRequest *request = NULL;
@@ -97,6 +101,7 @@ static void* networkThread(void *data)
     while (true) 
     {
         // Wait for http request tasks from main thread
+        // 等待请求任务
         int semWaitRet = sem_wait(s_pSem);
         if (semWaitRet < 0) {
             CCLog("HttpRequest async thread semaphore error: %s\n", strerror(errno));
@@ -109,9 +114,10 @@ static void* networkThread(void *data)
         }
         
         // step 1: send http request if the requestQueue isn't empty
+        // 发送请求，若请求队列不为空
         request = NULL;
         
-        pthread_mutex_lock(&s_requestQueueMutex); //Get request task from queue
+        pthread_mutex_lock(&s_requestQueueMutex); //Get request task from queue 获取请求任务，从队列中
         if (0 != s_requestQueue->count())
         {
             request = dynamic_cast<CCHttpRequest*>(s_requestQueue->objectAtIndex(0));
@@ -126,7 +132,7 @@ static void* networkThread(void *data)
         }
         
         // step 2: libcurl sync access
-        
+        // 同步访问
         // Create a HttpResponse object, the default setting is http access failed
         CCHttpResponse *response = new CCHttpResponse(request);
         
@@ -138,16 +144,17 @@ static void* networkThread(void *data)
         int retValue = 0;
 
         // Process the request -> get response packet
+        // 处理请求，获取响应包
         switch (request->getRequestType())
         {
-            case CCHttpRequest::kHttpGet: // HTTP GET
+            case CCHttpRequest::kHttpGet: // HTTP GET  get方法
                 retValue = processGetTask(request, 
                                           writeData, 
                                           response->getResponseData(), 
                                           &responseCode);
                 break;
             
-            case CCHttpRequest::kHttpPost: // HTTP POST
+            case CCHttpRequest::kHttpPost: // HTTP POST post方法
                 retValue = processPostTask(request, 
                                            writeData, 
                                            response->getResponseData(), 
@@ -160,6 +167,7 @@ static void* networkThread(void *data)
         }
                 
         // write data to HttpResponse
+        // 写入数据
         response->setResponseCode(responseCode);
         
         if (retValue != 0) 
@@ -174,15 +182,18 @@ static void* networkThread(void *data)
 
         
         // add response packet into queue
+        // 增加响应包到队列
         pthread_mutex_lock(&s_responseQueueMutex);
         s_responseQueue->addObject(response);
         pthread_mutex_unlock(&s_responseQueueMutex);
         
         // resume dispatcher selector
+        // 恢复调度选择器
         CCDirector::sharedDirector()->getScheduler()->resumeTarget(CCHttpClient::getInstance());
     }
     
     // cleanup: if worker thread received quit signal, clean up un-completed request queue
+    // 清理：工作线程退出；清理未完成的请求队列
     pthread_mutex_lock(&s_requestQueueMutex);
     s_requestQueue->removeAllObjects();
     pthread_mutex_unlock(&s_requestQueueMutex);
@@ -211,6 +222,7 @@ static void* networkThread(void *data)
 }
 
 //Configure curl's timeout property
+// 配置超时属性
 bool configureCURL(CURL *handle)
 {
     if (!handle) {
@@ -235,6 +247,7 @@ bool configureCURL(CURL *handle)
 }
 
 //Process Get Request
+// 处理获取请求
 int processGetTask(CCHttpRequest *request, write_callback callback, void *stream, int *responseCode)
 {
     CURLcode code = CURL_LAST;
@@ -248,6 +261,7 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
         
         /* handle custom header data */
         /* create curl linked list */
+        // 处理自定义数据头
         struct curl_slist *cHeaders=NULL;
         /* get custom header data (if set) */
        	std::vector<std::string> headers=request->getHeaders();
@@ -259,6 +273,7 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
           				cHeaders=curl_slist_append(cHeaders,it->c_str());
         			}
            /* set custom headers for curl */
+           // 设置自定义
         			code = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, cHeaders);
         			if (code != CURLE_OK) {
           				break;
@@ -296,6 +311,7 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
         }
         
         /* free the linked list for header data */
+        // 释放
         curl_slist_free_all(cHeaders);
 
         code = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, responseCode); 
@@ -313,6 +329,7 @@ int processGetTask(CCHttpRequest *request, write_callback callback, void *stream
 }
 
 //Process POST Request
+// 处理post请求
 int processPostTask(CCHttpRequest *request, write_callback callback, void *stream, int32_t *responseCode)
 {
     CURLcode code = CURL_LAST;
@@ -386,7 +403,7 @@ int processPostTask(CCHttpRequest *request, write_callback callback, void *strea
     return (code == CURLE_OK ? 0 : 1);    
 }
 
-// HttpClient implementation
+// HttpClient implementation 实现
 CCHttpClient* CCHttpClient::getInstance()
 {
     if (s_pHttpClient == NULL) {
@@ -423,7 +440,7 @@ CCHttpClient::~CCHttpClient()
     s_pHttpClient = NULL;
 }
 
-//Lazy create semaphore & mutex & thread
+//Lazy create semaphore & mutex & thread 创建信号量，互斥体
 bool CCHttpClient::lazyInitThreadSemphore()
 {
     if (s_pSem != NULL) {
@@ -464,7 +481,8 @@ bool CCHttpClient::lazyInitThreadSemphore()
     return true;
 }
 
-//Add a get task to queue
+//Add a get task to queue 
+// 增加一个任务到队列
 void CCHttpClient::send(CCHttpRequest* request)
 {    
     if (false == lazyInitThreadSemphore()) 
@@ -490,6 +508,7 @@ void CCHttpClient::send(CCHttpRequest* request)
 }
 
 // Poll and notify main thread if responses exists in queue
+// 轮询，通知是否在主线程
 void CCHttpClient::dispatchResponseCallbacks(float delta)
 {
     // CCLog("CCHttpClient::dispatchResponseCallbacks is running");
