@@ -1,7 +1,7 @@
 #include "CCLayerLoader.h"
 
 
-
+ 
 
 #define PROPERTY_TOUCH_ENABLED "isTouchEnabled"
 #define PROPERTY_ACCELEROMETER_ENABLED "isAccelerometerEnabled"
