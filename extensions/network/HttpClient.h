@@ -35,7 +35,7 @@
 NS_CC_EXT_BEGIN
 
 /**
- * @addtogroup Network
+ * @addtogroup Network  网络
  * @{
  */
 
@@ -43,13 +43,16 @@ NS_CC_EXT_BEGIN
 /** @brief Singleton that handles asynchrounous http requests
  * Once the request completed, a callback will issued in main thread when it provided during make request
  */
+// 单例处理异步清除；完成请求，在主线程发出回调
 class CCHttpClient : public CCObject
 {
 public:
     /** Return the shared instance **/
+    // 返回共享实例
     static CCHttpClient *getInstance();
     
     /** Relase the shared instance **/
+    // 释放实例
     static void destroyInstance();
         
     /**
@@ -58,6 +61,7 @@ public:
                       please make sure request->_requestData is clear before calling "send" here.
      * @return NULL
      */
+    // 增加一个获取请求任务队列；一个请求对象，包括url,响应回调等；
     void send(CCHttpRequest* request);
   
     
@@ -66,6 +70,7 @@ public:
      * @param timeout 
      * @return NULL
      */
+    // 改变链接超时
     inline void setTimeoutForConnect(int value) {_timeoutForConnect = value;};
     
     /**
@@ -73,6 +78,7 @@ public:
      * @return int
      *
      */
+    // 获取链接超时时间
     inline int getTimeoutForConnect() {return _timeoutForConnect;}
     
     
@@ -81,6 +87,7 @@ public:
      * @param value
      * @return NULL
      */
+    // 改变下载超时
     inline void setTimeoutForRead(int value) {_timeoutForRead = value;};
     
 
@@ -88,6 +95,7 @@ public:
      * Get download timeout
      * @return int
      */
+    // 获取下载超时
     inline int getTimeoutForRead() {return _timeoutForRead;};
         
 private:
@@ -99,12 +107,16 @@ private:
      * Init pthread mutex, semaphore, and create new thread for http requests
      * @return bool
      */
+    // 初始化线程互斥体，信号量，创建新的线程为http请求
     bool lazyInitThreadSemphore();
     /** Poll function called from main thread to dispatch callbacks when http requests finished **/
+    // 完成请求，进行的回调
     void dispatchResponseCallbacks(float delta);
     
 private:
+    // 超时链接
     int _timeoutForConnect;
+    // 超时读取
     int _timeoutForRead;
     
     // std::string reqId;
