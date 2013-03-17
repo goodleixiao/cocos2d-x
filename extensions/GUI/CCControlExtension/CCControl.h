@@ -41,14 +41,16 @@ class CCInvocation;
 /**
  * @addtogroup GUI
  * @{
- * @addtogroup control_extension
+ * @addtogroup control_extension    控制扩展
  * @{
  */
 
 /** Number of kinds of control event. */
+// 控制时间类型个数
 #define kControlEventTotalNumber 9
 
 /** Kinds of possible events for the control objects. */
+// 控制类型
 enum 
 {
     CCControlEventTouchDown           = 1 << 0,    // A touch-down event in the control.
@@ -64,9 +66,10 @@ enum
 typedef unsigned int CCControlEvent;
 
 /** The possible state for a control.  */
+// 控制状态
 enum 
 {
-    CCControlStateNormal       = 1 << 0, // The normal, or default state of a control��that is, enabled but neither selected nor highlighted.
+    CCControlStateNormal       = 1 << 0, // The normal, or default state of a control��that is, enabled but neither selected nor highlighted.
     CCControlStateHighlighted  = 1 << 1, // Highlighted state of a control. A control enters this state when a touch down, drag inside or drag enter is performed. You can retrieve and set this value through the highlighted property.
     CCControlStateDisabled     = 1 << 2, // Disabled state of a control. This state indicates that the control is currently disabled. You can retrieve and set this value through the enabled property.
     CCControlStateSelected     = 1 << 3  // Selected state of a control. This state indicates that the control is currently selected. You can retrieve and set this value through the selected property.
@@ -85,35 +88,44 @@ typedef unsigned int CCControlState;
  *
  * To use the CCControl you have to subclass it.
  */
+// 采用了UIControl API;提供了控制精灵，如按键，滑动块； 控制类，为了实现动作消息事件。 使用它，要要其子类
 class CCControl : public CCLayerRGBA
 {
 
     //CCRGBAProtocol
+    // 是否透明
     bool m_bIsOpacityModifyRGB;
     
     /** Changes the priority of the button. The lower the number, the higher the priority. */
+    // 改变按钮的优先级
     CC_SYNTHESIZE(int, m_nDefaultTouchPriority, DefaultTouchPriority);
     /** The current control state constant. */
+    // 当前控制状态
     CC_SYNTHESIZE_READONLY(CCControlState, m_eState, State);
 
     /** True if all of the controls parents are visible */
+    // 所有控制父类都可见
 protected:
     bool m_hasVisibleParents;
 
 public:
     /** Tells whether the control is enabled. */
+    // 是否启用
     virtual void setEnabled(bool bEnabled);
     virtual bool isEnabled();
     /** A Boolean value that determines the control selected state. */
+    // 是否选中
     virtual void setSelected(bool bSelected);
     virtual bool isSelected();
     /** A Boolean value that determines whether the control is highlighted. */
+    // 是否高亮显示
     virtual void setHighlighted(bool bHighlighted);
     virtual bool isHighlighted();
     bool hasVisibleParents();
     /**
      * Updates the control layout using its current internal state.
      */
+    // 需要更新控制布局
     virtual void needsLayout();
     
     virtual bool isOpacityModifyRGB();
@@ -129,6 +141,7 @@ protected:
      * target-actions pairs. For each CCButtonEvents a list of NSInvocation
      * (which contains the target-action pair) is linked.
      */
+    // 调用表
     CCDictionary* m_pDispatchTable;
 
 public:
@@ -147,6 +160,7 @@ public:
  * @param controlEvents A bitmask whose set flags specify the control events for
  * which action messages are sent. See "CCControlEvent" for bitmask constants.
  */
+    // 发送动作消息
     virtual void sendActionsForControlEvents(CCControlEvent controlEvents);
 
     /**
@@ -168,7 +182,7 @@ public:
     * Removes a target and action for a particular event (or events) from an 
     * internal dispatch table.
     *
-    * @param target The target object�that is, the object to which the action 
+    * @param target The target object�that is, the object to which the action 
     * message is sent. Pass nil to remove all targets paired with action and the
     * specified control events.
     * @param action A selector identifying an action message. Pass NULL to remove
@@ -192,7 +206,7 @@ public:
     *
     * @param touch A CCTouch object that represents a touch.
     *
-    * @return YES whether a touch is inside the receiver��s rect.
+    * @return YES whether a touch is inside the receiver��s rect.
     */
     virtual bool isTouchInside(CCTouch * touch);
 
@@ -233,7 +247,7 @@ protected:
      * parameters, in that order.
      * When you call this method, target is not retained.
      *
-     * @param target The target object��that is, the object to which the action 
+     * @param target The target object��that is, the object to which the action 
      * message is sent. It cannot be nil. The target is not retained.
      * @param action A selector identifying an action message. It cannot be NULL.
      * @param controlEvent A control event for which the action message is sent.
@@ -245,7 +259,7 @@ protected:
      * Removes a target and action for a particular event from an internal dispatch
      * table.
      *
-     * @param target The target object��that is, the object to which the action 
+     * @param target The target object��that is, the object to which the action 
      * message is sent. Pass nil to remove all targets paired with action and the
      * specified control events.
      * @param action A selector identifying an action message. Pass NULL to remove
