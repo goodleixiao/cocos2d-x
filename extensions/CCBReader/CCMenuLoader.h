@@ -6,7 +6,7 @@
 NS_CC_EXT_BEGIN
 
 /* Forward declaration. */
-class CCBReader;
+class CCBReader; 
 
 class CCMenuLoader : public CCLayerLoader {
     public:
