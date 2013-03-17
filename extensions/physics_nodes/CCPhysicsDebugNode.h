@@ -41,6 +41,7 @@ NS_CC_EXT_BEGIN
  
  @since v2.1
  */
+// 绘制物理引擎节点
 
 class CCPhysicsDebugNode : public CCDrawNode
 {
@@ -49,6 +50,7 @@ protected:
     
 public:
     /** Create a debug node for a regular Chipmunk space. */
+    // 定期空间
     static CCPhysicsDebugNode* create(cpSpace *space);
     
     virtual ~CCPhysicsDebugNode();
