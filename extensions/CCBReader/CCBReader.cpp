@@ -24,7 +24,7 @@ using namespace std;
 NS_CC_EXT_BEGIN;
 
 /*************************************************************************
- Implementation of CCBFile
+ Implementation of CCBFile 实现ccb文件
  *************************************************************************/
 
 CCBFile::CCBFile():mCCBFileNode(NULL) {}
@@ -54,7 +54,7 @@ void CCBFile::setCCBFileNode(CCNode *pNode)
 }
 
 /*************************************************************************
- Implementation of CCBReader
+ Implementation of CCBReader  读取ccb文件
  *************************************************************************/
 
 CCBReader::CCBReader(CCNodeLoaderLibrary * pCCNodeLoaderLibrary, CCBMemberVariableAssigner * pCCBMemberVariableAssigner, CCBSelectorResolver * pCCBSelectorResolver, CCNodeLoaderListener * pCCNodeLoaderListener) 
@@ -143,6 +143,7 @@ CCBReader::~CCBReader() {
     mOwnerCallbackNames.clear();
 
     // Clear string cache.
+    // 清除字符串缓存
 
     this->mStringCache.clear();
     CC_SAFE_RELEASE(mNodesWithAnimationManagers);
@@ -239,7 +240,7 @@ CCNode* CCBReader::readNodeGraphFromFile(const char *pCCBFileName, CCObject *pOw
 
     std::string strCCBFileName(pCCBFileName);
     std::string strSuffix(".ccbi");
-    // Add ccbi suffix
+    // Add ccbi suffix 增加后缀
     if (!CCBReader::endsWith(strCCBFileName.c_str(), strSuffix.c_str()))
     {
         strCCBFileName += strSuffix;
@@ -280,9 +281,11 @@ CCNode* CCBReader::readNodeGraphFromData(CCData *pData, CCObject *pOwner, const 
     if (pNodeGraph && mActionManager->getAutoPlaySequenceId() != -1)
     {
         // Auto play animations
+        // 自动播放动画
         mActionManager->runAnimationsForSequenceIdTweenDuration(mActionManager->getAutoPlaySequenceId(), 0);
     }
     // Assign actionManagers to userObject
+    // 分配动作管理
     if(jsControlled) {
         mNodesWithAnimationManagers = new CCArray();
         mAnimationManagersForNodes = new CCArray();
@@ -379,6 +382,7 @@ bool CCBReader::readStringCache() {
 bool CCBReader::readHeader()
 {
     /* If no bytes loaded, don't crash about it. */
+    // 没有字节载人，不要死掉
     if(this->mBytes == NULL) {
         return false;
     }
@@ -392,6 +396,7 @@ bool CCBReader::readHeader()
     }
 
     /* Read version. */
+    // 读取版本
     int version = this->readInt(false);
     if(version != kCCBVersion) {
         CCLog("WARNING! Incompatible ccbi file version (file: %d reader: %d)", version, kCCBVersion);
@@ -399,6 +404,7 @@ bool CCBReader::readHeader()
     }
 
     // Read JS check
+    // 检测js绑定
     jsControlled = this->readBool();
 
     return true;
@@ -953,7 +959,7 @@ CCArray* CCBReader::getAnimationManagersForNodes() {
 }
 
 /************************************************************************
- Static functions
+ Static functions  静态函数
  ************************************************************************/
 
 float CCBReader::getResolutionScale()
