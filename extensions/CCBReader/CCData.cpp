@@ -8,7 +8,7 @@ CCData::CCData(unsigned char *pBytes, const unsigned long nSize)
     m_pBytes = new unsigned char[m_nSize];
     memcpy(m_pBytes, pBytes, m_nSize);
 }
-
+ 
 CCData::CCData(CCData *pData)
 {
     m_nSize = pData->m_nSize;
