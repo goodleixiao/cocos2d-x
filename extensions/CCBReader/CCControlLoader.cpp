@@ -1,6 +1,6 @@
 #include "CCControlLoader.h"
 
-
+ 
 NS_CC_EXT_BEGIN
 
 #define PROPERTY_ENABLED "enabled"
