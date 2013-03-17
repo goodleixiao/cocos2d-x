@@ -18,7 +18,7 @@ CCNodeLoader::~CCNodeLoader()
 {
     CC_SAFE_RELEASE(m_pCustomProperties);
 }
-
+ 
 CCDictionary* CCNodeLoader::getCustomProperties()
 {
     return m_pCustomProperties;
