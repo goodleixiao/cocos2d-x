@@ -8,7 +8,7 @@
 
 NS_CC_EXT_BEGIN
 
-#define PROPERTY_POSITION "position"
+#define PROPERTY_POSITION "position" 
 #define PROPERTY_CONTENTSIZE "contentSize"
 #define PROPERTY_ANCHORPOINT "anchorPoint"
 #define PROPERTY_SCALE "scale"
