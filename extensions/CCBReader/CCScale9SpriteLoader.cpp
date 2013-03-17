@@ -13,7 +13,7 @@
 #define PROPERTY_INSETRIGHT "insetRight"
 #define PROPERTY_INSETBOTTOM "insetBottom"
 
-NS_CC_EXT_BEGIN
+NS_CC_EXT_BEGIN 
 
 void CCScale9SpriteLoader::onHandlePropTypeSpriteFrame(CCNode * pNode, CCNode * pParent, const char * pPropertyName, CCSpriteFrame * pCCSpriteFrame, CCBReader * pCCBReader) {
     if(strcmp(pPropertyName, PROPERTY_SPRITEFRAME) == 0) {
