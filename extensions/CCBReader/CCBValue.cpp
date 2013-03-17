@@ -66,7 +66,7 @@ CCBValue* CCBValue::create(bool vValue)
     
     return ret;
 }
-
+ 
 CCBValue* CCBValue::create(unsigned char byte)
 {
     CCBValue *ret = new CCBValue();
