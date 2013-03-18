@@ -101,7 +101,7 @@ bool CCEGLView::Create(int iWidth, int iHeight)
     bIsInit = true;
     s_sharedView = this;
 
-    setDesignResolutionSize(iWidth, iHeight, kResolutionNoBorder);
+    setFrameSize(iWidth, iHeight);
 //    m_sSizeInPoint.width = iWidth;
 //    m_sSizeInPoint.height = iHeight;
     m_bOrientationInitVertical = false;

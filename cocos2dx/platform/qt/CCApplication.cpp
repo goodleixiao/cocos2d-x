@@ -59,6 +59,7 @@ CCApplication::~CCApplication()
 
 int CCApplication::run()
 {
+    CCLOG("hello_world---");
     // Make sure the view is initialized
     CCEGLView* view = CCEGLView::sharedOpenGLView();
 
