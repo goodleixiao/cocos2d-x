@@ -97,7 +97,7 @@ const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
         pRet->m_sString = resourceRootPath + m_obDirectory + pszRelativePath;
     }
 
-    CCLOG("fullPathFromRelativePath: %s",pRet->m_sString.c_str());
+    //CCLOG("fullPathFromRelativePath: %s",pRet->m_sString.c_str());
     return pRet->m_sString.c_str();
 
 }

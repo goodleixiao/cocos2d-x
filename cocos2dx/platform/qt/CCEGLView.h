@@ -96,7 +96,7 @@ private:
     //store current mouse point for moving, valid if and only if the mouse pressed
     CCPoint m_mousePoint;
 
-    EGLTouchDelegate * m_pDelegate;
+//    EGLTouchDelegate * m_pDelegate;
 
 //   CCSize m_sSizeInPoint;
     CCRect m_rcViewPort;

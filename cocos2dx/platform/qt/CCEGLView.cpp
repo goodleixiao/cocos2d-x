@@ -66,12 +66,13 @@ CCEGLView::CCEGLView(void)
     : m_bCaptured(false)
     , m_bOrientationReverted(false)
     , m_bOrientationInitVertical(false)
-    , m_pDelegate(NULL)
+//    , m_pDelegate(NULL)
     , bIsInit(false)
     , m_eInitOrientation(0)
     , m_fScreenScaleFactor(1.0f)
     , m_window(NULL)
     , m_bIsSubWindow(false)
+    , CCEGLViewProtocol()
 {
         m_pTouch = new CCTouch;
         m_pSet = new CCSet;

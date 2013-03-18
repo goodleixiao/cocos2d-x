@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fps_images.png</file>
+        <file>fps_images-hd.png</file>
+        <file>fps_images-ipadhd.png</file>
+        <file>iphone/CloseNormal.png</file>
+        <file>iphone/CloseSelected.png</file>
+        <file>iphone/HelloWorld.png</file>
+    </qresource>
+</RCC>
