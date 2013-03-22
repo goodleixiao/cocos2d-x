@@ -6,13 +6,52 @@ GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent)
   , mouseMoveFunc(NULL)
   , mousePressFunc(NULL)
   , mouseReleaseFunc(NULL)
+  , m_timer(NULL)
   , m_director(director)
 {
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(1000 / 60);
-
     resize(width, height);
+}
+
+GLWidget::~GLWidget()
+{
+    stop();
+    m_director = NULL;
+
+
+}
+
+void GLWidget::stop()
+{
+    if (m_timer != NULL)
+         m_timer->stop();
+
+    CC_SAFE_DELETE(m_timer);
+}
+
+bool GLWidget::IsSubWindow()
+{
+    if(this->parent() == NULL)
+        return false;
+    else
+        return true;
+}
+
+void GLWidget::startMainLoop()
+{
+    CC_SAFE_DELETE(m_timer);
+
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
+    m_timer->start(1000 / 60);
+}
+
+void GLWidget::setAnimationInterval(double interval)
+{
+    if (m_timer != NULL)
+    {
+        m_timer->start(interval);
+    }
+
 }
 
 void GLWidget::setMouseMoveFunc(PTRFUN func)

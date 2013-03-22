@@ -41,72 +41,51 @@ class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
 public:
     static CCEGLView* sharedOpenGLView(void);
-    
+    CCEGLView(void);
     virtual ~CCEGLView(void);
     
     virtual bool isOpenGLReady(void);
-    virtual bool setContentScaleFactor(float contentScaleFactor);
-    virtual bool canSetContentScaleFactor();
     virtual void end();
     virtual void swapBuffers(void);
-    /**
-     * Set opengl view port rectangle with points.
-     */
-    virtual void setViewPortInPoints(float x , float y , float w , float h);
-    virtual void setScissorInPoints(float x , float y , float w , float h);
     
     virtual void setIMEKeyboardState(bool bOpen);
-	virtual void setMultiTouchMask(bool mask);
 
 public:
     // Create opengl window
-    bool Create(int iWidth, int iHeight);
+    bool Create(int iWidth, int iHeight, QWidget *parent = 0);
 
     // Set openGL window
     bool SetWindow(GLWidget *window);
 
-//    CCSize getSize();
-//	bool isOpenGLReady();
+
     void release();
-    void setTouchDelegate(EGLTouchDelegate * pDelegate);
-//	void swapBuffers();
-
-
-    float getMainScreenScale() { return 1.0f; }
 
     int setDeviceOrientation(int eOritation);
-
-//	void setIMEKeyboardState(bool bOpen);
 
     void mouseMove(QMouseEvent *event);
     void mousePress(QMouseEvent *event);
     void mouseRelease(QMouseEvent *event);
 
+    // main loop
+    void startMainLoop();
+
+    void setAnimationInterval(double interval);
+
 private:
     static CCEGLView* s_sharedView;
-    
-    CCEGLView(void);
 
     bool m_bCaptured;
-    bool m_bOrientationReverted;
-    bool m_bOrientationInitVertical;
+//    bool m_bOrientationReverted;
+//    bool m_bOrientationInitVertical;
     CCSet * m_pSet;
     CCTouch * m_pTouch;
 
     //store current mouse point for moving, valid if and only if the mouse pressed
     CCPoint m_mousePoint;
 
-//    EGLTouchDelegate * m_pDelegate;
-
-//   CCSize m_sSizeInPoint;
-    CCRect m_rcViewPort;
-
-    bool bIsInit;
-    int m_eInitOrientation;
-    float m_fScreenScaleFactor;
+//    float m_fScreenScaleFactor;
 
     GLWidget* m_window;
-    bool m_bIsSubWindow;
 };
 
 NS_CC_END   // end of namespace   cocos2d

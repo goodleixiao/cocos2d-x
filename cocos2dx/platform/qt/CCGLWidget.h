@@ -18,9 +18,18 @@ public:
     GLWidget(){}
     GLWidget(int width, int height, CCDirector* director = NULL, QWidget *parent = 0);
 
+    ~GLWidget();
+
     void setMouseMoveFunc(PTRFUN func);
     void setMousePressFunc(PTRFUN func);
     void setMouseReleaseFunc(PTRFUN func);
+
+    void startMainLoop();
+
+    void setAnimationInterval(double interval);
+
+    virtual void stop();
+    virtual bool IsSubWindow();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
@@ -35,6 +44,7 @@ private:
     PTRFUN mousePressFunc;
     PTRFUN mouseReleaseFunc;
 
+    QTimer *m_timer;
     CCDirector* m_director;
 };
 

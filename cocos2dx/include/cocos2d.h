@@ -181,7 +181,6 @@ THE SOFTWARE.
     #include "platform/qt/CCGL.h"
     #include "platform/qt/CCStdC.h"
     #include "platform/qt/CCGLWidget.h"
-    #include "platform/qt/CCDirectorCaller.h"
     #include "platform/qt/CCGLWidget.h"
 #endif // CC_TARGET_PLATFROM == CC_PLATFORM_QT
 

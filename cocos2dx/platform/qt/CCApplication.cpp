@@ -27,7 +27,6 @@
 
 #include "cocoa/CCGeometry.h"
 #include "CCDirector.h"
-#include "CCDirectorCaller.h"
 #include "CCEGLView.h"
 
 NS_CC_BEGIN
@@ -42,6 +41,7 @@ CCApplication::CCApplication():
 {
     CCAssert(! sm_pSharedApplication, "sm_pSharedApplication already exist");
     sm_pSharedApplication = this;
+
 }
 
 CCApplication::CCApplication(int& argc, char** argv):
@@ -57,25 +57,39 @@ CCApplication::~CCApplication()
     sm_pSharedApplication = 0;
 }
 
+bool CCApplication::applicationInitInstance()
+{
+    CCLOG("Do not implement applicationInitInstance() ");
+    return false;
+}
+
 int CCApplication::run()
 {
-    CCLOG("hello_world---");
+    CCLOG("Do not implement kkk applicationInitInstance() ");
     // Make sure the view is initialized
-    CCEGLView* view = CCEGLView::sharedOpenGLView();
-
-    if (/*initInstance() &&*/ applicationDidFinishLaunching()) 
+    CCEGLView* view = NULL;
+    if (!applicationInitInstance())
     {
-
-        CCDirectorCaller::sharedDirectorCaller()->startMainLoop();
-        //[[CCDirectorCaller sharedDirectorCaller] startMainLoop];
+        view  = new CCEGLView();
+       view->Create(480, 320);
     }
+    else
+    {
+        view = CCEGLView::sharedOpenGLView();
+    }
+
+
+    if (/*initInstance() &&*/ applicationDidFinishLaunching())
+    {
+        view->startMainLoop();
+    }
+
     return exec();
 }
 
 void CCApplication::setAnimationInterval(double interval)
 {
-    CCDirectorCaller::sharedDirectorCaller()->setAnimationInterval(interval);
-   // [[CCDirectorCaller sharedDirectorCaller] setAnimationInterval: interval ];
+    CCEGLView::sharedOpenGLView()->setAnimationInterval(interval);
 }
 
 TargetPlatform CCApplication::getTargetPlatform()

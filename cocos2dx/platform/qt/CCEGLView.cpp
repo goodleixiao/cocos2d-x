@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCEGLView.h"
-#include "CCDirectorCaller.h"
 #include "cocoa/CCSet.h"
 #include "touch_dispatcher/CCTouch.h"
 #include "touch_dispatcher/CCTouchDispatcher.h"
@@ -50,44 +49,36 @@ static void mouseRelease(QMouseEvent *event)
 
 CCEGLView* CCEGLView::sharedOpenGLView(void)
 {
-    if (!s_sharedView)
-    {
-        CCEGLView* pCCEGLView = new CCEGLView();
-        do{
-             CC_BREAK_IF(! pCCEGLView|| ! pCCEGLView->Create(480, 320));
+    CCAssert(s_sharedView, "s_sharedView already exist");
 
-             CC_ASSERT(s_sharedView);
-        }while(0);
-    }
     return s_sharedView;
 }
 
 CCEGLView::CCEGLView(void)
-    : m_bCaptured(false)
-    , m_bOrientationReverted(false)
-    , m_bOrientationInitVertical(false)
-//    , m_pDelegate(NULL)
-    , bIsInit(false)
-    , m_eInitOrientation(0)
-    , m_fScreenScaleFactor(1.0f)
+    :  CCEGLViewProtocol()
+    , m_bCaptured(false)
+//    , m_bOrientationReverted(false)
+//    , m_bOrientationInitVertical(false)
     , m_window(NULL)
-    , m_bIsSubWindow(false)
-    , CCEGLViewProtocol()
 {
+        CCAssert(! s_sharedView, "s_sharedView already exist");
+
         m_pTouch = new CCTouch;
         m_pSet = new CCSet;
-//        m_sSizeInPoint.width = m_sSizeInPoint.height = 0;
+
+        s_sharedView = this;
  }
 
 CCEGLView::~CCEGLView(void)
 {
     CCLOG("cocos2d: deallocing CCEGLView %0x", this);
+    CCAssert(this == s_sharedView, "sm_pSharedApplication != this");
     s_sharedView = NULL;
 }
 
-bool CCEGLView::Create(int iWidth, int iHeight)
+bool CCEGLView::Create(int iWidth, int iHeight,QWidget *parent)
 {
-    m_window = new GLWidget(iWidth,iHeight, CCDirector::sharedDirector());
+    m_window = new GLWidget(iWidth,iHeight, CCDirector::sharedDirector(), parent);
 
     m_window->setMouseMoveFunc(&cocos2d::mouseMove);
     m_window->setMousePressFunc(&cocos2d::mousePress);
@@ -97,15 +88,10 @@ bool CCEGLView::Create(int iWidth, int iHeight)
     m_window->setFixedSize(iWidth, iHeight);
     m_window->show();
 
-    m_bIsSubWindow = true;
-
-    bIsInit = true;
     s_sharedView = this;
 
     setFrameSize(iWidth, iHeight);
-//    m_sSizeInPoint.width = iWidth;
-//    m_sSizeInPoint.height = iHeight;
-    m_bOrientationInitVertical = false;
+//    m_bOrientationInitVertical = false;
 
     return true;
 }
@@ -118,137 +104,118 @@ bool CCEGLView::SetWindow(GLWidget* window)
     CC_SAFE_DELETE(m_window);
     m_window = window;
 
-    bIsInit = true;
     s_sharedView = this;
 
     setDesignResolutionSize(m_window->width(), m_window->height(), kResolutionNoBorder);
-//    m_sSizeInPoint.width = m_window->width();
-//    m_sSizeInPoint.height = m_window->height();
 
     return true;
 }
 
-//CCSize CCEGLView::getSize()
-//{
-//    return CCSize((float)(m_sSizeInPoint.width), (float)(m_sSizeInPoint.height));
-//}
 
 bool CCEGLView::isOpenGLReady(void)
 {
-    return bIsInit;
+    return m_window != NULL;
 }
 
+void CCEGLView::startMainLoop()
+{
+    if (m_window != NULL)
+    {
+        m_window->startMainLoop();
+    }
+}
+
+void CCEGLView::setAnimationInterval(double interval)
+{
+    if (m_window != NULL)
+        m_window->setAnimationInterval(interval);
+}
 
 void CCEGLView::end(void)
 {
-    CCDirectorCaller::sharedDirectorCaller()->end();
 
     CCLOG("CCEGLView end !!!!!");
     // destroy EAGLView
-//    [[EAGLView sharedEGLView] removeFromSuperview];
-     s_sharedView  =  NULL;
-
-    delete this;
+    if (!m_window->IsSubWindow())
+    {
+        m_window->close();
+    }
+    else
+    {
+        m_window->stop();
+    }
 }
 
 void CCEGLView::release()
 {
+    // delete the opengl window only when it is created by CCEGLView::Create()
+
     CC_SAFE_DELETE(m_pSet);
     CC_SAFE_DELETE(m_pTouch);
     CC_SAFE_DELETE(m_pDelegate);
 
     s_sharedView  =  NULL;
 
-    // delete the opengl window only when it is created by CCEGLView::Create()
-    if (! m_bIsSubWindow)
+    if (!m_window->IsSubWindow())
         CC_SAFE_DELETE(m_window);
 
     delete this;
 }
 
-void CCEGLView::setTouchDelegate(EGLTouchDelegate * pDelegate) {
-    //TODO touch event
-    m_pDelegate = pDelegate;
-
-}
-
 void CCEGLView::swapBuffers()
 {
-    if (bIsInit) {
+    if (m_window != NULL) {
         /* Swap buffers */
         m_window->swapBuffers();
     }
 }
 
 int CCEGLView::setDeviceOrientation(int eOritation) {
-    do
-    {
-        bool bVertical = false;
+//    do
+//    {
+//        bool bVertical = false;
 
-        CC_BREAK_IF(m_bOrientationReverted && bVertical != m_bOrientationInitVertical);
-        CC_BREAK_IF(! m_bOrientationReverted && bVertical == m_bOrientationInitVertical);
+//        CC_BREAK_IF(m_bOrientationReverted && bVertical != m_bOrientationInitVertical);
+//        CC_BREAK_IF(! m_bOrientationReverted && bVertical == m_bOrientationInitVertical);
 
-        m_bOrientationReverted = (bVertical == m_bOrientationInitVertical) ? false : true;
+//        m_bOrientationReverted = (bVertical == m_bOrientationInitVertical) ? false : true;
 
-        // swap width and height
-        QSize size = m_window->size();
-        m_window->resize(size.height(), size.width());
-    } while (0);
+//        // swap width and height
+//        QSize size = m_window->size();
+//        m_window->resize(size.height(), size.width());
+//    } while (0);
 
-    return m_eInitOrientation;
+    return 0;
 }
 
 void CCEGLView::setIMEKeyboardState(bool bOpen)
 {
-//    if (bOpen)
-//    {
-//        [[EAGLView sharedEGLView] becomeFirstResponder];
+
+}
+
+//void CCEGLView::setViewPortInPoints(float x , float y , float w , float h)
+//{
+//    //	TODO
+//        if (bIsInit) {
+//            float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();
+//            glViewport((GLint)(x * factor) + m_rcViewPort.origin.x,
+//                    (GLint)(y * factor) + m_rcViewPort.origin.y,
+//                    (GLint)(w * factor),
+//                    (GLint)(h * factor));
+//        }
+//}
+
+//void CCEGLView::setScissorInPoints(float x , float y , float w , float h)
+//{
+//    //TODO
+//    if (bIsInit) {
+//        float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();
+//        glScissor((GLint)(x * factor) + m_rcViewPort.origin.x,
+//                (GLint)(y * factor) + m_rcViewPort.origin.y,
+//                (GLint)(w * factor),
+//                (GLint)(h * factor));
 //    }
-//    else
-//    {
-//        [[EAGLView sharedEGLView] resignFirstResponder];
-//    }
-}
-
-void CCEGLView::setViewPortInPoints(float x , float y , float w , float h)
-{
-    //	TODO
-        if (bIsInit) {
-            float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();
-            glViewport((GLint)(x * factor) + m_rcViewPort.origin.x,
-                    (GLint)(y * factor) + m_rcViewPort.origin.y,
-                    (GLint)(w * factor),
-                    (GLint)(h * factor));
-        }
-}
-
-void CCEGLView::setScissorInPoints(float x , float y , float w , float h)
-{
-    //TODO
-    if (bIsInit) {
-        float factor = m_fScreenScaleFactor / CC_CONTENT_SCALE_FACTOR();
-        glScissor((GLint)(x * factor) + m_rcViewPort.origin.x,
-                (GLint)(y * factor) + m_rcViewPort.origin.y,
-                (GLint)(w * factor),
-                (GLint)(h * factor));
-    }
-}
-
-void CCEGLView::setMultiTouchMask(bool mask)
-{
-	//EAGLView *glView = [EAGLView sharedEGLView];
-	//glView.multipleTouchEnabled = mask ? YES : NO;
-}
-
-bool CCEGLView::canSetContentScaleFactor() {
-    return false;
-}
-
-bool CCEGLView::setContentScaleFactor(float contentScaleFactor)
-{
-    CCLog("could not set contentScaleFactor after initialized");
-       return false;
-}
+//}
 
 void CCEGLView::mouseMove(QMouseEvent *event)
 {
@@ -258,8 +225,8 @@ void CCEGLView::mouseMove(QMouseEvent *event)
     if (! m_bCaptured)
         return;
 
-    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScreenScaleFactor,
-        (float)(event->y()) / m_fScreenScaleFactor);
+    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScaleX,
+        (float)(event->y()) / m_fScaleY);
     m_pDelegate->touchesMoved(m_pSet, NULL);
 }
 
@@ -273,8 +240,8 @@ void CCEGLView::mousePress(QMouseEvent *event)
 
     m_bCaptured = true;
 
-    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScreenScaleFactor,
-        (float)(event->y()) / m_fScreenScaleFactor);
+    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScaleX,
+        (float)(event->y()) / m_fScaleY);
     m_pSet->addObject(m_pTouch);
     m_pDelegate->touchesBegan(m_pSet, NULL);
 }
@@ -289,8 +256,8 @@ void CCEGLView::mouseRelease(QMouseEvent *event)
 
     m_bCaptured = false;
 
-    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScreenScaleFactor,
-        (float)(event->y()) / m_fScreenScaleFactor);
+    m_pTouch->setTouchInfo(0, (float)(event->x()) / m_fScaleX,
+        (float)(event->y()) / m_fScaleY);
     m_pDelegate->touchesEnded(m_pSet, NULL);
     m_pSet->removeObject(m_pTouch);
 }

@@ -47,9 +47,10 @@ public:
     virtual void setAnimationInterval(double interval);
         
     /**
-    @brief	Get status bar rectangle in EGLView window.
+    @brief 	init EGLView window.
     */
-        
+   virtual  bool applicationInitInstance();
+
     /**
     @brief	Run the message loop.
     */
