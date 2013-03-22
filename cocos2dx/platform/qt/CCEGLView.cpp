@@ -86,7 +86,8 @@ bool CCEGLView::Create(int iWidth, int iHeight,QWidget *parent)
 
     m_window->setWindowFlags(m_window->windowFlags()& ~Qt::WindowMaximizeButtonHint);
     m_window->setFixedSize(iWidth, iHeight);
-    m_window->show();
+    if (parent == NULL)
+        m_window->show();
 
     s_sharedView = this;
 
@@ -136,6 +137,8 @@ void CCEGLView::end(void)
 
     CCLOG("CCEGLView end !!!!!");
     // destroy EAGLView
+    m_pDelegate = NULL;
+
     if (!m_window->IsSubWindow())
     {
         m_window->close();

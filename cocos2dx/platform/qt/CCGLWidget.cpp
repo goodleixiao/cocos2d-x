@@ -15,9 +15,8 @@ GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent)
 GLWidget::~GLWidget()
 {
     stop();
+
     m_director = NULL;
-
-
 }
 
 void GLWidget::stop()
@@ -26,6 +25,8 @@ void GLWidget::stop()
          m_timer->stop();
 
     CC_SAFE_DELETE(m_timer);
+
+
 }
 
 bool GLWidget::IsSubWindow()

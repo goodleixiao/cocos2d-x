@@ -65,7 +65,6 @@ bool CCApplication::applicationInitInstance()
 
 int CCApplication::run()
 {
-    CCLOG("Do not implement kkk applicationInitInstance() ");
     // Make sure the view is initialized
     CCEGLView* view = NULL;
     if (!applicationInitInstance())
