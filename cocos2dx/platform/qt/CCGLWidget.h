@@ -24,7 +24,7 @@ public:
     void setMousePressFunc(PTRFUN func);
     void setMouseReleaseFunc(PTRFUN func);
 
-    void startMainLoop();
+    void startMainLoop(double interval);
 
     void setAnimationInterval(double interval);
 
@@ -35,6 +35,9 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void closeEvent(QCloseEvent *event);
+    virtual void showEvent ( QShowEvent *event );
+    virtual void hideEvent ( QHideEvent * event);
 
 public slots:
     void update();
@@ -46,6 +49,7 @@ private:
 
     QTimer *m_timer;
     CCDirector* m_director;
+
 };
 
 #endif // _GL_WIDGET_H_

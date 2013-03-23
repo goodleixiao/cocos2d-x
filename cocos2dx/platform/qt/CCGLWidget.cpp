@@ -1,4 +1,5 @@
 #include "CCGLWidget.h"
+#include "CCApplication.h"
 #include <QtCore/QTimer>
 
 GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent)
@@ -10,6 +11,7 @@ GLWidget::GLWidget(int width, int height, CCDirector* director, QWidget *parent)
   , m_director(director)
 {
     resize(width, height);
+
 }
 
 GLWidget::~GLWidget()
@@ -25,8 +27,6 @@ void GLWidget::stop()
          m_timer->stop();
 
     CC_SAFE_DELETE(m_timer);
-
-
 }
 
 bool GLWidget::IsSubWindow()
@@ -37,20 +37,27 @@ bool GLWidget::IsSubWindow()
         return true;
 }
 
-void GLWidget::startMainLoop()
+void GLWidget::startMainLoop(double interval)
 {
     CC_SAFE_DELETE(m_timer);
 
+    int iTimer = interval * 1000;
+
+    if (iTimer <= 10)
+        iTimer = 250;
+
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
-    m_timer->start(1000 / 60);
+    m_timer->start(iTimer);
 }
 
 void GLWidget::setAnimationInterval(double interval)
 {
     if (m_timer != NULL)
     {
-        m_timer->start(interval);
+        int iTimer = interval * 1000;
+        CCLOG("GLWidget setAnimationInterval %d", iTimer);
+        m_timer->start(iTimer);
     }
 
 }
@@ -94,6 +101,27 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     QGLWidget::mouseReleaseEvent(event);
 }
 
+void GLWidget::closeEvent(QCloseEvent *event)
+{
+    CCLOG("GLWidget closeEvent");
+    stop();
+     QGLWidget::closeEvent(event);
+}
+
+void GLWidget::showEvent ( QShowEvent *event )
+{
+    CCLOG("GLWidget showEvent");
+    CCApplication::sharedApplication()->applicationWillEnterForeground();
+    QGLWidget::showEvent(event);
+}
+
+void GLWidget::hideEvent ( QHideEvent * event)
+{
+    CCLOG("GLWidget hideEvent");
+    CCApplication::sharedApplication()->applicationDidEnterBackground();
+   QGLWidget::hideEvent(event);
+}
+
 void GLWidget::update()
 {
 //	glewInit();
@@ -104,3 +132,5 @@ void GLWidget::update()
 
     doneCurrent();
 }
+
+

@@ -32,17 +32,17 @@ NS_CC_BEGIN
 
 CCEGLView* CCEGLView::s_sharedView = NULL;
 
-static void mouseMove(QMouseEvent *event)
+void mouseMove(QMouseEvent *event)
 {
     CCEGLView::sharedOpenGLView()->mouseMove(event);
 }
 
-static void mousePress(QMouseEvent *event)
+void mousePress(QMouseEvent *event)
 {
     CCEGLView::sharedOpenGLView()->mousePress(event);
 }
 
-static void mouseRelease(QMouseEvent *event)
+void mouseRelease(QMouseEvent *event)
 {
     CCEGLView::sharedOpenGLView()->mouseRelease(event);
 }
@@ -60,6 +60,7 @@ CCEGLView::CCEGLView(void)
 //    , m_bOrientationReverted(false)
 //    , m_bOrientationInitVertical(false)
     , m_window(NULL)
+    , m_dInterval(0.0)
 {
         CCAssert(! s_sharedView, "s_sharedView already exist");
 
@@ -107,7 +108,8 @@ bool CCEGLView::SetWindow(GLWidget* window)
 
     s_sharedView = this;
 
-    setDesignResolutionSize(m_window->width(), m_window->height(), kResolutionNoBorder);
+    setFrameSize(m_window->width(), m_window->height());
+ //   setDesignResolutionSize(m_window->width(), m_window->height(), kResolutionNoBorder);
 
     return true;
 }
@@ -122,14 +124,15 @@ void CCEGLView::startMainLoop()
 {
     if (m_window != NULL)
     {
-        m_window->startMainLoop();
+        m_window->startMainLoop(m_dInterval);
     }
 }
 
 void CCEGLView::setAnimationInterval(double interval)
 {
+    m_dInterval = interval;
     if (m_window != NULL)
-        m_window->setAnimationInterval(interval);
+        m_window->setAnimationInterval(m_dInterval);
 }
 
 void CCEGLView::end(void)

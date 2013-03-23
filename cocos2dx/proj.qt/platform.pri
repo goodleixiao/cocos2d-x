@@ -17,7 +17,6 @@ HEADERS += \
     ../platform/qt/CCGLWidget.h \
     ../platform/qt/CCGL.h \
     ../platform/qt/CCEGLView.h \
-    ../platform/qt/CCDirectorCaller.h \
     ../platform/qt/CCApplication.h \
     ../platform/qt/CCAccelerometer.h
 
@@ -30,6 +29,5 @@ SOURCES += \
     ../platform/qt/CCGLWidget.cpp \
     ../platform/qt/CCFileUtils.cpp \
     ../platform/qt/CCEGLView.cpp \
-    ../platform/qt/CCDirectorCaller.cpp \
     ../platform/qt/CCCommon.cpp \
     ../platform/qt/CCApplication.cpp

@@ -30,12 +30,17 @@
 #include "CCGLWidget.h"
 #include <QMouseEvent>
 
+
+
 NS_CC_BEGIN
+
+void mouseMove(QMouseEvent *event);
+void mousePress(QMouseEvent *event);
+void mouseRelease(QMouseEvent *event);
 
 class CCSet;
 class CCTouch;
 class CCSize;
-
 
 class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
@@ -83,6 +88,7 @@ private:
     //store current mouse point for moving, valid if and only if the mouse pressed
     CCPoint m_mousePoint;
 
+    double m_dInterval;
 //    float m_fScreenScaleFactor;
 
     GLWidget* m_window;
