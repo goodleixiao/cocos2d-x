@@ -266,17 +266,17 @@ Test5::Test5()
 
     CCRotateBy* rot = CCRotateBy::create(2, 360);
     CCActionInterval* rot_back = rot->reverse();
-    CCAction* forever = CCRepeatForever::create(
+    CCAction* forever1 = CCRepeatForever::create(
                                                     (CCActionInterval*)(CCSequence::create(rot, rot_back, NULL)) 
                                                 );
-    CCAction* forever2 = (CCAction*)(forever->copy()->autorelease());
-    forever->setTag(101);
+    CCAction* forever2 = (CCAction*)(forever1->copy()->autorelease());
+    forever1->setTag(101);
     forever2->setTag(102);
                                                   
     addChild(sp1, 0, kTagSprite1);
     addChild(sp2, 0, kTagSprite2);
             
-    sp1->runAction(forever);
+    sp1->runAction(forever1);
     sp2->runAction(forever2);
     
     schedule( schedule_selector(Test5::addAndRemove), 2.0f);

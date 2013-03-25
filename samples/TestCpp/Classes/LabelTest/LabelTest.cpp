@@ -1352,8 +1352,8 @@ LabelTTFA8Test::LabelTTFA8Test()
     CCFadeOut *fadeOut = CCFadeOut::create(2);
     CCFadeIn *fadeIn = CCFadeIn::create(2);
     CCFiniteTimeAction *seq = CCSequence::create(fadeOut, fadeIn, NULL);
-    CCRepeatForever *forever = CCRepeatForever::create((CCActionInterval *)seq);
-    label1->runAction(forever);
+    CCRepeatForever *forever1 = CCRepeatForever::create((CCActionInterval *)seq);
+    label1->runAction(forever1);
 }
 
 std::string LabelTTFA8Test::title()
