@@ -14,6 +14,7 @@ public:
     AppDelegate();
     virtual ~AppDelegate();
 
+    virtual bool applicationInitInstance();
     /**
     @brief    Implement CCDirector and CCScene init code here.
     @return true    Initialize success, app continue.

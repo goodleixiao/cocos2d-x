@@ -89,3 +89,6 @@ OTHER_FILES +=     fps_images.png \
     fps_images-ipadhd.png \
     fps_images-hd.png
 
+FORMS += \
+    dialog.ui
+

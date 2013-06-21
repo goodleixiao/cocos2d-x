@@ -63,7 +63,6 @@ SOURCES += main.cpp \
     ../Classes/controller.cpp
 
 HEADERS  +=     main.h \
-    ../Classes/AppMacros.h \
     ../Classes/AppDelegate.h \
     ../Classes/VisibleRect.h \
     ../Classes/tests.h \

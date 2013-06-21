@@ -12,6 +12,20 @@ AppDelegate::~AppDelegate()
 {
 }
 
+bool AppDelegate::applicationInitInstance()
+{
+    CCEGLView *pEGLView = new CCEGLView();
+    QWidget *widget = new QWidget;
+    widget->setAttribute(Qt::WA_PaintOnScreen);
+    widget->setFixedSize(490, 330);
+
+    pEGLView->Create(480, 320, widget);
+
+    widget->show();
+
+    return true;
+}
+
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     CCDirector* pDirector = CCDirector::sharedDirector();

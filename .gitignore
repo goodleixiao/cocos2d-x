@@ -75,6 +75,9 @@ Device-Release/
 # Ignore vim swaps
 *.swp
 
+# Ignore qt debug
+*build-Desktop-Debug/
+*.pro.user
 # Ignore config files in javascript bindings generator
 tools/tojs/user.cfg
 # ... userconf.ini generated if running from tools/tojs
