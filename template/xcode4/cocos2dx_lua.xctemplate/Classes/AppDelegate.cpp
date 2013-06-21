@@ -23,8 +23,8 @@ AppDelegate::~AppDelegate()
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
-    CCDirector *pDirector = CCDirector::sharedDirector();
-    pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+    Director *pDirector = Director::sharedDirector();
+    pDirector->setOpenGLView(EGLView::sharedOpenGLView());
     
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -33,20 +33,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // register lua engine
-    CCLuaEngine* pEngine = CCLuaEngine::defaultEngine();
-    CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
+    LuaEngine* pEngine = LuaEngine::defaultEngine();
+    ScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    CCString* pstrFileContent = CCString::createWithContentsOfFile("hello.lua");
-    if (pstrFileContent)
-    {
-        pEngine->executeString(pstrFileContent->getCString());
-    }
-#else
-    std::string path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("hello.lua");
-    pEngine->addSearchPath(path.substr(0, path.find_last_of("/")).c_str());
+    std::string path = FileUtils::sharedFileUtils()->fullPathForFilename("hello.lua");
     pEngine->executeScriptFile(path.c_str());
-#endif 
 
     return true;
 }
@@ -54,13 +45,15 @@ bool AppDelegate::applicationDidFinishLaunching()
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground()
 {
-    CCDirector::sharedDirector()->stopAnimation();
+    Director::sharedDirector()->stopAnimation();
     SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->pauseAllEffects();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
-    CCDirector::sharedDirector()->startAnimation();
+    Director::sharedDirector()->startAnimation();
     SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->resumeAllEffects();
 }

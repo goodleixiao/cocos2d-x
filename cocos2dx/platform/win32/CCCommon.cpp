@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include <Windows.h>
 #include "platform/CCCommon.h"
 #include "CCStdC.h"
 
@@ -47,12 +46,12 @@ void CCLog(const char * pszFormat, ...)
     printf("%s\n", szBuf);
 }
 
-void CCMessageBox(const char * pszMsg, const char * pszTitle)
+void MessageBox(const char * pszMsg, const char * pszTitle)
 {
     MessageBoxA(NULL, pszMsg, pszTitle, MB_OK);
 }
 
-void CCLuaLog(const char *pszMsg)
+void LuaLog(const char *pszMsg)
 {
     int bufflen = MultiByteToWideChar(CP_UTF8, 0, pszMsg, -1, NULL, 0);
     WCHAR* widebuff = new WCHAR[bufflen + 1];

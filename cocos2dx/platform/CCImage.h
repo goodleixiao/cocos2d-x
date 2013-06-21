@@ -27,6 +27,14 @@ THE SOFTWARE.
 
 #include "cocoa/CCObject.h"
 
+// premultiply alpha, or the effect will wrong when want to use other pixel format in Texture2D,
+// such as RGB888, RGB5A1
+#define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va) \
+    (unsigned)(((unsigned)((unsigned char)(vr) * ((unsigned char)(va) + 1)) >> 8) | \
+    ((unsigned)((unsigned char)(vg) * ((unsigned char)(va) + 1) >> 8) << 8) | \
+    ((unsigned)((unsigned char)(vb) * ((unsigned char)(va) + 1) >> 8) << 16) | \
+    ((unsigned)(unsigned char)(va) << 24))
+
 NS_CC_BEGIN
 
 /**
@@ -34,17 +42,18 @@ NS_CC_BEGIN
  * @{
  */
 
-class CC_DLL CCImage : public CCObject
+class CC_DLL Image : public Object
 {
 public:
-    CCImage();
-    ~CCImage();
+    Image();
+    ~Image();
 
     typedef enum
     {
         kFmtJpg = 0,
         kFmtPng,
         kFmtTiff,
+        kFmtWebp,
         kFmtRawData,
         kFmtUnKnown
     }EImageFormat;
@@ -61,8 +70,8 @@ public:
         kAlignLeft          = 0x31, ///< Horizontal left and vertical center.
         kAlignTopLeft       = 0x11, ///< Horizontal left and vertical top.
     }ETextAlign;
-
-    /** 
+    
+    /**
     @brief  Load the image from the specified path. 
     @param strPath   the absolute file path.
     @param imageType the type of image, currently only supporting two types.
@@ -72,7 +81,7 @@ public:
 
     /*
      @brief The same result as with initWithImageFile, but thread safe. It is caused by
-            loadImage() in CCTextureCache.cpp.
+            loadImage() in TextureCache.cpp.
      @param fullpath  full path of the file.
      @param imageType the type of image, currently only supporting two types.
      @return  true if loaded correctly.
@@ -95,6 +104,9 @@ public:
                            int nHeight = 0,
                            int nBitsPerComponent = 8);
 
+    // @warning kFmtRawData only support RGBA8888
+    bool initWithRawData(void *pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent, bool bPreMulti);
+
     /**
     @brief    Create image with specified string.
     @param  pText       the text the image will show (cannot be nil).
@@ -111,42 +123,72 @@ public:
         ETextAlign      eAlignMask = kAlignCenter,
         const char *    pFontName = 0,
         int             nSize = 0);
+    
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+        bool initWithStringShadowStroke(
+                                            const char *    pText,
+                                            int             nWidth      = 0,
+                                            int             nHeight     = 0,
+                                            ETextAlign      eAlignMask  = kAlignCenter,
+                                            const char *    pFontName   = 0,
+                                            int             nSize       = 0,
+                                            float           textTintR   = 1,
+                                            float           textTintG   = 1,
+                                            float           textTintB   = 1,
+                                            bool shadow                 = false,
+                                            float shadowOffsetX         = 0.0,
+                                            float shadowOffsetY         = 0.0,
+                                            float shadowOpacity         = 0.0,
+                                            float shadowBlur            = 0.0,
+                                            bool  stroke                =  false,
+                                            float strokeR               = 1,
+                                            float strokeG               = 1,
+                                            float strokeB               = 1,
+                                            float strokeSize            = 1
+                                        
+                                        );
+    
+    #endif
+    
 
-    unsigned char *   getData()               { return m_pData; }
-    int         getDataLen()            { return m_nWidth * m_nHeight; }
+    unsigned char *   getData()               { return _data; }
+    int               getDataLen()            { return _width * _height; }
 
-    bool hasAlpha()                     { return m_bHasAlpha; }
-    bool isPremultipliedAlpha()         { return m_bPreMulti; }
+
+    bool hasAlpha()                     { return _hasAlpha;   }
+    bool isPremultipliedAlpha()         { return _preMulti;   }
+
 
     /**
-    @brief    Save CCImage data to the specified file, with specified format.
+    @brief    Save Image data to the specified file, with specified format.
     @param    pszFilePath        the file's absolute path, including file suffix.
     @param    bIsToRGB        whether the image is saved as RGB format.
     */
     bool saveToFile(const char *pszFilePath, bool bIsToRGB = true);
 
-    CC_SYNTHESIZE_READONLY(unsigned short,   m_nWidth,       Width);
-    CC_SYNTHESIZE_READONLY(unsigned short,   m_nHeight,      Height);
-    CC_SYNTHESIZE_READONLY(int,     m_nBitsPerComponent,   BitsPerComponent);
+    CC_SYNTHESIZE_READONLY(unsigned short,   _width,       Width);
+    CC_SYNTHESIZE_READONLY(unsigned short,   _height,      Height);
+    CC_SYNTHESIZE_READONLY(int,     _bitsPerComponent,   BitsPerComponent);
 
 protected:
     bool _initWithJpgData(void *pData, int nDatalen);
     bool _initWithPngData(void *pData, int nDatalen);
-    bool _initWithTiffData(void* pData, int nDataLen);
-    // @warning kFmtRawData only support RGBA8888
-    bool _initWithRawData(void *pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent);
+    bool _initWithTiffData(void *pData, int nDataLen);
+    bool _initWithWebpData(void *pData, int nDataLen);
 
     bool _saveImageToPNG(const char *pszFilePath, bool bIsToRGB = true);
     bool _saveImageToJPG(const char *pszFilePath);
 
-    unsigned char *m_pData;
-    bool m_bHasAlpha;
-    bool m_bPreMulti;
+    unsigned char *_data;
+    bool _hasAlpha;
+    bool _preMulti;
+
 
 private:
     // noncopyable
-    CCImage(const CCImage&    rImg);
-    CCImage & operator=(const CCImage&);
+    Image(const Image&    rImg);
+    Image & operator=(const Image&);
 };
 
 // end of platform group

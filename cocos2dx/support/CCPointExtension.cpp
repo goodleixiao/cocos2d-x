@@ -30,41 +30,41 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-#define kCCPointEpsilon FLT_EPSILON
+#define kPointEpsilon FLT_EPSILON
 
 float
-ccpLength(const CCPoint& v)
+ccpLength(const Point& v)
 {
-    return sqrtf(ccpLengthSQ(v));
+    return v.getLength();
 }
 
 float
-ccpDistance(const CCPoint& v1, const CCPoint& v2)
+ccpDistance(const Point& v1, const Point& v2)
 {
-    return ccpLength(ccpSub(v1, v2));
+    return (v1 - v2).getLength();
 }
 
-CCPoint
-ccpNormalize(const CCPoint& v)
+Point
+ccpNormalize(const Point& v)
 {
-    return ccpMult(v, 1.0f/ccpLength(v));
+    return v.normalize();
 }
 
-CCPoint
+Point
 ccpForAngle(const float a)
 {
-    return ccp(cosf(a), sinf(a));
+    return Point::forAngle(a);
 }
 
 float
-ccpToAngle(const CCPoint& v)
+ccpToAngle(const Point& v)
 {
-    return atan2f(v.y, v.x);
+    return v.getAngle();
 }
 
-CCPoint ccpLerp(const CCPoint& a, const CCPoint& b, float alpha)
+Point ccpLerp(const Point& a, const Point& b, float alpha)
 {
-    return ccpAdd(ccpMult(a, 1.f - alpha), ccpMult(b, alpha));
+    return a.lerp(b, alpha);
 }
 
 float clampf(float value, float min_inclusive, float max_inclusive)
@@ -75,55 +75,43 @@ float clampf(float value, float min_inclusive, float max_inclusive)
     return value < min_inclusive ? min_inclusive : value < max_inclusive? value : max_inclusive;
 }
 
-CCPoint ccpClamp(const CCPoint& p, const CCPoint& min_inclusive, const CCPoint& max_inclusive)
+Point ccpClamp(const Point& p, const Point& min_inclusive, const Point& max_inclusive)
 {
     return ccp(clampf(p.x,min_inclusive.x,max_inclusive.x), clampf(p.y, min_inclusive.y, max_inclusive.y));
 }
 
-CCPoint ccpFromSize(const CCSize& s)
+Point ccpFromSize(const Size& s)
 {
-    return ccp(s.width, s.height);
+    return Point(s);
 }
 
-CCPoint ccpCompOp(const CCPoint& p, float (*opFunc)(float))
+Point ccpCompOp(const Point& p, float (*opFunc)(float))
 {
     return ccp(opFunc(p.x), opFunc(p.y));
 }
 
-bool ccpFuzzyEqual(const CCPoint& a, const CCPoint& b, float var)
+bool ccpFuzzyEqual(const Point& a, const Point& b, float var)
 {
-    if(a.x - var <= b.x && b.x <= a.x + var)
-        if(a.y - var <= b.y && b.y <= a.y + var)
-            return true;
-    return false;
+	return a.fuzzyEquals(b, var);
 }
 
-CCPoint ccpCompMult(const CCPoint& a, const CCPoint& b)
+Point ccpCompMult(const Point& a, const Point& b)
 {
     return ccp(a.x * b.x, a.y * b.y);
 }
 
-float ccpAngleSigned(const CCPoint& a, const CCPoint& b)
+float ccpAngleSigned(const Point& a, const Point& b)
 {
-    CCPoint a2 = ccpNormalize(a);
-    CCPoint b2 = ccpNormalize(b);
-    float angle = atan2f(a2.x * b2.y - a2.y * b2.x, ccpDot(a2, b2));
-    if( fabs(angle) < kCCPointEpsilon ) return 0.f;
-    return angle;
+	return a.getAngle(b);
 }
 
-CCPoint ccpRotateByAngle(const CCPoint& v, const CCPoint& pivot, float angle)
+Point ccpRotateByAngle(const Point& v, const Point& pivot, float angle)
 {
-    CCPoint r = ccpSub(v, pivot);
-    float cosa = cosf(angle), sina = sinf(angle);
-    float t = r.x;
-    r.x = t*cosa - r.y*sina + pivot.x;
-    r.y = t*sina + r.y*cosa + pivot.y;
-    return r;
+	return v.rotateByAngle(pivot, angle);
 }
 
 
-bool ccpSegmentIntersect(const CCPoint& A, const CCPoint& B, const CCPoint& C, const CCPoint& D)
+bool ccpSegmentIntersect(const Point& A, const Point& B, const Point& C, const Point& D)
 {
     float S, T;
 
@@ -134,24 +122,24 @@ bool ccpSegmentIntersect(const CCPoint& A, const CCPoint& B, const CCPoint& C, c
     return false;
 }
 
-CCPoint ccpIntersectPoint(const CCPoint& A, const CCPoint& B, const CCPoint& C, const CCPoint& D)
+Point ccpIntersectPoint(const Point& A, const Point& B, const Point& C, const Point& D)
 {
     float S, T;
 
     if( ccpLineIntersect(A, B, C, D, &S, &T) )
     {
         // Point of intersection
-        CCPoint P;
+        Point P;
         P.x = A.x + S * (B.x - A.x);
         P.y = A.y + S * (B.y - A.y);
         return P;
     }
 
-    return CCPointZero;
+    return PointZero;
 }
 
-bool ccpLineIntersect(const CCPoint& A, const CCPoint& B, 
-                      const CCPoint& C, const CCPoint& D,
+bool ccpLineIntersect(const Point& A, const Point& B, 
+                      const Point& C, const Point& D,
                       float *S, float *T)
 {
     // FAIL: Line undefined
@@ -193,10 +181,10 @@ bool ccpLineIntersect(const CCPoint& A, const CCPoint& B,
     return true;
 }
 
-float ccpAngle(const CCPoint& a, const CCPoint& b)
+float ccpAngle(const Point& a, const Point& b)
 {
     float angle = acosf(ccpDot(ccpNormalize(a), ccpNormalize(b)));
-    if( fabs(angle) < kCCPointEpsilon ) return 0.f;
+    if( fabs(angle) < kPointEpsilon ) return 0.f;
     return angle;
 }
 

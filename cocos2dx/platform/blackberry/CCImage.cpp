@@ -28,17 +28,11 @@
 #include <vector>
 #include <string>
 #include <sstream>
-
+#include <algorithm>
 #include "platform/CCImage.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCCommon.h"
 #include "CCStdC.h"
-
-#include "SkTypeface.h"
-#include "SkBitmap.h"
-#include "SkPaint.h"
-#include "SkCanvas.h"
-
 #include "ft2build.h"
 #include FT_FREETYPE_H
 
@@ -58,20 +52,17 @@ NS_CC_BEGIN
 class BitmapDC
 {
 public:
-    BitmapDC() : m_pBitmap(NULL),
-    m_pPaint(NULL)
+    BitmapDC()
     {
     	libError = FT_Init_FreeType( &library );
 		iInterval = szFont_kenning;
-		m_pData = NULL;
+		_data = NULL;
 		reset();
     }
     
     ~BitmapDC(void)
     {
     	FT_Done_FreeType(library);
-		CC_SAFE_DELETE(m_pPaint);
-		CC_SAFE_DELETE(m_pBitmap);
     }
     
     void reset() {
@@ -210,7 +201,7 @@ public:
 	 * while -1 means fail
 	 *
 	 */
-	int computeLineStart(FT_Face face, CCImage::ETextAlign eAlignMask, char cText,
+	int computeLineStart(FT_Face face, Image::ETextAlign eAlignMask, char cText,
                          int iLineIndex) {
 		int iRet;
 		int iError = FT_Load_Glyph(face, FT_Get_Char_Index(face, cText),
@@ -219,11 +210,11 @@ public:
 			return -1;
 		}
         
-		if (eAlignMask == CCImage::kAlignCenter) {
+		if (eAlignMask == Image::kAlignCenter) {
 			iRet = (iMaxLineWidth - vLines[iLineIndex].iLineWidth) / 2
 			- SHIFT6(face->glyph->metrics.horiBearingX );
             
-		} else if (eAlignMask == CCImage::kAlignRight) {
+		} else if (eAlignMask == Image::kAlignRight) {
 			iRet = (iMaxLineWidth - vLines[iLineIndex].iLineWidth)
 			- SHIFT6(face->glyph->metrics.horiBearingX );
 		} else {
@@ -233,16 +224,16 @@ public:
 		return iRet;
 	}
 		
-	int computeLineStartY( FT_Face face, CCImage::ETextAlign eAlignMask, int txtHeight, int borderHeight ){
+	int computeLineStartY( FT_Face face, Image::ETextAlign eAlignMask, int txtHeight, int borderHeight ){
 		int iRet;
-		if (eAlignMask == CCImage::kAlignCenter || eAlignMask == CCImage::kAlignLeft ||
-			eAlignMask == CCImage::kAlignRight ) {
+		if (eAlignMask == Image::kAlignCenter || eAlignMask == Image::kAlignLeft ||
+			eAlignMask == Image::kAlignRight ) {
 			//vertical center
 			iRet = (borderHeight - txtHeight)/2 + SHIFT6(face->size->metrics.ascender);
 
-		} else if (eAlignMask == CCImage::kAlignBottomRight || 
-				   eAlignMask == CCImage::kAlignBottom || 
-				   eAlignMask == CCImage::kAlignBottomLeft ) {
+		} else if (eAlignMask == Image::kAlignBottomRight || 
+				   eAlignMask == Image::kAlignBottom || 
+				   eAlignMask == Image::kAlignBottomLeft ) {
 			//vertical bottom
 			iRet = borderHeight - txtHeight + SHIFT6(face->size->metrics.ascender);
 		} else {
@@ -252,14 +243,14 @@ public:
 		return iRet;
 	}
     
-	bool getBitmap(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize) {
+	bool getBitmap(const char *text, int nWidth, int nHeight, Image::ETextAlign eAlignMask, const char * pFontName, float fontSize) {
 		FT_Face face;
 		FT_Error iError;
         
 		const char* pText = text;
-		//data will be deleted by CCImage
-        //		if (m_pData) {
-        //			delete m_pData;
+		//data will be deleted by Image
+        //		if (_data) {
+        //			delete _data;
         //		}
         
 		int iCurXCursor, iCurYCursor;
@@ -268,12 +259,12 @@ public:
 			return false;
 		}
 		do {
-			//CCLog("\n\n ---- FT_New_Face with pFontName = %s\n", pFontName);
+			//CCLog(" ---- FT_New_Face with pFontName = %s", pFontName);
 			iError = FT_New_Face( library, pFontName, 0, &face );
             
 			if (iError) {
 				//no valid font found use default
-				//CCLog("\n\n ---- no valid font, use default %s\n", pFontName);
+				//CCLog(" ---- no valid font, use default %s", pFontName);
 				iError = FT_New_Face( library, "/usr/fonts/font_repository/monotype/arial.ttf", 0, &face );
 			}
 			CC_BREAK_IF(iError);
@@ -298,11 +289,11 @@ public:
             
 			//compute the final line height
 			iMaxLineHeight = MAX(iMaxLineHeight, nHeight);
-			m_pData = new unsigned char[iMaxLineWidth * iMaxLineHeight*4];
+			_data = new unsigned char[iMaxLineWidth * iMaxLineHeight*4];
 //			iCurYCursor = SHIFT6(face->size->metrics.ascender);
         	iCurYCursor = computeLineStartY( face, eAlignMask, txtHeight, iMaxLineHeight );
 
-			memset(m_pData,0, iMaxLineWidth * iMaxLineHeight*4);
+			memset(_data,0, iMaxLineWidth * iMaxLineHeight*4);
             
             size_t lines = vLines.size();
             for (size_t i = 0; i < lines; i++) {
@@ -338,18 +329,18 @@ public:
 								continue;
 							}
 
-//							m_pData[(iY * iMaxLineWidth + iX) * 4 + 3] =
+//							_data[(iY * iMaxLineWidth + iX) * 4 + 3] =
 //							bitmap.buffer[i * bitmap.width + j] ?
 //							0xff : 0;//alpha
-//							m_pData[(iY * iMaxLineWidth + iX) * 4 + 1] =
+//							_data[(iY * iMaxLineWidth + iX) * 4 + 1] =
 //							bitmap.buffer[i * bitmap.width + j];//R
-//							m_pData[(iY * iMaxLineWidth + iX) * 4 + 2] =
+//							_data[(iY * iMaxLineWidth + iX) * 4 + 2] =
 //							bitmap.buffer[i * bitmap.width + j];//G
-//							m_pData[(iY * iMaxLineWidth + iX) * 4 + 0] =
+//							_data[(iY * iMaxLineWidth + iX) * 4 + 0] =
 //							bitmap.buffer[i * bitmap.width + j];//B
 
 							int iTemp = cTemp << 24 | cTemp << 16 | cTemp << 8 | cTemp;
-							*(int*) &m_pData[(iY * iMaxLineWidth + iX) * 4 + 0] = iTemp;
+							*(int*) &_data[(iY * iMaxLineWidth + iX) * 4 + 0] = iTemp;
 						}
 					}
 					//step to next glyph
@@ -365,7 +356,7 @@ public:
             //			for (int i = 0; i < iMaxLineHeight; i++) {
             //				for (int j = 0; j < iMaxLineWidth; j++) {
             //					printf("%d",
-            //							m_pData[(i * iMaxLineWidth + j) * 4] ? 1 : 0);
+            //							_data[(i * iMaxLineWidth + j) * 4] ? 1 : 0);
             //				}
             //				printf("\n");
             //			}
@@ -386,147 +377,15 @@ public:
         
 		return bRet;
 	}
-    
-	bool setFont(const char *pFontName = NULL, int nSize = 0)
-	{
-		bool bRet = false;
-        
-		if (m_pPaint)
-		{
-			delete m_pPaint;
-			m_pPaint = NULL;
-		}
-        
-		do
-		{
-			/* init paint */
-			m_pPaint = new SkPaint();
-			CC_BREAK_IF(! m_pPaint);
-			m_pPaint->setColor(SK_ColorWHITE);
-			m_pPaint->setTextSize(nSize);
-            
-			/* create font */
-			SkTypeface *pTypeFace = SkTypeface::CreateFromName(pFontName, SkTypeface::kNormal);
-			if (! pTypeFace)
-			{
-				// let's replace with Arial first before failing
-				pTypeFace = SkTypeface::CreateFromName("Arial", SkTypeface::kNormal);
-				CCLOG("could not find font %s replacing with Arial\n", pFontName);
-                
-				if (!pTypeFace)
-				{
-					CC_SAFE_DELETE(m_pPaint);
-					break;
-				}
-			}
-			m_pPaint->setTypeface( pTypeFace );
-			/* cannot unref, I don't know why. It may be memory leak, but how to avoid? */
-			pTypeFace->unref();
-            
-			bRet = true;
-		} while (0);
-        
-		return bRet;
-	}
-    
-	bool prepareBitmap(int nWidth, int nHeight)
-	{
-		// release bitmap
-		if (m_pBitmap)
-		{
-			delete m_pBitmap;
-			m_pBitmap = NULL;
-		}
-		
-		if (nWidth > 0 && nHeight > 0)
-		{
-			/* create and init bitmap */
-			m_pBitmap = new SkBitmap();
-			if (! m_pBitmap)
-			{
-				return false;
-			}
-            
-			/* use rgba8888 and alloc memory */
-            m_pBitmap->setConfig(SkBitmap::kARGB_8888_Config, nWidth, nHeight);
-			if (! m_pBitmap->allocPixels())
-			{
-				CC_SAFE_DELETE(m_pBitmap);
-				return false;
-			}
-            
-			/* start with black/transparent pixels */
-			m_pBitmap->eraseColor(0);
-		}
-        
-		return true;
-	}
-    
-	bool drawText(const char *pszText, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask)
-    {
-        bool bRet = false;
-        
-        do
-        {
-            CC_BREAK_IF(! pszText);
-            CC_BREAK_IF(! prepareBitmap(nWidth, nHeight));
-            
-			/* create canvas */
-			SkPaint::FontMetrics font;
-			m_pPaint->getFontMetrics(&font);
-			SkCanvas canvas(*m_pBitmap);
-            
-			/*
-			 * draw text
-			 * @todo: alignment
-			 */
-			canvas.drawText(pszText, strlen(pszText), 0.0, -font.fAscent, *m_pPaint);
-			bRet = true;
-        } while (0);
-        
-        return bRet;
-    }
-    
-	bool getTextExtentPoint(const char * pszText, int *pWidth, int *pHeight)
-	{
-		bool bRet = false;
-        
-		do
-		{
-			CC_BREAK_IF(!pszText || !pWidth || !pHeight);
-            
-			// get text width and height
-			if (m_pPaint)
-			{
-				SkPaint::FontMetrics font;
-				m_pPaint->getFontMetrics(&font);
-				*pHeight = (int)ceil((font.fDescent - font.fAscent));
-				*pWidth = (int)ceil((m_pPaint->measureText(pszText, strlen(pszText))));
-                
-				bRet = true;
-			}
-		} while (0);
-        
-		return bRet;
-	}
-    
-	SkBitmap* getBitmap()
-	{
-		return m_pBitmap;
-	}
+
 public:
 	FT_Library library;
-	unsigned char *m_pData;
+	unsigned char *_data;
 	int libError;
 	vector<TextLine> vLines;
 	int iInterval;
 	int iMaxLineWidth;
 	int iMaxLineHeight;
-	
-private:
-    SkPaint  *m_pPaint;
-	SkBitmap *m_pBitmap;
-    
 };
 
 static BitmapDC& sharedBitmapDC()
@@ -535,7 +394,7 @@ static BitmapDC& sharedBitmapDC()
     return s_BmpDC;
 }
 
-bool CCImage::initWithString(
+bool Image::initWithString(
                              const char *    pText,
                              int             nWidth/* = 0*/,
                              int             nHeight/* = 0*/,
@@ -548,55 +407,28 @@ bool CCImage::initWithString(
     {
         CC_BREAK_IF(! pText);
         BitmapDC &dc = sharedBitmapDC();
-#if (0)
-        /* init font with font name and size */
-		CC_BREAK_IF(!dc.setFont(pFontName, nSize))
+
+		std::string fullFontName = pFontName;
+    	std::string lowerCasePath = fullFontName;
+    	std::transform(lowerCasePath.begin(), lowerCasePath.end(), lowerCasePath.begin(), ::tolower);
+
+    	if ( lowerCasePath.find(".ttf") != std::string::npos ) {
+    		fullFontName = FileUtils::sharedFileUtils()->fullPathForFilename(pFontName);
+    	}
+        //CCLog("-----pText=%s and Font File is %s nWidth= %d,nHeight=%d",pText,fullFontName.c_str(),nWidth,nHeight);
         
-		/* compute text width and height */
-		if (nWidth <= 0 || nHeight <= 0)
-		{
-			dc.getTextExtentPoint(pText, &nWidth, &nHeight);
-		}
-		CC_BREAK_IF(nWidth <= 0 || nHeight <= 0);
+        CC_BREAK_IF(! dc.getBitmap(pText, nWidth, nHeight, eAlignMask, fullFontName.c_str(), nSize));
+        //CCLog("---- dc.getBitmap is Succesfull...");
         
-		CC_BREAK_IF( false == dc.drawText(pText, nWidth, nHeight, eAlignMask) );
+        // assign the dc._data to _data in order to save time
+        _data = dc._data;
+        CC_BREAK_IF(! _data);
         
-		/*init image information */
-		SkBitmap *pBitmap = dc.getBitmap();
-		CC_BREAK_IF(! pBitmap);
-        
-		int nWidth	= pBitmap->width();
-		int nHeight	= pBitmap->height();
-		CC_BREAK_IF(nWidth <= 0 || nHeight <= 0);
-        
-		int nDataLen = pBitmap->rowBytes() * pBitmap->height();
-		m_pData = new unsigned char[nDataLen];
-		CC_BREAK_IF(! m_pData);
-		memcpy((void*) m_pData, pBitmap->getPixels(), nDataLen);
-        
-		m_nWidth    = (short)nWidth;
-		m_nHeight   = (short)nHeight;
-		m_bHasAlpha = true;
-		m_bPreMulti = true;
-		m_nBitsPerComponent = pBitmap->bytesPerPixel();
-        
-		bRet = true;
-#endif
-		const char* pFullFontName = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pFontName);
-        //CCLog("-----pText=%s and Font File is %s nWidth= %d,nHeight=%d",pText,pFullFontName,nWidth,nHeight);
-        
-        CC_BREAK_IF(! dc.getBitmap(pText, nWidth, nHeight, eAlignMask, pFullFontName, nSize));
-        //CCLog("---- dc.getBitmap is Succesfull... \n");
-        
-        // assign the dc.m_pData to m_pData in order to save time
-        m_pData = dc.m_pData;
-        CC_BREAK_IF(! m_pData);
-        
-        m_nWidth = (short)dc.iMaxLineWidth;
-        m_nHeight = (short)dc.iMaxLineHeight;
-        m_bHasAlpha = true;
-        m_bPreMulti = true;
-        m_nBitsPerComponent = 8;
+        _width = (short)dc.iMaxLineWidth;
+        _height = (short)dc.iMaxLineHeight;
+        _hasAlpha = true;
+        _preMulti = true;
+        _bitsPerComponent = 8;
         
         bRet = true;
         

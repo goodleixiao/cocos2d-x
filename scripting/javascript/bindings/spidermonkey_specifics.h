@@ -2,7 +2,7 @@
 #define __SPIDERMONKEY_SPECIFICS_H__
 
 #include "jsapi.h"
-#include "uthash.h"
+#include "support/data_support/uthash.h"
 
 typedef struct js_proxy {
 	void *ptr;
@@ -55,11 +55,17 @@ class TypeTest
 do { \
 	p = (js_proxy_t *)malloc(sizeof(js_proxy_t)); \
 	assert(p); \
+    js_proxy_t* native_obj##js_obj##tmp = NULL; \
+    HASH_FIND_PTR(_native_js_global_ht, &native_obj, native_obj##js_obj##tmp); \
+    assert(!native_obj##js_obj##tmp); \
 	p->ptr = native_obj; \
 	p->obj = js_obj; \
 	HASH_ADD_PTR(_native_js_global_ht, ptr, p); \
 	p = (js_proxy_t *)malloc(sizeof(js_proxy_t)); \
 	assert(p); \
+    native_obj##js_obj##tmp = NULL; \
+    HASH_FIND_PTR(_js_native_global_ht, &js_obj, native_obj##js_obj##tmp); \
+    assert(!native_obj##js_obj##tmp); \
 	p->ptr = native_obj; \
 	p->obj = js_obj; \
 	HASH_ADD_PTR(_js_native_global_ht, obj, p); \

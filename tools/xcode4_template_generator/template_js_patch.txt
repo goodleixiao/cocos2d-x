@@ -1,6 +1,5 @@
 	<key>Project</key>
 	<dict>
-
 		<key>Configurations</key>
 		<dict>
 			<key>Debug</key>
@@ -9,6 +8,8 @@
 				<array>
 					<string>COCOS2D_JAVASCRIPT</string>
 				</array>
+                <key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>1</string>
 			</dict>
 			<key>Release</key>
 			<dict>

@@ -27,8 +27,10 @@ THE SOFTWARE.
 #ifndef __CCTYPES_H__
 #define __CCTYPES_H__
 
+#include <string>
 #include "cocoa/CCGeometry.h"
 #include "CCGL.h"
+
 
 NS_CC_BEGIN
 
@@ -37,8 +39,8 @@ NS_CC_BEGIN
  */
 typedef struct _ccColor3B
 {
-    GLubyte    r;
-    GLubyte    g;
+    GLubyte r;
+    GLubyte g;
     GLubyte b;
 } ccColor3B;
 
@@ -49,6 +51,14 @@ ccc3(const GLubyte r, const GLubyte g, const GLubyte b)
     ccColor3B c = {r, g, b};
     return c;
 }
+
+/** returns true if both ccColor3B are equal. Otherwise it returns false.
+ */
+static inline bool ccc3BEqual(const ccColor3B &col1, const ccColor3B &col2)
+{
+    return col1.r == col2.r && col1.g == col2.g && col1.b == col2.b;
+}
+
 //ccColor3B predefined colors
 //! White color (255,255,255)
 static const ccColor3B ccWHITE={255,255,255};
@@ -123,6 +133,12 @@ static inline ccColor4F ccc4FFromccc4B(ccColor4B c)
 {
     ccColor4F c4 = {c.r/255.f, c.g/255.f, c.b/255.f, c.a/255.f};
     return c4;
+}
+
+static inline ccColor4B ccc4BFromccc4F(ccColor4F c)
+{
+    ccColor4B ret = {(GLubyte)(c.r*255), (GLubyte)(c.g*255), (GLubyte)(c.b*255), (GLubyte)(c.a*255)};
+	return ret;
 }
 
 /** returns YES if both ccColor4F are equal. Otherwise it returns NO.
@@ -205,21 +221,6 @@ typedef struct _ccQuad3 {
     ccVertex3F        tr;
 } ccQuad3;
 
-//! A 2D grid size
-typedef struct _ccGridSize
-{
-    int    x;
-    int    y;
-} ccGridSize;
-
-//! helper function to create a ccGridSize
-static inline ccGridSize
-ccg(const int x, const int y)
-{
-    ccGridSize v = {x, y};
-    return v;
-}
-
 //! a Point with a vertex point, a tex coord point and a color 4B
 typedef struct _ccV2F_C4B_T2F
 {
@@ -257,7 +258,18 @@ typedef struct _ccV3F_C4B_T2F
     ccTex2F            texCoords;            // 8 bytes
 } ccV3F_C4B_T2F;
 
-//! 4 ccVertex2FTex2FColor4B Quad
+//! A Triangle of ccV2F_C4B_T2F
+typedef struct _ccV2F_C4B_T2F_Triangle
+{
+	//! Point A
+	ccV2F_C4B_T2F a;
+	//! Point B
+	ccV2F_C4B_T2F b;
+	//! Point B
+	ccV2F_C4B_T2F c;
+} ccV2F_C4B_T2F_Triangle;
+
+//! A Quad of ccV2F_C4B_T2F
 typedef struct _ccV2F_C4B_T2F_Quad
 {
     //! bottom left
@@ -305,23 +317,25 @@ typedef struct _ccBlendFunc
     GLenum dst;
 } ccBlendFunc;
 
-// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
+static const ccBlendFunc kBlendFuncDisable = {GL_ONE, GL_ZERO};
+
+// XXX: If any of these enums are edited and/or reordered, update Texture2D.m
 //! Vertical text alignment type
 typedef enum
 {
-    kCCVerticalTextAlignmentTop,
-    kCCVerticalTextAlignmentCenter,
-    kCCVerticalTextAlignmentBottom,
-} CCVerticalTextAlignment;
+    kVerticalTextAlignmentTop,
+    kVerticalTextAlignmentCenter,
+    kVerticalTextAlignmentBottom,
+} VerticalTextAlignment;
 
-// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
+// XXX: If any of these enums are edited and/or reordered, update Texture2D.m
 //! Horizontal text alignment type
 typedef enum
 {
-    kCCTextAlignmentLeft,
-    kCCTextAlignmentCenter,
-    kCCTextAlignmentRight,
-} CCTextAlignment;
+    kTextAlignmentLeft,
+    kTextAlignmentCenter,
+    kTextAlignmentRight,
+} TextAlignment;
 
 // types for animation in particle systems
 
@@ -338,13 +352,85 @@ typedef struct _ccT2F_Quad
     ccTex2F    tr;
 } ccT2F_Quad;
 
-// struct that holds the size in pixels, texture coordinates and delays for animated CCParticleSystemQuad
+// struct that holds the size in pixels, texture coordinates and delays for animated ParticleSystemQuad
 typedef struct
 {
     ccT2F_Quad texCoords;
     float delay;
-    CCSize size; 
+    Size size; 
 } ccAnimationFrameData;
+
+
+
+/**
+ types used for defining fonts properties (i.e. font name, size, stroke or shadow)
+ */
+
+// shadow attributes
+typedef struct _ccFontShadow
+{
+public:
+    
+    // shadow is not enabled by default
+    _ccFontShadow(): _shadowEnabled(false) {}
+    
+    // true if shadow enabled
+    bool   _shadowEnabled;
+    // shadow x and y offset
+	Size _shadowOffset;
+    // shadow blurrines
+	float  _shadowBlur;
+    // shadow opacity
+	float  _shadowOpacity;
+    
+} ccFontShadow;
+
+// stroke attributes
+typedef struct _ccFontStroke
+{
+public:
+    
+    // stroke is disabled by default
+    _ccFontStroke(): _strokeEnabled(false) {}
+    
+    // true if stroke enabled
+    bool        _strokeEnabled;
+    // stroke color
+	ccColor3B   _strokeColor;
+    // stroke size
+    float       _strokeSize;
+    
+} ccFontStroke;
+
+// font attributes
+typedef struct _ccFontDefinition
+{
+public:
+    
+    _ccFontDefinition():  _alignment(kTextAlignmentCenter),
+    _vertAlignment(kVerticalTextAlignmentTop),
+    _fontFillColor(ccWHITE)
+    { _dimensions = CCSizeMake(0,0); }
+    
+    // font name
+    std::string             _fontName;
+    // font size
+    int                     _fontSize;
+    // horizontal alignment
+    TextAlignment         _alignment;
+    // vertical alignment
+    VerticalTextAlignment _vertAlignment;
+    // renering box
+    Size                  _dimensions;
+    // font color
+    ccColor3B               _fontFillColor;
+    // font shadow
+    ccFontShadow            _shadow;
+    // font stroke
+    ccFontStroke            _stroke;
+    
+} ccFontDefinition;
+
 
 NS_CC_END
 

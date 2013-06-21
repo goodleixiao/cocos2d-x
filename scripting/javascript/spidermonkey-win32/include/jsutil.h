@@ -12,6 +12,7 @@
 #define jsutil_h___
 
 #include "mozilla/Attributes.h"
+#include "mozilla/GuardObjects.h"
 
 #include "js/Utility.h"
 
@@ -53,9 +54,9 @@ class AlignedPtrAndFlag
     uintptr_t bits;
 
   public:
-    AlignedPtrAndFlag(T *t, bool flag) {
+    AlignedPtrAndFlag(T *t, bool aFlag) {
         JS_ASSERT((uintptr_t(t) & 1) == 0);
-        bits = uintptr_t(t) | uintptr_t(flag);
+        bits = uintptr_t(t) | uintptr_t(aFlag);
     }
 
     T *ptr() const {
@@ -79,9 +80,9 @@ class AlignedPtrAndFlag
         bits &= ~uintptr_t(1);
     }
 
-    void set(T *t, bool flag) {
+    void set(T *t, bool aFlag) {
         JS_ASSERT((uintptr_t(t) & 1) == 0);
-        bits = uintptr_t(t) | flag;
+        bits = uintptr_t(t) | aFlag;
     }
 };
 
@@ -158,20 +159,21 @@ ImplicitCast(U &u)
 template<typename T>
 class AutoScopedAssign
 {
-  private:
-    JS_DECL_USE_GUARD_OBJECT_NOTIFIER
-    T *addr;
-    T old;
-
   public:
-    AutoScopedAssign(T *addr, const T &value JS_GUARD_OBJECT_NOTIFIER_PARAM)
-        : addr(addr), old(*addr)
+    AutoScopedAssign(T *addr, const T &value
+                     MOZ_GUARD_OBJECT_NOTIFIER_PARAM)
+        : addr_(addr), old(*addr_)
     {
-        JS_GUARD_OBJECT_NOTIFIER_INIT;
-        *addr = value;
+        MOZ_GUARD_OBJECT_NOTIFIER_INIT;
+        *addr_ = value;
     }
 
-    ~AutoScopedAssign() { *addr = old; }
+    ~AutoScopedAssign() { *addr_ = old; }
+
+  private:
+    MOZ_DECL_USE_GUARD_OBJECT_NOTIFIER
+    T *addr_;
+    T old;
 };
 
 template <class T>
@@ -255,13 +257,26 @@ PodEqual(T *one, T *two, size_t len)
     return !memcmp(one, two, len * sizeof(T));
 }
 
-template <class T>
-JS_ALWAYS_INLINE static void
-Swap(T &t, T &u)
+template <typename T>
+static inline bool
+IsPowerOfTwo(T t)
 {
-    T tmp(Move(t));
-    t = Move(u);
-    u = Move(tmp);
+    return t && !(t & (t - 1));
+}
+
+template <typename T, typename U>
+static inline U
+ComputeByteAlignment(T bytes, U alignment)
+{
+    JS_ASSERT(IsPowerOfTwo(alignment));
+    return (alignment - (bytes % alignment)) % alignment;
+}
+
+template <typename T, typename U>
+static inline T
+AlignBytes(T bytes, U alignment)
+{
+    return bytes + ComputeByteAlignment(bytes, alignment);
 }
 
 JS_ALWAYS_INLINE static size_t
@@ -347,23 +362,23 @@ class Compressor
     z_stream zs;
     const unsigned char *inp;
     size_t inplen;
+    size_t outbytes;
+
   public:
-    Compressor(const unsigned char *inp, size_t inplen, unsigned char *out)
-        : inp(inp),
-        inplen(inplen)
-    {
-        JS_ASSERT(inplen > 0);
-        zs.opaque = NULL;
-        zs.next_in = (Bytef *)inp;
-        zs.avail_in = 0;
-        zs.next_out = out;
-        zs.avail_out = inplen;
-    }
+    enum Status {
+        MOREOUTPUT,
+        DONE,
+        CONTINUE,
+        OOM
+    };
+
+    Compressor(const unsigned char *inp, size_t inplen);
+    ~Compressor();
     bool init();
+    void setOutput(unsigned char *out, size_t outlen);
+    size_t outWritten() const { return outbytes; }
     /* Compress some of the input. Return true if it should be called again. */
-    bool compressMore();
-    /* Finalize compression. Return the length of the compressed input. */
-    size_t finish();
+    Status compressMore();
 };
 
 /*
@@ -433,8 +448,9 @@ typedef size_t jsbitmap;
 # define JS_SILENCE_UNUSED_VALUE_IN_EXPR(expr)                                \
     JS_BEGIN_MACRO                                                            \
         _Pragma("clang diagnostic push")                                      \
+        /* If these _Pragmas cause warnings for you, try disabling ccache. */ \
         _Pragma("clang diagnostic ignored \"-Wunused-value\"")                \
-        expr;                                                                 \
+        { expr; }                                                             \
         _Pragma("clang diagnostic pop")                                       \
     JS_END_MACRO
 #elif (__GNUC__ >= 5) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)

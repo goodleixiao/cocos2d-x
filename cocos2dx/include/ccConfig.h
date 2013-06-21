@@ -34,6 +34,19 @@ THE SOFTWARE.
  cocos2d (cc) configuration file
 */
 
+/** @def CC_ENABLE_STACKABLE_ACTIONS
+ If enabled, actions that alter the position property (eg: MoveBy, JumpBy, BezierBy, etc..) will be stacked.
+ If you run 2 or more 'position' actions at the same time on a node, then end position will be the sum of all the positions.
+ If disabled, only the last run action will take effect.
+ 
+ Enabled by default. Disable to be compatible with v2.0 and older versions.
+ 
+ @since v2.1
+ */
+#ifndef CC_ENABLE_STACKABLE_ACTIONS
+#define CC_ENABLE_STACKABLE_ACTIONS 1
+#endif
+
 /** @def CC_ENABLE_GL_STATE_CACHE
  If enabled, cocos2d will maintain an OpenGL state cache internally to avoid unnecessary switches.
  In order to use them, you have to use the following functions, instead of the the GL ones:
@@ -45,7 +58,9 @@ THE SOFTWARE.
 
  It is recommended to enable whenever possible to improve speed.
  If you are migrating your code from GL ES 1.1, then keep it disabled. Once all your code works as expected, turn it on.
-
+ 
+ Default value: Enabled by default
+ 
  @since v2.0.0
  */
 #ifndef CC_ENABLE_GL_STATE_CACHE
@@ -63,10 +78,10 @@ This formula prevents artifacts by using 99% of the texture.
 The "correct" way to prevent artifacts is by using the spritesheet-artifact-fixer.py or a similar tool.
 
 Affected nodes:
-- CCSprite / CCSpriteBatchNode and subclasses: CCLabelBMFont, CCTMXTiledMap
-- CCLabelAtlas
-- CCQuadParticleSystem
-- CCTileMap
+- Sprite / SpriteBatchNode and subclasses: LabelBMFont, TMXTiledMap
+- LabelAtlas
+- QuadParticleSystem
+- TileMap
 
 To enabled set it to 1. Disabled by default.
 
@@ -84,7 +99,7 @@ To enabled set it to 1. Disabled by default.
  Default value: 0.1f
  */
 #ifndef CC_DIRECTOR_STATS_INTERVAL
-#define CC_DIRECTOR_STATS_INTERVAL (0.1f)
+#define CC_DIRECTOR_STATS_INTERVAL (0.5f)
 #endif
 
 /** @def CC_DIRECTOR_FPS_POSITION
@@ -97,7 +112,7 @@ To enabled set it to 1. Disabled by default.
 #endif
 
 /** @def CC_DIRECTOR_DISPATCH_FAST_EVENTS
- If enabled, and only when it is used with CCFastDirector, the main loop will wait 0.04 seconds to
+ If enabled, and only when it is used with FastDirector, the main loop will wait 0.04 seconds to
  dispatch all the events, even if there are not events to dispatch.
  If your game uses lot's of events (eg: touches) it might be a good idea to enable this feature.
  Otherwise, it is safe to leave it disabled.
@@ -126,7 +141,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 #endif
 
 /** @def CC_NODE_RENDER_SUBPIXEL
- If enabled, the CCNode objects (CCSprite, CCLabel,etc) will be able to render in subpixels.
+ If enabled, the Node objects (Sprite, Label,etc) will be able to render in subpixels.
  If disabled, integer pixels will be used.
  
  To enable set it to 1. Enabled by default.
@@ -136,7 +151,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 #endif
 
 /** @def CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
- If enabled, the CCSprite objects rendered with CCSpriteBatchNode will be able to render in subpixels.
+ If enabled, the Sprite objects rendered with SpriteBatchNode will be able to render in subpixels.
  If disabled, integer pixels will be used.
  
  To enable set it to 1. Enabled by default.
@@ -157,7 +172,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 #endif
 
 /** @def CC_TEXTURE_ATLAS_USE_VAO
- By default, CCTextureAtlas (used by many cocos2d classes) will use VAO (Vertex Array Objects).
+ By default, TextureAtlas (used by many cocos2d classes) will use VAO (Vertex Array Objects).
  Apple recommends its usage but they might consume a lot of memory, specially if you use many of them.
  So for certain cases, where you might need hundreds of VAO objects, it might be a good idea to disable it.
  
@@ -177,7 +192,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 
 
 /** @def CC_USE_LA88_LABELS
- If enabled, it will use LA88 (Luminance Alpha 16-bit textures) for CCLabelTTF objects.
+ If enabled, it will use LA88 (Luminance Alpha 16-bit textures) for LabelTTF objects.
  If it is disabled, it will use A8 (Alpha 8-bit textures).
  LA88 textures are 6% faster than A8 textures, but they will consume 2x memory.
 
@@ -190,7 +205,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 #endif
 
 /** @def CC_SPRITE_DEBUG_DRAW
- If enabled, all subclasses of CCSprite will draw a bounding box
+ If enabled, all subclasses of Sprite will draw a bounding box
  Useful for debugging purposes only. It is recommended to leave it disabled.
  
  To enable set it to a value different than 0. Disabled by default:
@@ -206,7 +221,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
 #endif
 
 /** @def CC_SPRITEBATCHNODE_DEBUG_DRAW
-If enabled, all subclasses of CCSprite that are rendered using an CCSpriteBatchNode draw a bounding box.
+If enabled, all subclasses of Sprite that are rendered using an SpriteBatchNode draw a bounding box.
 Useful for debugging purposes only. It is recommended to leave it disabled.
 
 To enable set it to a value different than 0. Disabled by default.
@@ -216,7 +231,7 @@ To enable set it to a value different than 0. Disabled by default.
 #endif
 
 /** @def CC_LABELBMFONT_DEBUG_DRAW
-If enabled, all subclasses of CCLabelBMFont will draw a bounding box
+If enabled, all subclasses of LabelBMFont will draw a bounding box
 Useful for debugging purposes only. It is recommended to leave it disabled.
 
 To enable set it to a value different than 0. Disabled by default.

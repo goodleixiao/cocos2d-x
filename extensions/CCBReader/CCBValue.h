@@ -10,7 +10,7 @@
 
 NS_CC_EXT_BEGIN
 
-class ccColor3BWapper : public CCObject
+class ccColor3BWapper : public Object
 {
 private:
     ccColor3B color;
@@ -18,28 +18,30 @@ private:
 public:
     static ccColor3BWapper* create(const ccColor3B& color);
     
-    const ccColor3B& getColor();
+    const ccColor3B& getColor() const;
 };
 
 enum
 {
     kIntValue,
     kFloatValue,
-    kPointerValue,
     kBoolValue,
     kUnsignedCharValue,
+    kStringValue,
+    kArrayValue
 };
 
-class CCBValue : public CCObject
+class CCBValue : public Object
 {
 private:
     union 
     {
         int nValue;
         float fValue;
-        const void *pointer;
     } mValue;
     
+    std::string _value;
+    Array* _arrValue;
     int mType;
     
 public:
@@ -47,13 +49,18 @@ public:
     static CCBValue* create(bool bValue);
     static CCBValue* create(float fValue);
     static CCBValue* create(unsigned char byte);
-    static CCBValue* create(const void *pPointer);
+    static CCBValue* create(const char* pStr);
+    static CCBValue* create(Array* pArr);
+
     
     int getIntValue();
     float getFloatValue();
     bool getBoolValue();
     unsigned char getByteValue();
-    const void* getPointer();
+    const char* getStringValue();
+    Array *getArrayValue();
+    
+    int getType();
 };
 
 NS_CC_EXT_END

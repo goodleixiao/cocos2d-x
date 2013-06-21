@@ -7,6 +7,11 @@ enum {
     kCCNodeOnExit
 };
 
+typedef enum {
+      CC_GL_ALL = 0,
+} ccGLServerState;
+
+
 class CCNode : public CCObject
 {
     int     getZOrder();
@@ -20,7 +25,6 @@ class CCNode : public CCObject
     void    setScaleX(float newScaleX);
     float   getScaleY();
     void    setScaleY(float newScaleY);
-    CCPoint getPositionLua();
     void    getPosition(float* x = 0, float* y = 0);
     float   getPositionX();
     float   getPositionY();
@@ -41,30 +45,12 @@ class CCNode : public CCObject
     int     getTag();
     void    setTag(int var);
 
-    tolua_readonly tolua_property__CCZOrder int zOrder;
-    tolua_property__CCVertexZ       float vertexZ;
-    tolua_property__CCRotation      float rotation;
-    tolua_property__CCScale         float scale;
-    tolua_property__CCScaleX        float scaleX;
-    tolua_property__CCScaleY        float scaleY;
-    tolua_property__CCPositionX     float x;
-    tolua_property__CCPositionY     float y;
-    tolua_property__CCSkewX         float skewX;
-    tolua_property__CCSkewY         float skewY;
-    tolua_property__IsVisible       bool  isVisible;
-    tolua_property__CCAnchorPoint   CCPoint anchorPoint;
-    tolua_property__CCContentSize   CCSize contentSize;
-    tolua_property__CCTag           int tag;
-
     CCArray* getChildren();
     unsigned int getChildrenCount(void);
 
     CCCamera*   getCamera();
     CCGridBase* getGrid();
     void    setGrid(CCGridBase* pGrid);
-    //CCPoint getAnchorPointInPixels();
-    //CCSize  getContentSizeInPixels();
-    //void    setContentSizeInPixels(CCSize sz);
 	CCPoint getAnchorPointInPoints();
     bool    isRunning();
     CCNode* getParent();
@@ -126,11 +112,36 @@ class CCNode : public CCObject
     void removeFromParentAndCleanup(bool cleanup);
     void removeChildByTag(int tag, bool cleanup);
 
-	void scheduleUpdate(void);
+	void scheduleUpdateWithPriorityLua(LUA_FUNCTION nHandler, int priority);
 	void unscheduleUpdate(void);
 
     void registerScriptHandler(LUA_FUNCTION funcID);
     void unregisterScriptHandler(void);
 
     static CCNode * create(void);
+};
+
+class CCNodeRGBA : public CCNode, public CCRGBAProtocol
+{
+    CCNodeRGBA();
+    virtual ~CCNodeRGBA();
+    
+    virtual bool init();
+    
+    virtual GLubyte getOpacity();
+    virtual GLubyte getDisplayedOpacity();
+    virtual void setOpacity(GLubyte opacity);
+    virtual void updateDisplayedOpacity(GLubyte parentOpacity);
+    virtual bool isCascadeOpacityEnabled();
+    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled);
+    
+    virtual const ccColor3B& getColor(void);
+    virtual const ccColor3B& getDisplayedColor();
+    virtual void setColor(const ccColor3B& color);
+    virtual void updateDisplayedColor(const ccColor3B& parentColor);
+    virtual bool isCascadeColorEnabled();
+    virtual void setCascadeColorEnabled(bool cascadeColorEnabled);
+    
+    virtual void setOpacityModifyRGB(bool bValue);
+    virtual bool isOpacityModifyRGB();
 };
